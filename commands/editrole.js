@@ -21,13 +21,12 @@ module.exports.run = async (client, message, args, db, permissionLevel, config) 
         value = args[2].toLowerCase();
         if (!["temporary", "permanent"].includes(value)) return message.channel.send(":x: Invalid duration. For help, try \`" + config.prefix + "help editRole\`");
     }
-
-    let randomQuoteID = Math.floor(Math.random() * quotes.saving.length);
-    let botMsg = await message.channel.send("♨ " + quotes.saving[randomQuoteID]);
+    
+    let botMsg = await message.channel.send("♨ Saving role edits.");
 
     db.editRole(message.guild.id, ID, property, value)
-        .then(() => { botMsg.edit("✅ " + quotes.saved[randomQuoteID]) })
-        .catch(err => { console.log(err); botMsg.edit("❌ " + quotes.saving_failed[randomQuoteID]) });
+        .then(() => { botMsg.edit("✅ Role edits saved.") })
+        .catch(err => { console.log(err); botMsg.edit("❌ An unknown error occoured. Please contact support.") });
 }
 
 // 0 All, 1 Mods, 2 Admins, 3 Global Admins, 4 First Global Admin

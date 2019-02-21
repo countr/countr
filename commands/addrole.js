@@ -45,7 +45,7 @@ module.exports.description = {
 
 function randomizeID() {
     let id = "";
-    for (i = 0; i < 4; i++) id = id + b64[Math.floor(Math.random() * Math.floor(b64.length))]
+    for (var i = 0; i < 4; i++) id = id + b64[Math.floor(Math.random() * Math.floor(b64.length))]
 
     return id;
 }

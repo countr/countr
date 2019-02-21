@@ -1,14 +1,14 @@
-const Discord = require('discord.js');
-const fs = require('fs');
+const Discord = require("discord.js");
+const fs = require("fs");
 
-const config = JSON.parse(fs.readFileSync('./config.json'))
+const config = JSON.parse(fs.readFileSync("./config.json"))
 
-const client = new Discord.Client({ disableEveryone: true, messageCacheMaxSize: 60, messageSweepInterval: 10, messageCacheMaxSize: 25 })
+const client = new Discord.Client({ disableEveryone: true, messageCacheMaxSize: 60, messageSweepInterval: 10 })
 const db = require("./database.js")(client, config)
 
 let disabledGuilds = [];
 
-client.on('message', async (message) => {
+client.on("message", async (message) => {
     if (!message.guild || message.author.id == client.user.id) return;
 
     let countingChannel = await db.getChannel(message.guild.id);
@@ -31,8 +31,8 @@ client.on('message', async (message) => {
 
         let countMsg = message;
         if (modules.includes("webhook")) await message.channel.fetchWebhooks().then(async webhooks => {
-            let webhook = webhooks.find(wh => wh.name == 'Countr');
-            if (!webhook) webhook = await message.channel.createWebhook('Countr');
+            let webhook = webhooks.find(wh => wh.name == "Countr");
+            if (!webhook) webhook = await message.channel.createWebhook("Countr");
 
             countMsg = await webhook.send(message.content, {
                 username: message.author.username,
@@ -57,10 +57,10 @@ client.on('message', async (message) => {
         } catch(e) {
             console.log(e)
         } 
-    } else if (message.content.match(`^<@!?${client.user.id}>`) && fs.existsSync('./custom.js')) return message.channel.send(":wave: My prefix is \`" + config.prefix + "\`, for help type \`" + config.prefix + "help\`.")
+    } else if (message.content.match(`^<@!?${client.user.id}>`) && fs.existsSync("./custom.js")) return message.channel.send(":wave: My prefix is \`" + config.prefix + "\`, for help type \`" + config.prefix + "help\`.")
 })
 
-client.on('ready', async () => {
+client.on("ready", async () => {
     console.log((client.shard ? "Shard " + client.shard.id + " " : "") + "Ready!")
     client.guilds.forEach(processGuild)
 

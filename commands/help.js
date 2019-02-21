@@ -24,7 +24,7 @@ module.exports.description = {
     }
 }
 
-let cmdFiles = fs.readdirSync('./commands/').filter(file => file.endsWith(".js")).map(file => file.split(".")[0])
+let cmdFiles = fs.readdirSync("./commands/").filter(file => file.endsWith(".js")).map(file => file.split(".")[0])
 let commands = {};
 
 cmdFiles.forEach(command => {
