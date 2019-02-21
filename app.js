@@ -127,4 +127,4 @@ let getPermissionLevel = (member) => {
 
 client.login(config.token)
 
-try { require("custom.js").shard(client, config) } catch(e) {} // This is custom code for the public Countr-bot. Please ignore.
+try { require("custom.js").shard(client, config) } catch(e) {/* This is custom code for the public Countr-bot. Please ignore. */}

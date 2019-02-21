@@ -258,7 +258,7 @@ function updateTopic(guildid, client) {
         try {
             if (guild.topic == "reset") await client.guilds.get(guildid).channels.get(guild.channel).setTopic("**Next count:** " + (guild.count + 1))
             else if (guild.topic != "disable") await client.guilds.get(guildid).channels.get(guild.channel).setTopic(guild.topic.replace("{{COUNT}}", (guild.count + 1)))
-        } catch(e) {}
+        } catch(e) {/* if it didn't work, the bot did not have permissions to do it */}
         resolve(true);
     })
 }
@@ -289,13 +289,11 @@ async function cacheGuild(guildid) {
 
 function getGuild(guildid) {
     return new Promise(function(resolve, reject) {
-        Guild.findOne({
-            guildid: guildid
-        }, (err, guild) => {
+        Guild.findOne({ guildid }, (err, guild) => {
             if (err) return reject(err);
             if (!guild) {
                 let newGuild = new Guild({
-                    guildid: guildid,
+                    guildid,
                     channel: "",
                     count: 0,
                     user: "",
