@@ -1,0 +1,7 @@
+node_modules/
+config.json
+custom.js
+sharding.js
+commands/donate.js
+commands/invite.js
+commands/support.js
