@@ -41,7 +41,7 @@ module.exports.description = {
         "<value>": "Read \`{{PREFIX}}help addRole\` to see the different values for each property."
     },
     "examples": {
-        "MnRI mode each": "This will change the Role Reward ID \`MnRI\`'s mode to \`each\`.",
-        "jPFj count 1337": "This will change the Role Reward ID \`jPFj\`'s count to 1337."
+        "MnRIf4 mode each": "This will change the Role Reward ID \`MnRIf4\`'s mode to \`each\`.",
+        "jPFj78 count 1337": "This will change the Role Reward ID \`jPFj78\`'s count to 1337."
     }
 }

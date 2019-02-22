@@ -10,7 +10,7 @@ module.exports.permissionRequired = 0
 module.exports.argsRequired = 0
 
 module.exports.description = {
-    "description": "",
+    "description": "Get a list of role rewards in the server.",
     "usage": {},
     "examples": {}
 }

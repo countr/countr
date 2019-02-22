@@ -18,7 +18,7 @@ module.exports.permissionRequired = 2
 module.exports.argsRequired = 0
 
 module.exports.description = {
-    "description": "Toggle a module.",
+    "description": "Toggle a module or get a list of modules.",
     "usage": {
         "[module]": "Specify what module you want to toggle. Leave emoty for a list of them."
     },

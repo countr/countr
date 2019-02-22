@@ -22,7 +22,7 @@ module.exports.argsRequired = 1
 module.exports.description = {
     "description": "Get a notification whenever the server reach whatever count you want.",
     "usage": {
-        "[each]": "If you use \`each\` here, it will be each count in the \"counting chain\", example; 2, 4, 6, 8, 10 etc.",
+        "[each]": "If you use \"each\" here, it will be each count in the multiplication table, example; 9 = 9, 18, 27, 36, 45 etc.",
         "<count>": "This is the count you want to get notified of."
     },
     "examples": {
@@ -33,7 +33,7 @@ module.exports.description = {
 
 function randomizeID() {
     let id = "";
-    for (var i = 0; i < 4; i++) id = id + b64[Math.floor(Math.random() * Math.floor(b64.length))]
+    for (var i = 0; i < 6; i++) id = id + b64[Math.floor(Math.random() * Math.floor(b64.length))]
 
     return id;
 }

@@ -33,19 +33,19 @@ module.exports.description = {
     "description": "Add a role that get rewarded users on whatever count you want.",
     "usage": {
         "<role>": "This is the role you want to be rewarded. This can either be the name, mention or ID of the role. If you have spaces in your role name, replace those with underscores.",
-        "<mode>": "If you use \`only\`, it will only be that count you specify. If you use \`each\`, it will be each count in the \"counting chain\", example; 2, 4, 6, 8, 10 etc.",
-        "<count>": "This is the count you want it to be triggered on.",
-        "<duration>": "If you use \`temporary\`, the role will be removed from everyone already having it, and added to the new person. If you use \`permanent\`, you keep the role unless someone removes it."
+        "<mode>": "If you use \"only\", it will only be that count you specify. If you use \"each\", it will be each count in the multiplication table, example; 7 = 7, 14, 21, 28, 35 etc.",
+        "<count>": "This is the count you want the role to be triggered on.",
+        "<duration>": "If you use \"temporary\", the role will be removed from everyone already having it, and added to the new person. If you use \"permanent\", you keep the role unless someone removes it."
     },
     "examples": {
         "Count_Champ each 1000 temporary": "This will give the user who counts 1000, 2000, 3000 etc. the role named Count Champ, and the last user who had the role lose it.",
-        "469523835595653120 only 420 permanent": "This will give every user who reach count 420 (if you reset it often) the role with the ID 469523835595653120, and will stay on the user forever (until a user removes it)."
+        "469523835595653120 only 420 permanent": "This will give every user who reach count 420 the role with the ID 469523835595653120, and will stay on the user forever (until a user removes it)."
     }
 }
 
 function randomizeID() {
     let id = "";
-    for (var i = 0; i < 4; i++) id = id + b64[Math.floor(Math.random() * Math.floor(b64.length))]
+    for (var i = 0; i < 6; i++) id = id + b64[Math.floor(Math.random() * Math.floor(b64.length))]
 
     return id;
 }

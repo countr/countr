@@ -11,7 +11,7 @@ module.exports.permissionRequired = 2
 module.exports.argsRequired = 0
 
 module.exports.description = {
-    "description": "",
+    "description": "Unlink the current counting channel.",
     "usage": {},
     "examples": {}
 }

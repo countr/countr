@@ -15,7 +15,7 @@ module.exports.argsRequired = 1
 module.exports.description = {
     "description": "Set the topic.",
     "usage": {
-        "<topic...>": "Set the topic to whatever you want. Use {{COUNT}} as a placeholder for the count. If you put \`reset\`, it will reset back to default. If you put \`disable\`, the topic will never change."
+        "<topic...>": "Set the topic to whatever you want. Use \`{{COUNT}}\` as a placeholder for the count. If you put \"reset\", it will reset back to default. If you put \"disable\", the topic will never change."
     },
     "examples": {
         "Count to infinity! Next count is {{COUNT}}.": "An example of using a placeholder."

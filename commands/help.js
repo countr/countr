@@ -14,7 +14,7 @@ module.exports.permissionRequired = 0
 module.exports.argsRequired = 0
 
 module.exports.description = {
-    "description": "Get the documentation or get help on a command.",
+    "description": "Get a link to the documentation or get help on a command.",
     "usage": {
         "[command]": "Get help on a command."
     },

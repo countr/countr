@@ -25,7 +25,6 @@ module.exports.description = {
         "[channel]": "Specify what channel you want to become the counting channel. This can either be the name, mention or ID of the channel. If it's empty, it will be the channel the command was sent in."
     },
     "examples": {
-        "-": "Link the current channel.",
         "#counting": "Link the channel called #counting."
     }
 }

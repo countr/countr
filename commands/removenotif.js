@@ -17,9 +17,9 @@ module.exports.argsRequired = 1
 module.exports.description = {
     "description": "Remove a notification.",
     "usage": {
-        "<ID>": "This is the notification ID. All your notification IDs can be found in \`{{PREFIX}}notifications\`."
+        "<ID>": "This is the notification ID. All your notification IDs can be found in \`{{PREFIX}}notifs\`."
     },
     "examples": {
-        "v43T": "Remove notification with ID \`v43T\`."
+        "v43ThQ": "Remove notification with ID \`v43ThQ\`."
     }
 }

@@ -14,11 +14,11 @@ module.exports.permissionRequired = 2
 module.exports.argsRequired = 1
 
 module.exports.description = {
-    "description": "Remove a Reward Role ID.",
+    "description": "Remove a Role Reward.",
     "usage": {
         "<ID>": "This is the ID of the role reward. This can be found if you type \`{{PREFIX}}roles\`."
     },
     "examples": {
-        "4s2h": "Remove the Role Reward with ID \`4s2h\`"
+        "4s2h2Q": "Remove the Role Reward with ID \`4s2h2Q\`"
     }
 }
