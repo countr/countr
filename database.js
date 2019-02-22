@@ -20,7 +20,8 @@ const globalSchema = mongoose.Schema({
 const Guild = mongoose.model("Guild", guildSchema);
 const Global = mongoose.model("Global", globalSchema);
 
-let savedGuilds = {"0": {}} // 0 = global
+let savedGuilds = {}
+let addCount = 0;
 
 module.exports = function(client, config) {
     mongoose.connect(config.database_uri, { useNewUrlParser: true })
@@ -57,8 +58,27 @@ module.exports = function(client, config) {
                 await guild.save().then(resolve).catch(reject);
                 updateTopic(guildid, client)
 
-                savedGuilds["0"].counts += 1;
-                saveGlobal();
+                addCount += 1;
+
+                Global.findOne({}, (err, global) => {
+                    if (err) return;
+                    if (!global) global = new Global({
+                        counts: 0,
+                        week: getWeek(new Date())
+                    })
+        
+                    global.counts += addCount; // prevents conflicts
+                    addCount = 0;
+        
+                    if (global.week != getWeek(new Date())) {
+                        global.counts = 1;
+                        savedGuilds["0"].counts = 1;
+                        global.week = getWeek(new Date())
+                        savedGuilds["0"].week = getWeek(new Date())
+                    }
+        
+                    global.save().then(resolve).catch(reject);
+                })
             })
         },
 
@@ -247,7 +267,17 @@ module.exports = function(client, config) {
         },
 
         getCounts() {
-            return savedGuilds["0"].counts;
+            return new Promise(async function(resolve, reject) {
+                Global.findOne({}, (err, global) => {
+                if (err) return reject(err)
+                if (!global) global = new Global({
+                    counts: 0,
+                    week: getWeek(new Date())
+                })
+
+                resolve(global.counts)
+                })
+            })
         }
     }
 }
@@ -309,38 +339,3 @@ function getGuild(guildid) {
         })
     })
 }
-
-function saveGlobal() {
-    return new Promise(function(resolve, reject) {
-        Global.findOne({}, (err, global) => {
-            if (err) return reject(err);
-            if (!global) global = new Global({
-                counts: 0,
-                week: getWeek(new Date())
-            })
-
-            global.counts = savedGuilds["0"].counts;
-            global.week = savedGuilds["0"].week;
-
-            if (global.week != getWeek(new Date())) {
-                global.counts = 1;
-                savedGuilds["0"].counts = 1;
-                global.week = getWeek(new Date())
-                savedGuilds["0"].week = getWeek(new Date())
-            }
-
-            global.save().then(resolve).catch(reject);
-        })
-    })
-}
-
-Global.findOne({}, (err, global) => {
-    if (err) return console.log(err);
-    if (!global) global = new Global({
-        counts: 0,
-        week: getWeek(new Date())
-    })
-
-    savedGuilds["0"].counts = global.counts;
-    savedGuilds["0"].week = global.week;
-})
