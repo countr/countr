@@ -61,7 +61,7 @@ client.on("message", async (message) => {
 })
 
 client.on("ready", async () => {
-    console.log((client.shard ? "Shard " + client.shard.id + " " : "") + "Ready!")
+    console.log((client.shard ? "Shard " + client.shard.id + ": " : "") + "Ready!")
     client.guilds.forEach(processGuild)
 
     let guild = config.mainGuild ? client.guilds.get(config.mainGuild) : null;
@@ -128,3 +128,10 @@ let getPermissionLevel = (member) => {
 client.login(config.token)
 
 try { require("custom.js").shard(client, config) } catch(e) {/* This is custom code for the public Countr-bot. Please ignore. */}
+
+client.on("disconnect", dc => { console.log((client.shard ? "Shard " + client.shard.id + ": " : "") + "Disconnected. " + dc) });
+client.on("error", err => { console.log((client.shard ? "Shard " + client.shard.id + ": " : "") + "Unexpected error:"); console.log(err) });
+client.on("rateLimit", rl => { console.log((client.shard ? "Shard " + client.shard.id + ": " : "") + "Rate limited. [" + rl.timeDifference + "ms]") });
+client.on("reconnecting", () => { console.log((client.shard ? "Shard " + client.shard.id + ": " : "") + "Reconnecting...") });
+client.on("resume", replayed => { console.log((client.shard ? "Shard " + client.shard.id + ": " : "") + "Resumed. [" + replayed + " events replayed]") });
+client.on("warn", info => { console.log((client.shard ? "Shard " + client.shard.id + ": " : "") + "Unexpected warning:"); console.log(info) })
