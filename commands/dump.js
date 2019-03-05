@@ -1,5 +1,8 @@
 module.exports.run = async (client, message, args, db, permissionLevel, config) => {
-    await message.author.send("Database information from " + message.guild.name + " (" + message.guild.id + ") ```json\n" + JSON.stringify(await db.getGuild(message.guild.id), null, 2) + "```");
+    let id = args[0];
+    if (!id) id = message.guild.id;
+
+    await message.author.send("Database information for guild " + id + "```json\n" + JSON.stringify(await db.getGuild(id), null, 2) + "```");
     message.channel.send("✅ Sent to DMs.");
 }
 
