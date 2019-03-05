@@ -133,11 +133,12 @@ let getPermissionLevel = (member) => {
 
 client.login(config.token)
 
-try { require("custom.js").shard(client, config) } catch(e) {/* This is custom code for the public Countr-bot. Please ignore. */}
-
 client.on("disconnect", dc => { console.log((client.shard ? "Shard " + client.shard.id + ": " : "") + "Disconnected. " + dc) });
 client.on("error", err => { console.log((client.shard ? "Shard " + client.shard.id + ": " : "") + "Unexpected error:"); console.log(err) });
 client.on("rateLimit", rl => { console.log((client.shard ? "Shard " + client.shard.id + ": " : "") + "Rate limited. [" + rl.timeDifference + "ms]") });
 client.on("reconnecting", () => { console.log((client.shard ? "Shard " + client.shard.id + ": " : "") + "Reconnecting...") });
 client.on("resume", replayed => { console.log((client.shard ? "Shard " + client.shard.id + ": " : "") + "Resumed. [" + replayed + " events replayed]") });
 client.on("warn", info => { console.log((client.shard ? "Shard " + client.shard.id + ": " : "") + "Unexpected warning:"); console.log(info) })
+
+// Below is custom code. This tells bot sites what the server count currently is for Countr. Usually, this is disabled unless you are a really smart developer and actually figure out how to properly activate it without breaking it. This is not recommended, as most bot sites require original code -- but if you still want a couple of bans, go ahead.
+if (config.listKeys) require("blapi").handle(client, config.listKeys, 15);
