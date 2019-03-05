@@ -1,7 +1,7 @@
 let fs = require("fs")
 
 module.exports.run = async (client, message, args, db, permissionLevel, config) => {
-    if (args.length == 0) return message.channel.send("📋 You can find documentation for the bot here: https://this-is.coming.soon/in-3.0");
+    if (args.length == 0) return message.channel.send("📋 Documentation: https://countr.js.org/\n📎 Support Server: https://countr.page.link/support");
 
     let command = args[0].toLowerCase()
     if (commands[command]) return message.channel.send("🔅 **\`" + config.prefix + command + (Object.keys(commands[command].usage).join(" ") ? " " + Object.keys(commands[command].usage).join(" ") : "") + "\`: " + commands[command].description + "**" + (formatUsage(commands[command].usage, config.prefix) ? "\n\n**Arguments:**\n" + formatUsage(commands[command].usage, config.prefix) : "") + (formatExamples(commands[command].examples, command, config.prefix) ? "\n\n**Examples:**\n" + formatExamples(commands[command].examples, command, config.prefix) : ""))
