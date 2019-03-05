@@ -1,5 +1,6 @@
 module.exports.run = async (client, message, args, db, permissionLevel, config) => {
     let topic = args.join(" ");
+    if (topic.toLowerCase() == "reset") topic = "";
 
     let botMsg = await message.channel.send("♨ Saving topic to database.");
 
