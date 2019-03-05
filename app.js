@@ -39,11 +39,19 @@ client.on("message", async (message) => {
                 avatarURL: message.author.displayAvatarURL.split("?")[0]
             })
             message.delete()
+        }); else if (modules.includes("reposting")) await message.channel.send({
+            embed: {
+                description: "<@!" + message.author.id + ">: " + message.content,
+                color: message.member.displayColor ? message.member.displayColor : 3553598
+            }
+        }).then(msg => {
+            countMsg = msg;
+            message.delete()
         })
 
         db.setLastMessage(message.guild.id, countMsg.id);
         db.checkNotifications(message.guild.id, count, message.author.id, countMsg.id);
-        db.checkRole(message.guild.id, count, message.author.id)
+        db.checkRole(message.guild.id, count, message.author.id);
 
     } else if (message.content.startsWith(config.prefix) || message.content.match(`^<@!?${client.user.id}> `)) {
         let args = message.content.split(" ");
@@ -54,10 +62,8 @@ client.on("message", async (message) => {
             if (getPermissionLevel(message.member) < require("./commands/" + command + ".js").permissionRequired) return message.channel.send((require("./commands/" + command + ".js").permissionRequired > 2 ? "📛" : "⛔") + " You don't have permission to do this!")
             if (args.length < require("./commands/" + command + ".js").argsRequired) return message.channel.send(":x: Not enough arguments. For help, try \`" + config.prefix + "help " + command + "\`");
             require("./commands/" + command + ".js").run(client, message, args, db, getPermissionLevel(message.member), config);
-        } catch(e) {
-            console.log(e)
-        } 
-    } else if (message.content.match(`^<@!?${client.user.id}>`) && fs.existsSync("./custom.js")) return message.channel.send(":wave: My prefix is \`" + config.prefix + "\`, for help type \`" + config.prefix + "help\`.")
+        } catch(e) {/* Command does not exist */} 
+    } else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send(":wave: My prefix is \`" + config.prefix + "\`, for help type \`" + config.prefix + "help\`.")
 })
 
 client.on("ready", async () => {
