@@ -72,9 +72,7 @@ module.exports = function(client, config) {
         
                     if (global.week != getWeek(new Date())) {
                         global.counts = 1;
-                        savedGuilds["0"].counts = 1;
                         global.week = getWeek(new Date())
-                        savedGuilds["0"].week = getWeek(new Date())
                     }
         
                     global.save().then(resolve).catch(reject);
@@ -117,8 +115,8 @@ module.exports = function(client, config) {
         toggleModule(guildid, moduleStr) {
             return new Promise(async function(resolve, reject) {
                 await cacheGuild(guildid);
-                if (savedGuilds[guildid].modules.includes(moduleStr)) savedGuilds[guildid].modules = savedGuilds[guildid].modules.filter(str => str !== moduleStr)
-                else savedGuilds[guildid].modules.push(moduleStr)
+                if (savedGuilds[guildid].modules.includes(moduleStr)) savedGuilds[guildid].modules = savedGuilds[guildid].modules.filter(str => str !== moduleStr);
+                else savedGuilds[guildid].modules.push(moduleStr);
     
                 let guild = await getGuild(guildid);
                 guild.modules = savedGuilds[guildid].modules
@@ -181,7 +179,7 @@ module.exports = function(client, config) {
                                   }
                                 }
                               })
-                        } catch (e) { console.log(e) }
+                        } catch (e) {/* If it didn't work, the user us either not in the guild anymore or has DMs disabled. */}
                         if (guild.notifications[ID].mode == "only") {
                             savedGuilds[guildid].notifications[ID] = null;
                             needSave = true;
@@ -284,9 +282,9 @@ module.exports = function(client, config) {
 
 function updateTopic(guildid, client) {
     return new Promise(async function(resolve, reject) {
-        let guild = await getGuild(guildid);
+        let guild = await cacheGuild(guildid);
         try {
-            if (guild.topic == "reset") await client.guilds.get(guildid).channels.get(guild.channel).setTopic("**Next count:** " + (guild.count + 1))
+            if (guild.topic == "") await client.guilds.get(guildid).channels.get(guild.channel).setTopic("**Next count:** " + (guild.count + 1))
             else if (guild.topic != "disable") await client.guilds.get(guildid).channels.get(guild.channel).setTopic(guild.topic.replace("{{COUNT}}", (guild.count + 1)))
         } catch(e) {/* if it didn't work, the bot did not have permissions to do it */}
         resolve(true);
