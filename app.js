@@ -78,7 +78,10 @@ client.on("ready", async () => {
 
 async function updatePresence(guild) {
     let name = config.prefix + "help (" + await db.getCounts() + " counts this week)";
-    if (guild) name = "#" + guild.channels.get(await db.getChannel(guild.id)).name + " (" + await db.getCounts() + " counts this week)";
+    if (guild) {
+      let _ = await db.getCount(guild.id), count = _.count;
+      name = "#" + guild.channels.get(await db.getChannel(guild.id)).name + " (" + count + " counts so far)";
+    }
     client.user.setPresence({ status: "online", game: { name, type: "WATCHING" } })
 }
 
