@@ -10,8 +10,7 @@
     "discord.js": "^11.4.2",
     "erlpack": "^0.1.2",
     "fs": "0.0.2",
-    "mongoose": "^5.4.12",
-    "uws": "^100.0.1"
+    "mongoose": "^5.4.12"
   },
   "devDependencies": {},
   "scripts": {
