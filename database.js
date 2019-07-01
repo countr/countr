@@ -9,7 +9,8 @@ const guildSchema = mongoose.Schema({
   notifications: {},
   roles: {},
   topic: String,
-  message: String
+  message: String,
+  language: String
 }, { minimize: false })
 
 const globalSchema = mongoose.Schema({
@@ -162,21 +163,27 @@ module.exports = function(client, config) {
         checkNotifications(guildid, count, countUser, messageID) {
             return new Promise(async function(resolve, reject) {
                 let guild = await cacheGuild(guildid);
-                
+
+                let strings = require("./language/en.json");
+                try {
+                    let lang = require("./language/" + await db.getLanguage(message.guild.id) + ".json");
+                    for (var i in lang) strings[i] = lang[i]; // if some strings doesn't exist, we still have the english translation for it
+                } catch(e) {}
+
                 let needSave = false;
                 for (var ID in guild.notifications) {
                     if (guild.notifications[ID]) if ((guild.notifications[ID].mode == "only" && guild.notifications[ID].count == count) || (guild.notifications[ID].mode == "each" && Number.isInteger(count / guild.notifications[ID].count))) {
                         try {
                             client.guilds.get(guildid).members.get(guild.notifications[ID].user).send({
-                                "embed": {
-                                  "description": ":tada: " + client.guilds.get(guildid).name + " reached " + count + " total counts!\nThe user who sent it was <@!" + countUser + ">.\n\n[**Click here to jump to the message!**](https://discordapp.com/channels/" + guildid + "/" + guild.channel + "/" + messageID + ")",
-                                  "color": 12404274,
-                                  "thumbnail": {
-                                    "url": client.users.get(countUser).displayAvatarURL
-                                  },
-                                  "footer": {
-                                      "text": "Notification ID " + ID + (guild.notifications[ID].mode == "each" ? " - Every " + guild.notifications[ID].count : "")
-                                  }
+                                embed: {
+                                    description: "🎉 " + strings["NOTIFICATION"].replace("{{GUILD}}", client.guilds.get(guildid).name).replace("{{COUNT}}", count).replace("{{MENTION}}", "<@!" + countUser + ">") + "\n\n[**→ " + strings["NOTIFICATION_LINK"] + "**](https://discordapp.com/channels/" + guildid + "/" + guild.channel + "/" + messageID + ")",
+                                    color: config.color,
+                                    thumbnail: {
+                                        url: client.users.get(countUser).displayAvatarURL
+                                    },
+                                    footer: {
+                                        text: strings["NOTIFICATION_ID"] + " " + ID + (guild.notifications[ID].mode == "each" ? " - " + strings["NOTIFICATION_EVERY"].replace("{{COUNT}}", guild.notifications[ID].count) : "")
+                                    }
                                 }
                               })
                         } catch (e) {/* If it didn't work, the user us either not in the guild anymore or has DMs disabled. */}
@@ -267,14 +274,32 @@ module.exports = function(client, config) {
         getCounts() {
             return new Promise(async function(resolve, reject) {
                 Global.findOne({}, (err, global) => {
-                if (err) return reject(err)
-                if (!global) global = new Global({
-                    counts: 0,
-                    week: getWeek(new Date())
-                })
+                    if (err) return reject(err)
+                    if (!global) global = new Global({
+                        counts: 0,
+                        week: getWeek(new Date())
+                    })
 
-                resolve(global.counts)
+                    resolve(global.counts)
                 })
+            })
+        },
+
+        getLanguage(guildid) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                return guild.language || "en";
+            })
+        },
+
+        setLanguage(guildid, lang) {
+            return new Promise(async function(resolve, reject) {
+                await cacheGuild();
+                savedGuilds[guildid].language = lang;
+
+                let guild = await getGuild(guldid);
+                guild.language = savedGuilds[guildid].language;
+                guild.save().then(resolve).catch(reject);
             })
         }
     }
@@ -311,6 +336,7 @@ async function cacheGuild(guildid) {
         savedGuilds[guildid].roles = guild.roles;
         savedGuilds[guildid].topic = guild.topic;
         savedGuilds[guildid].message = guild.message;
+        savedGuilds[guildid].language = guild.language;
     }
     return savedGuilds[guildid];
 }
@@ -329,7 +355,8 @@ function getGuild(guildid) {
                     notifications: {},
                     roles: {},
                     topic: "",
-                    message: ""
+                    message: "",
+                    language: ""
                 })
 
                 return resolve(newGuild);

@@ -1,8 +1,7 @@
 const Discord = require("discord.js");
-const fs = require("fs");
 const BLAPI = require("blapi");
 
-const config = JSON.parse(fs.readFileSync("./config.json"))
+const config = require("./config.json")
 
 const client = new Discord.Client({ disableEveryone: true, messageCacheMaxSize: 60, messageSweepInterval: 10 })
 const db = require("./database.js")(client, config)
@@ -11,6 +10,12 @@ let disabledGuilds = [];
 
 client.on("message", async (message) => {
     if (!message.guild || message.author.id == client.user.id) return;
+
+    let strings = require("./language/en.json");
+    try {
+        let lang = require("./language/" + await db.getLanguage(message.guild.id) + ".json");
+        for (var i in lang) strings[i] = lang[i]; // if some strings doesn't exist, we still have the english translation for it
+    } catch(e) {}
 
     let countingChannel = await db.getChannel(message.guild.id);
     if (countingChannel == message.channel.id) {
@@ -51,8 +56,8 @@ client.on("message", async (message) => {
         })
 
         db.setLastMessage(message.guild.id, countMsg.id);
-        db.checkNotifications(message.guild.id, count, message.author.id, countMsg.id);
-        db.checkRole(message.guild.id, count, message.author.id);
+        db.checkNotifications(message.guild.id, count, message.author.id, countMsg.id, strings);
+        db.checkRole(message.guild.id, count, message.author.id, strings);
 
     } else if (message.content.startsWith(config.prefix) || message.content.match(`^<@!?${client.user.id}> `)) {
         let args = message.content.split(" ");
@@ -60,11 +65,11 @@ client.on("message", async (message) => {
         let command = args.shift().toLowerCase()
 
         try {
-            if (getPermissionLevel(message.member) < require("./commands/" + command + ".js").permissionRequired) return message.channel.send((require("./commands/" + command + ".js").permissionRequired > 2 ? "📛" : "⛔") + " You don't have permission to do this!")
-            if (args.length < require("./commands/" + command + ".js").argsRequired) return message.channel.send(":x: Not enough arguments. For help, try \`" + config.prefix + "help " + command + "\`");
-            require("./commands/" + command + ".js").run(client, message, args, db, getPermissionLevel(message.member), config);
+            if (getPermissionLevel(message.member) < require("./commands/" + command + ".js").permissionRequired) return message.channel.send((require("./commands/" + command + ".js").permissionRequired > 2 ? "📛" : "⛔") + " " + strings["NO_PERMISSION"])
+            if (args.length < require("./commands/" + command + ".js").argsRequired) return message.channel.send("❌ " + strings["NOT_ENOUGH_ARGS"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + config.prefix + "help " + command + "\`"));
+            require("./commands/" + command + ".js").run(client, message, args, db, getPermissionLevel(message.member), strings, config);
         } catch(e) {/* Command does not exist */} 
-    } else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send(":wave: My prefix is \`" + config.prefix + "\`, for help type \`" + config.prefix + "help\`.")
+    } else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send("👋 " + strings["HELLO"].replace("{{PREFIX}}", "\`" + config.prefix + "\`").replace("{{HELP}}", "\`" + config.prefix + "help\`."));
 })
 
 client.on("ready", async () => {
@@ -94,6 +99,12 @@ async function updatePresence(guild) {
 async function processGuild(guild) {
     disabledGuilds.push(guild.id);
 
+    let strings = require("./language/en.json");
+    try {
+        let lang = require("./language/" + await db.getLanguage(message.guild.id) + ".json");
+        for (var i in lang) strings[i] = lang[i]; // if some strings doesn't exist, we still have the english translation for it
+    } catch(e) {}
+
     let modules = await db.getModules(guild.id);
     
     if (modules.includes("recover")) {
@@ -104,25 +115,25 @@ async function processGuild(guild) {
             let c = await db.getCount(guild.id);
             let messages = await channel.fetchMessages({ limit: 100, after: c.message })
             if (messages.array().length > 0) {
-                let botMsg = await channel.send("💢 Making channel ready for counting... \`Locking channel\`")
+                let botMsg = await channel.send("💢 " + strings["MAKING_READY"] + " \`" + strings["LOCKING"] + "\`")
                 await channel.overwritePermissions(guild.defaultRole, { SEND_MESSAGES: false })
-                    .then(() => { botMsg.edit("💢 Making channel ready for counting... \`Channel locked. Deleting unprocessed entries.\`") })
-                    .catch(() => { botMsg.edit("💢 Making channel ready for counting... \`Failed to lock channel. Deleting unprocessed entries.\`") })
+                    .then(() => { botMsg.edit("💢 " + strings["MAKING_READY"] + " \`" + strings["S_DELETING"] + "\`") })
+                    .catch(() => { botMsg.edit("💢 " + strings["MAKING_READY"] + " \`" + strings["F_DELETING"] + "\`") })
                 
                 let processing = true;
                 let fail = false;
                 while (processing) {
                     let messages = await channel.fetchMessages({ limit: 100, after: c.message });
                     messages = messages.filter(m => m.id != botMsg.id);
-                    if (messages.array().length < 1) processing = false;
+                    if (messages.array().length == 0) processing = false;
                     else await channel.bulkDelete(messages)
                         .catch(() => { fail = true; });
                 }
 
-                await botMsg.edit("💢 Making channel ready for counting... \`" + (fail ? "Failed to delete." : "Deletion complete.") + " Restoring channel.\`");
+                await botMsg.edit("💢 " + strings["MAKING_READY"] + " \`" + (fail ? strings["F_RESTORING"] : strings["S_RESTORING"]) + "\`");
                 await channel.overwritePermissions(guild.defaultRole, { SEND_MESSAGES: true })
-                    .then(() => { botMsg.edit("💢 Making channel ready for counting... \`Channel unlocked. Happy counting!\`") })
-                    .catch(() => { botMsg.edit("💢 Making channel ready for counting... \`Failed to unlock channel.\`") })
+                    .then(() => { botMsg.edit("💢 " + strings["MAKING_READY"] + " \`" + strings["S_UNLOCKED"] + "\`") })
+                    .catch(() => { botMsg.edit("💢 " + strings["MAKING_READY"] + " \`" + strings["F_UNLOCKED"] + "\`") })
                 
                 botMsg.delete(15000);
             }

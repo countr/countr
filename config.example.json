@@ -3,5 +3,6 @@
     "database_uri": "mongodb://",
     "admins": [ "110090225929191424" ],
     "prefix": "c!",
-    "mainGuild": "main guild id"
+    "mainGuild": "main guild id",
+	"color": 12404274
 }

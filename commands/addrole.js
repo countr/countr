@@ -1,47 +1,33 @@
 const b64 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_"; // base64
 
-module.exports.run = async (client, message, args, db, permissionLevel, config) => {
+module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
     let role = message.guild.roles.find(r => r.name == args[0].replace("_", " "));
     if (!role) role = message.guild.roles.get(args[0]);
     if (!role) role = message.guild.roles.get(args[0].replace("<@&", "").replace(">", ""));
-    if (!role) return message.channel.send("❌ Role not found. For help, try \`" + config.prefix + "help addRole\`");
+    if (!role) return message.channel.send("❌ " + strings["ROLE_NOT_FOUND"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + config.prefix + "help addrole\`"));
 
     let mode = args[1].toLowerCase();
-    if (!["each", "only"].includes(mode)) return message.channel.send("❌ Invalid mode. For help, try \`" + config.prefix + "help addRole\`");
+    if (!["each", "only"].includes(mode)) return message.channel.send("❌ " + strings["INVALID_MODE"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + config.prefix + "help addrole\`"));
 
     let count = parseInt(args[2]);
-    if (!count) return message.channel.send("❌ Invalid count. For help, try \`" + config.prefix + "help addRole\`");
+    if (!count) return message.channel.send("❌ " + strings["INVALID_COUNT"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + config.prefix + "help addrole\`"));
 
     let duration = args[3].toLowerCase();
-    if (!["temporary", "permanent"].includes(duration)) return message.channel.send("❌ Invalid duration. For help, try \`" + config.prefix + "help addRole\`");
+    if (!["temporary", "permanent"].includes(duration)) return message.channel.send("❌ " + strings["INVALID_DURATION"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + config.prefix + "help addrole\`"));
 
     let ID = randomizeID();
-    while (await db.roleExists(message.guild.id, ID)) ID = randomizeID();
+    while (await db.roleExists(message.guild.id, ID)) ID = randomizeID(); // we don't want to override an existing role by accident.
     
-    let botMsg = await message.channel.send("♨ Saving role reward to database. Please wait.");
+    let botMsg = await message.channel.send("♨ " + strings["SAVING_ROLEREWARD"]);
 
     db.setRole(message.guild.id, ID, role.id, mode, count, duration)
-        .then(() => { botMsg.edit("✅ Saved role reward to database. ID \`" + ID + "\`") })
-        .catch(err => { console.log(err); botMsg.edit("❌ An unknown error occoured. Please contact support.") });
+        .then(() => { botMsg.edit("✅ " + strings["SAVED_ROLEREWARD"].replace("{{ID}}", ID)) })
+        .catch(err => { console.log(err); botMsg.edit("❌ " + strings["UNKNOWN_ERROR"]) });
 }
 
 // 0 All, 1 Mods, 2 Admins, 3 Global Admins, 4 First Global Admin
 module.exports.permissionRequired = 2
 module.exports.argsRequired = 4
-
-module.exports.description = {
-    "description": "Add a role that get rewarded users on whatever count you want.",
-    "usage": {
-        "<role>": "This is the role you want to be rewarded. This can either be the name, mention or ID of the role. If you have spaces in your role name, replace those with underscores.",
-        "<mode>": "If you use \"only\", it will only be that count you specify. If you use \"each\", it will be each count in the multiplication table, example; 7 = 7, 14, 21, 28, 35 etc.",
-        "<count>": "This is the count you want the role to be triggered on.",
-        "<duration>": "If you use \"temporary\", the role will be removed from everyone already having it, and added to the new person. If you use \"permanent\", you keep the role unless someone removes it."
-    },
-    "examples": {
-        "Count_Champ each 1000 temporary": "This will give the user who counts 1000, 2000, 3000 etc. the role named Count Champ, and the last user who had the role lose it.",
-        "469523835595653120 only 420 permanent": "This will give every user who reach count 420 the role with the ID 469523835595653120, and will stay on the user forever (until a user removes it)."
-    }
-}
 
 function randomizeID() {
     let id = "";

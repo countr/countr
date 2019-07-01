@@ -1,4 +1,4 @@
-module.exports.run = async (client, message, args, db, permissionLevel, config) => {
+module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
     let id = args[0];
     if (!id) id = message.guild.id;
 

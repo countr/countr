@@ -1,0 +1,224 @@
+{
+	"LANGUAGE": "English",
+	
+	"NO_PERMISSION": "You don't have permission to do this!",
+	"NOT_ENOUGH_ARGS": "Not enough arguments.",
+	"HELLO": "My prefix is {{PREFIX}}, for help type {{HELP}}.",
+	"UNKNOWN_ERROR": "An unknown error occoured. Please contact support.",
+	"FOR_HELP": "For help, try {{HELP}}",
+	
+	"MAKING_READY": "Making channel ready for counting...",
+	"LOCKING": "Locking channel",
+	"S_DELETING": "Channel locked. Deleting unprocessed entries.",
+	"F_DELETING": "Failed to lock channel. Deleting unprocessed entries.",
+	"S_RESTORING": "Deletion complete. Restoring channel.",
+	"F_RESTORING": "Failed to delete. Restoring channel.",
+	"S_UNLOCKED": "Channel unlocked. Happy counting!",
+	"F_UNLOCKED": "Failed to unlock channel.",
+	
+	"NOTIFICATION": "{{GUILD}} reached {{COUNT}} total counts!nThe user who sent it was {{MENTION}}.",
+	"NOTIFICATION_LINK": "Click here to jump to the message!",
+	"NOTIFICATION_ID": "Notification ID",
+	"NOTIFICATION_EVERY": "Every {{COUNT}}",
+	
+	"ROLE_NOT_FOUND": "Role not found.",
+	"INVALID_MODE": "Invalid mode.",
+	"INVALID_COUNT": "Invalid count.",
+	"INVALID_DURATION": "Invalid duration.",
+	"ROLEREWARD_NOT_FOUND": "Role reward does not exist with that ID.",
+	"INVALID_PROPERTY": "Invalid property.",
+	"COMMAND_DOES_NOT_EXIST": "Command does not exist.",
+	"CHANNEL_NOT_FOUND": "Channel not found.",
+	"NO_NOTIFS": "You have no notifications in this server. Get help on how to make one, type {{HELP}}",
+	"NOTIF_NOT_FOUND": "Notification ID not found.",
+	"PINGING": "Pinging...",
+	"USER_NOTIFS": "User {{USER}}'s notifications in {{GUILD}}",
+	"EVERY_X_COUNT": "Every {{NUMBER}} count",
+	"ONLY_X": "Only count number {{NUMBER}",
+	"PINGED": "Server latency is {{LATENCY.SERVER}} and API latency is {{LATENCY.API}}.",
+	"NO_ROLEREWARDS": "This server does not have any roles set up.",
+	"NO_ROLEREWARDS_HELP": "Get help on how to make one, type {{HELP}}",
+	"ROLEREWARDS": "Roles for {{SERVER}}",
+	"EVERY_X_COUNT_GIVES_Y": "Every {{COUNT}} count will give the role {{ROLE}} {{PERMANENT}}",
+	"COUNT_X_GIVES_Y": "Count number {{COUNT}} will give the role {{ROLE}} {{PERMANENT}}",
+	"LIST_MODULES": "List of modules",
+	"MODULE_DOESNT_EXIST": "Module does not exist.",
+	"MODULE_X_HAS_BEEN_ENABLED_DISABLED": "Module {{MODULE}} has been {{STATE}}.",
+	"ENABLING_DISABLING_MODULE_Y": "{{STATE}} module {{MODULE}}.",
+
+	"DOCUMENTATION": "Documentation",
+	"SUPPORT_SERVER": "Support Server",
+	"ARGUMENTS": "Arguments",
+	"EXAMPLES": "Examples",
+	"PERMANENT": "Permanent",
+	"ENABLING": "Enabling",
+	"DISABLING": "Disabling",
+	"ENABLED_LC": "enabled",
+	"DISABLED_LC": "disabled",
+	"NUM_ST": "{{NUM}}st",
+	"NUM_ND": "{{NUM}}nd",
+	"NUM_RD": "{{NUM}}rd",
+	"NUM_TH": "{{NUM}}th",
+	
+	"SAVING_ROLEREWARD": "Saving role reward to database...",
+	"SAVING_ROLEREWARD_EDITS": "Saving role reward edits to database...",
+	"REMOVING_NOTIF": "Removing notification from database...",
+	"REMOVING_ROLEREWARD": "Removing role reward from database...",
+	"RESETTING_COUNT": "Resetting count...",
+	"SAVING_COUNT": "Saving count to database.",
+	"SAVING_TOPIC": "Saving topic to database...",
+	"REMOVING_CHANNEL": "Removing channel from database.",
+	
+	"SAVED_ROLEREWARD": "Saved role reward to database. ID `{{ID}}`",
+	"SAVED_ROLEREWARD_EDITS": "Saved role reward edits to database.",
+	"REMOVED_NOTIF": "Removed notification from database.",
+	"REMOVED_ROLEREWARD": "Removed role reward from database.",
+	"RESET_COUNT": "The count has been reset.",
+	"SAVED_COUNT": "Saved count to database.",
+	"SAVED_TOPIC": "Saved topic to database.",
+	"REMOVED_CHANNEL": "Removed channel from database.",
+	
+	"MODULES": {
+		"allow-spam": "Allow people to talk multiple times in a row, essentially spamming the channel.",
+		"talking": "Allow people to send a message after the number.",
+		"recover": "If the bot goes offline, make it remove all unprocessed messages in the counting channel when it's back up.",
+		"reposting": "Repost the message being sent in an embed, preventing the users from editing or self-deleting their message.",
+		"webhook": "Make all messages get reposted using a webhook, preventing users from editing or self-deleting their message."
+	},
+	
+	"COMMAND_ADDROLE": {
+		"description": "Add a role that get rewarded users on whatever count you want.",
+		"usage": {
+			"<role>": "This is the role you want to be rewarded. This can either be the name, mention or ID of the role. If you have spaces in your role name, replace those with underscores.",
+			"<mode>": "If you use \"only\", it will only be that count you specify. If you use \"each\", it will be each count in the multiplication table, example; 7 = 7, 14, 21, 28, 35 etc.",
+			"<count>": "This is the count you want the role to be triggered on.",
+			"<duration>": "If you use \"temporary\", the role will be removed from everyone already having it, and added to the new person. If you use \"permanent\", you keep the role unless someone removes it."
+		},
+		"examples": {
+			"Count_Champ each 1000 temporary": "This will give the user who counts 1000, 2000, 3000 etc. the role named Count Champ, and the last user who had the role lose it.",
+			"469523835595653120 only 420 permanent": "This will give every user who reach count 420 the role with the ID 469523835595653120, and will stay on the user forever (until a user removes it)."
+		}
+	},
+	
+	"COMMAND_EDITROLE": {
+		"description": "Edit a role reward.",
+		"usage": {
+			"<ID>": "This is the ID of the role reward. This can be found if you type `{{PREFIX}}roles`.",
+			"<property>": "This will be what you want to edit. Valid properties: `role`, `mode`, `count`, `duration`.",
+			"<value>": "Read `{{PREFIX}}help addRole` to see the different values for each property."
+		},
+		"examples": {
+			"MnRIf4 mode each": "This will change the Role Reward ID `MnRIf4`'s mode to `each`.",
+			"jPFj78 count 1337": "This will change the Role Reward ID `jPFj78`'s count to 1337."
+		}
+	},
+	
+	"COMMAND_HELP": {
+		"description": "Get a link to the documentation or get help on a command.",
+		"usage": {
+			"[command]": "Get help on a command."
+		},
+		"examples": {
+			"-": "Get link to the documentation.",
+			"help": "Get help for the command help. (what a stupid example when you're already here)"
+		}
+	},
+	
+	"COMMAND_LINK": {
+		"description": "Link a counting channel.",
+		"usage": {
+			"[channel]": "Specify what channel you want to become the counting channel. This can either be the name, mention or ID of the channel. If it's empty, it will be the channel the command was sent in."
+		},
+		"examples": {
+			"#counting": "Link the channel called #counting."
+		}
+	},
+	
+	"COMMAND_NOTIFS": {
+		"description": "Get a list of your notifications in the server.",
+		"usage": {},
+		"examples": {}
+	},
+	
+	"COMMAND_NOTIFYME": {
+		"description": "Get a notification whenever the server reach whatever count you want.",
+		"usage": {
+			"[each]": "If you use \"each\" here, it will be each count in the multiplication table, example; 9 = 9, 18, 27, 36, 45 etc.",
+			"<count>": "This is the count you want to get notified of."
+		},
+		"examples": {
+			"each 1000": "Whenever the server reach 1000, 2000, 3000 etc. you will be notified in DMs.",
+			"420": "Whenever the server reach the count 420, you will be notified in DMs."
+		}
+	},
+	
+	"COMMAND_PING": {
+		"description": "Check server latency and API latency.",
+		"usage": {},
+		"examples": {}
+	},
+	
+	"COMMAND_REMOVENOTIF": {
+		"description": "Remove a notification.",
+		"usage": {
+			"<ID>": "This is the notification ID. All your notification IDs can be found in `{{PREFIX}}notifs`."
+		},
+		"examples": {
+			"v43ThQ": "Remove notification with ID `v43ThQ`."
+		}
+	},
+	
+	"COMMAND_REMOVEROLE": {
+		"description": "Remove a Role Reward.",
+		"usage": {
+			"<ID>": "This is the ID of the role reward. This can be found if you type `{{PREFIX}}roles`."
+		},
+		"examples": {
+			"4s2h2Q": "Remove the Role Reward with ID `4s2h2Q`"
+		}
+	},
+	
+	"COMMAND_RESET": {
+		"description": "Reset the count.",
+		"usage": {},
+		"examples": {}
+	},
+	
+	"COMMAND_ROLES": {
+		"description": "Get a list of role rewards in the server.",
+		"usage": {},
+		"examples": {}
+	},
+	
+	"COMMAND_SET": {
+		"description": "Set the count.",
+		"usage": {
+			"<count>": "Specify the count you want."
+		},
+		"examples": {}
+	},
+	
+	"COMMAND_TOGGLE": {
+		"description": "Toggle a module or get a list of modules.",
+		"usage": {
+			"[module]": "Specify what module you want to toggle. Leave emoty for a list of them."
+		},
+		"examples": {}
+	},
+	
+	"COMMAND_TOPIC": {
+		"description": "Set the topic.",
+		"usage": {
+			"<topic...>": "Set the topic to whatever you want. Use `{{COUNT}}` as a placeholder for the count. If you put \"reset\", it will reset back to default. If you put \"disable\", the topic will never change."
+		},
+		"examples": {
+			"Count to infinity! Next count is {{COUNT}}.": "An example of using a placeholder."
+		}
+	},
+	
+	"COMMAND_UNLINK": {
+		"description": "Unlink the current counting channel.",
+		"usage": {},
+		"examples": {}
+	}
+}
