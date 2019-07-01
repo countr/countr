@@ -68,6 +68,7 @@
 	"SAVING_COUNT": "Saving count to database.",
 	"SAVING_TOPIC": "Saving topic to database...",
 	"REMOVING_CHANNEL": "Removing channel from database.",
+	"SAVING_PREFIX": "Saving prefix to database...",
 	
 	"SAVED_ROLEREWARD": "Saved role reward to database. ID `{{ID}}`",
 	"SAVED_ROLEREWARD_EDITS": "Saved role reward edits to database.",
@@ -77,6 +78,7 @@
 	"SAVED_COUNT": "Saved count to database.",
 	"SAVED_TOPIC": "Saved topic to database.",
 	"REMOVED_CHANNEL": "Removed channel from database.",
+	"SAVED_PREFIX": "Saved prefix to database.",
 	
 	"MODULES": {
 		"allow-spam": "Allow people to talk multiple times in a row, essentially spamming the channel.",
@@ -156,6 +158,17 @@
 		"description": "Check server latency and API latency.",
 		"usage": {},
 		"examples": {}
+	},
+
+	"COMMAND_PREFIX": {
+		"description": "Set a new prefix for the bot.",
+		"usage": {
+			"<prefix...>": "The new prefix. If you want a space after the prefix, end the prefix with {{SPACE}}."
+		},
+		"examples": {
+			"c?": "Set the prefix to \"c?\", the help command would be \"c?help\".",
+			"Hey Countr,{{SPACE}}": "Set the prefix to \"Hey Countr,\", the help command would be \"Hey Countr, help\""
+		}
 	},
 	
 	"COMMAND_REMOVENOTIF": {

@@ -222,6 +222,24 @@ module.exports = function(client, config) {
             })
         },
 
+        setPrefix(guildid, prefix) {
+            return new Promise(async function(resolve, reject) {
+                await cacheGuild(guildid);
+                savedGuilds[guildid].prefix = prefix;
+              
+                let guild = await getGuild(guildid);
+                guild.prefix = savedGuilds[guildid].prefix;
+                guild.save().then(resolve).catch(reject);
+            })
+        },
+
+        getPrefix(guildid) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                resolve(guild.prefix || config.prefix)
+            })
+        },
+
         setRole(guildid, ID, role, mode, count, duration) {
             return new Promise(async function(resolve, reject) {
                 await cacheGuild(guildid);
@@ -337,6 +355,7 @@ async function cacheGuild(guildid) {
         savedGuilds[guildid].topic = guild.topic;
         savedGuilds[guildid].message = guild.message;
         savedGuilds[guildid].language = guild.language;
+        savedGuilds[guildid].prefix = guild.prefix;
     }
     return savedGuilds[guildid];
 }
@@ -356,7 +375,8 @@ function getGuild(guildid) {
                     roles: {},
                     topic: "",
                     message: "",
-                    language: ""
+                    language: "",
+                    prefix: ""
                 })
 
                 return resolve(newGuild);
