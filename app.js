@@ -50,6 +50,10 @@ client.on("message", async (message) => {
             return message.delete()
         }
         if (!modules.includes("talking") && message.content != (count + 1).toString()) return message.delete()
+
+        let regex = await db.getRegex(message.guild.id)
+        if (regex && (new RegExp(regex, 'g')).test(message.content)) return message.delete();
+
         count += 1; db.addToCount(message.guild.id, message.author.id).then(() => { db.checkRole(message.guild.id, count, message.author.id) });
 
         let countMsg = message;

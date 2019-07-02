@@ -36,6 +36,7 @@
 	"INVALID_DURATION": "Invalid duration.",
 	"INVALID_ACTION": "Invalid action.",
 	"INVALID_TIME": "Invalid time.",
+	"INVALID_REGEX": "Invalid regex.",
 	"INVALID_FAILS": "Invalid amount of fails.",
 	"ROLEREWARD_NOT_FOUND": "Role reward does not exist with that ID.",
 	"PINTRIGGER_NOT_FOUND": "Pin trigger does not exist with that ID.",

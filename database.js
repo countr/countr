@@ -7,14 +7,15 @@ const guildObject = {
     user: "", // the current count's user
     modules: [], // the guild's modules
     notifications: {}, // the guild's users' notifications
-    roles: {},// the guild's roles
+    roles: {}, // the guild's roles
     topic: "", // the topic
     message: "", // the current count's ID
     language: "", // the language
     prefix: "", // the prefix
     users: {}, // the users' amount of counts
     timeoutrole: {}, // a role given when the user fails X amount of times within Y seconds (role, time, fails, duration "permanent" or seconds)
-    timeouts: {} // log how long the users will have the role
+    timeouts: {}, // log how long the users will have the role,
+    regex: "", // regex filter, for the talking module
 }
 
 const guildSchema = mongoose.Schema(guildObject, { minimize: false })
@@ -124,6 +125,24 @@ module.exports = function(client, config) {
               
                 let guild = await getGuild(guildid);
                 guild.message = savedGuilds[guildid].message;
+                await guild.save().then(resolve).catch(reject);
+            })
+        },
+
+        getRegex(guildid) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                resolve(guild.regex)
+            })
+        },
+
+        setRegex(guildid, message) {
+            return new Promise(async function(resolve, reject) {
+                await cacheGuild(guildid);
+                savedGuilds[guildid].regex = regex;
+              
+                let guild = await getGuild(guildid);
+                guild.regex = savedGuilds[guildid].regex;
                 await guild.save().then(resolve).catch(reject);
             })
         },
