@@ -85,6 +85,11 @@ client.on("ready", async () => {
     }
 })
 
+client.on("messageDelete", async message => {
+    if (!message.guild && !message.author.bot) return;
+    if (message.channel.id == await db.getChannel(message.guild.id) && message.channel.lastMessageID == message.id) return message.channel.send(message.content + " (" + message.author.toString() + ")") // resend if the last count got deleted
+})
+
 async function updatePresence(guild) {
     let name = config.prefix + "help (" + await db.getCounts() + " counts this week)";
     if (guild) {
