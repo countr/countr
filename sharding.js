@@ -36,5 +36,5 @@ if (config.webAPI) {
         }
 
         apiInfo = newInfo;
-    }, 5000)
+    }, 30000)
 }
