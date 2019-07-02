@@ -20,12 +20,18 @@
 	"NOTIFICATION_LINK": "Click here to jump to the message!",
 	"NOTIFICATION_ID": "Notification ID",
 	"NOTIFICATION_EVERY": "Every {{COUNT}}",
+
+	"AUTOSETUP_WORKING": "Setting up counting channel...",
+	"AUTOSETUP_SUCCESS": "Done! Check out your channel at {{CHANNEL}}.",
+	"AUTOSETUP_ERROR": "Unknown error occoured. Do I have enough permissions? (Manage Channels, Manage Messages)",
 	
 	"ROLE_NOT_FOUND": "Role not found.",
 	"INVALID_MODE": "Invalid mode.",
 	"INVALID_COUNT": "Invalid count.",
 	"INVALID_DURATION": "Invalid duration.",
+	"INVALID_ACTION": "Invalid action.",
 	"ROLEREWARD_NOT_FOUND": "Role reward does not exist with that ID.",
+	"PINTRIGGER_NOT_FOUND": "Pin trigger does not exist with that ID.",
 	"INVALID_PROPERTY": "Invalid property.",
 	"COMMAND_DOES_NOT_EXIST": "Command does not exist.",
 	"CHANNEL_NOT_FOUND": "Channel not found.",
@@ -69,6 +75,8 @@
 	"SAVING_TOPIC": "Saving topic to database...",
 	"REMOVING_CHANNEL": "Removing channel from database.",
 	"SAVING_PREFIX": "Saving prefix to database...",
+	"SAVING_PINTRIGGER": "Saving pin trigger to database...",
+	"SAVING_PINTRIGGER_EDITS": "Saving pin trigger edits to database...",
 	
 	"SAVED_ROLEREWARD": "Saved role reward to database. ID `{{ID}}`",
 	"SAVED_ROLEREWARD_EDITS": "Saved role reward edits to database.",
@@ -79,6 +87,8 @@
 	"SAVED_TOPIC": "Saved topic to database.",
 	"REMOVED_CHANNEL": "Removed channel from database.",
 	"SAVED_PREFIX": "Saved prefix to database.",
+	"SAVED_PINTRIGGER": "Saved pin trigger to database. ID `{{ID}}`",
+	"SAVED_PINTRIGGER_EDITS": "Saved pin trigger edits to database.",
 	
 	"MODULES": {
 		"allow-spam": "Allow people to talk multiple times in a row, essentially spamming the channel.",
