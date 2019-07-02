@@ -2,12 +2,12 @@ module.exports.run = async (client, message, args, db, permissionLevel, strings,
     if (!args[0]) return message.channel.send("📋 " + strings["LIST_MODULES"] + ":\n" + formatModules(strings.modules))
 
     let argModule = args[0].toLowerCase();
-    if (!Object.keys(strings.modules).includes(argModule)) return message.channel.send("❌ " + strings["MODULE_DOESNT_EXIST"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + config.prefix + "help toggle\`"));
+    if (!Object.keys(strings["MODULES"]).includes(argModule)) return message.channel.send("❌ " + strings["MODULE_DOESNT_EXIST"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help toggle\`"));
 
     let gModules = await db.getModules(message.guild.id);
     let enabled = gModules.includes(argModule);
 
-    let botMsg = await message.channel.send("♨ " + strings["ENABLING_DISABLING_MODULE"].replace("{{STATE}}", (enabled ? strings["DISABLING"] : strings["ENABLING"])).replace("{{MODULE}}", argModule));
+    let botMsg = await message.channel.send("♨ " + strings["ENABLING_DISABLING_MODULE_Y"].replace("{{STATE}}", (enabled ? strings["DISABLING"] : strings["ENABLING"])).replace("{{MODULE}}", argModule));
 
     db.toggleModule(message.guild.id, argModule)
         .then(() => { botMsg.edit("✅ " + strings["MODULE_X_HAS_BEEN_ENABLED_DISABLED"].replace("{{MODULE}}", "\`" + argModule + "\`").replace("{{STATE}}", (enabled ? strings["DISABLED_LC"] : strings["ENABLED_LC"]))) })
