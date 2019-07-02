@@ -117,6 +117,19 @@
 		"webhook": "Make all messages get reposted using a webhook, preventing users from editing or self-deleting their message."
 	},
 	
+	"COMMAND_ADDPIN": {
+		"description": "Add a pin trigger so that milestones gets pinned in the chat.",
+		"usage": {
+			"<mode>": "If you use \"only\", it will only be that count you specify. If you use \"each\", it will be each count in the multiplication table, example; 7 = 7, 14, 21, 28, 35 etc. If you use \"each\", it will be the user's count and not the server count.",
+			"<count>": "This is the count you want the role to be triggered on.",
+			"<action>": "If you use \"keep\", the message will be kept. If you use \"repost\", Countr will repost the count. This does not get triggered when using modules such as reposting and webhook."
+		},
+		"examples": {
+			"each 1000 repost": "This will repost each 1000th count and pin it.",
+			"only 420 keep": "This will only pin the 420th count, and the message is still owned by the user."
+		}
+	},
+	
 	"COMMAND_ADDROLE": {
 		"description": "Add a role that get rewarded users on whatever count you want.",
 		"usage": {
@@ -131,12 +144,31 @@
 		}
 	},
 	
+	"COMMAND_AUTOSETUP": {
+		"description": "Quickly setup a counting channel with this command. Requires Manage Channels.",
+		"usage": {},
+		"examples": {}
+	},
+	
+	"COMMAND_EDITPIN": {
+		"description": "Quickly setup a counting channel with this command. Requires Manage Channels.",
+		"usage": {
+			"<ID>": "This is the ID of the pin trigger. This can be found if you type `{{PREFIX}}pins`.",
+			"<property>": "This will be what you want to edit. Valid properties: `mode`, `count`, `action`.",
+			"<value>": "Read `{{PREFIX}}help addpin` to see the different values for each property."
+		},
+		"examples": {
+			"wnoK3d mode each": "This will change the pin trigger ID `wnoK3d`'s mode to `each`.",
+			"89hJzm count 1337": "This will change the pin trigger ID `89hJzm`'s count to 1337."
+		}
+	},
+	
 	"COMMAND_EDITROLE": {
 		"description": "Edit a role reward.",
 		"usage": {
 			"<ID>": "This is the ID of the role reward. This can be found if you type `{{PREFIX}}roles`.",
 			"<property>": "This will be what you want to edit. Valid properties: `role`, `mode`, `count`, `duration`.",
-			"<value>": "Read `{{PREFIX}}help addRole` to see the different values for each property."
+			"<value>": "Read `{{PREFIX}}help addrole` to see the different values for each property."
 		},
 		"examples": {
 			"MnRIf4 mode each": "This will change the Role Reward ID `MnRIf4`'s mode to `each`.",
@@ -195,8 +227,26 @@
 			"<prefix...>": "The new prefix. If you want a space after the prefix, end the prefix with {{SPACE}}."
 		},
 		"examples": {
-			"c?": "Set the prefix to \"c?\", the help command would be \"c?help\".",
-			"Hey Countr,{{SPACE}}": "Set the prefix to \"Hey Countr,\", the help command would be \"Hey Countr, help\""
+			"c?": "Set the prefix to `c?`, the help command would be `c?help`.",
+			"Hey Countr,{{SPACE}}": "Set the prefix to `Hey Countr, `, the help command would be `Hey Countr, help`"
+		}
+	},
+
+	"COMMAND_REGEX": {
+		"description": "Set a regex filter for the chat of the channel. (With use of the talking module)",
+		"usage": {
+			"[regex...]": "The new regex. Leave it empty to get the current regex, use \"disable\" to disable."
+		},
+		"examples": {}
+	},
+	
+	"COMMAND_REMOVEPIN": {
+		"description": "Remove a pin trigger.",
+		"usage": {
+			"<ID>": "This is the ID of the pin trigger. This can be found if you type `{{PREFIX}}roles`."
+		},
+		"examples": {
+			"bd9kJK": "Remove notification with ID `bd9kJK`."
 		}
 	},
 	
@@ -240,11 +290,43 @@
 		"examples": {}
 	},
 	
+	"COMMAND_SETSCORE": {
+		"description": "Set the score of a user.",
+		"usage": {
+			"<user>": "Specify the user you want to modify.",
+			"<count>": "Specify the count you want to set as score."
+		},
+		"examples": {
+			"@Promise#0001 1000": "This will set Promise's score to 1000.",
+			"110090225929191424 9999999": "This will set the user with ID `110090225929191424`'s score to 9999999"
+		}
+	},
+	
+	"COMMAND_TIMEOUTROLE": {
+		"description": "Set a timeout role.",
+		"usage": {
+			"<role>": "Specify the role you want to set as the timeout role.",
+			"<time>": "Specify the time window of when the fails \"reset\" themselves, in seconds.",
+			"<fails>": "Specify the amount of fails within the time window the user needs to get the role.",
+			"[duration]": "Specify how long the user will have it, in seconds. If not specified, the user will have it until someone removes it from them."
+		},
+		"examples": {
+			"@Promise#0001 1000": "This will set Promise's score to 1000.",
+			"110090225929191424 9999999": "This will set the user with ID `110090225929191424`'s score to 9999999"
+		}
+	},
+	
 	"COMMAND_TOGGLE": {
 		"description": "Toggle a module or get a list of modules.",
 		"usage": {
 			"[module]": "Specify what module you want to toggle. Leave emoty for a list of them."
 		},
+		"examples": {}
+	},
+	
+	"COMMAND_TOP": {
+		"description": "Get the leaderboard of the server.",
+		"usage": {},
 		"examples": {}
 	},
 	
