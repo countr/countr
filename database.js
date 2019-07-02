@@ -160,15 +160,9 @@ module.exports = function(client, config) {
             })
         },
 
-        checkNotifications(guildid, count, countUser, messageID) {
+        checkNotifications(guildid, count, countUser, messageID, strings) {
             return new Promise(async function(resolve, reject) {
                 let guild = await cacheGuild(guildid);
-
-                let strings = require("./language/en.json");
-                try {
-                    let lang = require("./language/" + await db.getLanguage(message.guild.id) + ".json");
-                    for (var i in lang) strings[i] = lang[i]; // if some strings doesn't exist, we still have the english translation for it
-                } catch(e) {}
 
                 let needSave = false;
                 for (var ID in guild.notifications) {
@@ -267,7 +261,7 @@ module.exports = function(client, config) {
             return new Promise(async function(resolve, reject) {
                 let guild = await cacheGuild(guildid);
                 let IDs = {}
-                for (var i in guild.roles) if (guild.roles[i]) IDs[i] = guild.roles[i];
+                for (var ID in guild.roles) if (guild.roles[ID]) IDs[ID] = guild.roles[ID];
                 resolve(IDs);
             })
         },
@@ -306,7 +300,7 @@ module.exports = function(client, config) {
         getLanguage(guildid) {
             return new Promise(async function(resolve, reject) {
                 let guild = await cacheGuild(guildid);
-                return guild.language || "en";
+                resolve(guild.language || "en");
             })
         },
 

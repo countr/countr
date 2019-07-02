@@ -12,10 +12,8 @@ client.on("message", async (message) => {
     if (!message.guild || message.author.id == client.user.id) return;
 
     let strings = require("./language/en.json");
-    try {
-        let lang = require("./language/" + await db.getLanguage(message.guild.id) + ".json");
-        for (var i in lang) strings[i] = lang[i]; // if some strings doesn't exist, we still have the english translation for it
-    } catch(e) {}
+    let lang = require("./language/" + await db.getLanguage(message.guild.id) + ".json");
+    for (var i in lang) strings[i] = lang[i]; // if some strings doesn't exist, we still have the english translation for it
 
     let countingChannel = await db.getChannel(message.guild.id), prefix = await db.getPrefix(message.guild.id);
     if (countingChannel == message.channel.id) {
@@ -69,7 +67,7 @@ client.on("message", async (message) => {
             if (args.length < require("./commands/" + command + ".js").argsRequired) return message.channel.send("❌ " + strings["NOT_ENOUGH_ARGS"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + config.prefix + "help " + command + "\`"));
             require("./commands/" + command + ".js").run(client, message, args, db, getPermissionLevel(message.member), strings, config);
         } catch(e) {/* Command does not exist */} 
-    } else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send("👋 " + strings["HELLO"].replace("{{PREFIX}}", "\`" + prefix + "\`").replace("{{HELP}}", "\`" + prefix + "help\`."));
+    } else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send("👋 " + strings["HELLO"].replace("{{PREFIX}}", "\`" + prefix + "\`").replace("{{HELP}}", "\`" + prefix + "help\`"));
 })
 
 client.on("ready", async () => {
