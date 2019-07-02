@@ -31,7 +31,7 @@ client.on("message", async (message) => {
         if (!modules.includes("allow-spam") && message.author.id == user) return message.delete();
         if (message.content.split(" ")[0] != (count + 1).toString()) return message.delete()
         if (!modules.includes("talking") && message.content != (count + 1).toString()) return message.delete()
-        db.addToCount(message.guild.id, message.author.id); count += 1;
+        count += 1; db.addToCount(message.guild.id, message.author.id).then(() => { db.checkRole(message.guild.id, count, message.author.id) });
 
         let countMsg = message;
         if (modules.includes("webhook")) await message.channel.fetchWebhooks().then(async webhooks => {
@@ -55,7 +55,6 @@ client.on("message", async (message) => {
 
         db.setLastMessage(message.guild.id, countMsg.id);
         db.checkNotifications(message.guild.id, count, message.author.id, countMsg.id, strings);
-        db.checkRole(message.guild.id, count, message.author.id, strings);
         db.checkPin(message.guild.id, count, message);
 
     } else if (message.author.bot) return; else if(message.content.startsWith(prefix) || message.content.match(`^<@!?${client.user.id}> `)) {
@@ -65,9 +64,9 @@ client.on("message", async (message) => {
 
         try {
             if (getPermissionLevel(message.member) < require("./commands/" + command + ".js").permissionRequired) return message.channel.send((require("./commands/" + command + ".js").permissionRequired > 2 ? "📛" : "⛔") + " " + strings["NO_PERMISSION"])
-            if (args.length < require("./commands/" + command + ".js").argsRequired) return message.channel.send("❌ " + strings["NOT_ENOUGH_ARGS"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + config.prefix + "help " + command + "\`"));
+            if (args.length < require("./commands/" + command + ".js").argsRequired) return message.channel.send("❌ " + strings["NOT_ENOUGH_ARGS"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help " + command + "\`"));
             require("./commands/" + command + ".js").run(client, message, args, db, getPermissionLevel(message.member), strings, config);
-        } catch(e) {/* Command does not exist */} 
+        } catch(e) {console.log(e)/* Command does not exist */} 
     } else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send("👋 " + strings["HELLO"].replace("{{PREFIX}}", "\`" + prefix + "\`").replace("{{HELP}}", "\`" + prefix + "help\`"));
 })
 

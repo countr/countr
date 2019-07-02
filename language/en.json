@@ -24,8 +24,13 @@
 	"AUTOSETUP_WORKING": "Setting up counting channel...",
 	"AUTOSETUP_SUCCESS": "Done! Check out your channel at {{CHANNEL}}.",
 	"AUTOSETUP_ERROR": "Unknown error occoured. Do I have permission? (Manage Channels)",
+
+	"LEADERBOARD": "Leaderboard",
+	"USER_NOT_ON_LEADERBOARD": "You are not on the leaderboard!",
+	"LEADERBOARD_POSITION": "You are #{{POSITION}} on the leaderboard, with {{COUNT}} count(s) total.",
 	
 	"ROLE_NOT_FOUND": "Role not found.",
+	"USER_NOT_FOUND": "User not found.",
 	"INVALID_MODE": "Invalid mode.",
 	"INVALID_COUNT": "Invalid count.",
 	"INVALID_DURATION": "Invalid duration.",
@@ -47,6 +52,7 @@
 	"ROLEREWARDS": "Roles for {{SERVER}}",
 	"EVERY_X_COUNT_GIVES_Y": "Every {{COUNT}} count will give the role {{ROLE}} {{PERMANENT}}",
 	"COUNT_X_GIVES_Y": "Count number {{COUNT}} will give the role {{ROLE}} {{PERMANENT}}",
+	"ON_USER_X_GIVES_Y": "Score {{COUNT}} will give the role {{ROLE}} {{PERMANENT}}",
 	"LIST_MODULES": "List of modules",
 	"MODULE_DOESNT_EXIST": "Module does not exist.",
 	"MODULE_X_HAS_BEEN_ENABLED_DISABLED": "Module {{MODULE}} has been {{STATE}}.",
@@ -77,6 +83,7 @@
 	"SAVING_PREFIX": "Saving prefix to database...",
 	"SAVING_PINTRIGGER": "Saving pin trigger to database...",
 	"SAVING_PINTRIGGER_EDITS": "Saving pin trigger edits to database...",
+	"SAVING_SCORE": "Saving score to database...",
 	
 	"SAVED_ROLEREWARD": "Saved role reward to database. ID `{{ID}}`",
 	"SAVED_ROLEREWARD_EDITS": "Saved role reward edits to database.",
@@ -89,6 +96,7 @@
 	"SAVED_PREFIX": "Saved prefix to database.",
 	"SAVED_PINTRIGGER": "Saved pin trigger to database. ID `{{ID}}`",
 	"SAVED_PINTRIGGER_EDITS": "Saved pin trigger edits to database.",
+	"SAVED_SCORE": "Saved score to database.",
 	
 	"MODULES": {
 		"allow-spam": "Allow people to talk multiple times in a row, essentially spamming the channel.",
@@ -102,7 +110,7 @@
 		"description": "Add a role that get rewarded users on whatever count you want.",
 		"usage": {
 			"<role>": "This is the role you want to be rewarded. This can either be the name, mention or ID of the role. If you have spaces in your role name, replace those with underscores.",
-			"<mode>": "If you use \"only\", it will only be that count you specify. If you use \"each\", it will be each count in the multiplication table, example; 7 = 7, 14, 21, 28, 35 etc.",
+			"<mode>": "If you use \"only\", it will only be that count you specify. If you use \"each\", it will be each count in the multiplication table, example; 7 = 7, 14, 21, 28, 35 etc. If you use \"each\", it will be the user's count and not the server count.",
 			"<count>": "This is the count you want the role to be triggered on.",
 			"<duration>": "If you use \"temporary\", the role will be removed from everyone already having it, and added to the new person. If you use \"permanent\", you keep the role unless someone removes it."
 		},

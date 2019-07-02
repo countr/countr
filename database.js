@@ -52,15 +52,37 @@ module.exports = function(client, config) {
             })
         },
 
+        getUsers(guildid) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                resolve(guild.users)
+            })
+        },
+
+        setScore(guildid, userid, score) {
+            return new Promise(async function(resolve, reject) {
+                await cacheGuild(guildid);
+                savedGuilds[guildid].users[userid] = score;
+              
+                let guild = await getGuild(guildid);
+                guild.users = savedGuilds[guildid].users;
+                guild.save().then(resolve).catch(reject);
+            })
+        },
+
         addToCount(guildid, userid) {
             return new Promise(async function(resolve, reject) {
                 await cacheGuild(guildid);
                 savedGuilds[guildid].count += 1;
                 savedGuilds[guildid].user = userid;
+                
+                if (!savedGuilds[guildid].users[userid]) savedGuilds[guildid].users[userid] = 0;
+                savedGuilds[guildid].users[userid] += 1;
               
                 let guild = await getGuild(guildid);
                 guild.count = savedGuilds[guildid].count;
                 guild.user = savedGuilds[guildid].user;
+                guild.users = savedGuilds[guildid].users;
                 await guild.save().then(resolve).catch(reject);
                 updateTopic(guildid, client)
 
@@ -81,7 +103,7 @@ module.exports = function(client, config) {
                         global.week = getWeek(new Date())
                     }
         
-                    global.save().then(resolve).catch(reject);
+                    global.save()
                 })
             })
         },
@@ -287,8 +309,8 @@ module.exports = function(client, config) {
         
         checkRole(guildid, count, userid) {
             return new Promise(async function(resolve, reject) {
-                let guild = await cacheGuild(guildid), needSave = false;
-                for (var ID in guild.roles) if (guild.roles[ID]) if ((guild.roles[ID].mode == "only" && guild.roles[ID].count == count) || (guild.roles[ID].mode == "each" && count%guild.roles[i].count == 0)) try {
+                let guild = await cacheGuild(guildid);
+                for (var ID in guild.roles) if (guild.roles[ID] && (guild.roles[ID].mode == "only" && guild.roles[ID].count == count) || (guild.roles[ID].mode == "each" && count%guild.roles[ID].count == 0) || (guild.roles[ID].mode == "score" && guild.users[userid] == guild.roles[ID].count)) try {
                     if (guild.roles[ID].duration == "temporary") client.guilds.get(guildid).roles.find(r => r.id == guild.roles[ID].role).members.filter(m => m.id != userid).forEach(member => { member.removeRole(client.guilds.get(guildid).roles.find(r => r.id == guild.roles[ID].role), "Role Reward " + ID) })
                     client.guilds.get(guildid).members.get(userid).addRole(client.guilds.get(guildid).roles.find(r => r.id == guild.roles[ID].role), "Role Reward " + ID);
                 } catch(e) {}

@@ -7,7 +7,7 @@ module.exports.run = async (client, message, args, db, permissionLevel, strings,
     if (!role) return message.channel.send("❌ " + strings["ROLE_NOT_FOUND"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help addrole\`"));
 
     let mode = args[1].toLowerCase();
-    if (!["each", "only"].includes(mode)) return message.channel.send("❌ " + strings["INVALID_MODE"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + config.prefix + "help addrole\`"));
+    if (!["each", "only", "score"].includes(mode)) return message.channel.send("❌ " + strings["INVALID_MODE"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help addrole\`"));
 
     let count = parseInt(args[2]);
     if (!count) return message.channel.send("❌ " + strings["INVALID_COUNT"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help addrole\`"));
