@@ -86,6 +86,13 @@ module.exports = function(client, config) {
             })
         },
 
+        getLastMessage(guildid) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                resolve(guild.message)
+            })
+        },
+
         setLastMessage(guildid, message) {
             return new Promise(async function(resolve, reject) {
                 await cacheGuild(guildid);
