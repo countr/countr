@@ -23,7 +23,7 @@
 
 	"AUTOSETUP_WORKING": "Setting up counting channel...",
 	"AUTOSETUP_SUCCESS": "Done! Check out your channel at {{CHANNEL}}.",
-	"AUTOSETUP_ERROR": "Unknown error occoured. Do I have enough permissions? (Manage Channels, Manage Messages)",
+	"AUTOSETUP_ERROR": "Unknown error occoured. Do I have permission? (Manage Channels)",
 	
 	"ROLE_NOT_FOUND": "Role not found.",
 	"INVALID_MODE": "Invalid mode.",

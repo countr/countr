@@ -37,6 +37,7 @@ module.exports = function(client, config) {
                 let guild = await getGuild(guildid);
                 guild.channel = savedGuilds[guildid].channel;
                 guild.save().then(resolve).catch(reject);
+                updateTopic(guildid, client)
             });
         },
 

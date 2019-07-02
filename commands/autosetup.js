@@ -2,11 +2,11 @@ module.exports.run = async (client, message, args, db, permissionLevel, strings,
     let botMsg = await message.channel.send("♨ " + strings["AUTOSETUP_WORKING"]);
 
     try {
-        let ch = await message.guild.createChannel("counting", {
-            type: "text",
-            parent: message.channel.parent,
-            rateLimitPerUser: 2
-        })
+        let ch = await message.guild.createChannel("counting", { rateLimitPerUser: 2 });
+
+        db.setChannel(message.guild.id, ch.id);
+        db.setCount(message.guild.id, 0);
+        db.setLastMessage(message.guild.id, message.id);
 
         botMsg.edit("✅ " + strings["AUTOSETUP_SUCCESS"].replace("{{CHANNEL}}", ch.toString()))
     } catch(e) {
