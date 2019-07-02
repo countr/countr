@@ -1,17 +1,21 @@
 const mongoose = require("mongoose");
 
-const guildSchema = mongoose.Schema({
-  guildid: String,
-  channel: String,
-  count: Number,
-  user: String,
-  modules: [],
-  notifications: {},
-  roles: {},
-  topic: String,
-  message: String,
-  language: String
-}, { minimize: false })
+const guildObject = {
+    guildid: "", // the guild ID
+    channel: "", // the counting channel ID
+    count: 0, // the current count
+    user: "", // the current count's user
+    modules: [], // the guild's modules
+    notifications: {}, // the guild's users' notifications
+    roles: {},// the guild's roles
+    topic: "", // the topic
+    message: "", // the current count's ID
+    language: "", // the language
+    prefix: "", // the prefix
+    users: {} // the users' amount of counts
+}
+
+const guildSchema = mongoose.Schema(guildObject, { minimize: false })
 
 const globalSchema = mongoose.Schema({
     counts: Number,
@@ -392,16 +396,7 @@ async function cacheGuild(guildid) {
     if (!savedGuilds[guildid]) {
         let guild = await getGuild(guildid);
         savedGuilds[guildid] = {};
-        savedGuilds[guildid].channel = guild.channel;
-        savedGuilds[guildid].count = guild.count;
-        savedGuilds[guildid].user = guild.user;
-        savedGuilds[guildid].modules = guild.modules;
-        savedGuilds[guildid].notifications = guild.notifications;
-        savedGuilds[guildid].roles = guild.roles;
-        savedGuilds[guildid].topic = guild.topic;
-        savedGuilds[guildid].message = guild.message;
-        savedGuilds[guildid].language = guild.language;
-        savedGuilds[guildid].prefix = guild.prefix;
+        for (var property in guildObject) savedGuilds[guildid][property] = guild[property];
     }
     return savedGuilds[guildid];
 }
@@ -411,19 +406,8 @@ function getGuild(guildid) {
         Guild.findOne({ guildid }, (err, guild) => {
             if (err) return reject(err);
             if (!guild) {
-                let newGuild = new Guild({
-                    guildid,
-                    channel: "",
-                    count: 0,
-                    user: "",
-                    modules: [],
-                    notifications: {},
-                    roles: {},
-                    topic: "",
-                    message: "",
-                    language: "",
-                    prefix: ""
-                })
+                let newGuild = new Guild(guildObject);
+                newGuild.guildid = guildid;
 
                 return resolve(newGuild);
             } else return resolve(guild);
