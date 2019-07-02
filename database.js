@@ -425,7 +425,7 @@ async function cacheGuild(guildid) {
     if (!savedGuilds[guildid]) {
         let guild = await getGuild(guildid);
         savedGuilds[guildid] = {};
-        for (var property in guildObject) savedGuilds[guildid][property] = guild[property];
+        for (var property in guildObject) savedGuilds[guildid][property] = guild[property] ? guild[property] : guildObject[property]; // if the guild doesn't have the property yet, we try to add it
     }
     return savedGuilds[guildid];
 }
