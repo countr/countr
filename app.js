@@ -7,6 +7,7 @@ const client = new Discord.Client({ disableEveryone: true, messageCacheMaxSize: 
 const db = require("./database.js")(client, config)
 
 let disabledGuilds = [];
+let fails = {};
 
 client.on("message", async (message) => {
     if (!message.guild || message.author.id == client.user.id) return;
@@ -29,7 +30,25 @@ client.on("message", async (message) => {
         let modules = await db.getModules(message.guild.id);
 
         if (!modules.includes("allow-spam") && message.author.id == user) return message.delete();
-        if (message.content.split(" ")[0] != (count + 1).toString()) return message.delete()
+        if (message.content.split(" ")[0] != (count + 1).toString()) {
+            console.log(fails)
+            let timeout = await db.getTimeoutRole(message.guild.id);
+            if (timeout.role) {
+                if (!fails[message.guild.id + "/" + message.author.id]) fails[message.guild.id + "/" + message.author.id] = 0;
+                fails[message.guild.id + "/" + message.author.id] += 1;
+
+                setTimeout(() => { fails[message.guild.id + "/" + message.author.id] -= 1; }, timeout.time * 1000)
+
+                if (fails[message.guild.id + "/" + message.author.id] >= timeout.fails) {
+                    db.addTimeout(message.guild.id, message.author.id, timeout.duration)
+                    try {
+                        message.member.addRole(message.guild.roles.get(timeout.role), "User failed too many times within a time period")
+                        if (timeout.duration) setTimeout(() => { message.member.removeRole(message.guild.roles.get(timeout.role)) }, timeout.duration * 1000)
+                    } catch(e) {console.log(e);}
+                }
+            }
+            return message.delete()
+        }
         if (!modules.includes("talking") && message.content != (count + 1).toString()) return message.delete()
         count += 1; db.addToCount(message.guild.id, message.author.id).then(() => { db.checkRole(message.guild.id, count, message.author.id) });
 
@@ -107,6 +126,13 @@ async function processGuild(guild) {
         let lang = require("./language/" + await db.getLanguage(message.guild.id) + ".json");
         for (var i in lang) strings[i] = lang[i]; // if some strings doesn't exist, we still have the english translation for it
     } catch(e) {}
+
+    let timeouts = await db.getTimeouts(guild.id);
+    let timeout = await db.getTimeoutRole(guild.id);
+    for (var userid in timeouts) {
+        if (Date.now() > timeouts[userid]) try { guild.members.get(userid).removeRole(timeout.role) } catch(e) {}
+        else setTimeout(() => { guild.members.get(userid).removeRole(timeout.role) }, timeouts[userid] - Date.now())
+    }
 
     let modules = await db.getModules(guild.id);
     

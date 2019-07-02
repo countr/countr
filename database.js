@@ -12,7 +12,9 @@ const guildObject = {
     message: "", // the current count's ID
     language: "", // the language
     prefix: "", // the prefix
-    users: {} // the users' amount of counts
+    users: {}, // the users' amount of counts
+    timeoutrole: {}, // a role given when the user fails X amount of times within Y seconds (role, time, fails, duration "permanent" or seconds)
+    timeouts: {} // log how long the users will have the role
 }
 
 const guildSchema = mongoose.Schema(guildObject, { minimize: false })
@@ -122,6 +124,43 @@ module.exports = function(client, config) {
               
                 let guild = await getGuild(guildid);
                 guild.message = savedGuilds[guildid].message;
+                await guild.save().then(resolve).catch(reject);
+            })
+        },
+
+        getTimeoutRole(guildid) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                resolve(guild.timeoutrole)
+            })
+        },
+
+        getTimeouts(guildid) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                resolve(guild.timeouts)
+            })
+        },
+
+        setTimeoutRole(guildid, role, time, fails, duration) {
+            return new Promise(async function(resolve, reject) {
+                await cacheGuild(guildid);
+                if (role) savedGuilds[guildid].timeoutrole = { role, time, fails, duration };
+                else savedGuilds[guildid].timeoutrole = {};
+              
+                let guild = await getGuild(guildid);
+                guild.timeoutrole = savedGuilds[guildid].timeoutrole;
+                await guild.save().then(resolve).catch(reject);
+            })
+        },
+
+        addTimeout(guildid, userid, duration) {
+            return new Promise(async function(resolve, reject) {
+                await cacheGuild(guildid);
+                savedGuilds[guildid].timeouts[userid] = Date.now() + duration * 1000;
+              
+                let guild = await getGuild(guildid);
+                guild.timeouts = savedGuilds[guildid].timeouts;
                 await guild.save().then(resolve).catch(reject);
             })
         },
