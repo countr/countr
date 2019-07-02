@@ -1,6 +1,6 @@
 module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
     let count = parseInt(args[0]);
-    if (!count) return message.channel.send("❌" + strings["INVALID_COUNT"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + config.prefix + "help set\`"));
+    if (!count) return message.channel.send("❌" + strings["INVALID_COUNT"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help set\`"));
 
     let botMsg = await message.channel.send("♨ " + strings["SAVING_COUNT"]);
 

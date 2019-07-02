@@ -5,7 +5,7 @@ module.exports.run = async (client, message, args, db, permissionLevel, strings,
         channel = message.guild.channels.find(c => c.name == args[0]);
         if (!channel) channel = message.guild.channels.get(args[0]);
         if (!channel) channel = message.guild.channels.get(args[0].replace("<#", "").replace(">", ""));
-        if (!channel) return  message.channel.send("❌ " + strings["CHANNEL_NOT_FOUND"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + config.prefix + "help link\`"));
+        if (!channel) return  message.channel.send("❌ " + strings["CHANNEL_NOT_FOUND"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help link\`"));
     }
     
     let botMsg = await message.channel.send("♨ Saving channel to database.");

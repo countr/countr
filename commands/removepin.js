@@ -1,6 +1,6 @@
 module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
     let ID = args[0];
-    if (!await db.pinExists(message.guild.id, ID)) return message.channel.send("❌ " + strings["PINTRIGGER_NOT_FOUND"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + config.prefix + "help removepin\`"));
+    if (!await db.pinExists(message.guild.id, ID)) return message.channel.send("❌ " + strings["PINTRIGGER_NOT_FOUND"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help removepin\`"));
     
     let botMsg = await message.channel.send("♨ " + strings["REMOVING_PINTRIGGER"]);
 

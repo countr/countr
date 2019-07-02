@@ -1,8 +1,7 @@
 module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
     let roles = await db.getRoles(message.guild.id);
 
-    if (Object.keys(roles).length == 0) return message.channel.send("❌ " + strings["NO_ROLEREWARDS"] + (permissionLevel >= 2 ? " " + strings["NO_ROLEREWARDS_HELP"].replace("{{HELP}}", "\`" + config.prefix + "help addrole\`") : ""))
-    return message.channel.send("📋 " + strings["ROLEREWARDS"].replace("{{SERVER}}", "**" + message.guild.name + "**") + ":\n" + formatRoles(roles, message.guild))
+    if (Object.keys(roles).length == 0) return message.channel.send("❌ " + strings["NO_ROLEREWARDS"] + (permissionLevel >= 2 ? " " + strings["NO_ROLEREWARDS_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help addrole\`") : ""))
 }
 
 // 0 All, 1 Mods, 2 Admins, 3 Global Admins, 4 First Global Admin

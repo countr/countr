@@ -4,16 +4,16 @@ module.exports.run = async (client, message, args, db, permissionLevel, strings,
     let role = message.guild.roles.find(r => r.name == args[0].replace("_", " "));
     if (!role) role = message.guild.roles.get(args[0]);
     if (!role) role = message.guild.roles.get(args[0].replace("<@&", "").replace(">", ""));
-    if (!role) return message.channel.send("❌ " + strings["ROLE_NOT_FOUND"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + config.prefix + "help addrole\`"));
+    if (!role) return message.channel.send("❌ " + strings["ROLE_NOT_FOUND"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help addrole\`"));
 
     let mode = args[1].toLowerCase();
     if (!["each", "only"].includes(mode)) return message.channel.send("❌ " + strings["INVALID_MODE"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + config.prefix + "help addrole\`"));
 
     let count = parseInt(args[2]);
-    if (!count) return message.channel.send("❌ " + strings["INVALID_COUNT"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + config.prefix + "help addrole\`"));
+    if (!count) return message.channel.send("❌ " + strings["INVALID_COUNT"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help addrole\`"));
 
     let duration = args[3].toLowerCase();
-    if (!["temporary", "permanent"].includes(duration)) return message.channel.send("❌ " + strings["INVALID_DURATION"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + config.prefix + "help addrole\`"));
+    if (!["temporary", "permanent"].includes(duration)) return message.channel.send("❌ " + strings["INVALID_DURATION"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help addrole\`"));
 
     let ID = randomizeID();
     while (await db.roleExists(message.guild.id, ID)) ID = randomizeID(); // we don't want to override an existing role by accident.

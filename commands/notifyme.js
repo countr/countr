@@ -6,9 +6,9 @@ module.exports.run = async (client, message, args, db, permissionLevel, strings,
     if (args[1]) {
         count = parseInt(args[1]);
         mode = args[0].toLowerCase()
-        if (!["each", "only"].includes(mode)) return message.channel.send(strings["INVALID_MODE"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + config.prefix + "help notifyme\`"));
+        if (!["each", "only"].includes(mode)) return message.channel.send(strings["INVALID_MODE"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help notifyme\`"));
     }
-    if (!count) return message.channel.send("❌ " + strings["INVALID_COUNT"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + config.prefix + "help notifyme\`"));
+    if (!count) return message.channel.send("❌ " + strings["INVALID_COUNT"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help notifyme\`"));
 
     let ID = randomizeID();
     while (await db.notificationExists(message.guild.id, ID)) ID = randomizeID();

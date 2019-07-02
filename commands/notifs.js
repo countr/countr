@@ -1,7 +1,7 @@
 module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
     let notifications = await db.getNotifications(message.guild.id, message.author.id);
 
-    if (Object.keys(notifications).length == 0) return message.channel.send("❌ " + strings["NO_NOTIFS"].replace("{{HELP}}", "\`" + config.prefix + "help notifyme\`"));
+    if (Object.keys(notifications).length == 0) return message.channel.send("❌ " + strings["NO_NOTIFS"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help notifyme\`"));
     return message.channel.send("📋 " + strings["USER_NOTIFS"].replace("{{USER}}", message.author.toString()).replace("{{GUILD}}", message.guild.name) + ":\n" + formatNotifs(notifications, strings))
 }
 

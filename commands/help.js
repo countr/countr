@@ -4,7 +4,7 @@ module.exports.run = async (client, message, args, db, permissionLevel, strings,
     let command = args[0].toLowerCase()
     let commandDesc = strings["COMMAND_" + command.toUpperCase()]
 
-    if (commandDesc) return message.channel.send("🔅 **\`" + config.prefix + command + (Object.keys(commandDesc.usage).join(" ") ? " " + Object.keys(commandDesc.usage).join(" ") : "") + "\`: " + commandDesc.description + "**" + (formatUsage(commandDesc.usage, config.prefix) ? "\n\n**" + strings["ARGUMENTS"] + ":**\n" + formatUsage(commandDesc.usage, config.prefix) : "") + (formatExamples(commandDesc.examples, command, config.prefix) ? "\n\n**" + strings["EXAMPLES"] + ":**\n" + formatExamples(commandDesc.examples, command, config.prefix) : ""))
+    if (commandDesc) return message.channel.send("🔅 **\`" + await db.getPrefix(message.guild.id) + command + (Object.keys(commandDesc.usage).join(" ") ? " " + Object.keys(commandDesc.usage).join(" ") : "") + "\`: " + commandDesc.description + "**" + (formatUsage(commandDesc.usage, await db.getPrefix(message.guild.id)) ? "\n\n**" + strings["ARGUMENTS"] + ":**\n" + formatUsage(commandDesc.usage, await db.getPrefix(message.guild.id)) : "") + (formatExamples(commandDesc.examples, command, await db.getPrefix(message.guild.id)) ? "\n\n**" + strings["EXAMPLES"] + ":**\n" + formatExamples(commandDesc.examples, command, await db.getPrefix(message.guild.id)) : ""))
     
     return message.channel.send("⚠ " + strings["COMMAND_DOES_NOT_EXIST"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + config.prefix + "help help\`"));
 }
