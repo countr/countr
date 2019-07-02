@@ -275,11 +275,62 @@ module.exports = function(client, config) {
         
         checkRole(guildid, count, userid) {
             return new Promise(async function(resolve, reject) {
-                let guild = await cacheGuild(guildid);
-                for (var i in guild.roles) if (guild.roles[i]) if ((guild.roles[i].mode == "only" && guild.roles[i].count == count) || (guild.roles[i].mode == "each" && Number.isInteger(count / guild.roles[i].count))) try {
-                    if (guild.roles[i].duration == "temporary") client.guilds.get(guildid).roles.find(r => r.id == guild.roles[i].role).members.filter(m => m.id != userid).forEach(member => { member.removeRole(client.guilds.get(guildid).roles.find(r => r.id == guild.roles[i].role), "Role Reward " + i) })
-                    client.guilds.get(guildid).members.get(userid).addRole(client.guilds.get(guildid).roles.find(r => r.id == guild.roles[i].role), "Role Reward " + i);
+                let guild = await cacheGuild(guildid), needSave = false;
+                for (var ID in guild.roles) if (guild.roles[ID]) if ((guild.roles[ID].mode == "only" && guild.roles[ID].count == count) || (guild.roles[ID].mode == "each" && count%guild.roles[i].count == 0)) try {
+                    if (guild.roles[ID].duration == "temporary") client.guilds.get(guildid).roles.find(r => r.id == guild.roles[ID].role).members.filter(m => m.id != userid).forEach(member => { member.removeRole(client.guilds.get(guildid).roles.find(r => r.id == guild.roles[ID].role), "Role Reward " + ID) })
+                    client.guilds.get(guildid).members.get(userid).addRole(client.guilds.get(guildid).roles.find(r => r.id == guild.roles[ID].role), "Role Reward " + ID);
                 } catch(e) {}
+                resolve();
+            })
+        },
+
+        setPin(guildid, ID, mode, count, action) {
+            return new Promise(async function(resolve, reject) {
+                await cacheGuild(guildid);
+                if (!mode) delete savedGuilds[guildid].pins[ID];
+                else savedGuilds[guildid].pins[ID] = { mode, count, action };
+
+                let guild = await getGuild(guildid);
+                guild.pins = savedGuilds[guildid].pins
+                guild.save().then(resolve).catch(reject);
+            })
+        },
+
+        editPin(guildid, ID, property, value) {
+            return new Promise(async function(resolve, reject) {
+                await cacheGuild(guildid);
+                savedGuilds[guildid].pins[ID][property] = value;
+
+                let guild = await getGuild(guildid);
+                guild.pins[ID][property] = savedGuilds[guildid].pins[ID][property]
+                guild.save().then(resolve).catch(reject);
+            })
+        },
+
+        getPins(guildid) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                let IDs = {}
+                for (var ID in guild.pins) if (guild.pins[ID]) IDs[ID] = guild.roles[ID];
+                resolve(IDs);
+            })
+        },
+
+        pinExists(guildid, ID) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                resolve(!!guild.pins[ID]);
+            })
+        },
+        
+        checkPin(guildid, count, message) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                for (var ID in guild.pins) if (guild.pins[i]) if ((guild.pins[ID].mode == "only" && guild.pins[ID].count == count) || (guild.pins[ID].mode == "each" && count%guild.pins[ID].count == 0)) try {
+                    if (message.author.bot) return message.pin(); // already reposted
+                    else if (guild.pins[i].action == "repost") return message.channel.send(count + " " + message.author.toString()).then(m => { m.pin(); message.delete(); }); else message.pin();
+                } catch(e) {}
+                resolve();
             })
         },
 

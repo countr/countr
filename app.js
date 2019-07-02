@@ -56,6 +56,7 @@ client.on("message", async (message) => {
         db.setLastMessage(message.guild.id, countMsg.id);
         db.checkNotifications(message.guild.id, count, message.author.id, countMsg.id, strings);
         db.checkRole(message.guild.id, count, message.author.id, strings);
+        db.checkPin(message.guild.id, count, message);
 
     } else if (message.author.bot) return; else if(message.content.startsWith(prefix) || message.content.match(`^<@!?${client.user.id}> `)) {
         let args = message.content.split(" ");
