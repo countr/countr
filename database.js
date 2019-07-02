@@ -16,6 +16,7 @@ const guildObject = {
     timeoutrole: {}, // a role given when the user fails X amount of times within Y seconds (role, time, fails, duration "permanent" or seconds)
     timeouts: {}, // log how long the users will have the role,
     regex: "", // regex filter, for the talking module
+    pins: {} // the guild's pin triggers
 }
 
 const guildSchema = mongoose.Schema(guildObject, { minimize: false })
@@ -403,7 +404,7 @@ module.exports = function(client, config) {
             return new Promise(async function(resolve, reject) {
                 let guild = await cacheGuild(guildid);
                 let IDs = {}
-                for (var ID in guild.pins) if (guild.pins[ID]) IDs[ID] = guild.roles[ID];
+                for (var ID in guild.pins) if (guild.pins[ID]) IDs[ID] = guild.pins[ID];
                 resolve(IDs);
             })
         },
@@ -417,12 +418,17 @@ module.exports = function(client, config) {
         
         checkPin(guildid, count, message) {
             return new Promise(async function(resolve, reject) {
-                let guild = await cacheGuild(guildid);
-                for (var ID in guild.pins) if (guild.pins[i]) if ((guild.pins[ID].mode == "only" && guild.pins[ID].count == count) || (guild.pins[ID].mode == "each" && count%guild.pins[ID].count == 0)) try {
+                let guild = await cacheGuild(guildid), done = false;
+                let pin = Object.keys(guild.pins).find(p => (guild.pins[p].mode == "only" && guild.pins[p].count == count) || (guild.pins[p].mode == "each" && count%guild.pins[p].count == 0));
+
+                if (pin) try {
                     if (message.author.bot) return message.pin(); // already reposted
-                    else if (guild.pins[i].action == "repost") return message.channel.send(count + " " + message.author.toString()).then(m => { m.pin(); message.delete(); }); else message.pin();
-                } catch(e) {}
-                resolve();
+                    else if (guild.pins[pin].action == "repost") {
+                        message.delete();
+                        message.channel.awaitMessages(m => m.author.id == client.user.id && m.content.startsWith(message.content), { max: 1, time: 60000 }).then(ms => { ms.first().pin(); }) // it was the last count, so the bot will try to resend the count
+                    }
+                    else message.pin();
+                } catch(e) {console.log(e)}
             })
         },
 

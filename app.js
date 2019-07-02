@@ -110,7 +110,7 @@ client.on("ready", async () => {
 
 client.on("messageDelete", async message => {
     if (!message.guild && !message.author.bot) return;
-    if (message.channel.id == await db.getChannel(message.guild.id) && message.id == await db.getLastMessage(message.guild.id)) return message.channel.send(message.content + " (" + message.author.toString() + ")") // resend if the last count got deleted
+    if (message.channel.id == await db.getChannel(message.guild.id) && message.id == await db.getLastMessage(message.guild.id)) return message.channel.send(message.content + " (" + message.author.toString() + ")").then(m => { db.setLastMessage(m.guild.id, m.id) }) // resend if the last count got deleted
 })
 
 async function updatePresence(guild) {
