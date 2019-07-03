@@ -24,7 +24,7 @@ module.exports.run = async (client, message, args, db, permissionLevel, strings,
     
     let botMsg = await message.channel.send("♨ " + strings["SAVING_ROLEREWARD_EDITS"]);
 
-    db.editrole(message.guild.id, ID, property, value)
+    db.editRole(message.guild.id, ID, property, value)
         .then(() => { botMsg.edit("✅ " + strings["SAVED_ROLEREWARD_EDITS"]) })
         .catch(err => { console.log(err); botMsg.edit("❌ " + strings["UNKNOWN_ERROR"]) });
 }

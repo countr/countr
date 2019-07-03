@@ -16,7 +16,7 @@ function formatPins(pins, guild, strings) {
         if (pins[ID].mode == "each") mode = strings["EVERY_X_COUNT_PINS"].replace("{{COUNT}}", formatSuffix(pins[ID].count, strings))
         if (pins[ID].mode == "only") mode = strings["COUNT_X_PINS"].replace("{{COUNT}}", pins[ID].count)
 
-        pinsList.push("- \`" + ID + "\` " + mode);
+        pinsList.push("- \`" + ID + "\` " + mode.replace("{{REPOSTS}}", pins[ID].action == "repost" ? strings["REPOSTS_THEN_"] : ""));
     }
     
     return pinsList.join("\n");

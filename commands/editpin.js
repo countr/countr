@@ -19,7 +19,7 @@ module.exports.run = async (client, message, args, db, permissionLevel, strings,
     
     let botMsg = await message.channel.send("♨ " + strings["SAVING_PINTRIGGER_EDITS"]);
 
-    db.editpin(message.guild.id, ID, property, value)
+    db.editPin(message.guild.id, ID, property, value)
         .then(() => { botMsg.edit("✅ " + strings["SAVED_PINTRIGGER_EDITS"]) })
         .catch(err => { console.log(err); botMsg.edit("❌ " + strings["UNKNOWN_ERROR"]) });
 }

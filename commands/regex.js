@@ -1,5 +1,9 @@
 module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
-    if (args.length == 0) return message.channel.send("📋 Current regex: \`" + await db.getRegex(message.guild.id) + "\`")
+    if (args.length == 0) {
+        let regex = await db.getRegex(message.guild.id);
+        if (!regex) return message.channel.send("❌ " + strings["NO_REGEX"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help regex\`"))
+        return message.channel.send("📋 " + strings["CURRENT_REGEX"] + " \`" + regex + "\`")
+    }
 
     let regex = args.join(" ");
     if (regex.toLowerCase() == "disable") regex = "";
@@ -11,7 +15,7 @@ module.exports.run = async (client, message, args, db, permissionLevel, strings,
 
     let botMsg = await message.channel.send("♨ " + strings["SAVING_REGEX"]);
 
-    db.setRegex(message.guild.id, topic)
+    db.setRegex(message.guild.id, regex)
         .then(() => { botMsg.edit("✅ " + strings["SAVED_REGEX"]) })
         .catch(err => { console.log(err); botMsg.edit("❌ " + strings["UNKNOWN_ERROR"]) });
 }

@@ -52,19 +52,22 @@
 	"PINGED": "Server latency is {{LATENCY.SERVER}} and API latency is {{LATENCY.API}}.",
 	"NO_ROLEREWARDS": "This server does not have any roles set up.",
 	"NO_PINTRIGGERS": "This server does not have any pin triggers set up.",
+	"NO_REGEX": "This server does not have any regex filter set up.",
 	"GET_HELP": "Get help on how to make one, type {{HELP}}",
 	"ROLEREWARDS": "Roles for {{SERVER}}",
 	"PINTRIGGERS": "Pin triggers for {{SERVER}}",
+	"REGEX": "Current regex:",
 	"EVERY_X_COUNT_GIVES_Y": "Every {{COUNT}} count will give the role {{ROLE}} {{PERMANENT}}",
 	"COUNT_X_GIVES_Y": "Count number {{COUNT}} will give the role {{ROLE}} {{PERMANENT}}",
 	"ON_USER_X_GIVES_Y": "Score {{COUNT}} will give the role {{ROLE}} {{PERMANENT}}",
-	"EVERY_X_COUNT_PINS": "Every {{COUNT}} count pins",
-	"COUNT_X_PINS": "Count {{COUNT}} pins",
+	"EVERY_X_COUNT_PINS": "Every {{COUNT}} count {{REPOSTS}}pins",
+	"COUNT_X_PINS": "Count {{COUNT}} {{REPOSTS}}pins",
+	"REPOSTS_THEN_": "reposts then ",
 	"LIST_MODULES": "List of modules",
 	"MODULE_DOESNT_EXIST": "Module does not exist.",
 	"MODULE_X_HAS_BEEN_ENABLED_DISABLED": "Module {{MODULE}} has been {{STATE}}.",
 	"ENABLING_DISABLING_MODULE_Y": "{{STATE}} module {{MODULE}}.",
-
+	"CURRENT_REGEX": "Current regex:",
 	"DOCUMENTATION": "Documentation",
 	"SUPPORT_SERVER": "Support Server",
 	"ARGUMENTS": "Arguments",
@@ -93,6 +96,7 @@
 	"SAVING_SCORE": "Saving score to database...",
 	"SAVING_TIMEOUT_ROLE": "Saving timeout role to database...",
 	"REMOVING_PINTRIGGER": "Removing pin trigger from database...",
+	"SAVING_REGEX": "Saving regex to database...",
 	
 	"SAVED_ROLEREWARD": "Saved role reward to database. ID `{{ID}}`",
 	"SAVED_ROLEREWARD_EDITS": "Saved role reward edits to database.",
@@ -108,6 +112,7 @@
 	"SAVED_SCORE": "Saved score to database.",
 	"SAVED_TIMEOUT_ROLE": "Saved timeout role to database.",
 	"REMOVED_PINTRIGGER": "Removed pin trigger from database.",
+	"SAVED_REGEX": "Saved regex to database.",
 	
 	"MODULES": {
 		"allow-spam": "Allow people to talk multiple times in a row, essentially spamming the channel.",
@@ -233,11 +238,15 @@
 	},
 
 	"COMMAND_REGEX": {
-		"description": "Set a regex filter for the chat of the channel. (With use of the talking module)",
+		"description": "Set a regex filter for the chat of the channel. (With use of the talking module) - <https://flaviocopes.com/javascript-regular-expressions/#regular-expressions-choices>",
 		"usage": {
 			"[regex...]": "The new regex. Leave it empty to get the current regex, use \"disable\" to disable."
 		},
-		"examples": {}
+		"examples": {
+			"duck|poop|trump": "This regex will delete the message if it contains \"duck\", \"poop\" and/or \"trump\".",
+			"[A-Z]": "This regex will delete the message if it contains any capital letters.",
+			"[A-Ca-cX-Zx-z]": "This regex will delete the message if it contains A, B, C, X, Y and/or Z, regardless if it's a capital letter or not."
+		}
 	},
 	
 	"COMMAND_REMOVEPIN": {
@@ -311,8 +320,8 @@
 			"[duration]": "Specify how long the user will have it, in seconds. If not specified, the user will have it until someone removes it from them."
 		},
 		"examples": {
-			"@Promise#0001 1000": "This will set Promise's score to 1000.",
-			"110090225929191424 9999999": "This will set the user with ID `110090225929191424`'s score to 9999999"
+			"Timed_out 10 5": "This will give the user the role called \"Timed out\" if they fail 5 times within 10 seconds. The role stays on permanent.",
+			"531877473437220866 30 3 120": "This will give the user the role with ID \"531877473437220866\" if they fail 3 times within 30 seconds. The role stays on for 120 seconds/2 minutes."
 		}
 	},
 	

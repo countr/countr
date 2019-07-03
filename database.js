@@ -137,7 +137,7 @@ module.exports = function(client, config) {
             })
         },
 
-        setRegex(guildid, message) {
+        setRegex(guildid, regex) {
             return new Promise(async function(resolve, reject) {
                 await cacheGuild(guildid);
                 savedGuilds[guildid].regex = regex;
