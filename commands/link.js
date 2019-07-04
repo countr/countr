@@ -8,10 +8,10 @@ module.exports.run = async (client, message, args, db, permissionLevel, strings,
         if (!channel) return  message.channel.send("❌ " + strings["CHANNEL_NOT_FOUND"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help link\`"));
     }
     
-    let botMsg = await message.channel.send("♨ Saving channel to database.");
+    let botMsg = await message.channel.send("♨ " + strings["SAVING_CHANNEL"]);
 
     db.setChannel(message.guild.id, channel.id)
-        .then(() => { botMsg.edit("✅ Saved channel <#" + channel.id + "> to database.") })
+        .then(() => { botMsg.edit("✅ " + strings["SAVED_CHANNEL"]) })
         .catch(err => { console.log(err); botMsg.edit("❌ " + strings["UNKNOWN_ERROR"]) });
 }
 

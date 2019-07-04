@@ -1,8 +1,8 @@
 module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
-    let botMsg = await message.channel.send("♨ Removing channel from database.");
+    let botMsg = await message.channel.send("♨ " + strings["REMOVING_CHANNEL"]);
 
     db.setChannel(message.guild.id, "0")
-        .then(() => { botMsg.edit("✅ Removed channel from database.") })
+        .then(() => { botMsg.edit("✅ " + strings["REMOVED_CHANNEL"]) })
         .catch(err => { console.log(err); botMsg.edit("❌ " + strings["UNKNOWN_ERROR"]) });
 }
 

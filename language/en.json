@@ -101,6 +101,8 @@
 	"REMOVING_PINTRIGGER": "Removing pin trigger from database...",
 	"SAVING_REGEX": "Saving regex to database...",
 	"SAVING_LANGUAGE": "Saving language to database...",
+	"SAVING_CHANNEL": "Saving channel to database...",
+	"SAVING_NOTIFICATION": "Saving notification to database...",
 	
 	"SAVED_ROLEREWARD": "Saved role reward to database. ID `{{ID}}`",
 	"SAVED_ROLEREWARD_EDITS": "Saved role reward edits to database.",
@@ -118,6 +120,8 @@
 	"REMOVED_PINTRIGGER": "Removed pin trigger from database.",
 	"SAVED_REGEX": "Saved regex to database.",
 	"SAVED_LANGUAGE": "Saved language to database.",
+	"SAVED_CHANNEL": "Saved channel to database.",
+	"SAVED_NOTIFICATION": "Saved notification to database. ID `{{ID}}`",
 	
 	"MODULES": {
 		"allow-spam": "Allow people to talk multiple times in a row, essentially spamming the channel.",

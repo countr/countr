@@ -13,10 +13,10 @@ module.exports.run = async (client, message, args, db, permissionLevel, strings,
     let ID = randomizeID();
     while (await db.notificationExists(message.guild.id, ID)) ID = randomizeID();
     
-    let botMsg = await message.channel.send("♨ Saving notification to database. Please wait.");
+    let botMsg = await message.channel.send("♨ " + strings["SAVING_NOTIFICATION"]);
 
     db.setNotification(message.guild.id, ID, message.author.id, mode, count)
-        .then(() => { botMsg.edit("✅ Saved notification to database. ID \`" + ID + "\`") })
+        .then(() => { botMsg.edit("✅" + strings["SAVED_NOTIFICATION"].replace("{{ID}}", ID)) })
         .catch(err => { console.log(err); botMsg.edit("❌ " + strings["UNKNOWN_ERROR"]) });
 }
 
