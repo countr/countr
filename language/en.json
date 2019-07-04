@@ -1,5 +1,6 @@
 {
 	"LANGUAGE": "English",
+	"AUTHORS": ["110090225929191424"],
 	
 	"NO_PERMISSION": "You don't have permission to do this!",
 	"NOT_ENOUGH_ARGS": "Not enough arguments.",
@@ -56,6 +57,7 @@
 	"GET_HELP": "Get help on how to make one, type {{HELP}}",
 	"ROLEREWARDS": "Roles for {{SERVER}}",
 	"PINTRIGGERS": "Pin triggers for {{SERVER}}",
+  "LANGUAGES": "List of languages:",
 	"REGEX": "Current regex:",
 	"EVERY_X_COUNT_GIVES_Y": "Every {{COUNT}} count will give the role {{ROLE}} {{PERMANENT}}",
 	"COUNT_X_GIVES_Y": "Count number {{COUNT}} will give the role {{ROLE}} {{PERMANENT}}",
@@ -64,6 +66,7 @@
 	"COUNT_X_PINS": "Count {{COUNT}} {{REPOSTS}}pins",
 	"REPOSTS_THEN_": "reposts then ",
 	"LIST_MODULES": "List of modules",
+	"LIST_LANGUAGES": "List of available languages:",
 	"MODULE_DOESNT_EXIST": "Module does not exist.",
 	"MODULE_X_HAS_BEEN_ENABLED_DISABLED": "Module {{MODULE}} has been {{STATE}}.",
 	"ENABLING_DISABLING_MODULE_Y": "{{STATE}} module {{MODULE}}.",
@@ -97,6 +100,7 @@
 	"SAVING_TIMEOUT_ROLE": "Saving timeout role to database...",
 	"REMOVING_PINTRIGGER": "Removing pin trigger from database...",
 	"SAVING_REGEX": "Saving regex to database...",
+	"SAVING_LANGUAGE": "Saving language to database...",
 	
 	"SAVED_ROLEREWARD": "Saved role reward to database. ID `{{ID}}`",
 	"SAVED_ROLEREWARD_EDITS": "Saved role reward edits to database.",
@@ -113,6 +117,7 @@
 	"SAVED_TIMEOUT_ROLE": "Saved timeout role to database.",
 	"REMOVED_PINTRIGGER": "Removed pin trigger from database.",
 	"SAVED_REGEX": "Saved regex to database.",
+	"SAVED_LANGUAGE": "Saved language to database.",
 	
 	"MODULES": {
 		"allow-spam": "Allow people to talk multiple times in a row, essentially spamming the channel.",
@@ -189,6 +194,16 @@
 		"examples": {
 			"-": "Get link to the documentation.",
 			"help": "Get help for the command help. (what a stupid example when you're already here)"
+		}
+	},
+	
+	"COMMAND_LANGUAGE": {
+		"description": "Set the language for this guild.",
+		"usage": {
+			"[language]": "Specify what language you want to use. Leave empty to get a list."
+		},
+		"examples": {
+			"en": "Set the language to English."
 		}
 	},
 	

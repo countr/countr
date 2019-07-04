@@ -11,6 +11,7 @@
     "discord.js": "^11.5.1",
     "erlpack": "github:discordapp/erlpack",
     "express": "^4.17.1",
+    "fs": "0.0.1-security",
     "mongoose": "^5.6.2"
   },
   "devDependencies": {},

@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const BLAPI = require("blapi");
+const fs = require("fs");
 
 const config = require("./config.json")
 
@@ -12,7 +13,7 @@ let fails = {};
 client.on("message", async (message) => {
     if (!message.guild || message.author.id == client.user.id) return;
 
-    let strings = require("./language/en.json");
+    let strings = JSON.parse(JSON.stringify(require("./language/en.json"))) // we do not want to modify the original language
     let lang = require("./language/" + await db.getLanguage(message.guild.id) + ".json");
     for (var i in lang) strings[i] = lang[i]; // if some strings doesn't exist, we still have the english translation for it
 
