@@ -1,7 +1,7 @@
 module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
     let roles = await db.getRoles(message.guild.id);
 
-    if (Object.keys(roles).length == 0) return message.channel.send("❌ " + strings["NO_ROLEREWARDS"] + (permissionLevel >= 2 ? " " + strings["NO_ROLEREWARDS_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help addrole\`") : ""))
+    if (Object.keys(roles).length == 0) return message.channel.send("❌ " + strings["NO_ROLEREWARDS"])
     return message.channel.send("📋 " + strings["ROLEREWARDS"].replace("{{SERVER}}", "**" + message.guild.name + "**") + ":\n" + formatRoles(roles, message.guild, strings))
 }
 

@@ -4,7 +4,7 @@ const BLAPI = require("blapi");
 const config = require("./config.json")
 
 const client = new Discord.Client({ disableEveryone: true, messageCacheMaxSize: 60, messageSweepInterval: 10 })
-const db = require("./database.js")(client, config)
+const db = require("./database.js")(client, config);
 
 let disabledGuilds = [];
 let fails = {};
@@ -31,7 +31,6 @@ client.on("message", async (message) => {
 
         if (!modules.includes("allow-spam") && message.author.id == user) return message.delete();
         if (message.content.split(" ")[0] != (count + 1).toString()) {
-            console.log(fails)
             let timeout = await db.getTimeoutRole(message.guild.id);
             if (timeout.role) {
                 if (!fails[message.guild.id + "/" + message.author.id]) fails[message.guild.id + "/" + message.author.id] = 0;
@@ -44,7 +43,7 @@ client.on("message", async (message) => {
                     try {
                         message.member.addRole(message.guild.roles.get(timeout.role), "User failed too many times within a time period")
                         if (timeout.duration) setTimeout(() => { message.member.removeRole(message.guild.roles.get(timeout.role)) }, timeout.duration * 1000)
-                    } catch(e) {console.log(e);}
+                    } catch(e) {}
                 }
             }
             return message.delete()
@@ -89,7 +88,7 @@ client.on("message", async (message) => {
             if (getPermissionLevel(message.member) < require("./commands/" + command + ".js").permissionRequired) return message.channel.send((require("./commands/" + command + ".js").permissionRequired > 2 ? "📛" : "⛔") + " " + strings["NO_PERMISSION"])
             if (args.length < require("./commands/" + command + ".js").argsRequired) return message.channel.send("❌ " + strings["NOT_ENOUGH_ARGS"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help " + command + "\`"));
             require("./commands/" + command + ".js").run(client, message, args, db, getPermissionLevel(message.member), strings, config);
-        } catch(e) {console.log(e)/* Command does not exist */} 
+        } catch(e) {/* Command does not exist */} 
     } else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send("👋 " + strings["HELLO"].replace("{{PREFIX}}", "\`" + prefix + "\`").replace("{{HELP}}", "\`" + prefix + "help\`"));
 })
 
@@ -109,7 +108,7 @@ client.on("ready", async () => {
 })
 
 client.on("messageDelete", async message => {
-    if (!message.guild && !message.author.bot) return;
+    if (!message.guild || message.author.bot) return;
     if (message.channel.id == await db.getChannel(message.guild.id) && message.id == await db.getLastMessage(message.guild.id)) return message.channel.send(message.content + " (" + message.author.toString() + ")").then(m => { db.setLastMessage(m.guild.id, m.id) }) // resend if the last count got deleted
 })
 

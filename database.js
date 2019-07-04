@@ -458,7 +458,7 @@ module.exports = function(client, config) {
                 await cacheGuild();
                 savedGuilds[guildid].language = lang;
 
-                let guild = await getGuild(guldid);
+                let guild = await getGuild(guildid);
                 guild.language = savedGuilds[guildid].language;
                 guild.save().then(resolve).catch(reject);
             })

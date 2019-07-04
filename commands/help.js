@@ -1,5 +1,5 @@
 module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
-    if (args.length == 0) return message.channel.send("📋 " + strings["DOCUMENTATION"] + ": https://countr.js.org/\n📎 " + strings["SUPPORT_SERVER"] + ": https://countr.page.link/support");
+    if (args.length == 0) return message.channel.send("📋 " + strings["DOCUMENTATION"] + ": https://countr.xyz/\n📎 " + strings["SUPPORT_SERVER"] + ": https://countr.page.link/support");
 
     let command = args[0].toLowerCase()
     let commandDesc = strings["COMMAND_" + command.toUpperCase()]
