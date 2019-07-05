@@ -59,7 +59,7 @@
 	"GET_HELP": "Get help on how to make one, type {{HELP}}",
 	"ROLEREWARDS": "Roles for {{SERVER}}",
 	"PINTRIGGERS": "Pin triggers for {{SERVER}}",
-    "LANGUAGES": "List of languages:",
+	"LANGUAGES": "List of languages:",
 	"REGEX": "Current regex:",
 	"EVERY_X_COUNT_GIVES_Y": "Every {{COUNT}} count will give the role {{ROLE}} {{PERMANENT}}",
 	"COUNT_X_GIVES_Y": "Count number {{COUNT}} will give the role {{ROLE}} {{PERMANENT}}",

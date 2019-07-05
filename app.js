@@ -128,9 +128,11 @@ async function processGuild(guild) {
 
     let strings = require("./language/en.json");
     try {
-        let lang = require("./language/" + await db.getLanguage(message.guild.id) + ".json");
+        let lang = require("./language/" + await db.getLanguage(guild.id) + ".json");
         for (var i in lang) strings[i] = lang[i]; // if some strings doesn't exist, we still have the english translation for it
     } catch(e) {}
+  
+    try { require("./premium.js").processGuild(guild, client, db, config, strings) } catch(e) {console.log(e)}
 
     let timeouts = await db.getTimeouts(guild.id);
     let timeout = await db.getTimeoutRole(guild.id);

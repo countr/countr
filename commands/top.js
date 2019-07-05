@@ -1,5 +1,3 @@
-let emojis = ['🌀', '💠', '🔷', ':four:', ':five:', ':six:', ':seven:', ':eight:', ':nine:', '🔟', '💩']
-
 module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
     let users = await db.getUsers(message.guild.id);
     let sorted = Object.keys(users).sort((a, b) => users[b] - users[a]).filter(u => message.guild.members.get(u))
@@ -8,7 +6,7 @@ module.exports.run = async (client, message, args, db, permissionLevel, strings,
     let leaderboard = []
     for (var i in topten) {
         let id = topten[i];
-        leaderboard.push(emojis[i] + " \`" + users[id] + "\` <@" + id + ">")
+        leaderboard.push(config.emojis[i] + " \`" + users[id] + "\` <@" + id + ">")
     }
 
     message.channel.send({ embed: {
@@ -16,7 +14,7 @@ module.exports.run = async (client, message, args, db, permissionLevel, strings,
             name: message.guild.name + " " + strings["LEADERBOARD"],
             icon_url: message.guild.iconURL
         },
-        description: leaderboard.join("\n") + (topten.includes(message.author.id) ? "" : "\n\n" + emojis[10] + " " + (sorted.includes(message.author.id) ? strings["LEADERBOARD_POSITION"].replace("{{POSITION}}", sorted.indexOf(message.author.id) + 1).replace("{{COUNT}}", users[message.author.id]) : strings["USER_NOT_ON_LEADERBOARD"])),
+        description: leaderboard.join("\n") + (topten.includes(message.author.id) ? "" : "\n\n" + config.emojis[10] + " " + (sorted.includes(message.author.id) ? strings["LEADERBOARD_POSITION"].replace("{{POSITION}}", sorted.indexOf(message.author.id) + 1).replace("{{COUNT}}", users[message.author.id]) : strings["USER_NOT_ON_LEADERBOARD"])),
         color: config.color
     }})
 }

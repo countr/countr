@@ -5,5 +5,6 @@
     "prefix": "c!",
     "mainGuild": "main guild id",
     "color": 12404274,
-    "webAPI": false
+    "webAPI": false,
+    "emojis": ["🌀", "💠", "🔷", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:", "🔟", "💩"]
 }
