@@ -1,2 +1,5 @@
 node_modules/
 config.json
+premium.js
+premium.json
+commands/liveboard.js

@@ -86,6 +86,7 @@ client.on("message", async (message) => {
         let command = args.shift().toLowerCase()
 
         try {
+            if (require("./commands/" + command + ".js").premium && require("./premium.js").check(message.guild.ownerID) < require("./commands/" + command + ".js").premium) return message.channel.send("🔰 This is a premium feature! The owner needs to be a " + [0, "$1 Patron", "$3 Patron", "$5 Patron", "Sponsr"][require("./commands/" + command + ".js").premium] + " to do this!")
             if (getPermissionLevel(message.member) < require("./commands/" + command + ".js").permissionRequired) return message.channel.send((require("./commands/" + command + ".js").permissionRequired > 2 ? "📛" : "⛔") + " " + strings["NO_PERMISSION"])
             if (args.length < require("./commands/" + command + ".js").argsRequired) return message.channel.send("❌ " + strings["NOT_ENOUGH_ARGS"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help " + command + "\`"));
             require("./commands/" + command + ".js").run(client, message, args, db, getPermissionLevel(message.member), strings, config);

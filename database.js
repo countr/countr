@@ -16,7 +16,8 @@ const guildObject = {
     timeoutrole: {}, // a role given when the user fails X amount of times within Y seconds (role, time, fails, duration "permanent" or seconds)
     timeouts: {}, // log how long the users will have the role,
     regex: "", // regex filter, for the talking module
-    pins: {} // the guild's pin triggers
+    pins: {}, // the guild's pin triggers,
+    liveboard: {} // the guild's live leaderboard location (premium)
 }
 
 const guildSchema = mongoose.Schema(guildObject, { minimize: false })
@@ -34,7 +35,7 @@ let addCount = 0;
 
 module.exports = function(client, config) {
     mongoose.connect(config.database_uri, { useNewUrlParser: true })
-    return {
+    let functions = {
         getGuild: cacheGuild,
 
         setChannel(guildid, channelid) {
@@ -464,6 +465,11 @@ module.exports = function(client, config) {
             })
         }
     }
+    try {
+        let premiumDB = require("./premium.js").db(client, updateTopic, cacheGuild, getGuild, savedGuilds)
+        for (var i in premiumDB) functions[i] = premiumDB[i];
+    } catch(e) {/* If the premium features don't exist, we want to not send an error */}
+    return functions;
 }
 
 function updateTopic(guildid, client) {

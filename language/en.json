@@ -29,6 +29,8 @@
 	"LEADERBOARD": "Leaderboard",
 	"USER_NOT_ON_LEADERBOARD": "You are not on the leaderboard!",
 	"LEADERBOARD_POSITION": "You are #{{POSITION}} on the leaderboard, with {{COUNT}} count(s) total.",
+	"LIVEBOARD_LOADING": "Loading liveboard",
+	"LIVEBOARD_UPDATE": "Live leaderboard, updates every minute.",
 	
 	"ROLE_NOT_FOUND": "Role not found.",
 	"USER_NOT_FOUND": "User not found.",
@@ -103,6 +105,8 @@
 	"SAVING_LANGUAGE": "Saving language to database...",
 	"SAVING_CHANNEL": "Saving channel to database...",
 	"SAVING_NOTIFICATION": "Saving notification to database...",
+	"REMOVING_LIVEBOARD": "Removing liveboard from database...",
+	"SAVING_LIVEBOARD": "Saving liveboard to database...",
 	
 	"SAVED_ROLEREWARD": "Saved role reward to database. ID `{{ID}}`",
 	"SAVED_ROLEREWARD_EDITS": "Saved role reward edits to database.",
@@ -122,6 +126,9 @@
 	"SAVED_LANGUAGE": "Saved language to database.",
 	"SAVED_CHANNEL": "Saved channel to database.",
 	"SAVED_NOTIFICATION": "Saved notification to database. ID `{{ID}}`",
+	"REMOVED_LIVEBOARD": "Removed liveboard from database.",
+	"SAVED_LIVEBOARD": "Saved liveboard to database.",
+	"SAVED_LIVEBOARD_LOADING": "Saved liveboard to database. This message will be used as the liveboard. Updating in (less than) 60 seconds.",
 	
 	"MODULES": {
 		"allow-spam": "Allow people to talk multiple times in a row, essentially spamming the channel.",
@@ -218,6 +225,16 @@
 		},
 		"examples": {
 			"#counting": "Link the channel called #counting."
+		}
+	},
+	
+	"COMMAND_LIVEBOARD": {
+		"description": "Set up a liveboard message. (Premium)",
+		"usage": {
+			"[channel]": "Specify what channel you want the liveboard message to go in. Leave empty to choose current channel."
+		},
+		"examples": {
+			"#counting_board": "Make a liveboard in the channel #counting_board."
 		}
 	},
 	
