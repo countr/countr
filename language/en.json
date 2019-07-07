@@ -31,6 +31,7 @@
 	"LEADERBOARD_POSITION": "You are #{{POSITION}} on the leaderboard, with {{COUNT}} count(s) total.",
 	"LIVEBOARD_LOADING": "Loading liveboard",
 	"LIVEBOARD_UPDATE": "Live leaderboard, updates every minute.",
+	"LIVEBOARD_MISSING_PERMS": "I don't have permission to send messages in that channel.",
 	
 	"ROLE_NOT_FOUND": "Role not found.",
 	"USER_NOT_FOUND": "User not found.",
