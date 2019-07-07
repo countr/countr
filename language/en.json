@@ -62,7 +62,6 @@
 	"ROLEREWARDS": "Roles for {{SERVER}}",
 	"PINTRIGGERS": "Pin triggers for {{SERVER}}",
 	"LANGUAGES": "List of languages:",
-	"REGEX": "Current regex:",
 	"EVERY_X_COUNT_GIVES_Y": "Every {{COUNT}} count will give the role {{ROLE}} {{PERMANENT}}",
 	"COUNT_X_GIVES_Y": "Count number {{COUNT}} will give the role {{ROLE}} {{PERMANENT}}",
 	"ON_USER_X_GIVES_Y": "Score {{COUNT}} will give the role {{ROLE}} {{PERMANENT}}",
