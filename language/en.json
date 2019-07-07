@@ -43,6 +43,7 @@
 	"INVALID_FAILS": "Invalid amount of fails.",
 	"ROLEREWARD_NOT_FOUND": "A role reward does not exist with that ID.",
 	"PINTRIGGER_NOT_FOUND": "A pin trigger does not exist with that ID.",
+	"REGEX_NOT_FOUND": "Regex not found.",
 	"INVALID_PROPERTY": "Invalid property.",
 	"COMMAND_DOES_NOT_EXIST": "Command does not exist.",
 	"CHANNEL_NOT_FOUND": "Channel not found.",
@@ -56,6 +57,7 @@
 	"NO_ROLEREWARDS": "This server does not have any roles set up.",
 	"NO_PINTRIGGERS": "This server does not have any pin triggers set up.",
 	"NO_REGEX": "This server does not have any regex filter set up.",
+	"REGEX_LIST": "List of regex filters set up:",
 	"GET_HELP": "Get help on how to make one, type {{HELP}}",
 	"ROLEREWARDS": "Roles for {{SERVER}}",
 	"PINTRIGGERS": "Pin triggers for {{SERVER}}",
@@ -102,6 +104,7 @@
 	"SAVING_TIMEOUT_ROLE": "Saving timeout role to database...",
 	"REMOVING_PINTRIGGER": "Removing pin trigger from database...",
 	"SAVING_REGEX": "Saving regex to database...",
+	"REMOVING_REGEX": "Removing regex from database...",
 	"SAVING_LANGUAGE": "Saving language to database...",
 	"SAVING_CHANNEL": "Saving channel to database...",
 	"SAVING_NOTIFICATION": "Saving notification to database...",
@@ -123,6 +126,7 @@
 	"SAVED_TIMEOUT_ROLE": "Saved timeout role to database.",
 	"REMOVED_PINTRIGGER": "Removed pin trigger from database.",
 	"SAVED_REGEX": "Saved regex to database.",
+	"REMOVED_REGEX": "Removed regex from database.",
 	"SAVED_LANGUAGE": "Saved language to database.",
 	"SAVED_CHANNEL": "Saved channel to database.",
 	"SAVED_NOTIFICATION": "Saved notification to database. ID `{{ID}}`",
@@ -148,6 +152,18 @@
 		"examples": {
 			"each 1000 repost": "This will repost each 1000th count and pin it.",
 			"only 420 keep": "This will only pin the 420th count, and the message is still owned by the user."
+		}
+	},
+
+	"COMMAND_ADDREGEX": {
+		"description": "Add a regex filter for the chat of the channel. (With use of the talking module)",
+		"usage": {
+			"<regex...>": "The regex. Get info on how to make a regex filter here: <https://flaviocopes.com/javascript-regular-expressions/#regular-expressions-choices>"
+		},
+		"examples": {
+			"duck|poop|trump": "This regex will delete the message if it contains \"duck\", \"poop\" and/or \"trump\".",
+			"[A-Z]": "This regex will delete the message if it contains any capital letters.",
+			"[A-Ca-cX-Zx-z]": "This regex will delete the message if it contains A, B, C, X, Y and/or Z, regardless if it's a capital letter or not."
 		}
 	},
 	
@@ -227,6 +243,12 @@
 			"#counting": "Link the channel called #counting."
 		}
 	},
+
+	"COMMAND_LISTREGEX": {
+		"description": "Get a list of regex filters set up.",
+		"usage": {},
+		"examples": {}
+	},
 	
 	"COMMAND_LIVEBOARD": {
 		"description": "Set up a liveboard message. (Premium)",
@@ -272,18 +294,6 @@
 			"Hey Countr,{{SPACE}}": "Set the prefix to `Hey Countr, `, the help command would be `Hey Countr, help`"
 		}
 	},
-
-	"COMMAND_REGEX": {
-		"description": "Set a regex filter for the chat of the channel. (With use of the talking module) - <https://flaviocopes.com/javascript-regular-expressions/#regular-expressions-choices>",
-		"usage": {
-			"[regex...]": "The new regex. Leave it empty to get the current regex, use \"disable\" to disable."
-		},
-		"examples": {
-			"duck|poop|trump": "This regex will delete the message if it contains \"duck\", \"poop\" and/or \"trump\".",
-			"[A-Z]": "This regex will delete the message if it contains any capital letters.",
-			"[A-Ca-cX-Zx-z]": "This regex will delete the message if it contains A, B, C, X, Y and/or Z, regardless if it's a capital letter or not."
-		}
-	},
 	
 	"COMMAND_REMOVEPIN": {
 		"description": "Remove a pin trigger.",
@@ -293,6 +303,14 @@
 		"examples": {
 			"bd9kJK": "Remove notification with ID `bd9kJK`."
 		}
+	},
+
+	"COMMAND_REMOVEREGEX": {
+		"description": "Remove a regex filter.",
+		"usage": {
+			"<regex...>": "The regex you want to remove."
+		},
+		"examples": {}
 	},
 	
 	"COMMAND_REMOVENOTIF": {

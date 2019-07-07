@@ -15,7 +15,7 @@ const guildObject = {
     users: {}, // the users' amount of counts
     timeoutrole: {}, // a role given when the user fails X amount of times within Y seconds (role, time, fails, duration "permanent" or seconds)
     timeouts: {}, // log how long the users will have the role,
-    regex: "", // regex filter, for the talking module
+    regex: [], // regex filters, for the talking module
     pins: {}, // the guild's pin triggers,
     liveboard: {} // the guild's live leaderboard location (premium)
 }
@@ -131,21 +131,39 @@ module.exports = function(client, config) {
             })
         },
 
-        getRegex(guildid) {
+        listRegex(guildid) {
             return new Promise(async function(resolve, reject) {
                 let guild = await cacheGuild(guildid);
                 resolve(guild.regex)
             })
         },
 
-        setRegex(guildid, regex) {
+        addRegex(guildid, regex) {
             return new Promise(async function(resolve, reject) {
                 await cacheGuild(guildid);
-                savedGuilds[guildid].regex = regex;
+                savedGuilds[guildid].regex.push(regex);
               
                 let guild = await getGuild(guildid);
                 guild.regex = savedGuilds[guildid].regex;
                 await guild.save().then(resolve).catch(reject);
+            })
+        },
+
+        removeRegex(guildid, regex) {
+            return new Promise(async function(resolve, reject) {
+                await cacheGuild(guildid);
+                savedGuilds[guildid].regex.filter(r => r !== regex);
+              
+                let guild = await getGuild(guildid);
+                guild.regex = savedGuilds[guildid].regex;
+                await guild.save().then(resolve).catch(reject);
+            })
+        },
+
+        regexExists(guildid, regex) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                resolve(guild.regex.includes(regex))
             })
         },
 

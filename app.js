@@ -49,7 +49,7 @@ client.on("message", async (message) => {
         if (!modules.includes("talking") && message.content != (count + 1).toString()) return message.delete()
 
         let regex = await db.getRegex(message.guild.id);
-        if (regex && getPermissionLevel(message.member) == 0 && (new RegExp(regex, 'g')).test(message.content)) return message.delete();
+        if (regex.length && getPermissionLevel(message.member) == 0) for (var i in regex) if ((new RegExp(regex, 'g')).test(message.content)) return message.delete();
 
         count += 1; db.addToCount(message.guild.id, message.author.id).then(db.checkRole.bind(message.guild.id, count, message.author.id));
 
