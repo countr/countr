@@ -1,4 +1,4 @@
-module.exports.run = async (client, message, args, db, permissionLevel, config) => {
+module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
     let code = args.join(" ");
     try {
         let evaled = eval(code);

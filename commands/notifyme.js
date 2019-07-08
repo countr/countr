@@ -1,35 +1,28 @@
 const b64 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_"; // base64
 
-module.exports.run = async (client, message, args, db, permissionLevel, config) => {
+module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
     let count = parseInt(args[0]);
-    if (!count) count = parseInt(args[1]);
-    if (!count) return message.channel.send("❌ Invalid count. For help, try \`" + config.prefix + "help notifyme\`");
+    let mode = "only";
+    if (args[1]) {
+        count = parseInt(args[1]);
+        mode = args[0].toLowerCase()
+        if (!["each", "only"].includes(mode)) return message.channel.send(strings["INVALID_MODE"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help notifyme\`"));
+    }
+    if (!count) return message.channel.send("❌ " + strings["INVALID_COUNT"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help notifyme\`"));
 
     let ID = randomizeID();
     while (await db.notificationExists(message.guild.id, ID)) ID = randomizeID();
     
-    let botMsg = await message.channel.send("♨ Saving notification to database. Please wait.");
+    let botMsg = await message.channel.send("♨ " + strings["SAVING_NOTIFICATION"]);
 
-    db.setNotification(message.guild.id, ID, message.author.id, (args[0].toLowerCase() == "each" ? "each" : "only"), count)
-        .then(() => { botMsg.edit("✅ Saved notification to database. ID \`" + ID + "\`") })
-        .catch(err => { console.log(err); botMsg.edit("❌ An unknown error occoured. Please contact support.") });
+    db.setNotification(message.guild.id, ID, message.author.id, mode, count)
+        .then(() => { botMsg.edit("✅" + strings["SAVED_NOTIFICATION"].replace("{{ID}}", ID)) })
+        .catch(err => { console.log(err); botMsg.edit("❌ " + strings["UNKNOWN_ERROR"]) });
 }
 
 // 0 All, 1 Mods, 2 Admins, 3 Global Admins, 4 First Global Admin
 module.exports.permissionRequired = 0
 module.exports.argsRequired = 1
-
-module.exports.description = {
-    "description": "Get a notification whenever the server reach whatever count you want.",
-    "usage": {
-        "[each]": "If you use \"each\" here, it will be each count in the multiplication table, example; 9 = 9, 18, 27, 36, 45 etc.",
-        "<count>": "This is the count you want to get notified of."
-    },
-    "examples": {
-        "each 1000": "Whenever the server reach 1000, 2000, 3000 etc. you will be notified in DMs.",
-        "420": "Whenever the server reach the count 420, you will be notified in DMs."
-    }
-}
 
 function randomizeID() {
     let id = "";

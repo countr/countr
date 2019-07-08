@@ -9,6 +9,8 @@
 
 # Countr
 
-Countr is a counting bot that has easy setup, even if you are self-hosting. This is currently still BETA, Countr has been fully recoded from the last version. Please join the [support server](https://gleeny.page.link/discord) if you want to comment on something or just be as hyped as everyone else. Thanks.
+Countr is a counting bot that has easy setup, even if you are self-hosting. For more info, visit [the documentation](https://countr.js.org).
 
-More info soon.
+## Self-hosting
+
+Information can be found in [the documentation](https://countr.js.org/quickguide.html).

@@ -1,16 +1,26 @@
 const mongoose = require("mongoose");
 
-const guildSchema = mongoose.Schema({
-  guildid: String,
-  channel: String,
-  count: Number,
-  user: String,
-  modules: [],
-  notifications: {},
-  roles: {},
-  topic: String,
-  message: String
-}, { minimize: false })
+const guildObject = {
+    guildid: "", // the guild ID
+    channel: "", // the counting channel ID
+    count: 0, // the current count
+    user: "", // the current count's user
+    modules: [], // the guild's modules
+    notifications: {}, // the guild's users' notifications
+    roles: {}, // the guild's roles
+    topic: "", // the topic
+    message: "", // the current count's ID
+    language: "", // the language
+    prefix: "", // the prefix
+    users: {}, // the users' amount of counts
+    timeoutrole: {}, // a role given when the user fails X amount of times within Y seconds (role, time, fails, duration "permanent" or seconds)
+    timeouts: {}, // log how long the users will have the role,
+    regex: [], // regex filters, for the talking module
+    pins: {}, // the guild's pin triggers,
+    liveboard: {} // the guild's live leaderboard location (premium)
+}
+
+const guildSchema = mongoose.Schema(guildObject, { minimize: false })
 
 const globalSchema = mongoose.Schema({
     counts: Number,
@@ -25,7 +35,7 @@ let addCount = 0;
 
 module.exports = function(client, config) {
     mongoose.connect(config.database_uri, { useNewUrlParser: true })
-    return {
+    let functions = {
         getGuild: cacheGuild,
 
         setChannel(guildid, channelid) {
@@ -36,6 +46,7 @@ module.exports = function(client, config) {
                 let guild = await getGuild(guildid);
                 guild.channel = savedGuilds[guildid].channel;
                 guild.save().then(resolve).catch(reject);
+                updateTopic(guildid, client)
             });
         },
 
@@ -46,15 +57,37 @@ module.exports = function(client, config) {
             })
         },
 
+        getUsers(guildid) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                resolve(guild.users)
+            })
+        },
+
+        setScore(guildid, userid, score) {
+            return new Promise(async function(resolve, reject) {
+                await cacheGuild(guildid);
+                savedGuilds[guildid].users[userid] = score;
+              
+                let guild = await getGuild(guildid);
+                guild.users = savedGuilds[guildid].users;
+                guild.save().then(resolve).catch(reject);
+            })
+        },
+
         addToCount(guildid, userid) {
             return new Promise(async function(resolve, reject) {
                 await cacheGuild(guildid);
                 savedGuilds[guildid].count += 1;
                 savedGuilds[guildid].user = userid;
+                
+                if (!savedGuilds[guildid].users[userid]) savedGuilds[guildid].users[userid] = 0;
+                savedGuilds[guildid].users[userid] += 1;
               
                 let guild = await getGuild(guildid);
                 guild.count = savedGuilds[guildid].count;
                 guild.user = savedGuilds[guildid].user;
+                guild.users = savedGuilds[guildid].users;
                 await guild.save().then(resolve).catch(reject);
                 updateTopic(guildid, client)
 
@@ -75,8 +108,15 @@ module.exports = function(client, config) {
                         global.week = getWeek(new Date())
                     }
         
-                    global.save().then(resolve).catch(reject);
+                    global.save()
                 })
+            })
+        },
+
+        getLastMessage(guildid) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                resolve(guild.message)
             })
         },
 
@@ -87,6 +127,79 @@ module.exports = function(client, config) {
               
                 let guild = await getGuild(guildid);
                 guild.message = savedGuilds[guildid].message;
+                await guild.save().then(resolve).catch(reject);
+            })
+        },
+
+        listRegex(guildid) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                resolve(guild.regex)
+            })
+        },
+
+        addRegex(guildid, regex) {
+            return new Promise(async function(resolve, reject) {
+                await cacheGuild(guildid);
+                savedGuilds[guildid].regex.push(regex);
+              
+                let guild = await getGuild(guildid);
+                guild.regex = savedGuilds[guildid].regex;
+                await guild.save().then(resolve).catch(reject);
+            })
+        },
+
+        removeRegex(guildid, regex) {
+            return new Promise(async function(resolve, reject) {
+                await cacheGuild(guildid);
+                savedGuilds[guildid].regex.filter(r => r !== regex);
+              
+                let guild = await getGuild(guildid);
+                guild.regex = savedGuilds[guildid].regex;
+                await guild.save().then(resolve).catch(reject);
+            })
+        },
+
+        regexExists(guildid, regex) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                resolve(guild.regex.includes(regex))
+            })
+        },
+
+        getTimeoutRole(guildid) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                resolve(guild.timeoutrole)
+            })
+        },
+
+        getTimeouts(guildid) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                resolve(guild.timeouts)
+            })
+        },
+
+        setTimeoutRole(guildid, role, time, fails, duration) {
+            return new Promise(async function(resolve, reject) {
+                await cacheGuild(guildid);
+                if (role) savedGuilds[guildid].timeoutrole = { role, time, fails, duration };
+                else savedGuilds[guildid].timeoutrole = {};
+              
+                let guild = await getGuild(guildid);
+                guild.timeoutrole = savedGuilds[guildid].timeoutrole;
+                await guild.save().then(resolve).catch(reject);
+            })
+        },
+
+        addTimeout(guildid, userid, duration) {
+            return new Promise(async function(resolve, reject) {
+                await cacheGuild(guildid);
+                savedGuilds[guildid].timeouts[userid] = Date.now() + duration * 1000;
+              
+                let guild = await getGuild(guildid);
+                guild.timeouts = savedGuilds[guildid].timeouts;
                 await guild.save().then(resolve).catch(reject);
             })
         },
@@ -159,24 +272,24 @@ module.exports = function(client, config) {
             })
         },
 
-        checkNotifications(guildid, count, countUser, messageID) {
+        checkNotifications(guildid, count, countUser, messageID, strings) {
             return new Promise(async function(resolve, reject) {
                 let guild = await cacheGuild(guildid);
-                
+
                 let needSave = false;
                 for (var ID in guild.notifications) {
                     if (guild.notifications[ID]) if ((guild.notifications[ID].mode == "only" && guild.notifications[ID].count == count) || (guild.notifications[ID].mode == "each" && Number.isInteger(count / guild.notifications[ID].count))) {
                         try {
                             client.guilds.get(guildid).members.get(guild.notifications[ID].user).send({
-                                "embed": {
-                                  "description": ":tada: " + client.guilds.get(guildid).name + " reached " + count + " total counts!\nThe user who sent it was <@!" + countUser + ">.\n\n[**Click here to jump to the message!**](https://discordapp.com/channels/" + guildid + "/" + guild.channel + "/" + messageID + ")",
-                                  "color": 12404274,
-                                  "thumbnail": {
-                                    "url": client.users.get(countUser).displayAvatarURL
-                                  },
-                                  "footer": {
-                                      "text": "Notification ID " + ID + (guild.notifications[ID].mode == "each" ? " - Every " + guild.notifications[ID].count : "")
-                                  }
+                                embed: {
+                                    description: "🎉 " + strings["NOTIFICATION"].replace("{{GUILD}}", client.guilds.get(guildid).name).replace("{{COUNT}}", count).replace("{{MENTION}}", "<@!" + countUser + ">") + "\n\n[**→ " + strings["NOTIFICATION_LINK"] + "**](https://discordapp.com/channels/" + guildid + "/" + guild.channel + "/" + messageID + ")",
+                                    color: config.color,
+                                    thumbnail: {
+                                        url: client.users.get(countUser).displayAvatarURL
+                                    },
+                                    footer: {
+                                        text: strings["NOTIFICATION_ID"] + " " + ID + (guild.notifications[ID].mode == "each" ? " - " + strings["NOTIFICATION_EVERY"].replace("{{COUNT}}", guild.notifications[ID].count) : "")
+                                    }
                                 }
                               })
                         } catch (e) {/* If it didn't work, the user us either not in the guild anymore or has DMs disabled. */}
@@ -215,6 +328,24 @@ module.exports = function(client, config) {
             })
         },
 
+        setPrefix(guildid, prefix) {
+            return new Promise(async function(resolve, reject) {
+                await cacheGuild(guildid);
+                savedGuilds[guildid].prefix = prefix;
+              
+                let guild = await getGuild(guildid);
+                guild.prefix = savedGuilds[guildid].prefix;
+                guild.save().then(resolve).catch(reject);
+            })
+        },
+
+        getPrefix(guildid) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                resolve(guild.prefix || config.prefix)
+            })
+        },
+
         setRole(guildid, ID, role, mode, count, duration) {
             return new Promise(async function(resolve, reject) {
                 await cacheGuild(guildid);
@@ -242,7 +373,7 @@ module.exports = function(client, config) {
             return new Promise(async function(resolve, reject) {
                 let guild = await cacheGuild(guildid);
                 let IDs = {}
-                for (var i in guild.roles) if (guild.roles[i]) IDs[i] = guild.roles[i];
+                for (var ID in guild.roles) if (guild.roles[ID]) IDs[ID] = guild.roles[ID];
                 resolve(IDs);
             })
         },
@@ -257,27 +388,106 @@ module.exports = function(client, config) {
         checkRole(guildid, count, userid) {
             return new Promise(async function(resolve, reject) {
                 let guild = await cacheGuild(guildid);
-                for (var i in guild.roles) if (guild.roles[i]) if ((guild.roles[i].mode == "only" && guild.roles[i].count == count) || (guild.roles[i].mode == "each" && Number.isInteger(count / guild.roles[i].count))) try {
-                    if (guild.roles[i].duration == "temporary") client.guilds.get(guildid).roles.find(r => r.id == guild.roles[i].role).members.filter(m => m.id != userid).forEach(member => { member.removeRole(client.guilds.get(guildid).roles.find(r => r.id == guild.roles[i].role), "Role Reward " + i) })
-                    client.guilds.get(guildid).members.get(userid).addRole(client.guilds.get(guildid).roles.find(r => r.id == guild.roles[i].role), "Role Reward " + i);
+                for (var ID in guild.roles) if (guild.roles[ID] && (guild.roles[ID].mode == "only" && guild.roles[ID].count == count) || (guild.roles[ID].mode == "each" && count%guild.roles[ID].count == 0) || (guild.roles[ID].mode == "score" && guild.users[userid] == guild.roles[ID].count)) try {
+                    if (guild.roles[ID].duration == "temporary") client.guilds.get(guildid).roles.find(r => r.id == guild.roles[ID].role).members.filter(m => m.id != userid).forEach(member => { member.removeRole(client.guilds.get(guildid).roles.find(r => r.id == guild.roles[ID].role), "Role Reward " + ID) })
+                    client.guilds.get(guildid).members.get(userid).addRole(client.guilds.get(guildid).roles.find(r => r.id == guild.roles[ID].role), "Role Reward " + ID);
                 } catch(e) {}
+                resolve();
+            })
+        },
+
+        setPin(guildid, ID, mode, count, action) {
+            return new Promise(async function(resolve, reject) {
+                await cacheGuild(guildid);
+                if (!mode) delete savedGuilds[guildid].pins[ID];
+                else savedGuilds[guildid].pins[ID] = { mode, count, action };
+
+                let guild = await getGuild(guildid);
+                guild.pins = savedGuilds[guildid].pins
+                guild.save().then(resolve).catch(reject);
+            })
+        },
+
+        editPin(guildid, ID, property, value) {
+            return new Promise(async function(resolve, reject) {
+                await cacheGuild(guildid);
+                savedGuilds[guildid].pins[ID][property] = value;
+
+                let guild = await getGuild(guildid);
+                guild.pins[ID][property] = savedGuilds[guildid].pins[ID][property]
+                guild.save().then(resolve).catch(reject);
+            })
+        },
+
+        getPins(guildid) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                let IDs = {}
+                for (var ID in guild.pins) if (guild.pins[ID]) IDs[ID] = guild.pins[ID];
+                resolve(IDs);
+            })
+        },
+
+        pinExists(guildid, ID) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                resolve(!!guild.pins[ID]);
+            })
+        },
+        
+        checkPin(guildid, count, message) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid), done = false;
+                let pin = Object.keys(guild.pins).find(p => (guild.pins[p].mode == "only" && guild.pins[p].count == count) || (guild.pins[p].mode == "each" && count%guild.pins[p].count == 0));
+
+                if (pin) try {
+                    if (message.author.bot) return message.pin(); // already reposted
+                    else if (guild.pins[pin].action == "repost") {
+                        message.delete();
+                        message.channel.awaitMessages(m => m.author.id == client.user.id && m.content.startsWith(message.content), { max: 1, time: 60000 }).then(ms => { ms.first().pin(); }) // it was the last count, so the bot will try to resend the count
+                    }
+                    else message.pin();
+                } catch(e) {console.log(e)}
             })
         },
 
         getCounts() {
             return new Promise(async function(resolve, reject) {
                 Global.findOne({}, (err, global) => {
-                if (err) return reject(err)
-                if (!global) global = new Global({
-                    counts: 0,
-                    week: getWeek(new Date())
-                })
+                    if (err) return reject(err)
+                    if (!global) global = new Global({
+                        counts: 0,
+                        week: getWeek(new Date())
+                    })
 
-                resolve(global.counts)
+                    resolve(global.counts)
                 })
+            })
+        },
+
+        getLanguage(guildid) {
+            return new Promise(async function(resolve, reject) {
+                let guild = await cacheGuild(guildid);
+                resolve(guild.language || "en");
+            })
+        },
+
+        setLanguage(guildid, lang) {
+            return new Promise(async function(resolve, reject) {
+                await cacheGuild();
+                savedGuilds[guildid].language = lang;
+
+                let guild = await getGuild(guildid);
+                guild.language = savedGuilds[guildid].language;
+                guild.save().then(resolve).catch(reject);
             })
         }
     }
+    try {
+        let premiumDB = require("./premium.js").db(client, updateTopic, cacheGuild, getGuild, savedGuilds)
+        for (var i in premiumDB) functions[i] = premiumDB[i];
+    } catch(e) {/* If the premium features don't exist, we want to not send an error */}
+    return functions;
 }
 
 function updateTopic(guildid, client) {
@@ -303,14 +513,7 @@ async function cacheGuild(guildid) {
     if (!savedGuilds[guildid]) {
         let guild = await getGuild(guildid);
         savedGuilds[guildid] = {};
-        savedGuilds[guildid].channel = guild.channel;
-        savedGuilds[guildid].count = guild.count;
-        savedGuilds[guildid].user = guild.user;
-        savedGuilds[guildid].modules = guild.modules;
-        savedGuilds[guildid].notifications = guild.notifications;
-        savedGuilds[guildid].roles = guild.roles;
-        savedGuilds[guildid].topic = guild.topic;
-        savedGuilds[guildid].message = guild.message;
+        for (var property in guildObject) savedGuilds[guildid][property] = guild[property] ? guild[property] : guildObject[property]; // if the guild doesn't have the property yet, we try to add it
     }
     return savedGuilds[guildid];
 }
@@ -320,17 +523,8 @@ function getGuild(guildid) {
         Guild.findOne({ guildid }, (err, guild) => {
             if (err) return reject(err);
             if (!guild) {
-                let newGuild = new Guild({
-                    guildid,
-                    channel: "",
-                    count: 0,
-                    user: "",
-                    modules: [],
-                    notifications: {},
-                    roles: {},
-                    topic: "",
-                    message: ""
-                })
+                let newGuild = new Guild(guildObject);
+                newGuild.guildid = guildid;
 
                 return resolve(newGuild);
             } else return resolve(guild);

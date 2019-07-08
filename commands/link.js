@@ -1,30 +1,20 @@
-module.exports.run = async (client, message, args, db, permissionLevel, config) => {
+module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
     let channel = message.channel;
 
     if (args[0]) {
         channel = message.guild.channels.find(c => c.name == args[0]);
         if (!channel) channel = message.guild.channels.get(args[0]);
         if (!channel) channel = message.guild.channels.get(args[0].replace("<#", "").replace(">", ""));
-        if (!channel) return message.channel.send("❌ Channel not found. For help, try \`" + config.prefix + "help link\`");
+        if (!channel) return  message.channel.send("❌ " + strings["CHANNEL_NOT_FOUND"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help link\`"));
     }
     
-    let botMsg = await message.channel.send("♨ Saving channel to database.");
+    let botMsg = await message.channel.send("♨ " + strings["SAVING_CHANNEL"]);
 
     db.setChannel(message.guild.id, channel.id)
-        .then(() => { botMsg.edit("✅ Saved channel <#" + channel.id + "> to database.") })
-        .catch(err => { console.log(err); botMsg.edit("❌ An unknown error occoured. Please contact support.") });
+        .then(() => { botMsg.edit("✅ " + strings["SAVED_CHANNEL"]) })
+        .catch(err => { console.log(err); botMsg.edit("❌ " + strings["UNKNOWN_ERROR"]) });
 }
 
 // 0 All, 1 Mods, 2 Admins, 3 Global Admins, 4 First Global Admin
 module.exports.permissionRequired = 2
 module.exports.argsRequired = 0
-
-module.exports.description = {
-    "description": "Link a counting channel.",
-    "usage": {
-        "[channel]": "Specify what channel you want to become the counting channel. This can either be the name, mention or ID of the channel. If it's empty, it will be the channel the command was sent in."
-    },
-    "examples": {
-        "#counting": "Link the channel called #counting."
-    }
-}
