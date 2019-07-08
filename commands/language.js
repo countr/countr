@@ -7,7 +7,7 @@ module.exports.run = async (client, message, args, db, permissionLevel, strings,
     if (args.length == 0) {
         let all = fs.readdirSync("./language"), list = [];
         for (var i in all) {
-            let file = all[i], json = JSON.parse(fs.readFileSync("./language/" + file)), authors = await getAuthors(file.split(".")[0], client);
+            let file = all[i], json = JSON.parse(fs.readFileSync("./language/" + file, "utf8")), authors = await getAuthors(file.split(".")[0], client);
             list.push("\`" + file.split(".")[0] + "\` " + json["LANGUAGE"] + (authors.length ? "; " + authors.join(", ") : ""));
         }
         return message.channel.send("📋 " + strings["LANGUAGES"] + list.map(l => "\n" + l).join(""));

@@ -1,5 +1,5 @@
 module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
-    if (!args[0]) return message.channel.send("📋 " + strings["LIST_MODULES"] + ":\n" + formatModules(strings.modules))
+    if (!args[0]) return message.channel.send("📋 " + strings["LIST_MODULES"] + ":\n" + formatModules(strings["MODULES"]))
 
     let argModule = args[0].toLowerCase();
     if (!Object.keys(strings["MODULES"]).includes(argModule)) return message.channel.send("❌ " + strings["MODULE_DOESNT_EXIST"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help toggle\`"));

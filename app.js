@@ -48,7 +48,7 @@ client.on("message", async (message) => {
         }
         if (!modules.includes("talking") && message.content != (count + 1).toString()) return message.delete()
 
-        let regex = await db.getRegex(message.guild.id);
+        let regex = await db.listRegex(message.guild.id);
         if (regex.length && getPermissionLevel(message.member) == 0) for (var i in regex) if ((new RegExp(regex, 'g')).test(message.content)) return message.delete();
 
         count += 1; db.addToCount(message.guild.id, message.author.id).then(db.checkRole.bind(message.guild.id, count, message.author.id));
@@ -123,56 +123,57 @@ async function updatePresence(guild) {
 async function processGuild(guild) {
     disabledGuilds.push(guild.id);
 
-    let strings = require("./language/en.json");
     try {
-        let lang = require("./language/" + await db.getLanguage(guild.id) + ".json");
-        for (var i in lang) strings[i] = lang[i]; // if some strings doesn't exist, we still have the english translation for it
-    } catch(e) {}
-  
-    try { require("./premium.js").processGuild(guild, client, db, config, strings) } catch(e) {console.log(e)}
-
-    let timeouts = await db.getTimeouts(guild.id);
-    let timeout = await db.getTimeoutRole(guild.id);
-    for (var userid in timeouts) {
-        if (Date.now() > timeouts[userid]) try { guild.members.get(userid).removeRole(timeout.role) } catch(e) {}
-        else setTimeout(guild.members.get(userid).removeRole.bind(timeout.role), timeouts[userid] - Date.now())
-    }
-
-    let modules = await db.getModules(guild.id);
+        let strings = require("./language/en.json");
+        try {
+            let lang = require("./language/" + await db.getLanguage(guild.id) + ".json");
+            for (var i in lang) strings[i] = lang[i]; // if some strings doesn't exist, we still have the english translation for it
+        } catch(e) {}
     
-    if (modules.includes("recover")) {
-        let countingChannel = await db.getChannel(guild.id);
-        let channel = guild.channels.get(countingChannel)
+        try { require("./premium.js").processGuild(guild, client, db, config, strings) } catch(e) {console.log(e)}
 
-        if (channel) {
-            let c = await db.getCount(guild.id);
-            let messages = await channel.fetchMessages({ limit: 100, after: c.message })
-            if (messages.array().length > 0) {
-                let botMsg = await channel.send("💢 " + strings["MAKING_READY"] + " \`" + strings["LOCKING"] + "\`")
-                await channel.overwritePermissions(guild.defaultRole, { SEND_MESSAGES: false })
-                    .then(botMsg.edit.bind("💢 " + strings["MAKING_READY"] + " \`" + strings["S_DELETING"] + "\`"))
-                    .catch(botMsg.edit.bind("💢 " + strings["MAKING_READY"] + " \`" + strings["F_DELETING"] + "\`"))
-                
-                let processing = true;
-                let fail = false;
-                while (processing) {
-                    let messages = await channel.fetchMessages({ limit: 100, after: c.message });
-                    messages = messages.filter(m => m.id != botMsg.id);
-                    if (messages.array().length == 0) processing = false;
-                    else await channel.bulkDelete(messages)
-                        .catch(() => { fail = true; });
+        let timeouts = await db.getTimeouts(guild.id);
+        let timeout = await db.getTimeoutRole(guild.id);
+        for (var userid in timeouts) {
+            if (Date.now() > timeouts[userid]) try { guild.members.get(userid).removeRole(timeout.role) } catch(e) {}
+            else setTimeout(guild.members.get(userid).removeRole.bind(timeout.role), timeouts[userid] - Date.now())
+        }
+
+        let modules = await db.getModules(guild.id);
+        
+        if (modules.includes("recover")) {
+            let countingChannel = await db.getChannel(guild.id);
+            let channel = guild.channels.get(countingChannel)
+
+            if (channel) {
+                let c = await db.getCount(guild.id);
+                let messages = await channel.fetchMessages({ limit: 100, after: c.message })
+                if (messages.array().length > 0) {
+                    let botMsg = await channel.send("💢 " + strings["MAKING_READY"] + " \`" + strings["LOCKING"] + "\`")
+                    await channel.overwritePermissions(guild.defaultRole, { SEND_MESSAGES: false })
+                        .then(botMsg.edit.bind("💢 " + strings["MAKING_READY"] + " \`" + strings["S_DELETING"] + "\`"))
+                        .catch(botMsg.edit.bind("💢 " + strings["MAKING_READY"] + " \`" + strings["F_DELETING"] + "\`"))
+                    
+                    let processing = true;
+                    let fail = false;
+                    while (processing) {
+                        let messages = await channel.fetchMessages({ limit: 100, after: c.message });
+                        messages = messages.filter(m => m.id != botMsg.id);
+                        if (messages.array().length == 0) processing = false;
+                        else await channel.bulkDelete(messages)
+                            .catch(() => { fail = true; });
+                    }
+
+                    await botMsg.edit("💢 " + strings["MAKING_READY"] + " \`" + (fail ? strings["F_RESTORING"] : strings["S_RESTORING"]) + "\`");
+                    await channel.overwritePermissions(guild.defaultRole, { SEND_MESSAGES: true })
+                        .then(botMsg.edit.bind("💢 " + strings["MAKING_READY"] + " \`" + strings["S_UNLOCKED"] + "\`"))
+                        .catch(botMsg.edit.bind("💢 " + strings["MAKING_READY"] + " \`" + strings["F_UNLOCKED"] + "\`"))
+                    
+                    botMsg.delete(15000);
                 }
-
-                await botMsg.edit("💢 " + strings["MAKING_READY"] + " \`" + (fail ? strings["F_RESTORING"] : strings["S_RESTORING"]) + "\`");
-                await channel.overwritePermissions(guild.defaultRole, { SEND_MESSAGES: true })
-                    .then(botMsg.edit.bind("💢 " + strings["MAKING_READY"] + " \`" + strings["S_UNLOCKED"] + "\`"))
-                    .catch(botMsg.edit.bind("💢 " + strings["MAKING_READY"] + " \`" + strings["F_UNLOCKED"] + "\`"))
-                
-                botMsg.delete(15000);
             }
         }
-    }
-
+    } catch(e) {}
     return disabledGuilds = disabledGuilds.filter(g => g != guild.id)
 }
 
