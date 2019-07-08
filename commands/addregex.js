@@ -1,6 +1,6 @@
 module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
     let regex = args.join(" "), isValid = true;
-    try { new RegExp(regex, 'g') } catch(e) { isValid = false; }
+    try { new RegExp(regex, "g") } catch(e) { isValid = false; }
     if (!isValid) return message.channel.send("❌ " + strings["INVALID_REGEX"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help addregex\`"))
 
     let botMsg = await message.channel.send("♨ " + strings["SAVING_REGEX"]);

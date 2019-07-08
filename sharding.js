@@ -24,15 +24,15 @@ if (config.webAPI) {
         for (var i in rawShards) shards["SHARD_" + rawShards[i].id] = rawShards[i];
         
         let newInfo = {
-            guilds: await manager.fetchClientValues('guilds.size').then(r => r.reduce((prev, val) => prev + val, 0)),
-            users: await manager.fetchClientValues('users.size').then(r => r.reduce((prev, val) => prev + val, 0)),
+            guilds: await manager.fetchClientValues("guilds.size").then(r => r.reduce((prev, val) => prev + val, 0)),
+            users: await manager.fetchClientValues("users.size").then(r => r.reduce((prev, val) => prev + val, 0)),
             shards: {}
         };
 
         for (var s in shards) newInfo.shards[s] = {
             ready: shards[s].ready,
-            guilds: await shards[s].fetchClientValue('guilds.size').catch(() => null),
-            users: await shards[s].fetchClientValue('users.size').catch(() => null)
+            guilds: await shards[s].fetchClientValue("guilds.size").catch(() => null),
+            users: await shards[s].fetchClientValue("users.size").catch(() => null)
         }
 
         apiInfo = newInfo;
