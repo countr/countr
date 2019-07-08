@@ -40,7 +40,7 @@ client.on("message", async (message) => {
                     db.addTimeout(message.guild.id, message.author.id, timeout.duration)
                     try {
                         message.member.addRole(message.guild.roles.get(timeout.role), "User failed too many times within a time period")
-                        if (timeout.duration) setTimeout(message.member.removeRole.bind(message.guild.roles.get(timeout.role)), timeout.duration * 1000)
+                        if (timeout.duration) setTimeout(() => { message.member.removeRole(message.guild.roles.get(timeout.role)) }, timeout.duration * 1000)
                     } catch(e) {}
                 }
             }
@@ -51,7 +51,7 @@ client.on("message", async (message) => {
         let regex = await db.listRegex(message.guild.id);
         if (regex.length && getPermissionLevel(message.member) == 0) for (var i in regex) if ((new RegExp(regex, 'g')).test(message.content)) return message.delete();
 
-        count += 1; db.addToCount(message.guild.id, message.author.id).then(db.checkRole.bind(message.guild.id, count, message.author.id));
+        count += 1; db.addToCount(message.guild.id, message.author.id).then(() => { db.checkRole(message.guild.id, count, message.author.id) });
 
         let countMsg = message;
         if (modules.includes("webhook")) await message.channel.fetchWebhooks().then(async webhooks => {
@@ -98,7 +98,7 @@ client.on("ready", async () => {
     let guild = config.mainGuild ? client.guilds.get(config.mainGuild) : null;
 
     updatePresence(guild)
-    setInterval(updatePresence.bind(guild), 60000)
+    setInterval(() => { updatePresence(guild) }, 60000)
 
     // Below is custom code. This tells bot sites what the server count currently is for Countr. Usually, this is disabled unless you are a really smart developer and actually figure out how to properly activate it without breaking it. This is not recommended, as most bot sites require original code -- but if you still want a couple of bans, go ahead.
     if (config.listKeys) {
@@ -136,7 +136,7 @@ async function processGuild(guild) {
         let timeout = await db.getTimeoutRole(guild.id);
         for (var userid in timeouts) {
             if (Date.now() > timeouts[userid]) try { guild.members.get(userid).removeRole(timeout.role) } catch(e) {}
-            else setTimeout(guild.members.get(userid).removeRole.bind(timeout.role), timeouts[userid] - Date.now())
+            else setTimeout(() => { guild.members.get(userid).removeRole(timeout.role) }, timeouts[userid] - Date.now())
         }
 
         let modules = await db.getModules(guild.id);
@@ -151,8 +151,8 @@ async function processGuild(guild) {
                 if (messages.array().length > 0) {
                     let botMsg = await channel.send("💢 " + strings["MAKING_READY"] + " \`" + strings["LOCKING"] + "\`")
                     await channel.overwritePermissions(guild.defaultRole, { SEND_MESSAGES: false })
-                        .then(botMsg.edit.bind("💢 " + strings["MAKING_READY"] + " \`" + strings["S_DELETING"] + "\`"))
-                        .catch(botMsg.edit.bind("💢 " + strings["MAKING_READY"] + " \`" + strings["F_DELETING"] + "\`"))
+                        .then(() => { botMsg.edit("💢 " + strings["MAKING_READY"] + " \`" + strings["S_DELETING"] + "\`") })
+                        .catch(() => { botMsg.edit("💢 " + strings["MAKING_READY"] + " \`" + strings["F_DELETING"] + "\`") })
                     
                     let processing = true;
                     let fail = false;
@@ -166,8 +166,8 @@ async function processGuild(guild) {
 
                     await botMsg.edit("💢 " + strings["MAKING_READY"] + " \`" + (fail ? strings["F_RESTORING"] : strings["S_RESTORING"]) + "\`");
                     await channel.overwritePermissions(guild.defaultRole, { SEND_MESSAGES: true })
-                        .then(botMsg.edit.bind("💢 " + strings["MAKING_READY"] + " \`" + strings["S_UNLOCKED"] + "\`"))
-                        .catch(botMsg.edit.bind("💢 " + strings["MAKING_READY"] + " \`" + strings["F_UNLOCKED"] + "\`"))
+                        .then(() => { botMsg.edit("💢 " + strings["MAKING_READY"] + " \`" + strings["S_UNLOCKED"] + "\`") })
+                        .catch(() => { botMsg.edit("💢 " + strings["MAKING_READY"] + " \`" + strings["F_UNLOCKED"] + "\`") })
                     
                     botMsg.delete(15000);
                 }

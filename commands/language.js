@@ -46,4 +46,4 @@ async function updateAuthors(client) {
     return;
 }
 
-setInterval(updateAuthors.bind(botClient), 1800000)
+setInterval(() => { updateAuthors(botClient) }, 1800000)
