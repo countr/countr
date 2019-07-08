@@ -4,10 +4,7 @@ module.exports.run = async (client, message, args, db, permissionLevel, strings,
     let topten = sorted.slice(0, 10);
 
     let leaderboard = []
-    for (var i in topten) {
-        let id = topten[i];
-        leaderboard.push(config.emojis[i] + " \`" + users[id] + "\` <@" + id + ">")
-    }
+    for (var id of topten) leaderboard.push(config.emojis[topten.indexOf(id)] + " \`" + users[id] + "\` <@" + id + ">")
 
     message.channel.send({ embed: {
         author: {
