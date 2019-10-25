@@ -1,0 +1,15 @@
+{
+  "name": "countr",
+  "description": "A bot that can manage a counting channel in your Discord guild!",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gleeny/countr.git"
+  },
+  "author": "Promise <me@promise.solutions> (https://promise.solutions/)",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/gleeny/countr/issues"
+  },
+  "homepage": "https://github.com/gleeny/countr#readme",
+}
