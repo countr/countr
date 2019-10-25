@@ -12,4 +12,13 @@
     "url": "https://github.com/gleeny/countr/issues"
   },
   "homepage": "https://github.com/gleeny/countr#readme",
+  "dependencies": {
+    "blapi": "^1.2.3",
+    "bufferutil": "^4.0.1",
+    "discord.js": "^11.5.1",
+    "erlpack": "github:discordapp/erlpack",
+    "fs": "0.0.2",
+    "mongoose": "^5.7.7",
+    "node-fetch": "^2.6.0"
+  }
 }
