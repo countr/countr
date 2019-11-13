@@ -122,7 +122,7 @@ async function processGuild(guild) {
 
   const gdb = db.guild(message.guild.id);
   try {
-    const timeouts = await gdb.getTimeouts(), timeout = await gdb.getTimeoutRole(), modules = await gdb.getModules(), countingChannel = await gdb.getChannel(), count = await gdb.getCount();
+    const {timeouts, timeoutrole, modules, channel: countingChannel, count} = await gdb.get();
     
     for (var userid in timeouts) try {
       if (Date.now() > timeouts[userid]) guild.members.get(userid).removeRole(timeout.role, "User no longer timed out");
@@ -159,14 +159,14 @@ client
   .on("messageDelete", async message => {
     if (!message.guild || message.author.bot) return;
 
-    const gdb = db.guild(message.guild.id);
-    if (message.channel.id == await gdb.getChannel() && message.id == await gdb.getLastMessage()) return message.channel.send(message.content + " (" + message.author.toString() + ")").then(m => gdb.setLastMessage(m.id)) // resend if the last count got deleted
+    const gdb = await db.guild(message.guild.id), {channel, message: lastMessage} = await gdb.get();
+    if (message.channel.id == channel && message.id == lastMessage) return message.channel.send(message.content + " (" + message.author.toString() + ")").then(m => gdb.setLastMessage(m.id)) // resend if the last count got deleted
   })
   .on("messageUpdate", async (oldMessage, message) => {
     if (!message.guild || message.author.bot) return;
 
-    const gdb = db.guild(message.guild.id);
-    if (message.channel.id == await gdb.getChannel() && message.id == await gdb.getLastMessage()) return message.channel.send(oldMessage.content + " (" + message.author.toString() + ")").then(m => message.delete() && db.setLastMessage(m.id)) // resend if the last count git edited
+    const gdb = await db.guild(message.guild.id), {channel, message: lastMessage} = await gdb.get();
+    if (message.channel.id == channel && message.id == lastMessage) return message.channel.send(oldMessage.content + " (" + message.author.toString() + ")").then(m => message.delete() && db.setLastMessage(m.id)) // resend if the last count git edited
   })
   .on("rateLimit", ms => console.log(shId, "Rate limited. [" + ms + "ms]"))
   .on("disconnect", dc => console.log(shId, "Disconnected:", dc))
