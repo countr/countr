@@ -101,7 +101,7 @@ client.on("message", async message => {
       if (permissionLevel < commandFile.permissionRequried) return message.channel.send("❌ You don't have permission! For help type `" + prefix + "help " + command + "`.");
       if (commandFile.checkArgs(args) !== true) return message.channel.send("❌ " + commandFile.checkArgs(args) + " For help type `" + prefix + "help " + command + "`.");
       
-      commandFile.run(client, message, args, config, db, permissionLevel)
+      commandFile.run(client, message, args, config, db, { permissionLevel, prefix })
     }
   } else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send("👋 My prefix is `" + prefix + "`, for help type `" + prefix + "help`.");
 })
