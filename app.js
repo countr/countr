@@ -38,7 +38,7 @@ fs.readdir("./commands/", (err, categories) => {
 client.on("message", async message => {
   if (!message.guild || message.author.id == client.user.id || message.author.discriminator == "0000") return;
 
-  const gdb = await db.guild(message.guild.id), {channel, count, user, modules, regex, timeoutrole} = await gdb.get();
+  const gdb = await db.guild(message.guild.id); let {channel, count, user, modules, regex, timeoutrole} = await gdb.get();
   if (channel == message.channel.id) {
     if (!message.member && message.author.id) try { message.member = await message.guild.fetchMember(message.author.id, true) } catch(e) {} // on bigger bots with not enough ram, not all members are loaded in. So if a member is missing, we try to load it in.
 
