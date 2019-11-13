@@ -40,8 +40,7 @@ client.on("message", async message => {
 
   const gdb = db.guild(message.guild.id), {channel, count, user, modules, regex, timeoutrole} = await gdb.get();
   if (channel == message.channel.id) {
-    // on bigger bots with not enough ram, not all members are loaded in. So if a member is missing, we try to load it in.
-    if (!message.member && message.author.id) try { message.member = await message.guild.fetchMember(message.author.id, true) } catch(e) {}
+    if (!message.member && message.author.id) try { message.member = await message.guild.fetchMember(message.author.id, true) } catch(e) {} // on bigger bots with not enough ram, not all members are loaded in. So if a member is missing, we try to load it in.
 
     if (message.webhookID == null && (disabledGuilds.includes(message.channel.id) || message.author.bot)) return message.delete();
     if (message.webhookID || (message.content.startsWith("!") && getPermissionLevel(message.member) >= 1) || message.type !== "DEFAULT") return;
@@ -50,17 +49,17 @@ client.on("message", async message => {
     if (regex.length && getPermissionLevel(message.member) == 0) for (var r of regex) if ((new RegExp(r, 'g')).test(message.content)) regexMatches = true;
 
     if ((!modules.includes("allow-spam") && message.author.id == user) || message.content.split(" ")[0] !== (count + 1).toString() || (!modules.includes("talking") && message.content !== (count + 1).toString()) || regexMatches) {
-      if (timeoutRole.role) {
+      if (timeoutrole.role) {
         if (!fails[message.guild.id + "/" + message.author.id]) fails[message.guild.id + "/" + message.author.id] = 0;
         ++fails[message.guild.id + "/" + message.author.id];
 
-        setTimeout(() => --fails[message.guild.id + "/" + message.author.id], timeoutRole.time * 1000)
+        setTimeout(() => --fails[message.guild.id + "/" + message.author.id], timeoutrole.time * 1000)
 
-        if (fails[message.guild.id + "/" + message.author.id] >= timeoutRole.fails) {
-          if (timeoutRole.duration) await gdb.addTimeout(message.guild.id, message.author.id, timeoutRole.duration)
+        if (fails[message.guild.id + "/" + message.author.id] >= timeoutrole.fails) {
+          if (timeoutrole.duration) await gdb.addTimeout(message.guild.id, message.author.id, timeoutrole.duration)
           try {
-            await message.member.addRole(timeoutRole.role, "User timed out")
-            if (timeoutRole.duration) setTimeout(() => message.member.removeRole(timeoutRole.role, "User no longer timed out"), timeoutRole.duration * 1000)
+            await message.member.addRole(timeoutrole.role, "User timed out")
+            if (timeoutrole.duration) setTimeout(() => message.member.removeRole(timeoutrole.role, "User no longer timed out"), timeoutrole.duration * 1000)
           } catch(e) {}
         }
       }
@@ -91,8 +90,7 @@ client.on("message", async message => {
   
   const prefix = await gdb.getPrefix();
   if (message.content.startsWith(prefix) || message.content.match(`^<@!?${client.user.id}> `)) {
-    // on bigger bots with not enough ram, not all members are loaded in. So if a member is missing, we try to load it in.
-    if (!message.member && message.author.id) try { message.member = await message.guild.fetchMember(message.author.id, true) } catch(e) {}
+    if (!message.member && message.author.id) try { message.member = await message.guild.fetchMember(message.author.id, true) } catch(e) {} // on bigger bots with not enough ram, not all members are loaded in. So if a member is missing, we try to load it in.
 
     const args = message.content.split(" ");
     if (args[0].match(`^<@!?${client.user.id}>`)) args.shift(); else args[0] = args[0].slice(prefix.length);
@@ -125,8 +123,8 @@ async function processGuild(guild) {
     const {timeouts, timeoutrole, modules, channel: countingChannel, count} = await gdb.get();
     
     for (var userid in timeouts) try {
-      if (Date.now() > timeouts[userid]) guild.members.get(userid).removeRole(timeout.role, "User no longer timed out");
-      else setTimeout(() => guild.members.get(userid).removeRole(timeout.role), timeouts[userid] - Date.now(), "User no longer timed out")
+      if (Date.now() > timeouts[userid]) guild.members.get(userid).removeRole(timeoutrole.role, "User no longer timed out");
+      else setTimeout(() => guild.members.get(userid).removeRole(timeoutrole.role), timeouts[userid] - Date.now(), "User no longer timed out")
     } catch(e) {}
 
     if (modules.includes("recover")) {
