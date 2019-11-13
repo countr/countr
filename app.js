@@ -22,12 +22,16 @@ setInterval(async () => {
 }, 60000)
 
 // command handler
-const commands = {} // { "command": "path/to/command.js" }
+const commands = {} // { "command": require("that_command") }
 fs.readdir("./commands/", (err, categories) => {
   if (err) console.error(err);
   for (var category of categories) fs.readdir("./commands/" + category, (err, files) => {
     if (err) console.error(err);
-    for (var file of files) if (file.endsWith(".js")) commands[file.replace(".js", "")] = require("./commands/" + category + "/" + file)
+    for (var file of files) if (file.endsWith(".js")) {
+      let commandFile = require("./commands/" + category + "/" + file)
+      commands[file.replace(".js", "")] = commandFile
+      if (commandFile.aliases) for (var alias of commandFile.aliases) commands[alias] = commandFile
+    }
   })
 })
 
