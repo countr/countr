@@ -42,8 +42,8 @@ module.exports = (client, config) => {
         })
       })
     },
-    guild: (gid) => {
-      await cacheGuild(gid);
+    guild: async (gid) => {
+      if (!savedGuilds[gid]) await cacheGuild(gid);
       return {
         get: async () => await cacheGuild(gid),
 
