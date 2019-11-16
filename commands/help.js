@@ -17,7 +17,7 @@ module.exports = {
 
 const fs = require("fs");
 
-module.exports.run = async function(client, message, args, config, db, { permissionLevel, prefix }) {
+module.exports.run = async function(client, message, args, config, gdb, { permissionLevel, prefix }) {
   let permission = permissionLevel;
   if (args[0] == "-all") { permission = 2; args.shift(); }
 
