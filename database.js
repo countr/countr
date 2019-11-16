@@ -1,13 +1,8 @@
-const mongoose = require("mongoose"), Twitter = require("twitter");
+const mongoose = require("mongoose"), fetch = require("node-fetch");
 
 module.exports = (client, config) => {
   mongoose.connect(config.database_uri, { useNewUrlParser: true })
 
-  const twicli = new Twitter(config.twitterIntegration)
-  function tweet(count, week) {
-    if (!(config.twitterIntegration && config.twitterIntegration.enabled)) return;
-    twicli.post("statuses/update", { status: config.twitterIntegration.message.replace("{{COUNT", count).replace("{{WEEK}}", week) })
-  }
 
   setInterval(() => Global.findOne({}, (err, global) => {
     if (err) return;
@@ -20,7 +15,11 @@ module.exports = (client, config) => {
     addCount = 0;
 
     if (global.week != getWeek(new Date())) {
-      tweet(global.counts, global.week)
+      if (config.postToWebhookEveryWeek) fetch(config.postToWebhookEveryWeek, {
+        method: "POST",
+        body: JSON.stringify({ "value1": global.counts, "value2": global.week,
+        headers: { "Content-Type": "application/json" } }) })
+
       global.counts = 1;
       global.week = getWeek(new Date())
     }
