@@ -59,8 +59,7 @@ module.exports.run = async function(client, message, args, config, gdb, { permis
     if (pages > 1) await botMsg.react("♻️") && await botMsg.react("⬅️") && await botMsg.react("➡️");
     botMsg.react("❌")
     
-    let timedout = false
-    while (!timedout) try {
+    while (true) try {
       let collected = await botMsg.awaitReactions((_, user) => user.id == message.author.id, { errors: [ "time" ], time: 120000, maxEmojis: 1 })
       let reaction = collected.first();
 
@@ -80,8 +79,6 @@ module.exports.run = async function(client, message, args, config, gdb, { permis
         botMsg.edit(help)
       }
     } catch(e) { // the timer went out
-      console.log(e)
-      timedout = true
       return botMsg.edit("⏲️ Timed out. Open it again with \`" + prefix + "help\`.", {embed:{}}) && botMsg.clearReactions();
     }
   }).catch(() => message.channel.send("🆘 An unknown error occoured. Do I have permission? (Embed Links, Add Reactions, Manage Messages)"))
