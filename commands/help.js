@@ -84,7 +84,7 @@ module.exports.run = async function(client, message, args, config, gdb, { permis
   }).catch(() => message.channel.send("🆘 An unknown error occoured. Do I have permission? (Embed Links, Add Reactions, Manage Messages)"))
 }
 
-const allCommands = {}
+const allCommands = {};
 fs.readdir("./commands/", (err, files) => {
   if (err) console.error(err)
   for (var file of files) if (file.endsWith(".js")) {

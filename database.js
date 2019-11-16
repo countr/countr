@@ -60,7 +60,7 @@ module.exports = (client, config) => {
           savedGuilds[gid] = guildObject;
           
           let guild = await getGuild(gid);
-          for (var key in guildObject) guild[key] = guildObject[key]
+          for (var key in guildObject) guild[key] = guildObject[key];
           await guild.save().then(resolve).catch(reject);
         }),
 
