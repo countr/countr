@@ -1,8 +1,9 @@
 const mongoose = require("mongoose"), fetch = require("node-fetch");
 
-module.exports = (client, config) => {
-  mongoose.connect(config.database_uri, { useNewUrlParser: true })
+let addCount = 0;
 
+module.exports = (client, config) => {
+  mongoose.connect(config.database_uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
   setInterval(() => Global.findOne({}, (err, global) => {
     if (err) return;
@@ -242,7 +243,7 @@ const guildObject = {
   regex: [], // regex filters, for the talking module
   pins: {}, // the guild's pin triggers,
   liveboard: {} // the guild's live leaderboard location (premium)
-}, guildSchema = mongoose.Schema(guildObject, { minimize: false })
+}, guildSchema = mongoose.Schema(guildObject, { minimize: true })
 
 const globalSchema = mongoose.Schema({
   counts: Number, week: Number
@@ -251,7 +252,7 @@ const globalSchema = mongoose.Schema({
 const Guild = mongoose.model("Guild", guildSchema), Global = mongoose.model("Global", globalSchema);
 
 function updateTopic(gid, client) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(async function(resolve, reject) {
     let guild = await cacheGuild(gid);
     try {
       let channel = client.guilds.get(gid).channels.get(guild.channel);
@@ -277,7 +278,7 @@ function getGuild(gid) {
       if (err) return reject(err);
       if (!guild) {
         let newGuild = new Guild(guildObject);
-        newGuild.guildid = guildid;
+        newGuild.guildid = gid;
 
         return resolve(newGuild);
       } else return resolve(guild);
@@ -285,7 +286,7 @@ function getGuild(gid) {
   })
 }
 
-function getWeek(d) {
+function getWeek(d) { // https://stackoverflow.com/a/6117889
   d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
   d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
   let yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));

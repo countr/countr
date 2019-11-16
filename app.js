@@ -1,18 +1,18 @@
-const Discord = require("discord.js"), fs = require("fs"), config = require("./config.json")
+const Discord = require("discord.js"), fs = require("fs"), BLAPI = require("blapi"), config = require("./config.json")
 
-const client = new Discord.Client({ messageSweepInterval: 60, disableEveryone: true, disabledEvents: ["TYPING_START"] }), shId = client.shard ? "Shard " + client.shard.id + ":" : "";
-const db = require("database.js")({ client, config }), fails = {};
+const client = new Discord.Client({ messageSweepInterval: 60, disableEveryone: true, disabledEvents: ["TYPING_START"] }), shId = client.shard ? "Shard " + client.shard.id + ": " : "";
+const db = require("./database.js")(client, config), fails = {};
 
 client.on("ready", async () => {
-  console.log(shId, "Ready as " + client.user.tag);
-  client.user.setPresence({ status: "idle", game: { name: "the loading screen, ready soon™", type: "WATCHING" }})
+  console.log(shId + "Ready as " + client.user.tag);
+  client.user.setPresence({ status: "idle", game: { name: "the loading screen", type: "WATCHING" }})
 
   client.guilds.forEach(processGuild)
 })
 
 setInterval(async () => {
   if (!client.guilds.size) return; // client is not ready yet, or have lost connection
-  var name = prefix + "help (" + await db.global.counts() + " counts this week)"
+  var name = config.prefix + "help (" + await db.global.counts() + " counts this week)"
   var guild = client.guilds.get(config.mainGuild)
   if (guild) {
     const {channel, count} = await db.guild(guild.id).get();
@@ -23,22 +23,20 @@ setInterval(async () => {
 
 // command handler
 const commands = {} // { "command": require("that_command") }
-fs.readdir("./commands/", (err, categories) => {
+fs.readdir("./commands/", (err, files) => {
   if (err) console.error(err);
-  for (var category of categories) fs.readdir("./commands/" + category, (err, files) => {
-    if (err) console.error(err);
-    for (var file of files) if (file.endsWith(".js")) {
-      let commandFile = require("./commands/" + category + "/" + file)
-      commands[file.replace(".js", "")] = commandFile
-      if (commandFile.aliases) for (var alias of commandFile.aliases) commands[alias] = commandFile
-    }
-  })
+  for (var file of files) if (file.endsWith(".js")) {
+    let commandFile = require("./commands/" + file)
+    commands[file.replace(".js", "")] = commandFile
+    if (commandFile.aliases) for (var alias of commandFile.aliases) commands[alias] = commandFile
+  }
+  console.log("Cached " + Object.keys(commands).length + " commands.")
 })
 
 client.on("message", async message => {
   if (!message.guild || message.author.id == client.user.id || message.author.discriminator == "0000") return;
 
-  const gdb = await db.guild(message.guild.id); let {channel, count, user, modules, regex, timeoutrole} = await gdb.get();
+  const gdb = await db.guild(message.guild.id); let {channel, count, user, modules, regex, timeoutrole, prefix} = await gdb.get();
   if (channel == message.channel.id) {
     if (!message.member && message.author.id) try { message.member = await message.guild.fetchMember(message.author.id, true) } catch(e) {} // on bigger bots with not enough ram, not all members are loaded in. So if a member is missing, we try to load it in.
 
@@ -88,7 +86,8 @@ client.on("message", async message => {
     return gdb.doStuffAfterCount(count, message.author.id, msg);
   }
   
-  const prefix = await gdb.getPrefix();
+  if (!prefix) prefix = config.prefix
+
   if (message.content.startsWith(prefix) || message.content.match(`^<@!?${client.user.id}> `)) {
     if (!message.member && message.author.id) try { message.member = await message.guild.fetchMember(message.author.id, true) } catch(e) {} // on bigger bots with not enough ram, not all members are loaded in. So if a member is missing, we try to load it in.
 
@@ -119,7 +118,7 @@ let disabledGuilds = [];
 async function processGuild(guild) {
   disabledGuilds.push(guild.id);
 
-  const gdb = await db.guild(message.guild.id);
+  const gdb = await db.guild(guild.id);
   try {
     const {timeouts, timeoutrole, modules, channel: countingChannel, count} = await gdb.get();
     
@@ -167,12 +166,13 @@ client
     const gdb = await db.guild(message.guild.id), {channel, message: lastMessage} = await gdb.get();
     if (message.channel.id == channel && message.id == lastMessage) return message.channel.send(oldMessage.content + " (" + message.author.toString() + ")").then(m => message.delete() && db.setLastMessage(m.id)) // resend if the last count git edited
   })
-  .on("rateLimit", ms => console.log(shId, "Rate limited. [" + ms + "ms]"))
-  .on("disconnect", dc => console.log(shId, "Disconnected:", dc))
-  .on("reconnecting", () => console.log(shId, "Reconnecting..."))
-  .on("resume", replayed => console.log(shId, "Resumed. [" + replayed + " events replayed]"))
-  .on("error", error => console.log(shId, "Unexpected error:", err))
-  .on("warn", warn => console.log(shId, "Unexpected warning:", warn))
+
+  .on("rateLimit", rl => console.log(shId + "Rate limited. [" + rl.timeDifference + "ms, endpoint: " + rl.path + "]"))
+  .on("disconnect", dc => console.log(shId + "Disconnected:", dc))
+  .on("reconnecting", () => console.log(shId + "Reconnecting..."))
+  .on("resume", replayed => console.log(shId + "Resumed. [" + replayed + " events replayed]"))
+  .on("error", error => console.log(shId + "Unexpected error:", err))
+  .on("warn", warn => console.log(shId + "Unexpected warning:", warn))
   .login(config.token)
 
-if (config.listKeys) BLAPI.handle(client, config.listKeys, 15);
+if (Object.values(config.listKeys).length) BLAPI.handle(client, config.listKeys, 15);
