@@ -65,8 +65,8 @@ module.exports.run = async function(client, message, args, config, db) {
         {
           "name": "📶 Ping",
           "value": [
-            "**Server**: `" + (message.createdAt - Date.now()) + "ms`",
-            "**API**: `" + client.ping + "ms`",
+            "**Server**: `" + (Date.now() - message.createdAt) + "ms`",
+            "**API**: `" + Math.round(client.ping) + "ms`",
             "**Uptime**: `" + msToTime(client.uptime) + "`"
           ].join("\n"),
           "inline": true
@@ -75,6 +75,7 @@ module.exports.run = async function(client, message, args, config, db) {
           "name": "🌐 Links",
           "value": [
             "**Documentation:** https://countr.xyz/",
+            "**Invite me:** soon:tm:",
             "**Support Server**: https://discord.gg/vDg9jAE",
             "**Source Code**: https://github.com/gleeny/countr"
           ].join("\n"),
@@ -90,7 +91,7 @@ module.exports.run = async function(client, message, args, config, db) {
         }
       ]
     }
-  })
+  }).catch(() => message.channel.send("🆘 An unknown error occoured. Do I have permission? (Embed Links)"));
 }
 
 function msToTime(ms){
