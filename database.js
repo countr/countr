@@ -56,6 +56,14 @@ module.exports = (client, config) => {
           updateTopic(gid, client)
         }),
 
+        factoryReset: () => new Promise(async function(resolve, reject) {
+          savedGuilds[gid] = guildObject;
+          
+          let guild = await getGuild(gid);
+          for (var key in guildObject) guild[key] = guildObject[key]
+          await guild.save().then(resolve).catch(reject);
+        }),
+
         addToCount: (user) => new Promise(async function(resolve, reject) {
           savedGuilds[gid].count += 1;
           savedGuilds[gid].user = user;
