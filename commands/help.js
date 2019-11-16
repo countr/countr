@@ -33,7 +33,7 @@ module.exports.run = async function(client, message, args, config, gdb, { permis
     name: prefix + command,
     value: [
       "**Description:** " + allCommands[command].description,
-      "**Permission Level Required:** " + ["None", "Chat Moderators", "Server Administrators", "Bot Support Team", "Bot Owner"][allCommands[command].permissionRequired] + (permission !== permissionLevel ? " \`" + (permissionLevel >= allCommands[command].permissionRequired ? "✅" : "❌") + "\`" : ""),
+      "**Permission Level Required:** " + ["None", "Chat Moderators", "Server Administrators", "Server Owner", "Bot Support Team", "Bot Developer"][allCommands[command].permissionRequired] + (permission !== permissionLevel ? " \`" + (permissionLevel >= allCommands[command].permissionRequired ? "✅" : "❌") + "\`" : ""),
       "**Usage:** \`" + prefix + command + Object.keys(allCommands[command].usage).map(arg => " " + arg).join("") + "\`",
       "**Arguments:** " + (Object.keys(allCommands[command].usage).map(arg => "\n- \`" + arg + "\`: " + allCommands[command].usage[arg]).join("") || "None."),
       "**Examples:** " + (Object.keys(allCommands[command].examples).map(ex => "\n- \`" + prefix + command + " " + ex + "\`: " + allCommands[command].examples[ex]).join("") || "None.")
