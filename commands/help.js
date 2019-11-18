@@ -60,7 +60,7 @@ module.exports.run = async function(client, message, args, config, gdb, { permis
     botMsg.react("❌")
     
     while (true) try {
-      let collected = await botMsg.awaitReactions((_, user) => user.id == message.author.id, { errors: [ "time" ], time: 120000, maxEmojis: 1 })
+      let collected = await botMsg.awaitReactions((_, user) => user.id == message.author.id, { errors: [ "time" ], time: 60000, maxEmojis: 1 })
       let reaction = collected.first();
 
       if (reaction.emoji == "♻️") page = 1;
