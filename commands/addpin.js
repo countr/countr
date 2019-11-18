@@ -12,7 +12,7 @@ module.exports = {
   aliases: [],
   permissionRequired: 2,
   checkArgs: (args) => {
-    return args.length >= 3;
+    return args.length == 3;
   }
 }
 

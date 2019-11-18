@@ -5,7 +5,7 @@ module.exports = {
   aliases: ["botinfo", "botstats"],
   permissionRequired: 0,
   checkArgs: (args) => {
-    return true;
+    return !args.length;
   }
 }
 

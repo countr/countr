@@ -5,7 +5,7 @@ module.exports = {
   aliases: [],
   permissionRequired: 3,
   checkArgs: (args) => {
-    return true;
+    return !args.length;
   }
 }
 
