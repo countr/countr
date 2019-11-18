@@ -1,7 +1,7 @@
 module.exports = {
   description: "Get information and stats about the bot.",
   usage: {},
-  examples: [],
+  examples: {},
   aliases: ["botinfo", "botstats"],
   permissionRequired: 0,
   checkArgs: (args) => {

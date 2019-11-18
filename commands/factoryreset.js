@@ -1,7 +1,7 @@
 module.exports = {
   description: "Reset all data Countr has stored about this server.",
   usage: {},
-  examples: [],
+  examples: {},
   aliases: [],
   permissionRequired: 3,
   checkArgs: (args) => {
