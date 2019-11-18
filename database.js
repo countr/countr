@@ -293,3 +293,17 @@ function getWeek(d) { // https://stackoverflow.com/a/6117889
   let weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1) / 7);
   return weekNo;
 }
+
+const b64 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_"; // base64
+
+module.exports.generateID = alreadyGenerated => {
+  let satisfied = false;
+
+  while (!satisfied) {
+    let id = "";
+    for (var i = 0; i < 6; i++) id = id + b64[Math.floor(Math.random() * b64.length)]
+    if (!alreadyGenerated.includes(id)) satisfied = true;
+  }
+
+  return id;
+}

@@ -29,5 +29,5 @@ module.exports.run = async function(client, message, args, config, gdb, { prefix
 
   gdb.factoryReset()
     .then(() => botMsg.edit("☠️ All data is now reset to the default. Keep in mind the prefix is also reset."))
-    .catch(() => botMsg.edit("🆘 An unknown database error occoured. Please try again, or contact support."))
+    .catch(e => console.log(e) && botMsg.edit("🆘 An unknown database error occoured. Please try again, or contact support."))
 }
