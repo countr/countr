@@ -11,10 +11,8 @@ module.exports = {
     "469523835595653120 only 420 permanent": "Will give users the role with ID 469523835595653120 if they count the 420th count in the server. It will stay on until someone else removes it."
   },
   aliases: [],
-  permissionRequired: 2,
-  checkArgs: (args) => {
-    return args.length == 4;
-  }
+  permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
+  checkArgs: (args) => args.length == 4
 }
 
 const modes = [ "each", "only", "score" ], durations = [ "temporary", "permanent" ]

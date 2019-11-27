@@ -9,10 +9,8 @@ module.exports = {
     "-all add": "Will give you all commands that have \"add\" in their command, description or usage."
   },
   aliases: ["commands", "?"],
-  permissionRequired: 0,
-  checkArgs: (args) => {
-    return true;
-  }
+  permissionRequired: 0, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
+  checkArgs: (args) => true
 }
 
 const fs = require("fs");

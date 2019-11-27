@@ -9,10 +9,8 @@ module.exports = {
     "[A-Ca-cX-Zx-z]": "Will filter out A, B, C, X, Y, Z - regardless if it's capital or not."
   },
   aliases: [],
-  permissionRequired: 2,
-  checkArgs: (args) => {
-    return !!args.length;
-  }
+  permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
+  checkArgs: (args) => !!args.length
 }
 
 module.exports.run = async function(client, message, args, config, gdb, { prefix }) {

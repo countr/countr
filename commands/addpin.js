@@ -10,10 +10,8 @@ module.exports = {
     "only 420 keep": "Will pin the count 1337 as-is."
   },
   aliases: [],
-  permissionRequired: 2,
-  checkArgs: (args) => {
-    return args.length == 3;
-  }
+  permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
+  checkArgs: (args) => args.length == 3 || args.length == 4
 }
 
 const modes = [ "each", "only" ], actions = [ "keep", "repost" ], { generateID } = require("../database.js")
