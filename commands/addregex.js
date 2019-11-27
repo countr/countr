@@ -24,7 +24,7 @@ module.exports.run = async function(client, message, args, config, gdb, { prefix
 
 function testRegex(regex) {
   try {
-    new RegExp(regex, "g"); return true;
+    return new RegExp(regex, "g");
   } catch(e) {
     return false;
   }

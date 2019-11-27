@@ -3,18 +3,18 @@ module.exports = {
   usage: {
     "<mode: each|only>": "If you use each, it will pin every <count> count. If you use only, it will only pin count <count>.",
     "<count>": "The count you want to reference in your mode.",
-    "<action: keep|repost>": "If you use keep, the message will be pinned as-is. If you use repost, it will repost the message and then pin it. We recommend reposting."
+    "[repost]": "If you use this, it will repost the message meaning they won't be able to edit it in the future and potentially advertise in pinned messages."
   },
   examples: {
     "each 1000 repost": "Will pin every 1000th count after reposting it, including 2000 and 3000 etc.",
-    "only 420 keep": "Will pin the count 1337 as-is."
+    "only 420": "Will pin the count 1337 as-is."
   },
   aliases: [],
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: (args) => args.length == 3 || args.length == 4
 }
 
-const modes = [ "each", "only" ], actions = [ "keep", "repost" ], { generateID } = require("../database.js")
+const modes = [ "each", "only" ], { generateID } = require("../database.js")
 
 module.exports.run = async function(client, message, args, config, gdb, { prefix }) {
   let mode = args[0].toLowerCase();
@@ -24,7 +24,7 @@ module.exports.run = async function(client, message, args, config, gdb, { prefix
   if (!count) return message.channel.send("❌ Invalid count argument. For help, type `" + prefix + "help addpin`")
 
   let action = args[2].toLowerCase()
-  if (!actions.includes(action)) return message.channel.send("❌ Invalid action argument. For help, type `" + prefix + "help addpin`")
+  if (action && action !== "repost") return message.channel.send("❌ Invalid action argument. For help, type `" + prefix + "help addpin`")
 
   let { pins: alreadyGeneratedPins } = await gdb.get(), id = generateID(Object.keys(alreadyGeneratedPins))
   gdb.setPin(id, mode, count, action)
