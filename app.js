@@ -98,7 +98,7 @@ client.on("message", async message => {
     const commandFile = commands[command], permissionLevel = getPermissionLevel(message.member)
     if (commandFile) {
       if (permissionLevel < commandFile.permissionRequried) return message.channel.send("❌ You don't have permission! For help type `" + prefix + "help " + command + "`.");
-      if (commandFile.checkArgs(args, permissionLevel) !== true) return message.channel.send("❌ Invalid supply of arguments! For help type `" + prefix + "help " + command + "`.");
+      if (commandFile.checkArgs(args, permissionLevel) !== true) return message.channel.send("❌ Invalid arguments! For help type `" + prefix + "help " + command + "`.");
       
       commandFile.run(client, message, args, config, gdb, { permissionLevel, prefix, db })
     }
