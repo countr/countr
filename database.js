@@ -294,7 +294,7 @@ function getWeek(d) { // https://stackoverflow.com/a/6117889
   return weekNo;
 }
 
-const b64 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_"; // base64
+const b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"; // base64
 
 module.exports.generateID = alreadyGenerated => {
   let satisfied = false;
