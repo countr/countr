@@ -24,7 +24,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
   let value;
   if (property == "mode") {
     value = args[2].toLowerCase();
-    if (!["each", "only", "score"].includes(value)) return message.channel.send("❌ Invalid mode. For help, type `" + prefix + "help editpin`")
+    if (!["each", "only"].includes(value)) return message.channel.send("❌ Invalid mode. For help, type `" + prefix + "help editpin`")
   } else if (property == "count") {
     value = parseInt(args[2]);
     if (!value) return message.channel.send("❌ Invalid count. For help, type `" + prefix + "help editpin`")
