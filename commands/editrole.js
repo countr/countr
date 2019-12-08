@@ -37,6 +37,11 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
     value = parseInt(args[2])
     if (!value) return message.channel.send("❌ Invalid count. For help, type `" + prefix + "help editrole`");
   } else if (property == "duration") {
-    
+    value = args[2].toLowerCase();
+    if (!["temporary", "permanent"].includes(value)) return message.channel.send("❌ Invalid duration. For help, type `" + prefix + "help editrole`")
   }
+
+  gdb.editRole(id, property, value)
+    .then(() => message.channel.send("✅ Rolereward with ID `" + id + "` has now been changed."))
+    .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occoured. Please try again, or contact support."))
 }
