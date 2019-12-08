@@ -28,6 +28,6 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
 
   let { pins: alreadyGeneratedPins } = await gdb.get(), id = generateID(Object.keys(alreadyGeneratedPins))
   gdb.setPin(id, mode, count, action)
-    .then(() => message.channel.send("✅ Pin trigger with ID `" + id + "` now saved."))
+    .then(() => message.channel.send("✅ Pintrigger with ID `" + id + "` now saved."))
     .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occoured. Please try again, or contact support."))
 }
