@@ -14,7 +14,7 @@ module.exports = {
   checkArgs: (args) => args.length == 3
 }
 
-module.exports.run = async function(client, message, args, config, gdb, { prefix }) {
+module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
   let id = args[0], { pins } = await gdb.get();
   if (!pins[id]) return message.channel.send("❌ Invalid pintrigger. For help, type `" + prefix + "help editpin`")
 

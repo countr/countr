@@ -12,7 +12,7 @@ module.exports = {
   }
 }
 
-module.exports.run = async function(client, message, args, config, gdb, { permissionLevel }) {
+module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
   let id = args[0]
   if (!id) id = message.guild.id;
   if (id !== message.guild.id && permissionLevel < 4) return message.channel.send("❌ You don't have permission! ")

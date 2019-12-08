@@ -7,7 +7,7 @@ module.exports = {
   checkArgs: (args) => !args.length
 }
 
-module.exports.run = async function(client, message, args, config, gdb, { prefix }) {
+module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
   let botMsg = await message.channel.send("‼️ **Are you sure you want to delete all data Countr has on this server?**"), stage = 2;
   await botMsg.react("❌"); await botMsg.react("✅");
 

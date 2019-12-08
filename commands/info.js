@@ -17,7 +17,7 @@ setInterval(() => {
 
 let guilds = 0, users = 0, shardCount = 0, nextUpdate = Date.now();
 
-module.exports.run = async function(client, message, args, config, gdb) {
+module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
   if (nextUpdate < Date.now()) {
     nextUpdate = Date.now() + 300000
     if (client.shard) {

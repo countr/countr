@@ -17,7 +17,7 @@ module.exports = {
 
 const modes = [ "each", "only", "score" ], durations = [ "temporary", "permanent" ]
 
-module.exports.run = async function(client, message, args, config, gdb, { prefix }) {
+module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
   let role = [
     message.guild.roles.find(r => r.name == args[0].replace("_", "")),
     message.guild.roles.get(args[0]),

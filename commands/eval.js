@@ -9,7 +9,7 @@ module.exports = {
   checkArgs: (args) => !!args.length
 }
 
-module.exports.run = async function(client, message, args, config, gdb) {
+module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
   let code = args.join(" ");
   try {
     let evaled = eval(code);

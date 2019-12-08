@@ -16,7 +16,7 @@ module.exports = {
 
 const modes = [ "each", "only" ], { generateID } = require("../database.js")
 
-module.exports.run = async function(client, message, args, config, gdb, { prefix }) {
+module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
   let mode = args[0].toLowerCase();
   if (!modes.includes(mode)) return message.channel.send("❌ Invalid mode. For help, type `" + prefix + "help addpin`")
 
