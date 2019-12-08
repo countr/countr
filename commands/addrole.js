@@ -23,16 +23,16 @@ module.exports.run = async function(client, message, args, config, gdb, { prefix
     message.guild.roles.get(args[0]),
     message.guild.roles.get(args[0].replace("<@&", "").replace(">", ""))
   ].find(r => r)
-  if (!role) return message.channel.send("❌ Invalid role argument. For help, type `" + prefix + "help addrole`")
+  if (!role) return message.channel.send("❌ Invalid role. For help, type `" + prefix + "help addrole`")
 
   let mode = args[1].toLowerCase();
-  if (!modes.includes(mode)) return message.channel.send("❌ Invalid mode argument. For help, type `" + prefix + "help addrole`")
+  if (!modes.includes(mode)) return message.channel.send("❌ Invalid mode. For help, type `" + prefix + "help addrole`")
 
   let count = parseInt(args[2])
-  if (!count) return message.channel.send("❌ Invalid count argument. For help, type `" + prefix + "help addrole`")
+  if (!count) return message.channel.send("❌ Invalid count. For help, type `" + prefix + "help addrole`")
 
   let duration = args[3].toLowerCase();
-  if (!durations.includes(duration)) return message.channel.send("❌ Invalid duration argument. For help, type `" + prefix + "help addrole`")
+  if (!durations.includes(duration)) return message.channel.send("❌ Invalid duration. For help, type `" + prefix + "help addrole`")
 
   let { roles: alreadyGeneratedPins } = await gdb.get(), id = generateID(Object.keys(alreadyGeneratedPins))
   gdb.setRole(id, mode, count, duration)
