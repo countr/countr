@@ -1,7 +1,7 @@
 # Level 0: Everyone
 - [c!help](#chelp): Get help on how to use the bot. Will time out after one minute of inactivity.
 - [c!info](#cinfo): Get information and stats about the bot.
-- [c!notifs](#cnotifs): Get a list of your notifications in the server.
+- [c!notifications](#cnotifications): Get a list of your notifications in the server.
 - [c!notifyme](#cnotifyme): Get a notification whenever the server reach whatever count you want.
 - [c!ping](#cping): Get the latency of the bot.
 - [c!removenotif](#cremovenotif): Remove a notification.
@@ -193,15 +193,15 @@ Manage modules you can enable or disable in your server.
 
 **Usage:** `c!modules`
 
-**Alias:** `c!toggle`
+**Aliases:** `c!toggle`, `c!module`
 
-## c!notifs
+## c!notifications
 
 Get a list of your notifications in the server.
 
-**Usage:** `c!notifs`
+**Usage:** `c!notifications`
 
-**Aliases:** `c!notifications`, `c!alerts`
+**Aliases:** `c!notifs`, `c!alert`
 
 ## c!notifyme
 
@@ -225,7 +225,7 @@ Get the latency of the bot.
 
 **Usage:** `c!ping`
 
-**Aliases:** `c!pong`, `c!latency`
+**Aliases:** `c!pong`, `c!latency`, `c!uptime`
 
 ## c!prefix
 

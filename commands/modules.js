@@ -34,8 +34,8 @@ const modules = {
   "webhook": { description: "Same as the module `reposting` except that it will repost it in a nice embed, impersonating the user who sent it.", incompatibleWith: [ "reposting" ] }
 }, fields = []
 
-for (var moduleName of modules) fields.push({
+for (var moduleName in modules) fields.push({
   name: moduleName,
-  value: modules[moduleName].description + (modules[moduleName].incompatibleWith ? "\n**Incompatible with:** " + modules[moduleName.incompatibleWith.map(m => "\`" + m + "\`").join(", ")] : ""),
+  value: modules[moduleName].description + (modules[moduleName].incompatibleWith ? "\n**Incompatible with:** " + modules[moduleName].incompatibleWith.map(m => "\`" + m + "\`").join(", ") : ""),
   inline: true
 })
