@@ -15,7 +15,7 @@ module.exports = {
   checkArgs: (args) => args.length == 4
 }
 
-const modes = [ "each", "only", "score" ], durations = [ "temporary", "permanent" ]
+const modes = [ "each", "only", "score" ], durations = [ "temporary", "permanent" ], { generateID } = require("../database.js")
 
 module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
   let role = [
