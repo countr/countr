@@ -16,8 +16,8 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
 
 function formatNotifications(notifications) {
   let ntfs = [];
-  for (var ID in notifs) {
-    let notif = notifs[ID], explanation;
+  for (var ID in notifications) {
+    let notif = notifications[ID], explanation;
 
     if (notif.mode == "each") explanation = "Every " + formatNumberSuffix(notif.count) + " count notifies you"
     else if (notif.mode == "only") explanation = "Only count " + notif.count + " notifies you"

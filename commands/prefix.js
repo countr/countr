@@ -13,9 +13,9 @@ module.exports = {
 }
 
 module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
-  let prefix = args.join(" ").replace("{{SPACE}}", "")
+  let newPrefix = args.join(" ").replace("{{SPACE}}", "")
 
-  gdb.set("prefix", prefix)
+  gdb.set("prefix", newPrefix)
     .then(() => message.channel.send("✅ Prefix has been saved."))
     .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occoured. Please try again, or contact support."))
 }

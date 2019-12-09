@@ -13,8 +13,6 @@ module.exports = {
   checkArgs: (args) => !!args.length
 }
 
-const { generateID } = require("../database.js")
-
 module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
   let regex = args.join(" ");
   if (!testRegex(regex)) return message.channel.send("❌ Invalid regex. For help, type `" + prefix + "help addregex`")
