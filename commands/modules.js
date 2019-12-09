@@ -11,7 +11,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
   let { modules } = await gdb.get();
 
   if (!args[0]) return message.channel.send({ embed: {
-    title: "Modules",
+    title: "📋 Modules",
     fields: fields.map(f => { f.name = f.name + (modules.includes(f.name) ? "✅" : "❌"); return f; }),
     color: config.color,
     footer: { text: "Requested by " + message.author.tag, icon_url: message.author.displayAvatarURL },

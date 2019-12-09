@@ -42,6 +42,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
   let pages = Math.ceil(commandsFound.length / 5), page = 1;
 
   const help = {embed: {
+    title: "📋 Commands",
     description: [
       "`[<val>]` means it is optional to include a value, `<val>` means it is required to include a value,",
       "`[xyz]` means it is optional to include \"xyz\", `xyz` means it is required to include \"xyz\".",
