@@ -26,13 +26,14 @@ fs.readdir("./commands/", (err, files) => {
   
   let commandDoc = ""
   for (const permission in content) {
-		commandDoc = commandDoc + "# Level " + permission + ": " + {"0": "Everyone", "1": "Moderator", "2": "Admin", "3": "Owner"}[permission] + "\n"
+		commandDoc = commandDoc + "# Level " + permission + ": " + {"0": "Everyone\nEveryone get access to these commands.", "1": "Moderator\nEveryone with the `MANAGE_MESSAGES`-permission get access to these commands.", "2": "Admin\nEveryone with the `MANAGE_SERVER`-permission get access to these commands.", "3": "Owner\nOnly the owner of the server can access these commands."}[permission] + "\n"
 		for (const command in content[permission]) {
 			commandDoc = commandDoc + "- [c!" + command + "](#c" + command + "): " + content[permission][command] + "\n"
 		}
+		commandDoc = commandDoc + "\n"
   }
   
-	commandDoc = commandDoc + commands.map(c => "\n" + c).join("\n")
+	commandDoc = commandDoc + commands.join("\n\n")
   
 	fs.writeFileSync("./docs/commands.md", commandDoc, "utf8")
   

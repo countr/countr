@@ -1,4 +1,5 @@
 # Level 0: Everyone
+Everyone get access to these commands.
 - [c!help](#chelp): Get help on how to use the bot. Will time out after one minute of inactivity.
 - [c!info](#cinfo): Get information and stats about the bot.
 - [c!notifications](#cnotifications): Get a list of your notifications in the server.
@@ -7,11 +8,15 @@
 - [c!removenotif](#cremovenotif): Remove a notification.
 - [c!top](#ctop): Get the current leaderboard of the server.
 - [c!topic](#ctopic): Set the topic of the channel.
+
 # Level 1: Moderator
+Everyone with the `MANAGE_MESSAGES`-permission get access to these commands.
 - [c!listregex](#clistregex): Get a list of regex filters.
 - [c!listroles](#clistroles): Get a list of role rewards in the server.
 - [c!troubleshoot](#ctroubleshoot): Troubleshoot Countr.
+
 # Level 2: Admin
+Everyone with the `MANAGE_SERVER`-permission get access to these commands.
 - [c!addpin](#caddpin): Add a pintrigger so big milestones gets pinned in chat. Keep in mind this will only accept 50 pins de to Discord's limit.
 - [c!addregex](#caddregex): Add a regex filter for the talking module, filtering unwanted chats.
 - [c!addrole](#caddrole): Add a rolereward that gets rewarded by counting.
@@ -31,7 +36,9 @@
 - [c!setscore](#csetscore): Set a member's score
 - [c!timeoutrole](#ctimeoutrole): Set a timeout role, so when someone counts <fail amount> times wrong within <time> seconds, they will get the role. Works best if you deny the role access to the channel.
 - [c!unlink](#cunlink): Unlink the current counting channel.
+
 # Level 3: Owner
+Only the owner of the server can access these commands.
 - [c!dump](#cdump): Dump a server's data to DMs.
 - [c!factoryreset](#cfactoryreset): Reset all data Countr has stored about this server.
 

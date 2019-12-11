@@ -5,9 +5,9 @@
 [![License](https://img.shields.io/github/license/gleeny/countr.svg)](https://github.com/gleeny/countr/blob/master/LICENSE)
 [![Discord Support](https://img.shields.io/discord/449576301997588490.svg)](https://promise.solutions/support)
 
-# countr
+# Countr
 
-A counting bot TODO description
+Countr is an advanced counting bot which can manage a counting channel in your guild. With a simple setup, your channel is ready.
 
 ## Suggestions, bugs, feature requests
 
