@@ -7,8 +7,8 @@
     "url": "git+https://github.com/gleeny/countr.git"
   },
   "scripts": {
-	"start": "node app.js",
-	"autodoc": "node docs/autodoc.js"
+    "start": "node app.js",
+    "autodoc": "node docs/autodoc.js"
   },
   "author": "Promise <me@promise.solutions> (https://promise.solutions/)",
   "license": "GPL-3.0",
