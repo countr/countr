@@ -1,6 +1,6 @@
 const Discord = require("discord.js"), fs = require("fs"), BLAPI = require("blapi"), config = require("./config.json")
 
-const client = new Discord.Client({ messageSweepInterval: 60, disableEveryone: true, disabledEvents: ["TYPING_START"] }), shId = client.shard ? "Shard " + client.shard.id + ": " : "";
+const client = new Discord.Client({ messageSweepInterval: 60, disableEveryone: true, disabledEvents: ["TYPING_START", "PRESENCE_UPDATE"] }), shId = client.shard ? "Shard " + client.shard.id + ": " : "";
 const db = require("./database.js")(client, config), fails = {};
 
 client.on("ready", async () => {
@@ -64,7 +64,7 @@ client.on("message", async message => {
       return message.delete();
     }
 
-    ++count; gdb.addToCount(message.author.id).then(() => gdb.checkRole(message.author.id, count))
+    ++count; gdb.addToCount(message.member)
 
     var msg = message;
     try {
@@ -83,7 +83,7 @@ client.on("message", async message => {
       }}).then(newMsg => { msg = newMsg; message.delete(); })
     } catch(e) {} // if it doesn't work, we still have the original "msg" value we can pass on further.
 
-    return gdb.doStuffAfterCount(count, message.author.id, msg);
+    return gdb.doStuffAfterCount(count, message.member, msg);
   }
   
   if (!prefix) prefix = config.prefix
@@ -91,14 +91,14 @@ client.on("message", async message => {
   if (message.content.startsWith(prefix) || message.content.match(`^<@!?${client.user.id}> `)) {
     if (!message.member && message.author.id) try { message.member = await message.guild.fetchMember(message.author.id, true) } catch(e) {} // on bigger bots with not enough ram, not all members are loaded in. So if a member is missing, we try to load it in.
 
-    const args = message.content.split(" ");
-    if (args[0].match(`^<@!?${client.user.id}>`)) args.shift(); else args[0] = args[0].slice(prefix.length);
+    let args = message.content.split(" ");
+    if (args[0].match(`^<@!?${client.user.id}>`)) args.shift(); else args = message.content.slice(prefix.length).split(" ");
     const command = args.shift().toLowerCase()
 
     const commandFile = commands[command], permissionLevel = getPermissionLevel(message.member)
     if (commandFile) {
-      if (permissionLevel < commandFile.permissionRequried) return message.channel.send("❌ You don't have permission! For help type `" + prefix + "help " + command + "`.");
-      if (commandFile.checkArgs(args, permissionLevel) !== true) return message.channel.send("❌ Invalid arguments! For help type `" + prefix + "help " + command + "`.");
+      if (permissionLevel < commandFile.permissionRequired) return message.channel.send("❌ You don't have permission to do this!");
+      if (commandFile.checkArgs(args, permissionLevel) !== true) return message.channel.send("❌ Invalid arguments! Usage is `" + prefix + command + Object.keys(commandFile.usage).map(a => " " + a).join("") + "\`, for additional help type `" + prefix + "help " + command + "`.");
       
       commandFile.run(client, message, args, config, gdb, prefix, permissionLevel, db)
     }
@@ -171,7 +171,7 @@ client
   .on("disconnect", dc => console.log(shId + "Disconnected:", dc))
   .on("reconnecting", () => console.log(shId + "Reconnecting..."))
   .on("resume", replayed => console.log(shId + "Resumed. [" + replayed + " events replayed]"))
-  .on("error", error => console.log(shId + "Unexpected error:", err))
+  .on("error", err => console.log(shId + "Unexpected error:", err))
   .on("warn", warn => console.log(shId + "Unexpected warning:", warn))
   .login(config.token)
 
