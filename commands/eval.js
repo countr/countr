@@ -1,7 +1,7 @@
 module.exports = {
   description: "Evaluate JavaScript code.",
   usage: {
-    "<js code ...>": "The JavaScript code you'd like to run. This is DANGEROUS, so only use it if you know what you're doing. Never run any code from people you don't trust."
+    "<code ...>": "The JavaScript code you'd like to run. This is DANGEROUS, so only use it if you know what you're doing. Never run any code from people you don't trust."
   },
   examples: {},
   aliases: ["evaluate"],

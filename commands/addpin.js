@@ -1,5 +1,5 @@
 module.exports = {
-  description: "Add a pintrigger so big milestones gets pinned in chat. Keep in mind this will only accept 50 pins de to Discord's limit.",
+  description: "Add a pintrigger so big milestones gets pinned in chat. Keep in mind this will only accept 50 pins because of Discord's limit.",
   usage: {
     "<mode: each|only>": "If you use each, it will pin every <count> count. If you use only, it will only pin count <count>.",
     "<count>": "The count you want to reference in your mode.",
