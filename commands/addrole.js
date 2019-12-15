@@ -10,7 +10,7 @@ module.exports = {
     "Count_Champ each 1000 temporary": "Will give users the Count Champ-role every 1000th count in the server, including 2000 and 3000 etc. And the role will last until someone else gets rewarded.",
     "469523835595653120 only 420 permanent": "Will give users the role with ID 469523835595653120 if they count the 420th count in the server. It will stay on until someone else removes it."
   },
-  aliases: [],
+  aliases: [ "+role" ],
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: (args) => args.length == 4
 }

@@ -9,7 +9,7 @@ module.exports = {
     "each 1000 repost": "Will pin every 1000th count after reposting it, including 2000 and 3000 etc.",
     "only 420": "Will pin the count 1337 as-is."
   },
-  aliases: [],
+  aliases: [ "+pin" ],
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: (args) => args.length == 3 || args.length == 4
 }

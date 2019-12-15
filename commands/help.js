@@ -8,7 +8,7 @@ module.exports = {
     "notifyme": "Will give you infomation about the notifyme-command.",
     "-all add": "Will give you all commands that have \"add\" in their command, description or usage."
   },
-  aliases: ["commands", "?"],
+  aliases: [ "commands", "?" ],
   permissionRequired: 0, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: () => true
 }

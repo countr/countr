@@ -8,7 +8,7 @@ module.exports = {
     "[A-Z]": "Will filter out all messages with capital letters.",
     "[A-Ca-cX-Zx-z]": "Will filter out A, B, C, X, Y, Z - regardless if it's capital or not."
   },
-  aliases: [],
+  aliases: [ "+regex" ],
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: (args) => !!args.length
 }

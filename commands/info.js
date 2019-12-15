@@ -2,7 +2,7 @@ module.exports = {
   description: "Get information and stats about the bot.",
   usage: {},
   examples: {},
-  aliases: ["botinfo", "botstats"],
+  aliases: [ "botinfo", "botstats" ],
   permissionRequired: 0, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: (args) => !args.length
 }
