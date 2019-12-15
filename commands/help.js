@@ -19,7 +19,10 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
   let permission = permissionLevel;
   if (args[0] == "-all") { permission = 2; args.shift(); }
 
-  let search = args.join(" "), commandsFound = [];
+  let search = args.join(" ");
+  if (search.length > 20 || search.includes("\n")) return message.channel.send("❌ Invalid search query. For help, type `" + prefix + "help help`");
+  
+  let commandsFound = [];
   for (var command in allCommands) if (allCommands[command].permissionRequired <= permission && [
     command.includes(search),
     (prefix + command).includes(search),
