@@ -33,10 +33,9 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
       "**Description:** " + allCommands[command].description,
       "**Permission Level Required:** " + ["None", "Chat Moderators", "Server Administrators", "Server Owner", "Bot Support Team", "Bot Developer"][allCommands[command].permissionRequired] + (permission !== permissionLevel ? " \`" + (permissionLevel >= allCommands[command].permissionRequired ? "✅" : "❌") + "\`" : ""),
       "**Usage:** \`" + prefix + command + Object.keys(allCommands[command].usage).map(arg => " " + arg).join("") + "\`",
-      "**Arguments:** " + (Object.keys(allCommands[command].usage).map(arg => "\n- \`" + arg + "\`: " + allCommands[command].usage[arg]).join("") || "None."),
-      "**Examples:** " + (Object.keys(allCommands[command].examples).map(ex => "\n- \`" + prefix + command + " " + ex + "\`: " + allCommands[command].examples[ex]).join("") || "None.")
+      "**Documentation:** https://countr.xyz/#/commands?id=c" + command
     ].join("\n"),
-  inline: false
+    inline: false
   })
 
   let pages = Math.ceil(commandsFound.length / 5), page = 1;

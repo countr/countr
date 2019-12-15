@@ -20,3 +20,21 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
     timestamp: Date.now()
   }}).catch(() => message.channel.send("🆘 An unknown error occoured. Do I have permission? (Embed Links)"));
 }
+
+function msToTime(ms){
+  days = Math.floor(ms / (24*60*60*1000));
+  daysms = ms % (24*60*60*1000);
+  hours = Math.floor((daysms)/(60*60*1000));
+  hoursms = ms % (60*60*1000);
+  minutes = Math.floor((hoursms)/(60*1000));
+  minutesms = ms % (60*1000);
+  sec = Math.floor((minutesms)/(1000));
+
+  let str = "";
+  if (days) str = str + days + "d";
+  if (hours) str = str + hours + "h";
+  if (minutes) str = str + minutes + "m";
+  if (sec) str = str + sec + "s";
+
+  return str;
+}

@@ -73,7 +73,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
           "name": "🌐 Links",
           "value": [
             "**Documentation:** https://countr.xyz/",
-            "**Invite me:** [https://discordapp.com/api/oauth2/authorize?client_id=" + client.user.id + "&permissions=805399632&redirect_uri=http%3A%2F%2Fcountr.xyz%2Fquickguide&response_type=code&scope=bot%20identify](https://discordapp.com/api/oauth2/authorize?...)",
+            "**Invite me:** [https://discordapp.com/api/oauth2/authorize?...](https://discordapp.com/api/oauth2/authorize?client_id=" + client.user.id + "&permissions=805399632&redirect_uri=http%3A%2F%2Fcountr.xyz%2Fquickguide&response_type=code&scope=bot%20identify)",
             "**Support Server**: https://discord.gg/vDg9jAE",
             "**Source Code**: https://github.com/gleeny/countr"
           ].join("\n"),

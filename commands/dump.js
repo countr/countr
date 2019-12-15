@@ -22,9 +22,9 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
   await message.author.send("Database information for guild " + id, {
     files: [
       {
-        attachment: Buffer.from(JSON.stringify(await guilddb.get())),
+        attachment: Buffer.from(JSON.stringify(await guilddb.get(), null, 2)),
         name: id + ".json"
       }
     ]
-  }).then(m => message.channel.send("✅ Sent to DMs. [" + m.url + "]")).catch(() => message.channel.send("❌ I couldn't send you the file in DMs. Have you enabled DMs in this server?"))
+  }).then(m => message.channel.send("✅ Sent to DMs. [<" + m.url + ">]")).catch(() => message.channel.send("❌ I couldn't send you the file in DMs. Have you enabled DMs in this server?"))
 }

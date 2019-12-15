@@ -13,7 +13,7 @@ module.exports = {
 }
 
 module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
-  let newPrefix = args.join(" ").replace("{{SPACE}}", "")
+  let newPrefix = args.join(" ").replace("{{SPACE}}", " ")
 
   gdb.set("prefix", newPrefix)
     .then(() => message.channel.send("✅ Prefix has been saved."))
