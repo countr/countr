@@ -21,6 +21,7 @@
     "bufferutil": "^4.0.1",
     "discord.js": "^11.5.1",
     "erlpack": "github:discordapp/erlpack",
+    "express": "^4.17.1",
     "fs": "0.0.2",
     "mongoose": "^5.7.7",
     "node-fetch": "^2.6.0"
