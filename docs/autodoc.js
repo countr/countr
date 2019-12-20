@@ -60,6 +60,5 @@ fs.readdir("./commands/", (err, files) => {
 })
 
 function fixAngleBrackets(str) {
-	while (str.includes("<") || str.includes(">")) str = str.replace("<", "&lt;").replace(">", "&gt;");
-	return str;
+	return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
