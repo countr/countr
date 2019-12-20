@@ -37,9 +37,9 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
 }
 
 const allModules = {
-  "allow-spam": { description: "Allow people to talk multiple times in a row, instead of forcing users to wait for the next person to count first." },
+  "allow-spam": { description: "Allow people to count multiple times in a row, instead of forcing them to wait for the next person to count first." },
   "talking": { description: "Allow people to send a text message after the count. Ex. `1 Hi there!`" },
-  "recover": { description: "If the bot goes offline, this module will try and remove all unprocessed messages in the counting channel when it gets online again. It will also unlock the channel, so if you lock it temporairly - don't worry!" },
+  "recover": { description: "Make the bot try to recover itself after it goes offline by removing unprocessed messages in the counting channel when it goes online." },
   "reposting": { description: "Repost the message being sent in a nice embed, preventing the users from editing or self-deleting their count later on.", incompatibleWith: [ "webhook" ] },
   "webhook": { description: "Same as the module `reposting` except that it will repost it in a nice embed, impersonating the user who sent it.", incompatibleWith: [ "reposting" ] }
 }, fields = []
