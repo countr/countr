@@ -167,7 +167,7 @@ client
     if (message.channel.id == channel && message.id == lastMessage) return message.channel.send(oldMessage.content + " (" + message.author.toString() + ")").then(m => message.delete() && db.setLastMessage(m.id)) // resend if the last count git edited
   })
 
-  .on("rateLimit", rl => console.log(shId + "Rate limited. [" + rl.timeDifference + "ms, endpoint: " + rl.path + "]"))
+  .on("rateLimit", rl => console.log(shId + "Rate limited. [" + rl.timeDifference + "ms, endpoint: " + rl.path + ", limit: " + rl.limit + "]"))
   .on("disconnect", dc => console.log(shId + "Disconnected:", dc))
   .on("reconnecting", () => console.log(shId + "Reconnecting..."))
   .on("resume", replayed => console.log(shId + "Resumed. [" + replayed + " events replayed]"))
