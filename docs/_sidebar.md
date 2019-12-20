@@ -31,4 +31,7 @@
   - [Countr is slow, please fix.](/troubleshooting#countr-is-slow-please-fix)
   - [I need further help!](/troubleshooting#i-need-further-help)
 - [Links](#)
+  - [Uptime](https://uptime.countr.xyz/)
+  - [Source Code](https://github.com/gleeny/countr/)
+  - [Trello](https://trello.com/b/6fIzYrDk/countr)
   - [Twitter](https://twitter.com/countrbot)
