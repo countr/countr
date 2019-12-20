@@ -17,8 +17,8 @@ fs.readdir("./commands/", (err, files) => {
 				"## c!" + commandName,
 				fixAngleBrackets(commandFile.description),
 				"**Usage:** `c!" + commandName + Object.keys(commandFile.usage).map(arg => " " + arg).join("") + "`",
-				"**Argument" + (Object.keys(commandFile.usage).length == 1 ? "" : "s") + ":** " + (Object.keys(commandFile.usage).map(arg => "\n- \`" + arg + "\`: " + fixAngleBrackets(commandFile.usage[arg])).join("") || "None."),
-				"**Example" + (Object.keys(commandFile.examples).length == 1 ? "" : "s") + ":** " + (Object.keys(commandFile.examples).map(ex => "\n- \`c!" + commandName + " " + ex + "\`: " + fixAngleBrackets(commandFile.examples[ex])).join("") || "None."),
+				"**Argument" + (Object.keys(commandFile.usage).length == 1 ? "" : "s") + ":** " + (Object.keys(commandFile.usage).map(arg => "\n- \`" + arg + "\`: " + commandFile.usage[arg]).join("") || "None."),
+				"**Example" + (Object.keys(commandFile.examples).length == 1 ? "" : "s") + ":** " + (Object.keys(commandFile.examples).map(ex => "\n- \`c!" + commandName + " " + ex + "\`: " + commandFile.examples[ex]).join("") || "None."),
 				"**Alias" + (commandFile.aliases.length == 1 ? "" : "es") + ":** " + (commandFile.aliases.map(alias => "\`c!" + alias + "\`").join(", ") || "None."),
 			].filter(s => !s.endsWith(" None.")).join("\n\n"))
 		}
@@ -34,6 +34,8 @@ fs.readdir("./commands/", (err, files) => {
   }
   
 	commandDoc = commandDoc + commands.join("\n\n")
+
+	commandDoc = fixAngleBrackets(commandDoc)
   
 	fs.writeFileSync("./docs/commands.md", commandDoc, "utf8")
   
@@ -42,6 +44,5 @@ fs.readdir("./commands/", (err, files) => {
 
 function fixAngleBrackets(str) {
 	while (str.includes("<") || str.includes(">")) str = str.replace("<", "&lt;").replace(">", "&gt;");
-	// while (str.includes("bracketleftplease") || str.includes("bracketrightplease")) str = str.replace("bracketleftplease", "\\\\<").replace("bracketrightplease", "\\>");
 	return str;
 }
