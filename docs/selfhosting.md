@@ -10,7 +10,7 @@ We will have to do this once:
 * Rename `config.example.json` to `config.json`, and fill in the values.
 * Do `npm i` inside the folder, and wait for it to finish.
 
-After all this, start the bot with `node app.js`.
+After all this, start the bot with `npm run start`.
 
 > [!WARNING]
 > There is literally no warranty if you self-host Countr, and we will not help you set it up either. If you wish to set the bot up yourself, we expect you have well enough knowledge in Node.js. We still recommend using the original bot.
