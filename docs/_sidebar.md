@@ -9,6 +9,7 @@
   - [Features](/premium#premium-only-features)
   - [How to support](/premium#how-to-support)
 - [Commands](/commands)
+  - [Understanding Usage](/commands#understanding-usage)
   - [Level 0: Everyone](/commands#level-0-everyone)
   - [Level 1: Moderator](/commands#level-1-moderator)
   - [Level 2: Admin](/commands#level-2-admin)

@@ -1,3 +1,22 @@
+# Understanding Usage
+
+- Everything in angle brackets are user input, for example `<count>`.
+- Everything in square brackets are optional, for example `[repost]` or `[<search query>]`.
+- Everything without any brackets are required in the command for it to work, for example `all`
+- Sometimes you need to choose between multiple inputs, for example in `<mode: each|every|score>` or `all|<members...>`.
+- Sometimes an argument supports multiple inputs, for example in `<regex ...>`
+- Sometimes a combination of these are used.
+
+For example, in this command: `c!command <abc> [def] [<ghi>] jkl <mno: pq|rs> <tuv ...>`:
+- `<abc>` is required user input.
+- `[def]` is optional, but is not user input.
+- `[<ghi>]` is optional user input.
+- `jkl` is required, but is not user input.
+- `<mno: pq|rs>` is required user input, but can only choose between `pq` and `rs`.
+- `<tuv ...>` is required user input, but also supports multiple inputs.
+
+Still doesn't understand? Don't worry, most of the commands have an example you can go out from.
+
 # Level 0: Everyone
 Everyone get access to these commands.
 - [c!help](#chelp): Get help on how to use the bot. Will time out after one minute of inactivity.
@@ -33,7 +52,7 @@ Everyone with the `MANAGE_SERVER`-permission get access to these commands.
 - [c!resetscore](#cresetscore): Reset a member's or multiple members' score.
 - [c!set](#cset): Set the count.
 - [c!setscore](#csetscore): Set a member's score
-- [c!timeoutrole](#ctimeoutrole): Set a timeout role, so when someone counts &lt;fail amount&gt; times wrong within &lt;time&gt; seconds, they will get the role. Works best if you deny the role access to the channel.
+- [c!timeoutrole](#ctimeoutrole): Set a timeout role, so when someone counts <fail amount> times wrong within <time> seconds, they will get the role. Works best if you deny the role access to the channel.
 - [c!toggle](#ctoggle): Manage modules you can enable or disable in your server.
 - [c!unlink](#cunlink): Unlink the current counting channel.
 
@@ -46,11 +65,11 @@ Only the owner of the server can access these commands.
 
 Add a pintrigger so big milestones gets pinned in chat. Keep in mind this will only accept 50 pins because of Discord's limit.
 
-**Usage:** `c!addpin &lt;mode: each|only&gt; &lt;count&gt; [repost]`
+**Usage:** `c!addpin <mode: each|only> <count> [repost]`
 
 **Arguments:** 
-- `&lt;mode: each|only&gt;`: If you use each, it will pin every &lt;count&gt; count. If you use only, it will only pin count &lt;count&gt;.
-- `&lt;count&gt;`: The count you want to reference in your mode.
+- `<mode: each|only>`: If you use each, it will pin every &lt;count&gt; count. If you use only, it will only pin count &lt;count&gt;.
+- `<count>`: The count you want to reference in your mode.
 - `[repost]`: If you use this, it will repost the message meaning they won't be able to edit it in the future and potentially advertise in pinned messages.
 
 **Examples:** 
@@ -63,10 +82,10 @@ Add a pintrigger so big milestones gets pinned in chat. Keep in mind this will o
 
 Add a regex filter for the talking module, filtering unwanted chats.
 
-**Usage:** `c!addregex &lt;regex ...&gt;`
+**Usage:** `c!addregex <regex ...>`
 
 **Argument:** 
-- `&lt;regex ...&gt;`: The regex you want to filter out of the chat. Get info on how to create a regex here: https://flaviocopes.com/javascript-regular-expressions/#regular-expressions-choices
+- `<regex ...>`: The regex you want to filter out of the chat. Get info on how to create a regex here: https://flaviocopes.com/javascript-regular-expressions/#regular-expressions-choices
 
 **Examples:** 
 - `c!addregex duck|poop`: Will filter out all messages containing duck and/or poop.
@@ -79,13 +98,13 @@ Add a regex filter for the talking module, filtering unwanted chats.
 
 Add a rolereward that gets rewarded by counting.
 
-**Usage:** `c!addrole &lt;role&gt; &lt;mode: each|only|score&gt; &lt;count&gt; &lt;duration: temporary|permanent&gt;`
+**Usage:** `c!addrole <role> <mode: each|only|score> <count> <duration: temporary|permanent>`
 
 **Arguments:** 
-- `&lt;role&gt;`: The role you want to be the reward. If you plan on using the role name, use _ instead of spaces.
-- `&lt;mode: each|only|score&gt;`: If you use each, it will reward someone for every &lt;count&gt; count. If you use only, it will only reward someone for count &lt;count&gt;. If you use score, it will reward someone if their score hit &lt;count&gt;.
-- `&lt;count&gt;`: The count you want to reference in your mode.
-- `&lt;duration: temporary|permanent&gt;`: If you use temporary, the users will lose their role again if someone else gets rewarded with the same role. If you use permanent, they keep it forever until someone removes it.
+- `<role>`: The role you want to be the reward. If you plan on using the role name, use _ instead of spaces.
+- `<mode: each|only|score>`: If you use each, it will reward someone for every &lt;count&gt; count. If you use only, it will only reward someone for count &lt;count&gt;. If you use score, it will reward someone if their score hit &lt;count&gt;.
+- `<count>`: The count you want to reference in your mode.
+- `<duration: temporary|permanent>`: If you use temporary, the users will lose their role again if someone else gets rewarded with the same role. If you use permanent, they keep it forever until someone removes it.
 
 **Examples:** 
 - `c!addrole Count_Champ each 1000 temporary`: Will give users the Count Champ-role every 1000th count in the server, including 2000 and 3000 etc. And the role will last until someone else gets rewarded.
@@ -114,12 +133,12 @@ Dump a server's data to DMs.
 
 Edit a pintrigger.
 
-**Usage:** `c!editpin &lt;ID&gt; &lt;property: mode|count|action&gt; &lt;value: see addpin's usage&gt;`
+**Usage:** `c!editpin <ID> <property: mode|count|action> <value: see addpin's usage>`
 
 **Arguments:** 
-- `&lt;ID&gt;`: The pintrigger's ID.
-- `&lt;property: mode|count|action&gt;`: The property you want to change.
-- `&lt;value: see addpin's usage&gt;`: The new value for the property.
+- `<ID>`: The pintrigger's ID.
+- `<property: mode|count|action>`: The property you want to change.
+- `<value: see addpin's usage>`: The new value for the property.
 
 **Examples:** 
 - `c!editpin wnoK3d mode each`: Will change the pintrigger with ID wnoK3d's mode to each.
@@ -129,12 +148,12 @@ Edit a pintrigger.
 
 Edit a rolereward.
 
-**Usage:** `c!editrole &lt;ID&gt; &lt;property: role|mode|count|duration&gt; &lt;value: see addrole's usage&gt;`
+**Usage:** `c!editrole <ID> <property: role|mode|count|duration> <value: see addrole's usage>`
 
 **Arguments:** 
-- `&lt;ID&gt;`: The rolereward's ID.
-- `&lt;property: role|mode|count|duration&gt;`: The property you want to change.
-- `&lt;value: see addrole's usage&gt;`: The new value for the property.
+- `<ID>`: The rolereward's ID.
+- `<property: role|mode|count|duration>`: The property you want to change.
+- `<value: see addrole's usage>`: The new value for the property.
 
 **Examples:** 
 - `c!editrole MnRIf4 mode each`: Will change the rolereward with ID MnRIf4's mode to each.
@@ -150,11 +169,11 @@ Reset all data Countr has stored about this server.
 
 Get help on how to use the bot. Will time out after one minute of inactivity.
 
-**Usage:** `c!help [-all] [&lt;search ...&gt;]`
+**Usage:** `c!help [-all] [<search ...>]`
 
 **Arguments:** 
 - `[-all]`: If you include this, it will show all the commands excluding bot-admins-only commands.
-- `[&lt;search ...&gt;]`: Search for a specific command, category or related.
+- `[<search ...>]`: Search for a specific command, category or related.
 
 **Examples:** 
 - `c!help notifyme`: Will give you infomation about the notifyme-command.
@@ -182,10 +201,10 @@ Get an invite to add the bot.
 
 Link a counting channel manually.
 
-**Usage:** `c!link [&lt;channel&gt;]`
+**Usage:** `c!link [<channel>]`
 
 **Argument:** 
-- `[&lt;channel&gt;]`: The new counting channel.
+- `[<channel>]`: The new counting channel.
 
 **Alias:** `c!connect`
 
@@ -209,10 +228,10 @@ Get a list of role rewards in the server.
 
 Set up a liveboard in your server. Requires $3 Premium!
 
-**Usage:** `c!liveboard [&lt;channel&gt;]`
+**Usage:** `c!liveboard [<channel>]`
 
 **Argument:** 
-- `[&lt;channel&gt;]`: Specify what channel you want the liveboard message to go in. Default is current channel.
+- `[<channel>]`: Specify what channel you want the liveboard message to go in. Default is current channel.
 
 ## c!notifications
 
@@ -226,11 +245,11 @@ Get a list of your notifications in the server.
 
 Get a notification whenever the server reach whatever count you want.
 
-**Usage:** `c!notifyme [each] &lt;count&gt;`
+**Usage:** `c!notifyme [each] <count>`
 
 **Arguments:** 
 - `[each]`: If you include this, it will be each &lt;count&gt;.
-- `&lt;count&gt;`: The count you want to get notified of.
+- `<count>`: The count you want to get notified of.
 
 **Examples:** 
 - `c!notifyme 420`: Get notified whenever the server reach count 420.
@@ -250,10 +269,10 @@ Get the latency of the bot.
 
 Set a new prefix for the bot.
 
-**Usage:** `c!prefix &lt;prefix ...&gt;`
+**Usage:** `c!prefix <prefix ...>`
 
 **Argument:** 
-- `&lt;prefix ...&gt;`: The new prefix. If you want to end your prefix with a space, end the prefix with {{SPACE}}.
+- `<prefix ...>`: The new prefix. If you want to end your prefix with a space, end the prefix with {{SPACE}}.
 
 **Examples:** 
 - `c!prefix c?`: Set the prefix to c?, the help command would then be c?help.
@@ -265,10 +284,10 @@ Set a new prefix for the bot.
 
 Remove a notification.
 
-**Usage:** `c!removenotif &lt;ID&gt;`
+**Usage:** `c!removenotif <ID>`
 
 **Argument:** 
-- `&lt;ID&gt;`: The notification ID you want to remove.
+- `<ID>`: The notification ID you want to remove.
 
 **Example:** 
 - `c!removenotif bd9kJK`: Remove notification with ID bd9kJK.
@@ -279,10 +298,10 @@ Remove a notification.
 
 Remove a pintrigger.
 
-**Usage:** `c!removepin &lt;ID&gt;`
+**Usage:** `c!removepin <ID>`
 
 **Argument:** 
-- `&lt;ID&gt;`: The pintrigger ID you want to remove.
+- `<ID>`: The pintrigger ID you want to remove.
 
 **Example:** 
 - `c!removepin v43ThQ`: Remove pintrigger with ID v43ThQ.
@@ -293,10 +312,10 @@ Remove a pintrigger.
 
 Remove a regex filter.
 
-**Usage:** `c!removeregex &lt;regex ...&gt;`
+**Usage:** `c!removeregex <regex ...>`
 
 **Argument:** 
-- `&lt;regex ...&gt;`: The regex you want to remove.
+- `<regex ...>`: The regex you want to remove.
 
 **Example:** 
 - `c!removeregex duck|poop`: Will remove the regex filter duck|poop.
@@ -307,10 +326,10 @@ Remove a regex filter.
 
 Remove a rolereward.
 
-**Usage:** `c!removerole all|&lt;ID&gt;`
+**Usage:** `c!removerole all|<ID>`
 
 **Argument:** 
-- `all|&lt;ID&gt;`: The rolereward ID you want to remove. If you use all, it will remove all rolerewards.
+- `all|<ID>`: The rolereward ID you want to remove. If you use all, it will remove all rolerewards.
 
 **Example:** 
 - `c!removerole bd9kJK`: Remove rolereward with ID bd9kJK.
@@ -327,10 +346,10 @@ Reset the count.
 
 Reset a member's or multiple members' score.
 
-**Usage:** `c!resetscore all|&lt;members ...&gt;`
+**Usage:** `c!resetscore all|<members ...>`
 
 **Argument:** 
-- `all|&lt;members ...&gt;`: The member or members you want to reset the score of. If you use all, it will remove all members' scores.
+- `all|<members ...>`: The member or members you want to reset the score of. If you use all, it will remove all members' scores.
 
 **Examples:** 
 - `c!resetscore 110090225929191424`: Will remove member with ID 110090225929191424's score.
@@ -340,20 +359,20 @@ Reset a member's or multiple members' score.
 
 Set the count.
 
-**Usage:** `c!set &lt;count&gt;`
+**Usage:** `c!set <count>`
 
 **Argument:** 
-- `&lt;count&gt;`: The new count.
+- `<count>`: The new count.
 
 ## c!setscore
 
 Set a member's score
 
-**Usage:** `c!setscore &lt;member(s ...) and/or role(s ...)&gt; &lt;score&gt;`
+**Usage:** `c!setscore <member(s ...) and/or role(s ...)> <score>`
 
 **Arguments:** 
-- `&lt;member(s ...) and/or role(s ...)&gt;`: The member(s) or members of role(s) you want to set the score of
-- `&lt;score&gt;`: The new score
+- `<member(s ...) and/or role(s ...)>`: The member(s) or members of role(s) you want to set the score of
+- `<score>`: The new score
 
 **Examples:** 
 - `c!setscore 110090225929191424 9999999`: Will set member with ID 110090225929191424's score to 9999999.
@@ -363,13 +382,13 @@ Set a member's score
 
 Set a timeout role, so when someone counts &lt;fail amount&gt; times wrong within &lt;time&gt; seconds, they will get the role. Works best if you deny the role access to the channel.
 
-**Usage:** `c!timeoutrole &lt;role&gt; &lt;time&gt; &lt;fails&gt; [&lt;duration&gt;]`
+**Usage:** `c!timeoutrole <role> <time> <fails> [<duration>]`
 
 **Arguments:** 
-- `&lt;role&gt;`: The role you want the timeout role to be. If you plan on using the role name, use _ instead of spaces.
-- `&lt;time&gt;`: Time in seconds users have to count &lt;fails&gt; times in to get the role.
-- `&lt;fails&gt;`: Fails within &lt;time&gt; seconds to get the role.
-- `[&lt;duration&gt;]`: Duration in seconds the role will stay on for. Default is forever.
+- `<role>`: The role you want the timeout role to be. If you plan on using the role name, use _ instead of spaces.
+- `<time>`: Time in seconds users have to count &lt;fails&gt; times in to get the role.
+- `<fails>`: Fails within &lt;time&gt; seconds to get the role.
+- `[<duration>]`: Duration in seconds the role will stay on for. Default is forever.
 
 **Examples:** 
 - `c!timeoutrole Timed_out 10 5`: This will give the user the role Timed out if they fail 5 times within 10 seconds.
@@ -379,10 +398,10 @@ Set a timeout role, so when someone counts &lt;fail amount&gt; times wrong withi
 
 Manage modules you can enable or disable in your server.
 
-**Usage:** `c!toggle [&lt;module&gt;]`
+**Usage:** `c!toggle [<module>]`
 
 **Argument:** 
-- `[&lt;module&gt;]`: The module you want to toggle.
+- `[<module>]`: The module you want to toggle.
 
 **Example:** 
 - `c!toggle allow-spam`: Toggle the module allow-spam.
@@ -401,10 +420,10 @@ Get the current leaderboard of the server.
 
 Set the topic of the channel.
 
-**Usage:** `c!topic &lt;topic ...|reset|disable&gt;`
+**Usage:** `c!topic <topic ...|reset|disable>`
 
 **Argument:** 
-- `&lt;topic ...|reset|disable&gt;`: The new topic. Use {{COUNT}} for the current count. If you put reset, it will be changed to the default. If you put disable, it will disable this functionality completely.
+- `<topic ...|reset|disable>`: The new topic. Use {{COUNT}} for the current count. If you put reset, it will be changed to the default. If you put disable, it will disable this functionality completely.
 
 **Example:** 
 - `c!topic Count to infinity! Next count is {{COUNT}}.`: An example using the placeholder.
