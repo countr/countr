@@ -33,7 +33,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
 
   gdb.toggleModule(_module)
     .then(state => message.channel.send("✅ The module \`" + _module + "\` has now been " + (state ? "enabled" : "disabled") + "."))
-    .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occoured. Please try again, or contact support."))
+    .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occurred. Please try again, or contact support."))
 }
 
 const allModules = {

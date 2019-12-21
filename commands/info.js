@@ -89,7 +89,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
         }
       ]
     }
-  }).catch(() => message.channel.send("🆘 An unknown error occoured. Do I have permission? (Embed Links)"));
+  }).catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
 }
 
 function msToTime(ms){

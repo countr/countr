@@ -29,5 +29,5 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
 
   gdb.setNotification(ID, message.author.id, mode, count)
     .then(() => message.channel.send("✅ Notification with ID \`" + ID + "\` is now saved."))
-    .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occoured. Please try again, or contact support."))
+    .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occurred. Please try again, or contact support."))
 }

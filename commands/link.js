@@ -20,5 +20,5 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
 
   gdb.set("channel", channel.id)
     .then(() => message.channel.send("✅ The channel has been linked! Keep in mind commands inside the counting channel will not work, and these commands has to be outside of the counting channel."))
-    .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occoured. Please try again, or contact support."))
+    .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occurred. Please try again, or contact support."))
 }

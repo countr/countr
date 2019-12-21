@@ -37,5 +37,5 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
   let { roles: alreadyGeneratedPins } = await gdb.get(), id = generateID(Object.keys(alreadyGeneratedPins))
   gdb.setRole(id, mode, count, duration)
     .then(() => message.channel.send("✅ Rolereward with ID `" + id + "` is now saved."))
-    .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occoured. Please try again, or contact support."))
+    .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occurred. Please try again, or contact support."))
 }

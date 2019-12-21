@@ -43,5 +43,5 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
 
   gdb.editRole(id, property, value)
     .then(() => message.channel.send("✅ Rolereward with ID `" + id + "` has now been changed."))
-    .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occoured. Please try again, or contact support."))
+    .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occurred. Please try again, or contact support."))
 }

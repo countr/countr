@@ -17,6 +17,6 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
 
     message.channel.send("✅ Enjoy " + ch + "!")
   } catch(e) {
-    message.channel.send("❌ An unknown error occoured. Do I have permission?")
+    message.channel.send("❌ An unknown error occurred. Do I have permission?")
   }
 }

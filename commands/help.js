@@ -82,7 +82,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
     } catch(e) { // the timer went out
       return botMsg.edit("⏲️ Timed out. Open it again with \`" + prefix + "help\`.", {embed:{}}) && botMsg.clearReactions();
     }
-  }).catch(() => message.channel.send("🆘 An unknown error occoured. Do I have permission? (Embed Links, Add Reactions, Manage Messages)"))
+  }).catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links, Add Reactions, Manage Messages)"))
 }
 
 const allCommands = {};

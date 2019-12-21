@@ -19,7 +19,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
 
   gdb.addRegex(regex)
     .then(() => message.channel.send("✅ Regex `" + regex + "` is now saved."))
-    .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occoured. Please try again, or contact support."))
+    .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occurred. Please try again, or contact support."))
 }
 
 function testRegex(regex) {

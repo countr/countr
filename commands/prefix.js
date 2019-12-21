@@ -17,5 +17,5 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
 
   gdb.set("prefix", newPrefix)
     .then(() => message.channel.send("✅ Prefix has been saved."))
-    .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occoured. Please try again, or contact support."))
+    .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occurred. Please try again, or contact support."))
 }
