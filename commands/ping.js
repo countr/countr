@@ -8,17 +8,19 @@ module.exports = {
 }
 
 module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
-  message.channel.send({ embed: {
+  let botMsg = await message.channel.send("〽️ Pinging")
+
+  botMsg.edit({ embed: {
     title: "📶 Ping",
     description: [
-      "**Server**: `" + (Date.now() - message.createdAt) + "ms`",
+      "**Server**: `" + (botMsg.createdAt - message.createdAt) + "ms`",
       "**API**: `" + Math.round(client.ping) + "ms`",
       "**Uptime**: `" + msToTime(client.uptime) + "`"
     ].join("\n"),
     color: config.color,
     footer: { text: "Requested by " + message.author.tag, icon_url: message.author.displayAvatarURL },
-    timestamp: Date.now()
-  }}).catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
+    timestamp: new Date()
+  }}).catch(() => botMsg.edit("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
 }
 
 function msToTime(ms){
