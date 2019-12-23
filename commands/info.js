@@ -24,11 +24,11 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
       shardCount = 1
     }
 
-    memory = process.memoryUsage().heapUsed / (1024 * 1024)
+    memory = process.memoryUsage().heapUsed / (1048576) // 1024*1024
     if (memory >= 1024) memoryUsage = (memory / 1024).toFixed(2) + "GB"
     else memoryUsage = memory.toFixed(2) + "MB"
 
-    memoryGlobal = (os.totalmem() - os.freemem()) / (1024 * 1024)
+    memoryGlobal = (os.totalmem() - os.freemem()) / (1048576) // 1024*1024
     if (memoryGlobal >= 1024) memoryUsageGlobal = (memoryGlobal / 1024).toFixed(2) + "GB"
     else memoryUsageGlobal = memoryGlobal.toFixed(2) + "MB"
   }
