@@ -233,6 +233,18 @@ module.exports = (client, config) => {
           let guild = await getGuild(gid);
           guild.pins[ID][prop] = savedGuilds[gid].pins[ID][prop]
           guild.save().then(resolve).catch(reject);
+        }),
+
+        importScores: (scores, method) => new Promise(async function(resolve, reject) {
+          if (method == "set") for (var id in scores) savedGuilds[gid].users[id] = scores[id]
+          if (method == "add") for (var id in scores) {
+            if (!savedGuilds[gid].users[id]) savedGuilds[gid].users[id] = 0
+            savedGuilds[gid].users[id] += scores[id]
+          }
+
+          let guild = await getGuild(gid);
+          guild.users = savedGuilds.users
+          guild.save().then(resolve).catch(reject);
         })
       }
     }
