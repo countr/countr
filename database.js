@@ -75,7 +75,7 @@ module.exports = (client, config) => {
 
           // checking roles
           let roles = savedGuilds[gid].roles;
-          for (var ID of roles) try {
+          for (var ID in roles) try {
             let role = roles[ID], gRole = client.guilds.get(gid).roles.find(r => r.id == role.role)
             if (role && gRole && ((role.mode == "only" && count == role.count) || (role.mode == "each" && count % role.count == 0) || (role.mode == "score" && savedGuilds[gid].users[member.id] == role.count))) {
               if (roles.duration == "temporary") gRole.members.filter(m => m.id !== member.id).forEach(m => m.removeRole(gRole, "Role Reward " + ID))
@@ -88,19 +88,19 @@ module.exports = (client, config) => {
           guild.user = savedGuilds[gid].user;
           guild.users = savedGuilds[gid].users;
           await guild.save().then(resolve).catch(reject);
-          updateTopic(member.guild)
+          updateTopic(gid, client);
 
           addCount += 1;
         }),
 
         doStuffAfterCount: async (count, member, message) => Promise.all([
-          async () => {
+          new Promise(async function(resolve, reject) {
             savedGuilds[gid].message = message.id;
 
             let guild = await getGuild(gid);
             guild.message = savedGuilds[gid].message;
-            guild.save().catch(e => new Error(e))
-          }, async () => {
+            guild.save().then(resolve).catch(reject)
+          }), new Promise(async function(resolve) {
             let pins = savedGuilds[gid].pins, pin = Object.keys(pins).find(p => (pins[p].mode == "only" && pins[p].count == count) || (pins[p].mode == "each" && count % pins[p].count == 0));
 
             if (pin) try {
@@ -110,7 +110,9 @@ module.exports = (client, config) => {
                 message.channel.awaitMessages(m => m.author.id == client.user.id && m.content.startsWith(message.content), { max: 1, time: 60000 }).then(msgs => msgs.first().pin()) // it was the last count, so the bot will automatically resend it. (see app.js)
               } else message.pin();
             } catch(e) {}
-          }, async () => {
+
+            resolve(true);
+          }), new Promise(async function(resolve, reject) {
             let { notifications: notifs, channel } = savedGuilds[gid], needSave = false;
             for (var ID in notifs) {
               let notif = notifs[ID];
@@ -135,9 +137,9 @@ module.exports = (client, config) => {
             if (needSave) {
               let guild = await getGuild(gid);
               guild.notifications = savedGuilds[gid].notifications;
-              guild.save().catch(e => new Error(e))
-            }
-          }
+              guild.save().then(resolve).catch(reject)
+            } else resolve(true);
+          })
         ]),
         
         setScore: (user, score) => new Promise(async function(resolve, reject) {
@@ -263,7 +265,7 @@ const globalSchema = mongoose.Schema({
 const Guild = mongoose.model("Guild", guildSchema), Global = mongoose.model("Global", globalSchema);
 
 function updateTopic(gid, client) {
-  return new Promise(async function(resolve, reject) {
+  return new Promise(async function(resolve) {
     let guild = await cacheGuild(gid);
     try {
       let channel = client.guilds.get(gid).channels.get(guild.channel);
@@ -305,13 +307,13 @@ function getWeek(d) { // https://stackoverflow.com/a/6117889
   return weekNo;
 }
 
-const b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"; // base64
+const b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"; // base64
 
 module.exports.generateID = alreadyGenerated => {
-  let satisfied = false;
+  let satisfied = false, id;
 
   while (!satisfied) {
-    let id = "";
+    id = "";
     for (var i = 0; i < 6; i++) id = id + b64[Math.floor(Math.random() * b64.length)]
     if (!alreadyGenerated.includes(id)) satisfied = true;
   }

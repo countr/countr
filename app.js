@@ -158,13 +158,13 @@ client
     if (!message.guild || message.author.bot) return;
 
     const gdb = await db.guild(message.guild.id), {channel, message: lastMessage} = await gdb.get();
-    if (message.channel.id == channel && message.id == lastMessage) return message.channel.send(message.content + " (" + message.author.toString() + ")").then(m => gdb.setLastMessage(m.id)) // resend if the last count got deleted
+    if (message.channel.id == channel && message.id == lastMessage) return message.channel.send(message.content + " (" + message.author.toString() + ")").then(m => gdb.set("message", m.id)) // resend if the last count got deleted
   })
-  .on("messageUpdate", async (oldMessage, message) => {
+  .on("messageUpdate", async (message, newMessage) => {
     if (!message.guild || message.author.bot) return;
 
     const gdb = await db.guild(message.guild.id), {channel, message: lastMessage} = await gdb.get();
-    if (message.channel.id == channel && message.id == lastMessage) return message.channel.send(oldMessage.content + " (" + message.author.toString() + ")").then(m => message.delete() && db.setLastMessage(m.id)) // resend if the last count git edited
+    if (message.channel.id == channel && message.id == lastMessage && (message.content.split(" ")[0] !== newMessage.content.split(" ")[0])) return message.channel.send(message.content + " (" + message.author.toString() + ")").then(m => gdb.set("message", m.id)) // resend if the last count got edited
   })
 
   .on("rateLimit", rl => console.log(shId + "Rate limited. [" + rl.timeDifference + "ms, endpoint: " + rl.path + ", limit: " + rl.limit + "]"))
