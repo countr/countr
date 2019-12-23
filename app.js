@@ -1,6 +1,6 @@
 const Discord = require("discord.js"), fs = require("fs"), BLAPI = require("blapi"), config = require("./config.json")
 
-const client = new Discord.Client({ messageSweepInterval: 60, disableEveryone: true, disabledEvents: ["TYPING_START", "PRESENCE_UPDATE"] }), shId = client.shard ? "Shard " + client.shard.id + ": " : "";
+const client = new Discord.Client({ messageSweepInterval: 60, messageCacheLifetime: 5, disableEveryone: true, disabledEvents: ["TYPING_START", "PRESENCE_UPDATE"], restTimeOffset: 200 }), shId = client.shard ? "Shard " + client.shard.id + ": " : "";
 const db = require("./database.js")(client, config), fails = {};
 
 client.on("ready", async () => {
