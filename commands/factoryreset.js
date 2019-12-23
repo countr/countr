@@ -9,21 +9,26 @@ module.exports = {
 
 module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
   let botMsg = await message.channel.send("‼️ **Are you sure you want to delete all data Countr has on this server?**"), stage = 2;
-  await botMsg.react("❌"); await botMsg.react("✅");
+  try {
+    await botMsg.react("❌");
+    await botMsg.react("✅");
+  } catch(e) {
+    return botMsg.edit("🆘 An unknown error occurred. Do I have permission? (Add Reactions, Manage Messages)")
+  }
 
   while (stage) try {
     let collected = await botMsg.awaitReactions((reaction, user) => ["✅", "❌"].includes(reaction.emoji.name) && user.id == message.author.id, { errors: [ "time" ], time: 30000, maxEmojis: 1 })
     let reaction = collected.first();
-    if (reaction.emoji == "❌") return botMsg.edit("🔰 Cancelled by user. Run it again with `" + prefix + "factoryreset`.") && botMsg.clearReactions();
+    if (reaction.emoji == "❌") return botMsg.edit("🔰 Cancelled by user. Run it again with `" + prefix + "factoryreset`.") && botMsg.clearReactions().catch();
     else if (reaction.emoji == "✅") {
       stage -= 1;
-      if (stage) botMsg.edit("⁉️ **ARE YOU REALLY SURE?? We will not be able to recover anything of it if you do this!**") && reaction.remove(message.author.id);
+      if (stage) botMsg.edit("⁉️ **ARE YOU REALLY SURE?? We will not be able to recover anything of it if you do this!**") && reaction.remove(message.author.id).catch();
     }
   } catch(e) {
-    return botMsg.edit("⏲️ Timed out. Run it again with `" + prefix + "factoryreset`.") && botMsg.clearReactions();
+    return botMsg.edit("⏲️ Timed out. Run it again with `" + prefix + "factoryreset`.") && botMsg.clearReactions().catch();
   }
 
-  botMsg.clearReactions();
+  botMsg.clearReactions().catch();
 
   gdb.factoryReset()
     .then(() => botMsg.edit("☠️ All data is now reset to the default. Keep in mind the prefix is also reset."))
