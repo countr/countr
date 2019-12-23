@@ -34,7 +34,7 @@ function formatRoles(roles) {
 function formatNumberSuffix(number) {
   let str = number.toString()
 
-  if (str == 1) return ""; // instead of "Every 1st count", we say "Every count"
+  if (str == "1") return ""; // instead of "Every 1st count", we say "Every count"
 
   if (str.endsWith("11") || str.endsWith("12") || str.endsWith("13")) return str + "th " // ex. eleventh instead of elevenst
 

@@ -18,10 +18,11 @@ module.exports = (client, config) => {
     if (global.week != getWeek(new Date())) {
       if (config.postToWebhookEveryWeek) fetch(config.postToWebhookEveryWeek, {
         method: "POST",
-        body: JSON.stringify({ "value1": global.counts, "value2": global.week,
-        headers: { "Content-Type": "application/json" } }) })
+        body: JSON.stringify({ "value1": global.counts.toString(), "value2": global.week.toString() }), // the simplest way to integrate this is with IFTTT.
+        headers: { "Content-Type": "application/json" }
+      })
 
-      global.counts = 1;
+      global.counts = 0;
       global.week = getWeek(new Date())
     }
 
