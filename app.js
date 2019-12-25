@@ -22,13 +22,13 @@ setInterval(async () => {
 }, 60000)
 
 // command handler
-const commands = {} // { "command": require("that_command") }
+const commands = {}, aliases = {} // { "command": require("that_command") }, { "alias": "command" }
 fs.readdir("./commands/", (err, files) => {
   if (err) console.error(err);
   for (var file of files) if (file.endsWith(".js")) {
-    let commandFile = require("./commands/" + file)
-    commands[file.replace(".js", "")] = commandFile
-    if (commandFile.aliases) for (var alias of commandFile.aliases) commands[alias] = commandFile
+    let commandFile = require("./commands/" + file), fileName = file.replace(".js", "")
+    commands[fileName] = commandFile
+    if (commandFile.aliases) for (var alias of commandFile.aliases) aliases[alias] = fileName
   }
 })
 
@@ -92,7 +92,7 @@ client.on("message", async message => {
 
     let args = message.content.split(" ");
     if (args[0].match(`^<@!?${client.user.id}>`)) args.shift(); else args = message.content.slice(prefix.length).split(" ");
-    const command = args.shift().toLowerCase()
+    const identifier = args.shift().toLowerCase(), command = aliases[identifier] || identifier
 
     const commandFile = commands[command], permissionLevel = getPermissionLevel(message.member)
     if (commandFile) {
