@@ -1,5 +1,5 @@
 module.exports = {
-  description: "Get help on how to use the bot. Will time out after one minute of inactivity.",
+  description: "Get help on how to use the bot. Will time out after three minutes of inactivity.",
   usage: {
     "[-all]": "If you include this, it will show all the commands excluding bot-admins-only commands.",
     "[<search ...>]": "Search for a specific command, category or related."
@@ -61,7 +61,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
     botMsg.react("❌")
     
     while (true) try {
-      let collected = await botMsg.awaitReactions((_, user) => user.id == message.author.id, { errors: [ "time" ], time: 60000, maxEmojis: 1 })
+      let collected = await botMsg.awaitReactions((_, user) => user.id == message.author.id, { errors: [ "time" ], time: 180000, maxEmojis: 1 })
       let reaction = collected.first();
 
       if (reaction.emoji == "♻️") page = 1;
