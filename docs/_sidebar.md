@@ -14,7 +14,7 @@
   - [Level 1: Moderator](/commands#level-1-moderator)
   - [Level 2: Admin](/commands#level-2-admin)
   - [Level 3: Owner](/commands#level-3-owner)
-- [Advanced Features](/features)
+- [Customization](/features)
   - [Modules](/features#modules)
   - [Rolerewards](/features#rolerewards)
   - [Pintriggers](/features#pintriggers)

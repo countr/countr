@@ -163,6 +163,8 @@ Edit a rolereward.
 - `c!editrole MnRIf4 mode each`: Will change the rolereward with ID MnRIf4's mode to each.
 - `c!editrole jPFj78 count 1337`: Will change the rolereward with ID jPFj78's count to 1337.
 
+**Alias:** `c!=role`
+
 ## c!exportscores
 
 Export scores to a JSON-file.
@@ -373,7 +375,7 @@ Reset the count.
 
 **Usage:** `c!resetcount`
 
-**Alias:** `c!re=count`
+**Aliases:** `c!re=count`, `c!reset`
 
 ## c!resetscore
 
