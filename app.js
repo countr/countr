@@ -30,7 +30,6 @@ fs.readdir("./commands/", (err, files) => {
     commands[file.replace(".js", "")] = commandFile
     if (commandFile.aliases) for (var alias of commandFile.aliases) commands[alias] = commandFile
   }
-  console.log("Cached " + Object.keys(commands).length + " commands.")
 })
 
 client.on("message", async message => {
