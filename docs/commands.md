@@ -26,8 +26,8 @@ Everyone get access to these commands.
 - [c!notifyme](#cnotifyme): Get a notification whenever the server reach whatever count you want.
 - [c!ping](#cping): Get the latency of the bot.
 - [c!removenotif](#cremovenotif): Remove a notification.
+- [c!scoreboard](#cscoreboard): Get the current leaderboard of the server.
 - [c!settopic](#csettopic): Set the topic of the channel.
-- [c!top](#ctop): Get the current leaderboard of the server.
 
 # Level 1: Moderator
 Everyone with the `MANAGE_MESSAGES`-permission get access to these commands.
@@ -394,6 +394,14 @@ Reset a member's or multiple members' score.
 
 **Alias:** `c!re=score`
 
+## c!scoreboard
+
+Get the current leaderboard of the server.
+
+**Usage:** `c!scoreboard`
+
+**Aliases:** `c!leaderboard`, `c!^`, `c!top`
+
 ## c!setcount
 
 Set the count.
@@ -479,14 +487,6 @@ Manage modules you can enable or disable in your server.
 - `c!toggle allow-spam`: Toggle the module allow-spam.
 
 **Aliases:** `c!modules`, `c!module`
-
-## c!top
-
-Get the current leaderboard of the server.
-
-**Usage:** `c!top`
-
-**Aliases:** `c!leaderboard`, `c!^`, `c!scoreboard`
 
 ## c!unlink
 

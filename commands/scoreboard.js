@@ -2,7 +2,7 @@ module.exports = {
   description: "Get the current leaderboard of the server.",
   usage: {},
   examples: {},
-  aliases: [ "leaderboard", "^", "scoreboard" ],
+  aliases: [ "leaderboard", "^", "top" ],
   permissionRequired: 0, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: (args) => !args.length
 }
@@ -15,7 +15,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
 
   let description = leaderboard.join("\n");
   if (!topusers.includes(message.author.id)) {
-    if (leaderboard.length) description = description + "\n\n"
+    if (leaderboard.length) description = description + "\n^^^^^^^^^^^^^^^^^^^^^^^^^\n"
     description = description + formatScore(message.author.id, sorted.indexOf(message.author.id), users)
   }
 
@@ -39,7 +39,7 @@ const medals = {
 
 function formatScore(id, index, users) {
   let suffix = formatNumberSuffix(index + 1);
-  suffix = medals[suffix] || "**" + suffix + "**"
+  suffix = medals[suffix] || "**" + suffix + "**:"
   return suffix + " <@" + id + ">, **score:** " + users[id];
 }
 
