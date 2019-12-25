@@ -9,7 +9,7 @@ module.exports = {
     "wnoK3d mode each": "Will change the pintrigger with ID wnoK3d's mode to each.",
     "89hJzm count 1337": "Will change the pintrigger with ID 89hJzm's count to 1337."
   },
-  aliases: [],
+  aliases: [ "=pin" ],
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: (args) => args.length == 3
 }

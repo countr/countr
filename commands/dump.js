@@ -1,10 +1,8 @@
 module.exports = {
   description: "Dump a server's data to DMs.",
-  usage: {
-    "[server id]": "Normally it will dump the current server's data. If you supply this, it will dump that server's data instead. This is bot owner only."
-  },
+  usage: {},
   examples: {},
-  aliases: [],
+  aliases: [ "export" ],
   permissionRequired: 3, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: (args, permissionLevel) => {
     if (permissionLevel < 4 && args.length) return false;

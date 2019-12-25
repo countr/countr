@@ -8,7 +8,8 @@ module.exports = {
     "@Promise#0001": "Export the score of user Promise#0001.",
     "110090225929191424 @Promise#0001": "Export the scores of user with ID 110090225929191424 and user Promise#0001.",
     "@Staff Server_Moderators": "Export the scores of all members of roles Staff and Server Moderators.",
-    "110090225929191424 @Promise#0001 @Staff Server_Moderators": "Mix members and roles if you want to."
+    "110090225929191424 @Promise#0001 @Staff Server_Moderators": "Mix members and roles if you want to.",
+    "all": "Export all scores."
   },
   aliases: [],
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
