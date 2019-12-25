@@ -335,7 +335,7 @@ module.exports.generateID = alreadyGenerated => {
 
   while (!satisfied) {
     id = "";
-    for (const i = 0; i < 6; i++) id = id + b64[Math.floor(Math.random() * b64.length)]
+    for (let i = 0; i < 6; i++) id = id + b64[Math.floor(Math.random() * b64.length)]
     if (!alreadyGenerated.includes(id)) satisfied = true;
   }
 
