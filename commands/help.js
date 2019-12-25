@@ -23,7 +23,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
   if (search.length > 20 || search.includes("\n")) return message.channel.send("❌ Invalid search query. For help, type `" + prefix + "help help`");
   
   let commandsFound = [];
-  for (var command in allCommands) if (allCommands[command].permissionRequired <= permission && [
+  for (const command in allCommands) if (allCommands[command].permissionRequired <= permission && [
     command.includes(search),
     (prefix + command).includes(search),
     allCommands[command].description.includes(search),
@@ -88,7 +88,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
 const allCommands = {};
 fs.readdir("./commands/", (err, files) => {
   if (err) console.error(err)
-  for (var file of files) if (file.endsWith(".js")) {
+  for (const file of files) if (file.endsWith(".js")) {
     const commandFile = require("./" + file);
 
     const info = {}

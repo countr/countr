@@ -33,7 +33,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
       .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occurred. Please try again, or contact support."))
   } else {
     const members = [];
-    for (var arg of args) {
+    for (const arg of args) {
       let search = arg.split("_").join(" "), obj = [
         message.guild.members.find(m => search == m.user.tag),
         message.guild.members.get(search.replace("<@", "").replace("!", "").replace(">", "")),
@@ -49,7 +49,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
 
     const backup = {}, { users: scores } = await gdb.get(), newScores = JSON.parse(JSON.stringify(scores))
 
-    for (var member of members) {
+    for (const member of members) {
       backup[member.id] = scores[member.id] || 0;
       if (newScores[member.id]) delete newScores[member.id];
     }

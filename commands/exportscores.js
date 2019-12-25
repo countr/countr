@@ -30,7 +30,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
     }).catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Attach Files)"))
   } else {
     const members = [];
-    for (var arg of args) {
+    for (const arg of args) {
       let search = arg.split("_").join(" "), obj = [
         message.guild.members.find(m => search == m.user.tag),
         message.guild.members.get(search.replace("<@", "").replace("!", "").replace(">", "")),
@@ -46,7 +46,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
 
     const exported = {}, { users: scores } = await gdb.get();
 
-    for (var member of members) exported[member.id] = scores[member.id] || 0;
+    for (const member of members) exported[member.id] = scores[member.id] || 0;
 
     message.channel.send("✅ Here ya go!", {
       files: [

@@ -29,7 +29,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
   
   if (!modules.includes(_module)) { // preventing loops
     let incompatibles = allModules[_module].incompatibleWith || [];
-    for (var incompatibleModule of incompatibles) if (modules.includes(incompatibleModule)) return message.channel.send("❌ This module is incompatible with the module `" + incompatibleModule + "`.");
+    for (const incompatibleModule of incompatibles) if (modules.includes(incompatibleModule)) return message.channel.send("❌ This module is incompatible with the module `" + incompatibleModule + "`.");
   }
 
   gdb.toggleModule(_module)
@@ -45,7 +45,7 @@ const allModules = {
   "webhook": { description: "Same as the module `reposting` except that it will repost it in a nice embed, impersonating the user who sent it.", incompatibleWith: [ "reposting" ] }
 }, fields = []
 
-for (var moduleName in allModules) fields.push({
+for (const moduleName in allModules) fields.push({
   name: moduleName,
   value: allModules[moduleName].description + (allModules[moduleName].incompatibleWith ? "\n**Incompatible with:** " + allModules[moduleName].incompatibleWith.map(m => "\`" + m + "\`").join(", ") : ""),
   inline: true

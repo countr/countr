@@ -58,10 +58,10 @@ module.exports = (client, config) => {
         }),
 
         setMultiple: (values) => new Promise(async function(resolve, reject) {
-          for (var key in values) savedGuilds[gid][key] = values[key]
+          for (const key in values) savedGuilds[gid][key] = values[key]
 
           let guild = await getGuild(gid);
-          for (var key in values) guild[key] = savedGuilds[gid][key]
+          for (const key in values) guild[key] = savedGuilds[gid][key]
           await guild.save().then(resolve).catch(reject);
           updateTopic(gid, client)
         }),
@@ -71,7 +71,7 @@ module.exports = (client, config) => {
           savedGuilds[gid].guildid = gid;
           
           let guild = await getGuild(gid);
-          for (var key in guildObject) guild[key] = guildObject[key];
+          for (const key in guildObject) guild[key] = guildObject[key];
           await guild.save().then(resolve).catch(reject);
         }),
 
@@ -84,7 +84,7 @@ module.exports = (client, config) => {
 
           // checking roles
           let roles = savedGuilds[gid].roles;
-          for (var ID in roles) try {
+          for (const ID in roles) try {
             let role = roles[ID], gRole = client.guilds.get(gid).roles.find(r => r.id == role.role)
             if (role && gRole && ((role.mode == "only" && count == role.count) || (role.mode == "each" && count % role.count == 0) || (role.mode == "score" && savedGuilds[gid].users[member.id] == role.count))) {
               if (roles.duration == "temporary") gRole.members.filter(m => m.id !== member.id).forEach(m => m.removeRole(gRole, "Role Reward " + ID))
@@ -123,7 +123,7 @@ module.exports = (client, config) => {
             resolve(true);
           }), new Promise(async function(resolve, reject) {
             let { notifications: notifs, channel } = savedGuilds[gid], needSave = false;
-            for (var ID in notifs) {
+            for (const ID in notifs) {
               let notif = notifs[ID];
               if (notif && ((notifs.mode == "only" && notifs.count == count) || (notifs.mode == "each" && count % notifs.count == 0))) {
                 try {
@@ -203,7 +203,7 @@ module.exports = (client, config) => {
 
         getNotifications: (user) => {
           let IDs = {};
-          for (var ID in guild.notifications) {
+          for (const ID in guild.notifications) {
             let notif = guild.notifications[ID]
             if (notif && notif.user == user) IDs[ID] = notif;
           }
@@ -245,8 +245,8 @@ module.exports = (client, config) => {
         }),
 
         importScores: (scores, method) => new Promise(async function(resolve, reject) {
-          if (method == "set") for (var id in scores) savedGuilds[gid].users[id] = scores[id]
-          if (method == "add") for (var id in scores) {
+          if (method == "set") for (const id in scores) savedGuilds[gid].users[id] = scores[id]
+          if (method == "add") for (const id in scores) {
             if (!savedGuilds[gid].users[id]) savedGuilds[gid].users[id] = 0
             savedGuilds[gid].users[id] += scores[id]
           }
@@ -301,7 +301,7 @@ async function cacheGuild(gid) {
   if (!savedGuilds[gid]) {
     let guild = await getGuild(gid);
     savedGuilds[gid] = {};
-    for (var prop in guildObject) savedGuilds[gid][prop] = guild[prop] || guildObject[prop]; // if the guild doesn't have all properties, we give it all properties.
+    for (const prop in guildObject) savedGuilds[gid][prop] = guild[prop] || guildObject[prop]; // if the guild doesn't have all properties, we give it all properties.
   }
   return savedGuilds[gid];
 }
@@ -335,7 +335,7 @@ module.exports.generateID = alreadyGenerated => {
 
   while (!satisfied) {
     id = "";
-    for (var i = 0; i < 6; i++) id = id + b64[Math.floor(Math.random() * b64.length)]
+    for (const i = 0; i < 6; i++) id = id + b64[Math.floor(Math.random() * b64.length)]
     if (!alreadyGenerated.includes(id)) satisfied = true;
   }
 

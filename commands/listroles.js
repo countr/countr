@@ -18,7 +18,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
 function formatRoles(roles) {
   let rolesList = []
 
-  for (var id in roles) {
+  for (const id in roles) {
     let role = roles[id], mode;
     if (role.mode == "each") mode = "Every " + formatNumberSuffix(role.count) + " count"
     if (role.mode == "only") mode = "Count number " + role.count

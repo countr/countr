@@ -18,7 +18,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
 function formatPins(pins) {
   let pinsList = []
 
-  for (var id in pins) {
+  for (const id in pins) {
     let pin = pins[id], mode;
     if (pin.mode == "each") mode = "Every " + formatNumberSuffix(pin.count) + "count"
     if (pin.mode == "only") mode = "Count number " + pin.count

@@ -18,7 +18,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
   if (!newScore) return message.channel.send("❌ Invalid score. For help, type `" + prefix + "help setscore`")
 
   const members = [];
-  for (var arg of args) {
+  for (const arg of args) {
     let search = arg.split("_").join(" "), obj = [
       message.guild.members.find(m => search == m.user.tag),
       message.guild.members.get(search.replace("<@", "").replace("!", "").replace(">", "")),
@@ -34,7 +34,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
 
   const newScores = {}
 
-  for (var member of members) newScores[member.id] = newScore;
+  for (const member of members) newScores[member.id] = newScore;
 
   gdb.importScores(newScores, "set")
     .then(() => message.channel.send("✅ " + (members.length > 1 ? "Score of " + members.length + " members" : "Score of 1 member") + " has been set to " + newScore + "."))
