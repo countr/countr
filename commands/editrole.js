@@ -9,7 +9,7 @@ module.exports = {
     "MnRIf4 mode each": "Will change the rolereward with ID MnRIf4's mode to each.",
     "jPFj78 count 1337": "Will change the rolereward with ID jPFj78's count to 1337."
   },
-  aliases: [],
+  aliases: [ "=role" ],
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: (args) => args.length == 3
 }
