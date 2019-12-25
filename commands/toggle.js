@@ -24,7 +24,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
   }})
 
   let _module = args[0].toLowerCase();
-  if (!allModules[_module]) return message.channel.send("❌ Invalid module. For help, type `" + prefix + "help modules`")
+  if (!allModules[_module]) return message.channel.send("❌ Invalid module. For help, type `" + prefix + "help toggle`")
   
   if (!modules.includes(_module)) { // preventing loops
     let incompatibles = allModules[_module].incompatibleWith || [];

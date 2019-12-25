@@ -26,5 +26,5 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
         name: id + ".json"
       }
     ]
-  }).then(m => message.channel.send("✅ Sent to DMs. [<" + m.url + ">]")).catch(() => message.channel.send("❌ I couldn't send you the file in DMs. Have you enabled DMs in this server?"))
+  }).then(m => message.channel.send("✅ Sent to DMs! [<" + m.url + ">]")).catch(() => message.channel.send("❌ I couldn't send you the file in DMs. Have you enabled DMs in this server?"))
 }
