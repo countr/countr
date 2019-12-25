@@ -57,6 +57,15 @@ module.exports = (client, config) => {
           updateTopic(gid, client)
         }),
 
+        setMultiple: (values) => new Promise(async function(resolve, reject) {
+          for (var key in values) savedGuilds[gid][key] = values[key]
+
+          let guild = await getGuild(gid);
+          for (var key in values) guild[key] = savedGuilds[gid][key]
+          await guild.save().then(resolve).catch(reject);
+          updateTopic(gid, client)
+        }),
+
         factoryReset: () => new Promise(async function(resolve, reject) {
           savedGuilds[gid] = guildObject;
           savedGuilds[gid].guildid = gid;
@@ -243,7 +252,7 @@ module.exports = (client, config) => {
           }
 
           let guild = await getGuild(gid);
-          guild.users = savedGuilds.users
+          guild.users = savedGuilds[gid].users
           guild.save().then(resolve).catch(reject);
         })
       }
