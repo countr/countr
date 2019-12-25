@@ -20,15 +20,16 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
     const { users: backup } = await gdb.get();
 
     gdb.set("users", {})
-    .then(() => message.channel.send("✅ Scores for all members have been reset. Here's a backup incase you need it. Import the scores back with \`" + prefix + "importscores\`.", {
-      files: [
-        {
-          attachment: Buffer.from(JSON.stringify(backup, null, 2)),
-          name: ["Countr Scores Backup", message.guild.id, Date.now(), "json"].join(".")
-        }
-      ]
-    }))
-    .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occurred. Please try again, or contact support."))
+      .then(() => {
+        message.channel.send("✅ Scores for all members have been reset. Here's a backup incase you need it. Import the scores back with \`" + prefix + "importscores\`.", {
+          files: [{
+            attachment: Buffer.from(JSON.stringify(backup, null, 2)),
+            name: ["Countr Scores Backup", message.guild.name, Date.now(), "json"].join(".")
+          }]
+        })
+          .catch(() => message.channel.send("✅ Scores for all members have been reset. Unfortunately, I could not upload a backup because I am missing permissions. (Attach Files)"))
+      })
+      .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occurred. Please try again, or contact support."))
   } else {
     const members = [];
     for (var arg of args) {

@@ -21,7 +21,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
     } else {
       guilds = client.guilds.size
       users = client.users.size
-      shardCount = 1
+      shardCount = 0
     }
 
     memory = process.memoryUsage().heapUsed / (1048576) // 1024*1024
@@ -49,7 +49,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
           "value": [
             "**OS**: `" + platform + "`",
             "**Library**: `discord.js" + djsversion + "`",
-            "**Memory Usage**: `" + memoryUsageGlobal + "`"
+            "**Memory Usage**: `" + (client.shard ? memoryUsageGlobal : memoryUsage) + "`"
           ].join("\n"),
           "inline": true
         },

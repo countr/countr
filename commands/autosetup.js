@@ -8,15 +8,16 @@ module.exports = {
 }
 
 module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
-  try {
-    let ch = await message.guild.createChannel("counting", { type: "text", rateLimitPerUser: 2 });
-
-    gdb.set("channel", ch.id);
-    gdb.set("count", 0);
-    gdb.set("message", message.id);
-
-    message.channel.send("✅ Enjoy " + ch + "!")
-  } catch(e) {
-    message.channel.send("❌ An unknown error occurred. Do I have permission?")
-  }
+  message.guild.createChannel("counting", { type: "text", rateLimitPerUser: 2 })
+    .then(ch => {
+      gdb.setMultiple({
+        channel: ch.id,
+        count: 0,
+        user: "",
+        message: message.id
+      })
+        .then(() => message.channel.send("✅ Enjoy " + ch + "! Keep in mind commands inside the counting channel will not work, and these commands has to be outside of the counting channel."))
+        .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occurred. Please try again, or contact support."))
+    })
+    .catch(() => message.channel.send("❌ An unknown error occurred. Do I have permission?"))
 }
