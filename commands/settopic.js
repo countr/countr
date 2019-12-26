@@ -1,7 +1,7 @@
 module.exports = {
   description: "Set the topic of the channel.",
   usage: {
-    "<topic ...|reset|disable>": "The new topic. Use {{COUNT}} for the current count. If you put reset, it will be changed to the default. If you put disable, it will disable this functionality completely."
+    "<topic ...>|reset|disable": "The new topic. Use {{COUNT}} for the current count. If you put reset, it will be changed to the default. If you put disable, it will disable this functionality completely."
   },
   examples: {
     "Count to infinity! Next count is {{COUNT}}.": "An example using the placeholder."

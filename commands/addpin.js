@@ -3,7 +3,7 @@ module.exports = {
   usage: {
     "<mode: each|only>": "If you use each, it will pin every <count> count. If you use only, it will only pin count <count>.",
     "<count>": "The count you want to reference in your mode.",
-    "[repost]": "If you use this, it will repost the message meaning they won't be able to edit it in the future and potentially advertise in pinned messages."
+    "[<action: keep|repost>]": "If you use repost, it will repost the message before pinning it. Default is keep, which does not do this."
   },
   examples: {
     "each 1000 repost": "Will pin every 1000th count after reposting it, including 2000 and 3000 etc.",

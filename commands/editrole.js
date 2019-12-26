@@ -3,7 +3,7 @@ module.exports = {
   usage: {
     "<ID>": "The rolereward's ID.",
     "<property: role|mode|count|duration>": "The property you want to change.",
-    "<value: see addrole's usage>": "The new value for the property."
+    "<value>": "The new value for the property. See the usage of `c!addrole` for values to choose from."
   },
   examples: {
     "MnRIf4 mode each": "Will change the rolereward with ID MnRIf4's mode to each.",

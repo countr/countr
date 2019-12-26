@@ -1,7 +1,7 @@
 module.exports = {
   description: "Import scores from a JSON-file. Upload the JSON-file with the command itself.",
   usage: {
-    "<method: set|add>": "Decide if you want to overwrite the "
+    "<method: set|add>": "Decide if you want to overwrite the scores or add to the scores."
   },
   examples: {
     "set": "Will overwrite all the scores to the one in the file.",
