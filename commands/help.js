@@ -31,7 +31,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
     Object.values(allCommands[command].usage).includes(search),
     Object.values(allCommands[command].examples).includes(search)
   ].includes(true)) commandsFound.push({
-    name: prefix + command,
+    name: "\`" + prefix + command + "\`",
     value: [
       "**Description:** " + allCommands[command].description,
       "**Permission Level Required:** " + ["None", "Chat Moderators", "Server Administrators", "Server Owner", "Bot Support Team", "Bot Developer"][allCommands[command].permissionRequired] + (permission !== permissionLevel ? " \`" + (permissionLevel >= allCommands[command].permissionRequired ? "✅" : "❌") + "\`" : ""),
