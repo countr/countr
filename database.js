@@ -85,7 +85,7 @@ module.exports = (client, config) => {
           // checking roles
           let roles = savedGuilds[gid].roles;
           for (const ID in roles) try {
-            let role = roles[ID], gRole = client.guilds.get(gid).roles.get(role.role)
+            let role = roles[ID], gRole = client.guilds.get(gid).roles.get(role ? role.role : null)
             if (role && gRole && ((role.mode == "only" && savedGuilds[gid].count == role.count) || (role.mode == "each" && savedGuilds[gid].count % role.count == 0) || (role.mode == "score" && savedGuilds[gid].users[member.id] == role.count))) {
               if (role.duration == "temporary") gRole.members.filter(m => m.id !== member.id).forEach(m => m.removeRole(gRole, "Role Reward " + ID))
               member.addRole(gRole, "Role Reward " + ID)
