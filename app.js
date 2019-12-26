@@ -53,7 +53,7 @@ client.on("message", async message => {
         setTimeout(() => --fails[message.guild.id + "/" + message.author.id], timeoutrole.time * 1000)
 
         if (fails[message.guild.id + "/" + message.author.id] >= timeoutrole.fails) {
-          if (timeoutrole.duration) await gdb.addTimeout(message.guild.id, message.author.id, timeoutrole.duration)
+          if (timeoutrole.duration) await gdb.addTimeout(message.author.id, timeoutrole.duration)
           try {
             await message.member.addRole(timeoutrole.role, "User timed out")
             if (timeoutrole.duration) setTimeout(() => message.member.removeRole(timeoutrole.role, "User no longer timed out"), timeoutrole.duration * 1000)
@@ -123,7 +123,7 @@ async function processGuild(guild) {
     
     for (let userid in timeouts) try {
       if (Date.now() > timeouts[userid]) guild.members.get(userid).removeRole(timeoutrole.role, "User no longer timed out");
-      else setTimeout(() => guild.members.get(userid).removeRole(timeoutrole.role), timeouts[userid] - Date.now(), "User no longer timed out")
+      else setTimeout(() => { try { guild.members.get(userid).removeRole(timeoutrole.role) } catch(e) {}}, timeouts[userid] - Date.now(), "User no longer timed out")
     } catch(e) {}
 
     if (modules.includes("recover")) {
@@ -162,8 +162,15 @@ client
   .on("messageUpdate", async (message, newMessage) => {
     if (!message.guild || message.author.bot) return;
 
-    const gdb = await db.guild(message.guild.id), {channel, message: lastMessage} = await gdb.get();
-    if (message.channel.id == channel && message.id == lastMessage && (message.content.split(" ")[0] !== newMessage.content.split(" ")[0])) return message.channel.send(message.content + " (" + message.author.toString() + ")").then(m => gdb.set("message", m.id)) // resend if the last count got edited
+    const gdb = await db.guild(message.guild.id), {channel, message: lastMessage, modules, regex} = await gdb.get();
+
+    if (message.channel.id == channel && message.id == lastMessage) {
+      let regexMatches = false;
+      if (regex.length && getPermissionLevel(message.member) == 0) for (let r of regex) if ((new RegExp(r, 'g')).test(message.content)) regexMatches = true;
+      
+      if (!(modules.includes("talking") && message.content.split(" ")[0] == newMessage.content.split(" ")[0]) || regexMatches)
+        return message.channel.send(message.content + " (" + message.author.toString() + ")").then(m => message.delete() && gdb.set("message", m.id)) // resend if the last count got edited
+    }
   })
 
   .on("rateLimit", rl => console.log(shId + "Rate limited. [" + rl.timeDifference + "ms, endpoint: " + rl.path + ", limit: " + rl.limit + "]"))

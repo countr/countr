@@ -85,9 +85,9 @@ module.exports = (client, config) => {
           // checking roles
           let roles = savedGuilds[gid].roles;
           for (const ID in roles) try {
-            let role = roles[ID], gRole = client.guilds.get(gid).roles.find(r => r.id == role.role)
-            if (role && gRole && ((role.mode == "only" && count == role.count) || (role.mode == "each" && count % role.count == 0) || (role.mode == "score" && savedGuilds[gid].users[member.id] == role.count))) {
-              if (roles.duration == "temporary") gRole.members.filter(m => m.id !== member.id).forEach(m => m.removeRole(gRole, "Role Reward " + ID))
+            let role = roles[ID], gRole = client.guilds.get(gid).roles.get(role.role)
+            if (role && gRole && ((role.mode == "only" && savedGuilds[gid].count == role.count) || (role.mode == "each" && savedGuilds[gid].count % role.count == 0) || (role.mode == "score" && savedGuilds[gid].users[member.id] == role.count))) {
+              if (role.duration == "temporary") gRole.members.filter(m => m.id !== member.id).forEach(m => m.removeRole(gRole, "Role Reward " + ID))
               member.addRole(gRole, "Role Reward " + ID)
             }
           } catch(e) {}
@@ -124,20 +124,20 @@ module.exports = (client, config) => {
           }), new Promise(async function(resolve, reject) {
             let { notifications: notifs, channel } = savedGuilds[gid], needSave = false;
             for (const ID in notifs) {
-              if (notif && ((notifs.mode == "only" && notifs.count == count) || (notifs.mode == "each" && count % notifs.count == 0))) {
               const notif = notifs[ID];
+              if (notif && ((notif.mode == "only" && notif.count == count) || (notif.mode == "each" && count % notif.count == 0))) {
                 try {
-                  guild.members.get(notifs.user).send({embed: {
-                    description: "🎉 " + guild.name + " reached " + count + " total counts!\nThe user who sent it was <@!" + member + ">.\n\n[**→ Click here to jump to the message!**](https://discordapp.com/channels/" + [gid, channel, message.id].join("/") + ")",
                   const guild = client.guilds.get(gid);
+                  guild.members.get(notif.user).send({embed: {
+                    description: "🎉 " + guild.name + " reached " + count + " total counts!\nThe user who sent it was " + member + ".\n\n[**→ Click here to jump to the message!**](https://discordapp.com/channels/" + [gid, channel, message.id].join("/") + ")",
                     color: config.color,
-                    thumbnail: { url: client.users.get(countUser).displayAvatarURL.split("?")[0] },
+                    thumbnail: { url: member.user.displayAvatarURL.split("?")[0] },
                     footer: { text: "Notification ID " + ID + (notif.mode == "each" ? " - Every " + notif.count : "") }
                   }})
                 } catch(e) {}
 
                 if (notif.mode == "only") {
-                  savedGuilds[gid].notifications[ID] = null;
+                  delete savedGuilds[gid].notifications[ID];
                   needSave = true;
                 }
               }
@@ -223,7 +223,7 @@ module.exports = (client, config) => {
           savedGuilds[gid].roles[ID][prop] = value;
 
           let guild = await getGuild(gid);
-          guild.roles[ID][prop] = savedGuilds[gid].roles[ID][prop]
+          guild.roles = savedGuilds[gid].roles
           guild.save().then(resolve).catch(reject);
         }),
 
@@ -240,7 +240,7 @@ module.exports = (client, config) => {
           savedGuilds[gid].pins[ID][prop] = value;
 
           let guild = await getGuild(gid);
-          guild.pins[ID][prop] = savedGuilds[gid].pins[ID][prop]
+          guild.pins = savedGuilds[gid].pins
           guild.save().then(resolve).catch(reject);
         }),
 

@@ -21,7 +21,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
   let role = [
     message.guild.roles.find(r => r.name == args[0].replace("_", "")),
     message.guild.roles.get(args[0]),
-    message.guild.roles.get(args[0].replace("<@&", "").replace(">", ""))
+    message.guild.roles.get(args[0].replace("<&", "").replace(">", ""))
   ].find(r => r)
   if (!role) return message.channel.send("❌ Invalid role. For help, type `" + prefix + "help addrole`")
 
@@ -35,7 +35,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
   if (!durations.includes(duration)) return message.channel.send("❌ Invalid duration. For help, type `" + prefix + "help addrole`")
 
   let { roles: alreadyGeneratedPins } = await gdb.get(), id = generateID(Object.keys(alreadyGeneratedPins))
-  gdb.setRole(id, mode, count, duration)
+  gdb.setRole(id, role.id, mode, count, duration)
     .then(() => message.channel.send("✅ Rolereward with ID `" + id + "` has been saved."))
     .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occurred. Please try again, or contact support."))
 }

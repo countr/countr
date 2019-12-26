@@ -8,19 +8,19 @@ module.exports = {
 }
 
 module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
-  let { roles } = await gdb.get(), rolesList = formatRoles(roles);
+  let { roles } = await gdb.get(), rolesList = formatRoles(roles, message.guild);
 
   if (!rolesList.length) return message.channel.send("❌ No rolerewards for this server has been set up.")
 
   message.channel.send("📋 Rolerewards for this server:\n" + rolesList.join("\n"))
 }
 
-function formatRoles(roles) {
+function formatRoles(roles, guild) {
   let rolesList = []
 
   for (const id in roles) {
     let role = roles[id], mode;
-    if (role.mode == "each") mode = "Every " + formatNumberSuffix(role.count) + " count"
+    if (role.mode == "each") mode = "Every " + formatNumberSuffix(role.count) + "count"
     if (role.mode == "only") mode = "Count number " + role.count
     if (role.mode == "score") mode = "Score of " + role.count
 

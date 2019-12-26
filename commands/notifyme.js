@@ -25,7 +25,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
 
   if (!count) return message.channel.send("❌ Invalid count. For help, type `" + prefix + "help notifyme`")
 
-  let notifications = await gdb.getNotifications(message.author.id), ID = generateID(Object.keys(notifications))
+  let { notifications: rawList } = await gdb.get(), ID = generateID(Object.keys(rawList))
 
   gdb.setNotification(ID, message.author.id, mode, count)
     .then(() => message.channel.send("✅ Notification with ID \`" + ID + "\` is now saved."))

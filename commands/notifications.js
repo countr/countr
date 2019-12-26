@@ -8,7 +8,8 @@ module.exports = {
 }
 
 module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
-  let notifications = await gdb.getNotifications(message.author.id);
+  let { notifications: rawList } = await gdb.get(), notifications = {}
+  for (const id in rawList) if (rawList[id].user == message.author.id) notifications[id] = rawList[id]
 
   if (!Object.keys(notifications).length) return message.channel.send("❌ You don't have any notifications set up for this server!")
   return message.channel.send("📋 Notifications for user " + message.author + " in this server:\n" + formatNotifications(notifications))
@@ -19,7 +20,7 @@ function formatNotifications(notifications) {
   for (const ID in notifications) {
     let notif = notifications[ID], explanation;
 
-    if (notif.mode == "each") explanation = "Every " + formatNumberSuffix(notif.count) + " count notifies you"
+    if (notif.mode == "each") explanation = "Every " + formatNumberSuffix(notif.count) + "count notifies you"
     else if (notif.mode == "only") explanation = "Only count " + notif.count + " notifies you"
 
     ntfs.push("- \`" + ID + "\` " + explanation)
