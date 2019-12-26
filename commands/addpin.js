@@ -14,20 +14,20 @@ module.exports = {
   checkArgs: (args) => args.length == 2 || args.length == 3
 }
 
-const modes = [ "each", "only" ], { generateID } = require("../database.js")
+const { generateID } = require("../database.js")
 
 module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
   let mode = args[0].toLowerCase();
-  if (!modes.includes(mode)) return message.channel.send("❌ Invalid mode. For help, type `" + prefix + "help addpin`")
+  if (![ "each", "only" ].includes(mode)) return message.channel.send("❌ Invalid mode. For help, type `" + prefix + "help addpin`")
 
   let count = parseInt(args[1]);
   if (!count) return message.channel.send("❌ Invalid count. For help, type `" + prefix + "help addpin`")
 
-  let action = (args[2] || "").toLowerCase()
-  if (action && action !== "repost") return message.channel.send("❌ Invalid action. For help, type `" + prefix + "help addpin`")
+  let action = (args[2] || "keep").toLowerCase()
+  if (![ "keep", "repost" ].includes(action)) return message.channel.send("❌ Invalid action. For help, type `" + prefix + "help addpin`")
 
   let { pins: alreadyGeneratedPins } = await gdb.get(), id = generateID(Object.keys(alreadyGeneratedPins))
-  gdb.setPin(id, mode, count, action || "keep")
+  gdb.setPin(id, mode, count, action)
     .then(() => message.channel.send("✅ Pintrigger with ID `" + id + "` has been saved."))
     .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occurred. Please try again, or contact support."))
 }

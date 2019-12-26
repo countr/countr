@@ -131,16 +131,16 @@ async function processGuild(guild) {
 
       if (channel) {
         let messages = await channel.fetchMessages({ limit: 1, after: count.message })
-        if (messages.size > 0) {
+        if (messages.size) {
           let botMsg = await channel.send("💢 Making the channel ready for counting, please wait ...")
           await channel.overwritePermissions(guild.defaultRole, { SEND_MESSAGES: false })
 
-          let processing = true, fail = false;
+          let processing = true;
           while (processing) {
             let messages = await channel.fetchMessages({ limit: 100, after: count.message });
             messages = messages.filter(m => m.id !== botMsg.id);
             if (messages.size == 0) processing = false;
-            else await channel.bulkDelete(messages).catch(() => fail = true)
+            else await channel.bulkDelete(messages).catch()
           }
 
           await channel.overwritePermissions(guild.defaultRole, { SEND_MESSAGES: true })
