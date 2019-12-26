@@ -22,6 +22,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
 
   const file = message.attachments.first()
   if (!file.filename.endsWith(".json")) return message.channel.send("❌ Invalid file attached. For help, type `" + prefix + "help importscores`")
+  if (file.filesize > 50000) return message.channel.send("❌ File exceeds filesize limit of 50kB. For help, type `" + prefix + "help importscores`")
 
   const content = await fetch(file.url).then(res => res.json()).catch(() => false)
   if (!content || typeof content !== "object" || !Object.keys(content).length || Object.keys(content).filter(u => !parseInt(u)).length !== 0 || Object.values(content).filter(s => typeof s !== "number").length !== 0 || Object.values(content).find(s => s < 0))
