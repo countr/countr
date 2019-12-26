@@ -201,15 +201,6 @@ module.exports = (client, config) => {
           guild.save().then(resolve).catch(reject);
         }),
 
-        getNotifications: (user) => {
-          let IDs = {};
-          for (const ID in guild.notifications) {
-            let notif = guild.notifications[ID]
-            if (notif && notif.user == user) IDs[ID] = notif;
-          }
-          return IDs;
-        },
-
         setRole: (ID, role, mode, count, duration) => new Promise(async function(resolve, reject) {
           if (!role) delete savedGuilds[gid].roles[ID];
           else savedGuilds[gid].roles[ID] = { role, mode, count, duration };
