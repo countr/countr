@@ -12,8 +12,8 @@ client.on("ready", async () => {
 
 setInterval(async () => {
   if (!client.guilds.size) return; // client is not ready yet, or have lost connection
-  var name = config.prefix + "help (" + await db.global.counts() + " counts this week)"
-  var guild = client.guilds.get(config.mainGuild)
+  let name = config.prefix + "help (" + await db.global.counts() + " counts this week)"
+  let guild = client.guilds.get(config.mainGuild)
   if (guild) {
     const {channel, count} = await db.guild(guild.id).get();
     name = "#" + guild.channels.get(channel).name + " (" + count + " counts so far)"
@@ -25,10 +25,10 @@ setInterval(async () => {
 const commands = {}, aliases = {} // { "command": require("that_command") }, { "alias": "command" }
 fs.readdir("./commands/", (err, files) => {
   if (err) console.error(err);
-  for (var file of files) if (file.endsWith(".js")) {
+  for (let file of files) if (file.endsWith(".js")) {
     let commandFile = require("./commands/" + file), fileName = file.replace(".js", "")
     commands[fileName] = commandFile
-    if (commandFile.aliases) for (var alias of commandFile.aliases) aliases[alias] = fileName
+    if (commandFile.aliases) for (let alias of commandFile.aliases) aliases[alias] = fileName
   }
 })
 
@@ -43,7 +43,7 @@ client.on("message", async message => {
     if (message.webhookID || (message.content.startsWith("!") && getPermissionLevel(message.member) >= 1) || message.type !== "DEFAULT") return;
 
     let regexMatches = false;
-    if (regex.length && getPermissionLevel(message.member) == 0) for (var r of regex) if ((new RegExp(r, 'g')).test(message.content)) regexMatches = true;
+    if (regex.length && getPermissionLevel(message.member) == 0) for (let r of regex) if ((new RegExp(r, 'g')).test(message.content)) regexMatches = true;
 
     if ((!modules.includes("allow-spam") && message.author.id == user) || message.content.split(" ")[0] !== (count + 1).toString() || (!modules.includes("talking") && message.content !== (count + 1).toString()) || regexMatches) {
       if (timeoutrole.role) {
@@ -65,7 +65,7 @@ client.on("message", async message => {
 
     ++count; gdb.addToCount(message.member)
 
-    var msg = message;
+    let msg = message;
     try {
       if (modules.includes("webhook")) await message.channel.fetchWebhooks().then(async webhooks => {
         let webhook = webhooks.find(wh => wh.name == "Countr");
@@ -121,7 +121,7 @@ async function processGuild(guild) {
   try {
     const {timeouts, timeoutrole, modules, channel: countingChannel, count} = await gdb.get();
     
-    for (var userid in timeouts) try {
+    for (let userid in timeouts) try {
       if (Date.now() > timeouts[userid]) guild.members.get(userid).removeRole(timeoutrole.role, "User no longer timed out");
       else setTimeout(() => guild.members.get(userid).removeRole(timeoutrole.role), timeouts[userid] - Date.now(), "User no longer timed out")
     } catch(e) {}

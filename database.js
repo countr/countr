@@ -124,12 +124,12 @@ module.exports = (client, config) => {
           }), new Promise(async function(resolve, reject) {
             let { notifications: notifs, channel } = savedGuilds[gid], needSave = false;
             for (const ID in notifs) {
-              let notif = notifs[ID];
               if (notif && ((notifs.mode == "only" && notifs.count == count) || (notifs.mode == "each" && count % notifs.count == 0))) {
+              const notif = notifs[ID];
                 try {
-                  let guild = client.guilds.get(gid);
                   guild.members.get(notifs.user).send({embed: {
                     description: "🎉 " + guild.name + " reached " + count + " total counts!\nThe user who sent it was <@!" + member + ">.\n\n[**→ Click here to jump to the message!**](https://discordapp.com/channels/" + [gid, channel, message.id].join("/") + ")",
+                  const guild = client.guilds.get(gid);
                     color: config.color,
                     thumbnail: { url: client.users.get(countUser).displayAvatarURL.split("?")[0] },
                     footer: { text: "Notification ID " + ID + (notif.mode == "each" ? " - Every " + notif.count : "") }
