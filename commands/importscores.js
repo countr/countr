@@ -18,13 +18,14 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
   const method = args[0]
   if (!["set", "add"].includes(method)) return message.channel.send("❌ Invalid method. For help, type `" + prefix + "help importscores`")
 
-  if (!message.attachments.size) return message.channel.send("❌ No file attached. For help, type `" + prefix + "help help`")
+  if (!message.attachments.size) return message.channel.send("❌ No file attached. For help, type `" + prefix + "help importscores`")
 
   const file = message.attachments.first()
-  if (!file.filename.endsWith(".json")) return message.channel.send("❌ Invalid file attached. For help, type `" + prefix + "help help`")
+  if (!file.filename.endsWith(".json")) return message.channel.send("❌ Invalid file attached. For help, type `" + prefix + "help importscores`")
 
   const content = await fetch(file.url).then(res => res.json()).catch(() => false)
-  if (!content || typeof content !== "object" || !Object.keys(content).length || Object.keys(content).filter(u => !parseInt(u)).length !== 0 || Object.values(content).filter(s => typeof s !== "number").length !== 0 || Object.values(content).find(s => s < 0)) return message.channel.send("❌ Invalid JSON-file attached. For help, type `" + prefix + "help help`")
+  if (!content || typeof content !== "object" || !Object.keys(content).length || Object.keys(content).filter(u => !parseInt(u)).length !== 0 || Object.values(content).filter(s => typeof s !== "number").length !== 0 || Object.values(content).find(s => s < 0))
+    return message.channel.send("❌ Invalid JSON-file attached. For help, type `" + prefix + "help importscores`")
 
   gdb.importScores(content, method)
     .then(() => message.channel.send("✅ Successfully imported " + Object.keys(content).length + " users' scores."))
