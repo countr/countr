@@ -102,54 +102,40 @@ module.exports = (client, config) => {
           addCount += 1;
         }),
 
-        doStuffAfterCount: async (count, member, message) => Promise.all([
-          new Promise(async function(resolve, reject) {
-            savedGuilds[gid].message = message.id;
+        doStuffAfterCount: (count, member, message) => new Promise(async function(resolve, reject) {
+          savedGuilds[gid].message = message.id;
+          let { pins, notifications: notifs, channel } = savedGuilds[gid], g = client.guilds.get(gid);
 
-            let guild = await getGuild(gid);
-            guild.message = savedGuilds[gid].message;
-            guild.save().then(resolve).catch(reject)
-          }), new Promise(async function(resolve) {
-            let pins = savedGuilds[gid].pins, pin = Object.keys(pins).find(p => (pins[p].mode == "only" && pins[p].count == count) || (pins[p].mode == "each" && count % pins[p].count == 0));
+          let pin = Object.keys(pins).find(p => (pins[p].mode == "only" && pins[p].count == count) || (pins[p].mode == "each" && count % pins[p].count == 0))
+          if (pin) try {
+            if (message.author.bot) message.pin(); // already reposted
+            else if (pins[pin].action == "repost") {
+              message.delete();
+              message.channel.awaitMessages(m => m.author.id == client.user.id && m.content.startsWith(message.content), { max: 1, time: 60000 }).then(msgs => msgs.first().pin()) // it was the last count, so the bot will automatically resend it. (see app.js)
+            } else message.pin();
+          } catch(e) {}
+        
+          for (const ID in notifs) {
+            const notif = notifs[ID];
+            if (notif && ((notif.mode == "only" && notif.count == count) || (notif.mode == "each" && count % notif.count == 0))) {
+              try {
+                g.members.get(notif.user).send({embed: {
+                  description: "🎉 " + g.name + " reached " + count + " total counts!\nThe user who sent it was " + member + ".\n\n[**→ Click here to jump to the message!**](https://discordapp.com/channels/" + [gid, channel, message.id].join("/") + ")",
+                  color: config.color,
+                  thumbnail: { url: member.user.displayAvatarURL.split("?")[0] },
+                  footer: { text: "Notification ID " + ID + (notif.mode == "each" ? " - Every " + notif.count : "") }
+                }})
+              } catch(e) {}
 
-            if (pin) try {
-              if (message.author.bot) message.pin(); // already reposted
-              else if (pins[pin].action == "repost") {
-                message.delete();
-                message.channel.awaitMessages(m => m.author.id == client.user.id && m.content.startsWith(message.content), { max: 1, time: 60000 }).then(msgs => msgs.first().pin()) // it was the last count, so the bot will automatically resend it. (see app.js)
-              } else message.pin();
-            } catch(e) {}
-
-            resolve(true);
-          }), new Promise(async function(resolve, reject) {
-            let { notifications: notifs, channel } = savedGuilds[gid], needSave = false;
-            for (const ID in notifs) {
-              const notif = notifs[ID];
-              if (notif && ((notif.mode == "only" && notif.count == count) || (notif.mode == "each" && count % notif.count == 0))) {
-                try {
-                  const guild = client.guilds.get(gid);
-                  guild.members.get(notif.user).send({embed: {
-                    description: "🎉 " + guild.name + " reached " + count + " total counts!\nThe user who sent it was " + member + ".\n\n[**→ Click here to jump to the message!**](https://discordapp.com/channels/" + [gid, channel, message.id].join("/") + ")",
-                    color: config.color,
-                    thumbnail: { url: member.user.displayAvatarURL.split("?")[0] },
-                    footer: { text: "Notification ID " + ID + (notif.mode == "each" ? " - Every " + notif.count : "") }
-                  }})
-                } catch(e) {}
-
-                if (notif.mode == "only") {
-                  delete savedGuilds[gid].notifications[ID];
-                  needSave = true;
-                }
-              }
+              if (notif.mode == "only") delete savedGuilds[gid].notifications[ID];
             }
+          }
 
-            if (needSave) {
-              let guild = await getGuild(gid);
-              guild.notifications = savedGuilds[gid].notifications;
-              guild.save().then(resolve).catch(reject)
-            } else resolve(true);
-          })
-        ]),
+          let guild = await getGuild(gid);
+          guild.message = savedGuilds[gid].message
+          guild.notifications = savedGuilds[gid].notifications;
+          guild.save().then(resolve).catch(reject)
+        }),
         
         setScore: (user, score) => new Promise(async function(resolve, reject) {
           savedGuilds[gid].users[user] = score;
