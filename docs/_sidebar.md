@@ -3,7 +3,6 @@
   - [Stats](/#stats)
 - [How to setup](/how2setup)
   - [Quick setup](/how2setup#quick-setup)
-  - [Manual setup](/how2setup#manual-setup)
   - [Self-hosting](/selfhosting#self-hosting)
 - [Premium](/premium)
   - [Features](/premium#premium-only-features)
