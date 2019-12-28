@@ -21,8 +21,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
     color: config.color,
     footer: { text: "Requested by " + message.author.tag, icon_url: message.author.displayAvatarURL },
     timestamp: Date.now()
-  }})
-    .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
+  }}).catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
 
   let _module = args[0].toLowerCase();
   if (!allModules[_module]) return message.channel.send("❌ Invalid module. For help, type `" + prefix + "help toggle`")

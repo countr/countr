@@ -19,5 +19,5 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
         "text": "Requested by " + message.author.tag
       }
     }
-  })
+  }).catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
 }
