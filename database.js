@@ -106,13 +106,17 @@ module.exports = (client, config) => {
           savedGuilds[gid].message = message.id;
           let { pins, notifications: notifs, channel } = savedGuilds[gid], g = client.guilds.get(gid);
 
-          let pin = Object.keys(pins).find(p => (pins[p].mode == "only" && pins[p].count == count) || (pins[p].mode == "each" && count % pins[p].count == 0))
+          let pin = Object.keys(pins).find(p => (pins[p].mode == "only" && pins[p].count == count) || (pins[p].mode == "each" && count % pins[p].count == 0)), pinMessage = async m => {
+            let pinned = await m.channel.fetchPinnedMessages().catch(() => ({ size: 0 }))
+            if (pinned.size == 50) await pinned.last().unpin().catch(() => false);
+            return m.pin()
+          }
           if (pin) try {
-            if (message.author.bot) message.pin(); // already reposted
+            if (message.author.bot) pinMessage(message); // already reposted
             else if (pins[pin].action == "repost") {
               message.delete();
-              message.channel.awaitMessages(m => m.author.id == client.user.id && m.content.startsWith(message.content), { max: 1, time: 60000 }).then(msgs => msgs.first().pin()) // it was the last count, so the bot will automatically resend it. (see app.js)
-            } else message.pin();
+              message.channel.awaitMessages(m => m.author.id == client.user.id && m.content.startsWith(message.content), { max: 1, time: 60000 }).then(msgs => pinMessage(msgs.first())) // it was the last count, so the bot will automatically resend it. (see app.js)
+            } else pinMessage(message);
           } catch(e) {}
         
           for (const ID in notifs) {
