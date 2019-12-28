@@ -164,7 +164,7 @@ client
 
     const gdb = await db.guild(message.guild.id), {channel, message: lastMessage, modules, regex} = await gdb.get();
 
-    if (message.channel.id == channel && message.id == lastMessage) {
+    if (message.channel.id == channel && message.id == lastMessage && message.content !== newMessage.content) {
       let regexMatches = false;
       if (regex.length && getPermissionLevel(message.member) == 0) for (let r of regex) if ((new RegExp(r, 'g')).test(message.content)) regexMatches = true;
       
