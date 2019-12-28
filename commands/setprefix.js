@@ -1,7 +1,7 @@
 module.exports = {
   description: "Set a new prefix for the bot.",
   usage: {
-    "<prefix ...>": "The new prefix. If you want to end your prefix with a space, end the prefix with {{SPACE}}."
+    "<prefix ...>|reset": "The new prefix. If you want to end your prefix with a space, end the prefix with {{SPACE}}. If you use reset, use the default prefix for the bot."
   },
   examples: {
     "c?": "Set the prefix to c?, the help command would then be c?help.",
@@ -14,6 +14,7 @@ module.exports = {
 
 module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
   let newPrefix = args.join(" ").replace("{{SPACE}}", " ")
+  if (newPrefix == "reset") newPrefix = ""
 
   gdb.set("prefix", newPrefix)
     .then(() => message.channel.send("✅ Prefix has been saved."))
