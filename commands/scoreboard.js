@@ -9,7 +9,6 @@ module.exports = {
 
 module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
   const { users } = await gdb.get();
-  if (!users[message.author.id]) users[message.author.id] = 0
 
   const sorted = Object.keys(users).sort((a, b) => users[b] - users[a]), topusers = sorted.filter(u => users[u]).slice(0, 25), leaderboard = topusers.map((id, index) => formatScore(id, index, users));
 
@@ -40,11 +39,13 @@ const medals = {
 function formatScore(id, index, users) {
   let suffix = formatNumberSuffix(index + 1);
   suffix = medals[suffix] || "**" + suffix + "**:"
-  return suffix + " <@" + id + ">, **score:** " + users[id];
+  return suffix + " <@" + id + ">, **score:** " + (users[id] || 0);
 }
 
 function formatNumberSuffix(number) {
   let str = number.toString()
+
+  if (str == "0") return "N/A"
 
   if (str.endsWith("11") || str.endsWith("12") || str.endsWith("13")) return str + "th" // ex. eleventh instead of elevenst
 

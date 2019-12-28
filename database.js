@@ -106,11 +106,10 @@ module.exports = (client, config) => {
           savedGuilds[gid].message = message.id;
           let { pins, notifications: notifs, channel } = savedGuilds[gid], g = client.guilds.get(gid);
 
-          let pin = Object.keys(pins).find(p => (pins[p].mode == "only" && pins[p].count == count) || (pins[p].mode == "each" && count % pins[p].count == 0)), pinMessage = async m => {
+          let pin = Object.keys(pins).find(p => (pins[p].mode == "only" && pins[p].count == count) || (pins[p].mode == "each" && count % pins[p].count == 0)), pinMessage = async m => m.pin().catch(async () => {
             let pinned = await m.channel.fetchPinnedMessages().catch(() => ({ size: 0 }))
-            if (pinned.size == 50) await pinned.last().unpin().catch(() => false);
-            return m.pin()
-          }
+            if (pinned.size == 50) await pinned.last().unpin().then(() => m.pin()).catch();
+          })
           if (pin) try {
             if (message.author.bot) pinMessage(message); // already reposted
             else if (pins[pin].action == "repost") {
