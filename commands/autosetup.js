@@ -8,7 +8,7 @@ module.exports = {
 }
 
 module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
-  message.guild.createChannel("counting", { type: "text", rateLimitPerUser: 2 })
+  message.guild.createChannel("counting", { type: "text", rateLimitPerUser: 2, parent: message.channel.parent })
     .then(ch => {
       gdb.setMultiple({
         channel: ch.id,
