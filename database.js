@@ -268,12 +268,13 @@ const Guild = mongoose.model("Guild", guildSchema), Global = mongoose.model("Glo
 
 function updateTopic(gid, client) {
   return new Promise(async function(resolve) {
-    let guild = await cacheGuild(gid);
+    const { topic, channel: cid, count } = await cacheGuild(gid);
     try {
-      let channel = client.guilds.get(gid).channels.get(guild.channel);
-      if (guild.topic == "") channel.setTopic("**Next count:** " + (guild.count + 1)).then(resolve)
-      else if (guild.topic !== "disable") channel.setTopic(guild.topic.replace("{{COUNT}}", (guild.count + 1))).then(resolve)
-    } catch(e) { resolve(e) /* even if it errors, we still want to continue with our code. */ }
+      let channel = client.guilds.get(gid).channels.get(cid);
+      if (topic == "") channel.setTopic("**Next count:** " + (count + 1)).then(resolve)
+      else if (topic.includes("{{COUNT}}")) channel.setTopic(topic.replace("{{COUNT}}", count + 1)).then(resolve)
+      else if (topic !== "disable") channel.setTopic(topic + " | **Next count:** " + (count + 1)).then(resolve)
+    } catch(e) { console.log(e) && resolve(e) /* even if it errors, we still want to continue with our code. */ }
   })
 }
 
