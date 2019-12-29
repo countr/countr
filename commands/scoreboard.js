@@ -10,7 +10,7 @@ module.exports = {
 module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
   const { users } = await gdb.get();
 
-  const sorted = Object.keys(users).sort((a, b) => users[b] - users[a]), topusers = sorted.filter(u => users[u]).slice(0, 25), leaderboard = topusers.map((id, index) => formatScore(id, index, users));
+  const sorted = Object.keys(users).filter(u => users[u]).sort((a, b) => users[b] - users[a]), topusers = sorted.slice(0, 25), leaderboard = topusers.map((id, index) => formatScore(id, index, users, message.author.id));
 
   let description = leaderboard.join("\n");
   if (!topusers.includes(message.author.id)) {
@@ -36,10 +36,10 @@ const medals = {
   "3rd": "🥉"
 }
 
-function formatScore(id, index, users) {
+function formatScore(id, index, users, userid) {
   let suffix = formatNumberSuffix(index + 1);
   suffix = medals[suffix] || "**" + suffix + "**:"
-  return suffix + " <@" + id + ">, **score:** " + (users[id] || 0);
+  return suffix + (userid == id ? " *__" : " ") + "<@" + id + ">, **score:** " + (users[id] || 0) + (userid == id ? "__*" : "");
 }
 
 function formatNumberSuffix(number) {
