@@ -119,7 +119,7 @@ async function processGuild(guild) {
 
   const gdb = await db.guild(guild.id);
   try {
-    const {timeouts, timeoutrole, modules, channel: countingChannel, count} = await gdb.get();
+    const {timeouts, timeoutrole, modules, channel: countingChannel, message} = await gdb.get();
     
     for (let userid in timeouts) try {
       if (Date.now() > timeouts[userid]) guild.members.get(userid).removeRole(timeoutrole.role, "User no longer timed out");
@@ -130,22 +130,22 @@ async function processGuild(guild) {
       const channel = guild.channels.get(countingChannel);
 
       if (channel) {
-        let messages = await channel.fetchMessages({ limit: 1, after: count.message })
+        let messages = await channel.fetchMessages({ limit: 1, after: message })
         if (messages.size) {
           let botMsg = await channel.send("💢 Making the channel ready for counting, please wait ...")
           await channel.overwritePermissions(guild.defaultRole, { SEND_MESSAGES: false })
 
-          let processing = true;
+          let processing = true, fail = false;
           while (processing) {
-            let messages = await channel.fetchMessages({ limit: 100, after: count.message });
+            let messages = await channel.fetchMessages({ limit: 100, after: message });
             messages = messages.filter(m => m.id !== botMsg.id);
             if (messages.size == 0) processing = false;
-            else await channel.bulkDelete(messages).catch()
+            else await channel.bulkDelete(messages).catch(() => { processing = false; fail = true; })
           }
 
           await channel.overwritePermissions(guild.defaultRole, { SEND_MESSAGES: true })
-          await botMsg.edit("🔰 Channel is ready! Happy counting!")
-          botMsg.delete(15000);
+          if (fail) await botMsg.edit("❌ Could not delete messages. Do I have permission? (Manage Messages)")
+          else await botMsg.edit("🔰 Channel is ready! Happy counting!").then(() => botMsg.delete(15000))
         }
       }
     }
