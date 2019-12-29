@@ -229,6 +229,7 @@ module.exports = (client, config) => {
           if (method == "add") for (const id in scores) {
             if (!savedGuilds[gid].users[id]) savedGuilds[gid].users[id] = 0
             savedGuilds[gid].users[id] += scores[id]
+            if (savedGuilds[gid].users[id] < 0) savedGuilds[gid].users[id] = 0
           }
 
           let guild = await getGuild(gid);
