@@ -80,6 +80,18 @@ module.exports = (client, config) => {
           if (!savedGuilds[gid].users[member.id]) savedGuilds[gid].users[member.id] = 0;
           savedGuilds[gid].users[member.id] += 1;
 
+          let { format } = dateInfo(new Date())
+          if (!savedGuilds[gid].log[format]) {
+            savedGuilds[gid].log[format] = 0;
+
+            let dates = Object.keys(savedGuilds[gid].log);
+            while (dates.length > 7) {
+              delete savedGuilds[gid].log[dates[0]] // delete the oldest log
+              dates = Object.keys(savedGuilds[gid].log);
+            }
+          }
+          savedGuilds[gid].log[format] += 1;
+
           // checking roles
           let roles = savedGuilds[gid].roles;
           for (const ID in roles) try {
@@ -94,6 +106,7 @@ module.exports = (client, config) => {
           guild.count = savedGuilds[gid].count;
           guild.user = savedGuilds[gid].user;
           guild.users = savedGuilds[gid].users;
+          guild.log = savedGuilds[gid].log;
           await guild.save().then(resolve).catch(reject);
           updateTopic(gid, client);
 
@@ -255,7 +268,8 @@ const guildObject = {
   timeouts: {}, // log how long the users will have the role
   regex: [], // regex filters, for the talking module
   pins: {}, // the guild's pin triggers,
-  liveboard: {} // the guild's live leaderboard location (premium)
+  liveboard: {}, // the guild's live leaderboard location (premium)
+  log: {} // the guild's confirmed counts the last week, ex { "YYYY-MM-DD": 1234 }
 }, guildSchema = mongoose.Schema(guildObject, { minimize: true })
 
 const globalSchema = mongoose.Schema({
