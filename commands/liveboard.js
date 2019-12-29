@@ -1,5 +1,5 @@
 module.exports = {
-  description: "Set up a liveboard in your server. Requires $3 Premium!",
+  description: "Set up a liveboard in your server. (Premium)",
   usage: {
     "[<channel>]": "Specify what channel you want the liveboard message to go in. Default is current channel."
   },

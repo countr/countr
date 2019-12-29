@@ -1,5 +1,5 @@
 module.exports = {
-  description: "Add a regex filter for the talking module, filtering unwanted chats.",
+  description: "Add a regex filter for the talking module, filtering unwanted messages.",
   usage: {
     "<regex ...>": "The regex you want to filter out of the chat. Get info on how to create a regex here: https://flaviocopes.com/javascript-regular-expressions/#regular-expressions-choices"
   },

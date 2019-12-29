@@ -1,7 +1,7 @@
 module.exports = {
   description: "Add a rolereward that gets rewarded by counting.",
   usage: {
-    "<role>": "The role you want to be the reward. If you plan on using the role name, use _ instead of spaces.",
+    "<role>": "The role you want to be the reward. If you plan on using the role name, use underscores instead of spaces.",
     "<mode: each|only|score>": "If you use each, it will reward someone for every <count> count. If you use only, it will only reward someone for count <count>. If you use score, it will reward someone if their score hit <count>.",
     "<count>": "The count you want to reference in your mode.",
     "<duration: temporary|permanent>": "If you use temporary, the users will lose their role again if someone else gets rewarded with the same role. If you use permanent, they keep it forever until someone removes it."

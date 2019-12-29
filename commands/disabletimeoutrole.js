@@ -1,5 +1,5 @@
 module.exports = {
-  description: "Reset the timeout role.",
+  description: "Reset and disable the timeout role.",
   usage: {},
   examples: {},
   aliases: [ "resettimeoutrole", "re=timeoutrole" ],

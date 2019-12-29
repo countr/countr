@@ -1,5 +1,5 @@
 module.exports = {
-  description: "Evaluate JavaScript code.",
+  description: "Run JavaScript code.",
   usage: {
     "<code ...>": "The JavaScript code you'd like to run. This is DANGEROUS, so only use it if you know what you're doing. Never run any code from people you don't trust."
   },

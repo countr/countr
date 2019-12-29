@@ -1,5 +1,5 @@
 module.exports = {
-  description: "Get the current leaderboard of the server.",
+  description: "Get the current scoreboard of the server.",
   usage: {},
   examples: {},
   aliases: [ "leaderboard", "^", "top" ],

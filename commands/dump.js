@@ -1,5 +1,5 @@
 module.exports = {
-  description: "Dump a server's data to DMs.",
+  description: "Dump a server's data to DMs. (GDPR-compliant)",
   usage: {},
   examples: {},
   aliases: [ "export" ],

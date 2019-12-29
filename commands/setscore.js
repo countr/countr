@@ -1,5 +1,5 @@
 module.exports = {
-  description: "Set a member's score",
+  description: "Set a member's or multiple members' score.",
   usage: {
     "<member(s ...) and/or role(s ...)>": "The member(s) or members of role(s) you want to set the score of",
     "<score>": "The new score"

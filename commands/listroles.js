@@ -1,5 +1,5 @@
 module.exports = {
-  description: "Get a list of role rewards in the server.",
+  description: "Get a list of role rewards.",
   usage: {},
   examples: {},
   aliases: [ "rolelist", "roles", "rolerewards" ],

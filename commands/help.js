@@ -1,5 +1,5 @@
 module.exports = {
-  description: "Get help on how to use the bot. Will time out after three minutes of inactivity.",
+  description: "Get help on commands.",
   usage: {
     "[-all]": "If you include this, it will show all the commands excluding bot-admins-only commands.",
     "[<search ...>]": "Search for a specific command, category or related."

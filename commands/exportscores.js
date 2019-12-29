@@ -1,7 +1,7 @@
 module.exports = {
   description: "Export scores to a JSON-file.",
   usage: {
-    "<member(s ...) and/or role(s ...)>|all": "The member(s) and/or role(s') member(s) you want to export the scores of."
+    "<member(s ...) and/or role(s ...)>|all": "The member(s) and/or role(s') members you want to export the scores of."
   },
   examples: {
     "110090225929191424": "Export the score of user with ID 110090225929191424.",
