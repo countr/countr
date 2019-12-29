@@ -19,61 +19,65 @@ Still doesn't understand? Don't worry, most of the commands have an example you 
 
 # Level 0: Everyone
 Everyone get access to these commands.
-- [c!help](#chelp): Get help on how to use the bot. Will time out after three minutes of inactivity.
+- [c!help](#chelp): Get help on commands.
 - [c!info](#cinfo): Get information and stats about the bot.
 - [c!invite](#cinvite): Get an invite to add the bot.
 - [c!notifications](#cnotifications): Get a list of your notifications in the server.
 - [c!notifyme](#cnotifyme): Get a notification whenever the server reach whatever count you want.
 - [c!ping](#cping): Get the latency of the bot.
 - [c!removenotif](#cremovenotif): Remove a notification.
-- [c!scoreboard](#cscoreboard): Get the current leaderboard of the server.
-- [c!settopic](#csettopic): Set the topic of the channel.
+- [c!scoreboard](#cscoreboard): Get the current scoreboard of the server.
 
 # Level 1: Moderator
 Everyone with the `MANAGE_MESSAGES`-permission get access to these commands.
 - [c!listpins](#clistpins): Get a list of pintriggers.
 - [c!listregex](#clistregex): Get a list of regex filters.
-- [c!listroles](#clistroles): Get a list of role rewards in the server.
+- [c!listroles](#clistroles): Get a list of role rewards.
 
 # Level 2: Admin
 Everyone with the `MANAGE_SERVER`-permission get access to these commands.
-- [c!addpin](#caddpin): Add a pintrigger so big milestones gets pinned in chat. Keep in mind this will only accept 50 pins because of Discord's limit.
-- [c!addregex](#caddregex): Add a regex filter for the talking module, filtering unwanted chats.
+- [c!addpin](#caddpin): Add a pintrigger so big milestones gets pinned in chat.
+- [c!addregex](#caddregex): Add a regex filter for the talking module, filtering unwanted messages.
 - [c!addrole](#caddrole): Add a rolereward that gets rewarded by counting.
+- [c!addtoscore](#caddtoscore): Set a member's score
 - [c!autosetup](#cautosetup): Quickly set up a counting channel.
+- [c!disabletimeoutrole](#cdisabletimeoutrole): Reset and disable the timeout role.
 - [c!editpin](#ceditpin): Edit a pintrigger.
 - [c!editrole](#ceditrole): Edit a rolereward.
 - [c!exportscores](#cexportscores): Export scores to a JSON-file.
 - [c!importscores](#cimportscores): Import scores from a JSON-file. Upload the JSON-file with the command itself.
 - [c!link](#clink): Link a counting channel manually.
-- [c!liveboard](#cliveboard): Set up a liveboard in your server. Requires $3 Premium!
+- [c!liveboard](#cliveboard): Set up a liveboard in your server. (Premium)
+- [c!removefromscore](#cremovefromscore): Set a member's score
 - [c!removepin](#cremovepin): Remove a pintrigger.
 - [c!removeregex](#cremoveregex): Remove a regex filter.
 - [c!removerole](#cremoverole): Remove a rolereward.
+- [c!removetimeoutrole](#cremovetimeoutrole): Remove and disable the timeout role.
 - [c!resetcount](#cresetcount): Reset the count.
 - [c!resetscore](#cresetscore): Reset a member's or multiple members' score.
 - [c!setcount](#csetcount): Set the count.
 - [c!setprefix](#csetprefix): Set a new prefix for the bot.
-- [c!setscore](#csetscore): Set a member's score
-- [c!timeoutrole](#ctimeoutrole): Set a timeout role, so when someone counts <fail amount> times wrong within <time> seconds, they will get the role. Works best if you deny the role access to the channel.
+- [c!setscore](#csetscore): Set a member's or multiple members' score.
+- [c!settimeoutrole](#csettimeoutrole): Set a timeout role, so when someone counts <fail amount> times wrong within <time> seconds, they will get the role. Works best if you deny the role access to the channel.
+- [c!settopic](#csettopic): Set the topic of the channel.
 - [c!toggle](#ctoggle): Manage modules you can enable or disable in your server.
 - [c!unlink](#cunlink): Unlink the current counting channel.
 
 # Level 3: Owner
 Only the owner of the server can access these commands.
-- [c!dump](#cdump): Dump a server's data to DMs.
+- [c!dump](#cdump): Dump a server's data to DMs. (GDPR-compliant)
 - [c!factoryreset](#cfactoryreset): Reset all data Countr has stored about this server.
 
 ## c!addpin
 
-Add a pintrigger so big milestones gets pinned in chat. Keep in mind this will only accept 50 pins because of Discord's limit.
+Add a pintrigger so big milestones gets pinned in chat.
 
-**Usage:** `c!addpin <mode: each|only> <count> [repost]`
+**Usage:** `c!addpin <mode: each|only> <count> [<action: keep|repost>]`
 
 **Arguments:** 
 - `<mode: each|only>`: If you use each, it will pin every &lt;count&gt; count. If you use only, it will only pin count &lt;count&gt;.
 - `<count>`: The count you want to reference in your mode.
-- `[repost]`: If you use this, it will repost the message meaning they won't be able to edit it in the future and potentially advertise in pinned messages.
+- `[<action: keep|repost>]`: If you use repost, it will repost the message before pinning it. Default is keep, which does not do this.
 
 **Examples:** 
 - `c!addpin each 1000 repost`: Will pin every 1000th count after reposting it, including 2000 and 3000 etc.
@@ -83,7 +87,7 @@ Add a pintrigger so big milestones gets pinned in chat. Keep in mind this will o
 
 ## c!addregex
 
-Add a regex filter for the talking module, filtering unwanted chats.
+Add a regex filter for the talking module, filtering unwanted messages.
 
 **Usage:** `c!addregex <regex ...>`
 
@@ -104,7 +108,7 @@ Add a rolereward that gets rewarded by counting.
 **Usage:** `c!addrole <role> <mode: each|only|score> <count> <duration: temporary|permanent>`
 
 **Arguments:** 
-- `<role>`: The role you want to be the reward. If you plan on using the role name, use _ instead of spaces.
+- `<role>`: The role you want to be the reward. If you plan on using the role name, use underscores instead of spaces.
 - `<mode: each|only|score>`: If you use each, it will reward someone for every &lt;count&gt; count. If you use only, it will only reward someone for count &lt;count&gt;. If you use score, it will reward someone if their score hit &lt;count&gt;.
 - `<count>`: The count you want to reference in your mode.
 - `<duration: temporary|permanent>`: If you use temporary, the users will lose their role again if someone else gets rewarded with the same role. If you use permanent, they keep it forever until someone removes it.
@@ -115,6 +119,22 @@ Add a rolereward that gets rewarded by counting.
 
 **Alias:** `c!+role`
 
+## c!addtoscore
+
+Set a member's score
+
+**Usage:** `c!addtoscore <member(s ...) and/or role(s ...)> <score>`
+
+**Arguments:** 
+- `<member(s ...) and/or role(s ...)>`: The member(s) or members of role(s) you want to set the score of
+- `<score>`: The new score
+
+**Examples:** 
+- `c!addtoscore 110090225929191424 9999999`: Will set member with ID 110090225929191424's score to 9999999.
+- `c!addtoscore @Promise#0001 @CountingGods 1337`: Will set Promise#0001's and all members in role Counting Gods' score to 1337.
+
+**Alias:** `c!+score`
+
 ## c!autosetup
 
 Quickly set up a counting channel.
@@ -123,9 +143,17 @@ Quickly set up a counting channel.
 
 **Alias:** `c!setup`
 
+## c!disabletimeoutrole
+
+Reset and disable the timeout role.
+
+**Usage:** `c!disabletimeoutrole`
+
+**Aliases:** `c!resettimeoutrole`, `c!re=timeoutrole`
+
 ## c!dump
 
-Dump a server's data to DMs.
+Dump a server's data to DMs. (GDPR-compliant)
 
 **Usage:** `c!dump`
 
@@ -135,16 +163,17 @@ Dump a server's data to DMs.
 
 Edit a pintrigger.
 
-**Usage:** `c!editpin <ID> <property: mode|count|action> <value: see addpin's usage>`
+**Usage:** `c!editpin <ID> <property: mode|count|action> <value>`
 
 **Arguments:** 
 - `<ID>`: The pintrigger's ID.
 - `<property: mode|count|action>`: The property you want to change.
-- `<value: see addpin's usage>`: The new value for the property.
+- `<value>`: The new value for the property. See the usage of `c!addpin` for values to choose from.
 
 **Examples:** 
 - `c!editpin wnoK3d mode each`: Will change the pintrigger with ID wnoK3d's mode to each.
 - `c!editpin 89hJzm count 1337`: Will change the pintrigger with ID 89hJzm's count to 1337.
+- `c!editpin IfS80j action repost`: Will change the pintrigger with ID IfS80j's action to repost.
 
 **Alias:** `c!=pin`
 
@@ -152,12 +181,12 @@ Edit a pintrigger.
 
 Edit a rolereward.
 
-**Usage:** `c!editrole <ID> <property: role|mode|count|duration> <value: see addrole's usage>`
+**Usage:** `c!editrole <ID> <property: role|mode|count|duration> <value>`
 
 **Arguments:** 
 - `<ID>`: The rolereward's ID.
 - `<property: role|mode|count|duration>`: The property you want to change.
-- `<value: see addrole's usage>`: The new value for the property.
+- `<value>`: The new value for the property. See the usage of `c!addrole` for values to choose from.
 
 **Examples:** 
 - `c!editrole MnRIf4 mode each`: Will change the rolereward with ID MnRIf4's mode to each.
@@ -172,7 +201,7 @@ Export scores to a JSON-file.
 **Usage:** `c!exportscores <member(s ...) and/or role(s ...)>|all`
 
 **Argument:** 
-- `<member(s ...) and/or role(s ...)>|all`: The member(s) and/or role(s') member(s) you want to export the scores of.
+- `<member(s ...) and/or role(s ...)>|all`: The member(s) and/or role(s') members you want to export the scores of.
 
 **Examples:** 
 - `c!exportscores 110090225929191424`: Export the score of user with ID 110090225929191424.
@@ -190,7 +219,7 @@ Reset all data Countr has stored about this server.
 
 ## c!help
 
-Get help on how to use the bot. Will time out after three minutes of inactivity.
+Get help on commands.
 
 **Usage:** `c!help [-all] [<search ...>]`
 
@@ -211,7 +240,7 @@ Import scores from a JSON-file. Upload the JSON-file with the command itself.
 **Usage:** `c!importscores <method: set|add>`
 
 **Argument:** 
-- `<method: set|add>`: Decide if you want to overwrite the 
+- `<method: set|add>`: Decide if you want to overwrite the scores or add to the scores.
 
 **Examples:** 
 - `c!importscores set`: Will overwrite all the scores to the one in the file.
@@ -262,7 +291,7 @@ Get a list of regex filters.
 
 ## c!listroles
 
-Get a list of role rewards in the server.
+Get a list of role rewards.
 
 **Usage:** `c!listroles`
 
@@ -270,7 +299,7 @@ Get a list of role rewards in the server.
 
 ## c!liveboard
 
-Set up a liveboard in your server. Requires $3 Premium!
+Set up a liveboard in your server. (Premium)
 
 **Usage:** `c!liveboard [<channel>]`
 
@@ -308,6 +337,22 @@ Get the latency of the bot.
 **Usage:** `c!ping`
 
 **Aliases:** `c!pong`, `c!latency`, `c!uptime`
+
+## c!removefromscore
+
+Set a member's score
+
+**Usage:** `c!removefromscore <member(s ...) and/or role(s ...)> <score>`
+
+**Arguments:** 
+- `<member(s ...) and/or role(s ...)>`: The member(s) or members of role(s) you want to set the score of
+- `<score>`: The new score
+
+**Examples:** 
+- `c!removefromscore 110090225929191424 9999999`: Will set member with ID 110090225929191424's score to 9999999.
+- `c!removefromscore @Promise#0001 @CountingGods 1337`: Will set Promise#0001's and all members in role Counting Gods' score to 1337.
+
+**Aliases:** `c!-fromscore`, `c!-score`
 
 ## c!removenotif
 
@@ -369,6 +414,14 @@ Remove a rolereward.
 
 **Alias:** `c!-role`
 
+## c!removetimeoutrole
+
+Remove and disable the timeout role.
+
+**Usage:** `c!removetimeoutrole`
+
+**Alias:** `c!-timeoutrole`
+
 ## c!resetcount
 
 Reset the count.
@@ -398,7 +451,7 @@ Reset a member's or multiple members' score.
 
 ## c!scoreboard
 
-Get the current leaderboard of the server.
+Get the current scoreboard of the server.
 
 **Usage:** `c!scoreboard`
 
@@ -419,10 +472,10 @@ Set the count.
 
 Set a new prefix for the bot.
 
-**Usage:** `c!setprefix <prefix ...>`
+**Usage:** `c!setprefix <prefix ...>|reset`
 
 **Argument:** 
-- `<prefix ...>`: The new prefix. If you want to end your prefix with a space, end the prefix with {{SPACE}}.
+- `<prefix ...>|reset`: The new prefix. If you want to end your prefix with a space, end the prefix with {{SPACE}}. If you use reset, use the default prefix for the bot.
 
 **Examples:** 
 - `c!setprefix c?`: Set the prefix to c?, the help command would then be c?help.
@@ -432,7 +485,7 @@ Set a new prefix for the bot.
 
 ## c!setscore
 
-Set a member's score
+Set a member's or multiple members' score.
 
 **Usage:** `c!setscore <member(s ...) and/or role(s ...)> <score>`
 
@@ -446,35 +499,37 @@ Set a member's score
 
 **Alias:** `c!=score`
 
+## c!settimeoutrole
+
+Set a timeout role, so when someone counts &lt;fail amount&gt; times wrong within &lt;time&gt; seconds, they will get the role. Works best if you deny the role access to the channel.
+
+**Usage:** `c!settimeoutrole <role> <fails> <time> [<duration>]`
+
+**Arguments:** 
+- `<role>`: The role you want the timeout role to be. If you plan on using the role name, use _ instead of spaces.
+- `<fails>`: Fails within &lt;time&gt; seconds to get the role.
+- `<time>`: Time in seconds users have to count &lt;fails&gt; times to get the role.
+- `[<duration>]`: Duration in seconds the role will stay on for. Default is forever.
+
+**Examples:** 
+- `c!settimeoutrole Timed_out 5 10`: This will give the user the role Timed out if they fail 5 times within 10 seconds.
+- `c!settimeoutrole 531877473437220866 3 30 120`: This will give the user the role with ID 531877473437220866 if they fail 3 times within 30 seconds, and the role will be removed after 2 minutes.
+
+**Alias:** `c!=timeoutrole`
+
 ## c!settopic
 
 Set the topic of the channel.
 
-**Usage:** `c!settopic <topic ...|reset|disable>`
+**Usage:** `c!settopic <topic ...>|reset|disable`
 
 **Argument:** 
-- `<topic ...|reset|disable>`: The new topic. Use {{COUNT}} for the current count. If you put reset, it will be changed to the default. If you put disable, it will disable this functionality completely.
+- `<topic ...>|reset|disable`: The new topic. Use {{COUNT}} for the current count. If you put reset, it will be changed to the default. If you put disable, it will disable this functionality completely.
 
 **Example:** 
 - `c!settopic Count to infinity! Next count is {{COUNT}}.`: An example using the placeholder.
 
 **Aliases:** `c!topic`, `c!=topic`
-
-## c!timeoutrole
-
-Set a timeout role, so when someone counts &lt;fail amount&gt; times wrong within &lt;time&gt; seconds, they will get the role. Works best if you deny the role access to the channel.
-
-**Usage:** `c!timeoutrole <role> <time> <fails> [<duration>]`
-
-**Arguments:** 
-- `<role>`: The role you want the timeout role to be. If you plan on using the role name, use _ instead of spaces.
-- `<time>`: Time in seconds users have to count &lt;fails&gt; times in to get the role.
-- `<fails>`: Fails within &lt;time&gt; seconds to get the role.
-- `[<duration>]`: Duration in seconds the role will stay on for. Default is forever.
-
-**Examples:** 
-- `c!timeoutrole Timed_out 10 5`: This will give the user the role Timed out if they fail 5 times within 10 seconds.
-- `c!timeoutrole 531877473437220866 30 3 120`: This will give the user the role with ID 531877473437220866 if they fail 3 times within 30 seconds, and the role will be removed after 2 minutes.
 
 ## c!toggle
 
