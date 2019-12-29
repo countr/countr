@@ -27,15 +27,17 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
     command.includes(search),
     (prefix + command).includes(search),
     allCommands[command].description.includes(search),
+    allCommands[command].aliases.includes(search),
     Object.keys(allCommands[command].usage).includes(search),
     Object.values(allCommands[command].usage).includes(search),
     Object.values(allCommands[command].examples).includes(search)
   ].includes(true)) commandsFound.push({
-    name: "\`" + prefix + command + "\`",
+    name: "\`" + prefix + command + Object.keys(allCommands[command].usage).map(arg => " " + arg).join("") + "\`",
     value: [
+      //"**Usage:** \`" + prefix + command + Object.keys(allCommands[command].usage).map(arg => " " + arg).join("") + "\`",
       "**Description:** " + allCommands[command].description,
       "**Permission Level Required:** " + ["None", "Chat Moderators", "Server Administrators", "Server Owner", "Bot Support Team", "Bot Developer"][allCommands[command].permissionRequired] + (permission !== permissionLevel ? " \`" + (permissionLevel >= allCommands[command].permissionRequired ? "✅" : "❌") + "\`" : ""),
-      "**Usage:** \`" + prefix + command + Object.keys(allCommands[command].usage).map(arg => " " + arg).join("") + "\`",
+      "**Aliases:** " + (allCommands[command].aliases.length ? allCommands[command].aliases.map(alias => "\`" + prefix + alias + "\`").join(", ") : "None."),
       "**Documentation:** https://countr.xyz/#/commands?id=c" + command
     ].join("\n"),
     inline: false
@@ -96,6 +98,7 @@ fs.readdir("./commands/", (err, files) => {
     info.usage = commandFile.usage;
     info.examples = commandFile.examples;
     info.permissionRequired = commandFile.permissionRequired;
+    info.aliases = commandFile.aliases;
     
     allCommands[file.replace(".js", "")] = info;
   }
