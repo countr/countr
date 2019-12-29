@@ -7,15 +7,14 @@ module.exports = (client, config) => {
 
   setInterval(() => Global.findOne({}, (err, global) => {
     if (err) return;
-    if (!global) global = new Global({
-        counts: 0,
-        week: getWeek(new Date())
-    })
+    const { week } = dateInfo(new Date())
+
+    if (!global) global = new Global({ counts: 0, week })
 
     global.counts += addCount; // prevents conflicts
     addCount = 0;
 
-    if (global.week != getWeek(new Date())) {
+    if (global.week != week) {
       if (config.postToWebhookEveryWeek) fetch(config.postToWebhookEveryWeek, {
         method: "POST",
         body: JSON.stringify({ "value1": global.counts.toString(), "value2": global.week.toString() }), // the simplest way to integrate this is with IFTTT.
@@ -23,7 +22,7 @@ module.exports = (client, config) => {
       })
 
       global.counts = 0;
-      global.week = getWeek(new Date())
+      global.week = week
     }
 
     global.save()
@@ -34,10 +33,9 @@ module.exports = (client, config) => {
       counts: () => new Promise(async function(resolve, reject) {
         Global.findOne({}, (err, global) => {
           if (err) return reject(err);
-          if (!global) global = new Global({
-            counts: 0,
-            week: getWeek(new Date())
-          })
+          const { week } = dateInfo(new Date())
+
+          if (!global) global = new Global({ counts: 0, week })
 
           resolve(global.counts)
         })
@@ -302,12 +300,19 @@ function getGuild(gid) {
   })
 }
 
-function getWeek(d) { // https://stackoverflow.com/a/6117889
+function dateInfo(d) {
+  // https://stackoverflow.com/a/6117889
   d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
   d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
   let yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  let weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1) / 7);
-  return weekNo;
+  let week = Math.ceil(( ( (d - yearStart) / 86400000) + 1) / 7);
+
+  // https://stackoverflow.com/a/23593099
+  let month = (d.getMonth() + 1).toString(), day = d.getDate().toString(), year = d.getFullYear();
+  if (month.length < 2) month = "0" + month;
+  if (day.length < 2) day = "0" + day;
+
+  return { week, format: [year, month, day].join("-") };
 }
 
 const b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"; // base64
