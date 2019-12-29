@@ -39,7 +39,7 @@ client.on("message", async message => {
   if (channel == message.channel.id) {
     if (!message.member && message.author.id) try { message.member = await message.guild.fetchMember(message.author.id, true) } catch(e) {} // on bigger bots with not enough ram, not all members are loaded in. So if a member is missing, we try to load it in.
 
-    if (message.webhookID == null && (disabledGuilds.includes(message.channel.id) || message.author.bot)) return message.delete();
+    if (message.webhookID == null && (disabledGuilds.includes(message.guild.id) || message.author.bot)) return message.delete();
     if (message.webhookID || (message.content.startsWith("!") && getPermissionLevel(message.member) >= 1) || message.type !== "DEFAULT") return;
 
     let regexMatches = false;
