@@ -301,10 +301,10 @@ Get a list of role rewards.
 
 Set up a liveboard in your server. (Premium)
 
-**Usage:** `c!liveboard [<channel>]`
+**Usage:** `c!liveboard <channel>`
 
 **Argument:** 
-- `[<channel>]`: Specify what channel you want the liveboard message to go in. Default is current channel.
+- `<channel>`: Specify what channel you want the liveboard message to go in.
 
 ## c!notifications
 
