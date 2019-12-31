@@ -15,7 +15,7 @@ For example, in this command: `c!command <abc> [def] [<ghi>] jkl <mno: pq|rs> <t
 - `<mno: pq|rs>` is required user input, but can only choose between `pq` and `rs`.
 - `<tuv ...>` is required user input, but also supports multiple inputs.
 
-Still doesn't understand? Don't worry, most of the commands have an example you can go out from.
+Still doesn't understand? Don't worry, most of the advanced commands have an example you can go out from.
 
 # Level 0: Everyone
 Everyone get access to these commands.

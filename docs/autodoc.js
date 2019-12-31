@@ -42,7 +42,7 @@ fs.readdir("./commands/", (err, files) => {
 		"- `<mno: pq|rs>` is required user input, but can only choose between `pq` and `rs`.",
 		"- `<tuv ...>` is required user input, but also supports multiple inputs.",
 		"",
-		"Still doesn't understand? Don't worry, most of the commands have an example you can go out from.\n\n"
+		"Still doesn't understand? Don't worry, most of the advanced commands have an example you can go out from.\n\n"
 	].join("\n")
   for (const permission in content) {
 		commandDoc = commandDoc + "# Level " + permission + ": " + {"0": "Everyone\nEveryone get access to these commands.", "1": "Moderator\nEveryone with the `MANAGE_MESSAGES`-permission get access to these commands.", "2": "Admin\nEveryone with the `MANAGE_SERVER`-permission get access to these commands.", "3": "Owner\nOnly the owner of the server can access these commands."}[permission] + "\n"
