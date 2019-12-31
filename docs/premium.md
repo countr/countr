@@ -23,4 +23,5 @@ You can currently support us in two ways: [on Patreon](https://patreon.com/gleen
 
 > [!NOTE]
 > - All Premium features are only accessible through the Premium bot.
+> - It can take up to five minutes for the bot to be available.
 > - If you move from the Premium bot to Countr, or vica versa, you will still keep the data for the server. They are both connected to the same database, so all data is still being stored. Don't panic!
