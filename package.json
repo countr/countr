@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node app.js",
-    "autodoc": "node docs/autodoc.js"
+    "autodoc": "node ../countr-docs/autodoc.js"
   },
   "author": "Promise <me@promise.solutions> (https://promise.solutions/)",
   "license": "GPL-3.0",
