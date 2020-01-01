@@ -32,5 +32,5 @@
 - [Links](#)
   - [Uptime](https://uptime.countr.xyz/)
   - [Source Code](https://github.com/gleeny/countr/)
-  - [Trello](https://trello.com/b/6fIzYrDk/countr)
+  - [What's coming next?](https://github.com/gleeny/countr/projects)
   - [Twitter](https://twitter.com/countrbot)
