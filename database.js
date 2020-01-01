@@ -314,19 +314,25 @@ function getGuild(gid) {
   })
 }
 
-function dateInfo(d) {
+const dateInfo = d => ({ week: getWeek(d), format: getFormatted(d) })
+
+function getWeek(d) {
   // https://stackoverflow.com/a/6117889
   d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
   d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
   let yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
   let week = Math.ceil(( ( (d - yearStart) / 86400000) + 1) / 7);
 
+  return week;
+}
+
+function getFormatted(d) {
   // https://stackoverflow.com/a/23593099
   let month = (d.getMonth() + 1).toString(), day = d.getDate().toString(), year = d.getFullYear();
   if (month.length < 2) month = "0" + month;
   if (day.length < 2) day = "0" + day;
 
-  return { week, format: [year, month, day].join("-") };
+  return [year, month, day].join("-")
 }
 
 const b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"; // base64
