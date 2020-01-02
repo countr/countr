@@ -27,6 +27,7 @@ Everyone get access to these commands.
 - [c!ping](#cping): Get the latency of the bot.
 - [c!removenotif](#cremovenotif): Remove a notification.
 - [c!scoreboard](#cscoreboard): Get the current scoreboard of the server.
+- [c!webboard](#cwebboard): Gets a link to the webboard of Countr
 
 # Level 1: Moderator
 Everyone with the `MANAGE_MESSAGES`-permission get access to these commands.
@@ -301,10 +302,10 @@ Get a list of role rewards.
 
 Set up a liveboard in your server. (Premium)
 
-**Usage:** `c!liveboard <channel>`
+**Usage:** `c!liveboard <channel>|disable`
 
 **Argument:** 
-- `<channel>`: Specify what channel you want the liveboard message to go in.
+- `<channel>|disable`: Specify what channel you want the liveboard message to go in, or disable it.
 
 ## c!notifications
 
@@ -552,3 +553,11 @@ Unlink the current counting channel.
 **Usage:** `c!unlink`
 
 **Alias:** `c!disconnect`
+
+## c!webboard
+
+Gets a link to the webboard of Countr
+
+**Usage:** `c!webboard`
+
+**Aliases:** `c!web`, `c!admininterface`, `c!interface`, `c!analytics`
