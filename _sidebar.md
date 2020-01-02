@@ -1,6 +1,8 @@
+![botlist.space Status](https://botlist.space/bot/467377486141980682/badge?property=status&style=flat-square)
+![botlist.space Uptime](https://botlist.space/bot/467377486141980682/badge?property=uptime.1&style=flat-square)
+
 - [About Countr](/)
   - [Purpose](/#purpose)
-  - [Stats](/#stats)
 - [How to setup](/how2setup)
   - [Quick setup](/how2setup#quick-setup)
   - [Self-hosting](/selfhosting#self-hosting)
