@@ -8,7 +8,6 @@ const manager = new Discord.ShardingManager("./app.js", { totalShards: "auto", r
 manager.spawn();
 manager.on("launch", async shard => {
     console.log("Shard " + shard.id + " starting.")
-    updateInfo();
 })
 
 webAPI.listen(80)

@@ -69,7 +69,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
       if (reaction.emoji == "♻️") page = 1;
       else if (reaction.emoji == "⬅️") page -= 1;
       else if (reaction.emoji == "➡️") page += 1;
-      else if (reaction.emoji == "❌") return botMsg.edit("🔰 Closed by user. Open it again with \`" + prefix + "help\`.", {embed:{}}) && botMsg.clearReactions();
+      else if (reaction.emoji == "❌") return botMsg.edit("🔰 Closed by user. Open it again with \`" + prefix + "help\`.", {embed:{}}) && botMsg.clearReactions().catch();
 
       if (page < 1) page = 1; // if they try accessing a page below page one, we restrict them
       else if (page > pages) page = pages; // if they try accessing a page that does not exist, we restrict them.
@@ -82,7 +82,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
         botMsg.edit(help)
       }
     } catch(e) { // the timer went out
-      return botMsg.edit("⏲️ Timed out. Open it again with \`" + prefix + "help\`.", {embed:{}}) && botMsg.clearReactions();
+      return botMsg.edit("⏲️ Timed out. Open it again with \`" + prefix + "help\`.", {embed:{}}) && botMsg.clearReactions().catch();
     }
   }).catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links, Add Reactions, Manage Messages)"))
 }

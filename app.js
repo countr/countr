@@ -107,7 +107,7 @@ client.on("message", async message => {
 let getPermissionLevel = (member) => {
   if (config.admins[0] == member.user.id) return 5;
   if (config.admins.includes(member.user.id)) return 4;
-  if (member.guild.owner.id == member.id) return 3;
+  if (member.guild.ownerID == member.id) return 3;
   if (member.hasPermission("MANAGE_GUILD")) return 2;
   if (member.hasPermission("MANAGE_MESSAGES")) return 1;
   return 0;
@@ -181,4 +181,4 @@ client
   .on("warn", warn => console.log(shId + "Unexpected warning:", warn))
   .login(config.token)
 
-if (Object.values(config.listKeys).length) BLAPI.handle(client, config.listKeys, 15);
+if (config.listKeys && Object.values(config.listKeys).length) BLAPI.handle(client, config.listKeys, 15);
