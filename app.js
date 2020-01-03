@@ -173,7 +173,7 @@ client
     }
   })
 
-  .on("rateLimit", rl => console.log(shId + "Rate limited. [" + rl.timeDifference + "ms, endpoint: " + rl.path + ", limit: " + rl.limit + "]"))
+  .on("rateLimit", rl => rl.path.includes("reactions") ? null : console.log(shId + "Rate limited. [" + rl.timeDifference + "ms, endpoint: " + rl.path + ", limit: " + rl.limit + "]"))
   .on("disconnect", dc => console.log(shId + "Disconnected:", dc))
   .on("reconnecting", () => console.log(shId + "Reconnecting..."))
   .on("resume", replayed => console.log(shId + "Resumed. [" + replayed + " events replayed]"))
