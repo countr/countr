@@ -84,7 +84,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
         {
           "name": "💝 Premium",
           "value": [
-            "**Want to get premium features for your server?** https://countr.xyz/premium",
+            "**Want to get premium features for your server?** https://countr.xyz/#/premium",
             "**Want to donate just as a thank you?** https://ko-fi.com/promise"
           ].join("\n"),
           "inline": false
