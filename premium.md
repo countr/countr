@@ -4,10 +4,11 @@ Countr is not free for us to host, as the bill is rising we need some supporters
 
 ## Premium-only features
 
-| Feature                                 | $1 | $3 | $5 |
-|:----------------------------------------|:---|:---|:---|
-| Much more stable bot on a different VPS with no lag at all. | ✅ | ✅ | ✅ |
-| Live leaderboard, updating every minute (c!top, just automatically updated) | ❌ | ✅ | ✅ |
+| <center>Feature</center> | <center>$1</center> | <center>$3</center> | <center>$5</center> |
+|:--------|:---|:---|:---|
+| <center>Access to a Premium bot that will have less downtime</center> | <center>✅</center> | <center>✅</center> | <center>✅</center> |
+| <center>Analytics-leaderboard auto-refreshed | <center>✅<br />every 30 seconds</center> | <center>✅<br />every 3 seconds, "live view"</center> | <center>✅<br />every 3 seconds, "live view"</center> |
+| <center>A live leaderboard on Discord updating every 15 seconds (c!top, just with a timer)</center> | <!--❌--> | <center>✅</center> | <center>✅</center> |
 
 ## How to support
 
