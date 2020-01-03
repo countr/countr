@@ -1,10 +1,16 @@
-module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
-    let list = await db.listRegex(message.guild.id);
-
-    if (Object.keys(list).length == 0) return message.channel.send("❌ " + strings["NO_REGEX"])
-    return message.channel.send("📋 " + strings["REGEX_LIST"] + ":\n" + list.map(l => "\`" + l + "\`").join("\n"))
+module.exports = {
+  description: "Get a list of regex filters.",
+  usage: {},
+  examples: {},
+  aliases: [ "regexlist", "regexfilters" ],
+  permissionRequired: 1, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
+  checkArgs: (args) => !args.length
 }
 
-// 0 All, 1 Mods, 2 Admins, 3 Global Admins, 4 First Global Admin
-module.exports.permissionRequired = 2
-module.exports.argsRequired = 0
+module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
+  let { regex } = await gdb.get();
+
+  if (!regex.length) return message.channel.send("❌ No regex filters for this server has been set up.")
+  
+  message.channel.send("📋 Regex filters for this server:\n" + regex.map(l => "- \`" + l + "\`").join("\n"))
+}

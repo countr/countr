@@ -1,5 +1,5 @@
 module.exports = {
-  description: "Set a member's or multiple members' score.",
+  description: "Set a member's score",
   usage: {
     "<member(s ...) and/or role(s ...)>": "The member(s) or members of role(s) you want to set the score of",
     "<score>": "The new score"
@@ -8,14 +8,14 @@ module.exports = {
     "110090225929191424 9999999": "Will set member with ID 110090225929191424's score to 9999999.",
     "@Promise#0001 @CountingGods 1337": "Will set Promise#0001's and all members in role Counting Gods' score to 1337."
   },
-  aliases: [ "=score" ],
+  aliases: [ "+score" ],
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: (args) => args.length >= 2
 }
 
 module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
-  const newScore = parseInt(args.pop())
-  if (!newScore) return message.channel.send("❌ Invalid score. For help, type `" + prefix + "help setscore`")
+  const addToScore = parseInt(args.pop());
+  if (!addToScore) return message.channel.send("❌ Invalid score. For help, type `" + prefix + "help addtoscore`")
 
   const members = [];
   for (const arg of args) {
@@ -32,11 +32,11 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
     }
   }
 
-  const newScores = {}
+  const addToScores = {}
 
-  for (const member of members) newScores[member.id] = newScore;
+  for (const member of members) addToScores[member.id] = addToScore;
 
-  gdb.importScores(newScores, "set")
-    .then(() => message.channel.send("✅ " + (members.length > 1 ? "Score of " + members.length + " members" : "Score of 1 member") + " has been set to " + newScore + "."))
+  gdb.importScores(addToScores, "add")
+    .then(() => message.channel.send("✅ " + (members.length > 1 ? "Score of " + members.length + " members" : "Score of 1 member") + " has been given new values."))
     .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occurred. Please try again, or contact support."))
 }

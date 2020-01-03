@@ -1,16 +1,26 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/602586f1fe724e17855f941996c12161)](https://www.codacy.com/app/gleeny/countr?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=gleeny/countr&amp;utm_campaign=Badge_Grade)
-[![DeepScan grade](https://deepscan.io/api/teams/2944/projects/4394/branches/35709/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=2944&pid=4394&bid=35709)
-[![GitHub Repository Size](https://img.shields.io/github/repo-size/gleeny/countr.svg)](https://github.com/gleeny/countr/tree/master)
-[![GitHub Issues](https://img.shields.io/github/issues-raw/gleeny/countr.svg)]()
+[![DeepScan grade](https://deepscan.io/api/teams/5752/projects/7628/branches/80602/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=5752&pid=7628&bid=80602)
+[![Dependency Status](https://david-dm.org/gleeny/countr.svg)](https://david-dm.org/gleeny/countr)
+[![GitHub Issues](https://img.shields.io/github/issues-raw/gleeny/countr.svg)](https://github.com/gleeny/countr/issues)
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr-raw/gleeny/countr.svg)](https://github.com/gleeny/countr/pulls)
-[![GitHub License](https://img.shields.io/github/license/gleeny/countr.svg)](https://github.com/gleeny/countr/blob/master/LICENSE)
-[![GitHub Last Commit](https://img.shields.io/github/last-commit/gleeny/countr.svg)](https://github.com/gleeny/countr/commits/master)
+[![License](https://img.shields.io/github/license/gleeny/countr.svg)](https://github.com/gleeny/countr/blob/master/LICENSE)
 [![Discord Support](https://img.shields.io/discord/449576301997588490.svg)](https://promise.solutions/support)
 
 # Countr
 
-Countr is a counting bot that has easy setup, even if you are self-hosting. For more info, visit [the documentation](https://countr.js.org).
+Countr is an advanced counting bot which can manage a counting channel in your guild. With a simple setup, your channel is ready.
 
-## Self-hosting
+## Suggestions, bugs, feature requests
 
-Information can be found in [the documentation](https://countr.js.org/quickguide.html).
+Want to contribute? Great, we love that! Please take your time on [opening a new issue](https://github.com/gleeny/countr/issues/new).
+
+## Contributrs
+
+You can see all contributors and their GitHub-profiles [here](https://github.com/gleeny/countr/graphs/contributors).
+
+## License
+
+We use the GNU GPLv3-license.
+
+> You may copy, distribute and modify the software as long as you track changes/dates in source files. Any modifications to or software including (via compiler) GPL-licensed code must also be made available under the GPL along with build & install instructions.
+
+Fetched from [TLDRLegal](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)), please also read the [license](https://github.com/gleeny/countr/blob/master/LICENSE) if you plan on using the source code. This is only a short summary. Please also take note of that we are not forced to help you, and we won't help you host it yourself as we do not recommend you doing so.

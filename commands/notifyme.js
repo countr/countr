@@ -1,32 +1,33 @@
-const b64 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_"; // base64
-
-module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
-    let count = parseInt(args[0]);
-    let mode = "only";
-    if (args[1]) {
-        count = parseInt(args[1]);
-        mode = args[0].toLowerCase()
-        if (!["each", "only"].includes(mode)) return message.channel.send(strings["INVALID_MODE"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help notifyme\`"));
-    }
-    if (!count) return message.channel.send("❌ " + strings["INVALID_COUNT"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help notifyme\`"));
-
-    let ID = randomizeID();
-    while (await db.notificationExists(message.guild.id, ID)) ID = randomizeID();
-    
-    let botMsg = await message.channel.send("♨ " + strings["SAVING_NOTIFICATION"]);
-
-    db.setNotification(message.guild.id, ID, message.author.id, mode, count)
-        .then(() => { botMsg.edit("✅" + strings["SAVED_NOTIFICATION"].replace("{{ID}}", ID)) })
-        .catch(err => { console.log(err); botMsg.edit("❌ " + strings["UNKNOWN_ERROR"]) });
+module.exports = {
+  description: "Get a notification whenever the server reach whatever count you want.",
+  usage: {
+    "[each]": "If you include this, it will be each <count>.",
+    "<count>": "The count you want to get notified of."
+  },
+  examples: {
+    "each 1000": "Get notified for every 1000th count, including 2000 and 3000.",
+    "420": "Get notified whenever the server reach count 420."
+  },
+  aliases: [ "alertme", "notify", "alert" ],
+  permissionRequired: 0, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
+  checkArgs: (args) => args.length == 1 || args.length == 2
 }
 
-// 0 All, 1 Mods, 2 Admins, 3 Global Admins, 4 First Global Admin
-module.exports.permissionRequired = 0
-module.exports.argsRequired = 1
+const { generateID } = require("../database.js");
 
-function randomizeID() {
-    let id = "";
-    for (var i = 0; i < 6; i++) id = id + b64[Math.floor(Math.random() * Math.floor(b64.length))]
+module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
+  let mode = "only", count;
+  if (args[1]) {
+    count = parseInt(args[1]);
+    mode = args[0].toLowerCase()
+    if (mode !== "each") return message.channel.send("❌ Invalid argument \`" + mode + "\`. For help, type `" + prefix + "help notifyme`")
+  } else count = parseInt(args[0])
 
-    return id;
+  if (!count) return message.channel.send("❌ Invalid count. For help, type `" + prefix + "help notifyme`")
+
+  let { notifications: rawList } = await gdb.get(), ID = generateID(Object.keys(rawList))
+
+  gdb.setNotification(ID, message.author.id, mode, count)
+    .then(() => message.channel.send("✅ Notification with ID \`" + ID + "\` is now saved."))
+    .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occurred. Please try again, or contact support."))
 }

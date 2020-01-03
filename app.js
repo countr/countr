@@ -1,195 +1,184 @@
-const Discord = require("discord.js");
-const BLAPI = require("blapi");
+const Discord = require("discord.js"), fs = require("fs"), BLAPI = require("blapi"), config = require("./config.json")
 
-const config = require("./config.json")
-
-const client = new Discord.Client({ disableEveryone: true, messageCacheMaxSize: 60, messageSweepInterval: 10 })
-const db = require("./database.js")(client, config);
-
-let disabledGuilds = [];
-let fails = {};
-
-client.on("message", async (message) => {
-    if (!message.guild || message.author.id == client.user.id) return;
-
-    let strings = JSON.parse(JSON.stringify(require("./language/en.json"))) // we do not want to modify the original language
-    let lang = require("./language/" + await db.getLanguage(message.guild.id) + ".json");
-    for (var i in lang) strings[i] = lang[i]; // if some strings doesn't exist, we still have the english translation for it
-
-    let countingChannel = await db.getChannel(message.guild.id), prefix = await db.getPrefix(message.guild.id);
-    if (countingChannel == message.channel.id) {
-        if (disabledGuilds.includes(message.guild.id)) return message.delete();
-        if (message.author.bot && message.webhookID == null) return message.delete()
-
-        if (message.webhookID) return;
-        if (message.content.startsWith("!") && getPermissionLevel(message.member) >= 1) return;
-        if (message.type != "DEFAULT") return;
-        
-        let {count, user} = await db.getCount(message.guild.id), modules = await db.getModules(message.guild.id);
-
-        if (!modules.includes("allow-spam") && message.author.id == user) return message.delete();
-        if (message.content.split(" ")[0] != (count + 1).toString()) {
-            let timeout = await db.getTimeoutRole(message.guild.id);
-            if (timeout.role) {
-                if (!fails[message.guild.id + "/" + message.author.id]) fails[message.guild.id + "/" + message.author.id] = 0;
-                fails[message.guild.id + "/" + message.author.id] += 1;
-
-                setTimeout(() => { fails[message.guild.id + "/" + message.author.id] -= 1; }, timeout.time * 1000)
-
-                if (fails[message.guild.id + "/" + message.author.id] >= timeout.fails) {
-                    db.addTimeout(message.guild.id, message.author.id, timeout.duration)
-                    try {
-                        message.member.addRole(message.guild.roles.get(timeout.role), "User failed too many times within a time period")
-                        if (timeout.duration) setTimeout(() => { message.member.removeRole(message.guild.roles.get(timeout.role)) }, timeout.duration * 1000)
-                    } catch(e) {}
-                }
-            }
-            return message.delete()
-        }
-        if (!modules.includes("talking") && message.content != (count + 1).toString()) return message.delete()
-
-        let regex = await db.listRegex(message.guild.id);
-        if (regex.length && getPermissionLevel(message.member) == 0) for (var i in regex) if ((new RegExp(regex[i], "g")).test(message.content)) return message.delete();
-
-        count += 1; db.addToCount(message.guild.id, message.author.id).then(() => { db.checkRole(message.guild.id, count, message.author.id) });
-
-        let countMsg = message;
-        if (modules.includes("webhook")) await message.channel.fetchWebhooks().then(async webhooks => {
-            let webhook = webhooks.find(wh => wh.name == "Countr");
-            if (!webhook) webhook = await message.channel.createWebhook("Countr");
-
-            countMsg = await webhook.send(message.content, {
-                username: message.author.username,
-                avatarURL: message.author.displayAvatarURL.split("?")[0]
-            })
-            message.delete()
-        }); else if (modules.includes("reposting")) await message.channel.send({
-            embed: {
-                description: "<@!" + message.author.id + ">: " + message.content,
-                color: message.member.displayColor ? message.member.displayColor : 3553598
-            }
-        }).then(msg => {
-            countMsg = msg;
-            message.delete()
-        })
-
-        db.setLastMessage(message.guild.id, countMsg.id);
-        db.checkNotifications(message.guild.id, count, message.author.id, countMsg.id, strings);
-        db.checkPin(message.guild.id, count, message);
-
-    } else if (message.author.bot) return; else if(message.content.startsWith(prefix) || message.content.match(`^<@!?${client.user.id}> `)) {
-        let args = message.content.split(" ");
-        if (args[0].match(`^<@!?${client.user.id}>`)) args.shift(); else args[0] = args[0].slice(prefix.length);
-        let command = args.shift().toLowerCase()
-
-        try {
-            if (require("./commands/" + command + ".js").premium && require("./premium.js").check(message.guild.ownerID) < require("./commands/" + command + ".js").premium) return message.channel.send("🔰 This is a premium feature! The owner needs to be a " + [0, "$1 Patron", "$3 Patron", "$5 Patron", "Sponsr"][require("./commands/" + command + ".js").premium] + " to do this!")
-            if (getPermissionLevel(message.member) < require("./commands/" + command + ".js").permissionRequired) return message.channel.send((require("./commands/" + command + ".js").permissionRequired > 2 ? "📛" : "⛔") + " " + strings["NO_PERMISSION"])
-            if (args.length < require("./commands/" + command + ".js").argsRequired) return message.channel.send("❌ " + strings["NOT_ENOUGH_ARGS"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help " + command + "\`"));
-            require("./commands/" + command + ".js").run(client, message, args, db, getPermissionLevel(message.member), strings, config);
-        } catch(e) {/* Command does not exist */} 
-    } else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send("👋 " + strings["HELLO"].replace("{{PREFIX}}", "\`" + prefix + "\`").replace("{{HELP}}", "\`" + prefix + "help\`"));
-})
+const client = new Discord.Client({ messageSweepInterval: 60, messageCacheLifetime: 5, disableEveryone: true, disabledEvents: ["TYPING_START", "PRESENCE_UPDATE", "GUILD_BAN_ADD", "GUILD_BAN_REMOVE", "USER_NOTE_UPDATE", "USER_SETTINGS_UPDATE", "VOICE_STATE_UPDATE", "VOICE_SERVER_UPDATE", "RELATIONSHIP_ADD", "RELATIONSHIP_REMOVE"], restTimeOffset: 200 }), shId = client.shard ? "Shard " + client.shard.id + ": " : "";
+const db = require("./database.js")(client, config), fails = {};
 
 client.on("ready", async () => {
-    console.log((client.shard ? "Shard " + client.shard.id + ": " : "") + "Ready!")
-    client.guilds.forEach(processGuild)
+  console.log(shId + "Ready as " + client.user.tag);
+  client.user.setPresence({ status: "idle", game: { name: "the loading screen", type: "WATCHING" }})
 
-    let guild = config.mainGuild ? client.guilds.get(config.mainGuild) : null;
-
-    updatePresence(guild)
-    setInterval(() => { updatePresence(guild) }, 60000)
-
-    // Below is custom code. This tells bot sites what the server count currently is for Countr. Usually, this is disabled unless you are a really smart developer and actually figure out how to properly activate it without breaking it. This is not recommended, as most bot sites require original code -- but if you still want a couple of bans, go ahead.
-    if (config.listKeys) {
-        BLAPI.handle(client, config.listKeys, 15);
-    }
+  client.guilds.forEach(processGuild)
 })
 
-client.on("messageDelete", async message => {
-    if (!message.guild || message.author.bot) return;
-    if (message.channel.id == await db.getChannel(message.guild.id) && message.id == await db.getLastMessage(message.guild.id)) return message.channel.send(message.content + " (" + message.author.toString() + ")").then(m => { db.setLastMessage(m.guild.id, m.id) }) // resend if the last count got deleted
+setInterval(async () => {
+  if (!client.guilds.size) return; // client is not ready yet, or have lost connection
+  let name = config.prefix + "help (" + await db.global.counts() + " counts this week)"
+  let guild = client.guilds.get(config.mainGuild)
+  if (guild) {
+    const {channel, count} = await db.guild(guild.id).get();
+    name = "#" + guild.channels.get(channel).name + " (" + count + " counts so far)"
+  }
+  client.user.setPresence({ status: "online", game: { name, type: "WATCHING" } })
+}, 60000)
+
+// command handler
+const commands = {}, aliases = {} // { "command": require("that_command") }, { "alias": "command" }
+fs.readdir("./commands/", (err, files) => {
+  if (err) console.error(err);
+  for (let file of files) if (file.endsWith(".js")) {
+    let commandFile = require("./commands/" + file), fileName = file.replace(".js", "")
+    commands[fileName] = commandFile
+    if (commandFile.aliases) for (let alias of commandFile.aliases) aliases[alias] = fileName
+  }
 })
 
-async function updatePresence(guild) {
-    let name = config.prefix + "help (" + await db.getCounts() + " counts this week)";
-    if (guild) {
-      let {count} = await db.getCount(guild.id);
-      name = "#" + guild.channels.get(await db.getChannel(guild.id)).name + " (" + count + " counts so far)";
+client.on("message", async message => {
+  if (!message.guild || message.author.id == client.user.id || message.author.discriminator == "0000") return;
+
+  const gdb = await db.guild(message.guild.id); let {channel, count, user, modules, regex, timeoutrole, prefix} = await gdb.get();
+  if (channel == message.channel.id) {
+    if (!message.member && message.author.id) try { message.member = await message.guild.fetchMember(message.author.id, true) } catch(e) {} // on bigger bots with not enough ram, not all members are loaded in. So if a member is missing, we try to load it in.
+
+    if (message.webhookID == null && (disabledGuilds.includes(message.guild.id) || message.author.bot)) return message.delete();
+    if (message.webhookID || (message.content.startsWith("!") && getPermissionLevel(message.member) >= 1) || message.type !== "DEFAULT") return;
+
+    let regexMatches = false;
+    if (regex.length && getPermissionLevel(message.member) == 0) for (let r of regex) if ((new RegExp(r, 'g')).test(message.content)) regexMatches = true;
+
+    if ((!modules.includes("allow-spam") && message.author.id == user) || message.content.split(" ")[0] !== (count + 1).toString() || (!modules.includes("talking") && message.content !== (count + 1).toString()) || regexMatches) {
+      if (timeoutrole.role) {
+        if (!fails[message.guild.id + "/" + message.author.id]) fails[message.guild.id + "/" + message.author.id] = 0;
+        ++fails[message.guild.id + "/" + message.author.id];
+
+        setTimeout(() => --fails[message.guild.id + "/" + message.author.id], timeoutrole.time * 1000)
+
+        if (fails[message.guild.id + "/" + message.author.id] >= timeoutrole.fails) {
+          if (timeoutrole.duration) await gdb.addTimeout(message.author.id, timeoutrole.duration)
+          try {
+            await message.member.addRole(timeoutrole.role, "User timed out")
+            if (timeoutrole.duration) setTimeout(() => message.member.removeRole(timeoutrole.role, "User no longer timed out"), timeoutrole.duration * 1000)
+          } catch(e) {}
+        }
+      }
+      return message.delete();
     }
-    client.user.setPresence({ status: "online", game: { name, type: "WATCHING" } })
-}
 
-async function processGuild(guild) {
-    disabledGuilds.push(guild.id);
+    ++count; gdb.addToCount(message.member)
 
+    let msg = message;
     try {
-        let strings = require("./language/en.json");
-        try {
-            let lang = require("./language/" + await db.getLanguage(guild.id) + ".json");
-            for (var i in lang) strings[i] = lang[i]; // if some strings doesn't exist, we still have the english translation for it
-        } catch(e) {}
-    
-        try { require("./premium.js").processGuild(guild, client, db, config, strings) } catch(e) {console.log(e)}
+      if (modules.includes("webhook")) await message.channel.fetchWebhooks().then(async webhooks => {
+        let webhook = webhooks.find(wh => wh.name == "Countr");
+        if (!webhook) webhook = await message.channel.createWebhook("Countr").catch(() => null);
 
-        let timeouts = await db.getTimeouts(guild.id);
-        let timeout = await db.getTimeoutRole(guild.id);
-        for (var userid in timeouts) {
-            if (Date.now() > timeouts[userid]) try { guild.members.get(userid).removeRole(timeout.role) } catch(e) {}
-            else setTimeout(() => { guild.members.get(userid).removeRole(timeout.role) }, timeouts[userid] - Date.now())
+        if (webhook) {
+          msg = await webhook.send(message.content, { username: message.author.username, avatarURL: message.author.displayAvatarURL.split("?")[0] }) // "".split("?")[0]"" removes the optional "?size=xxx" in the URL
+          message.delete();
         }
+      });
+      else if (modules.includes("reposting")) await message.channel.send({embed: {
+        description: "<@!" + message.author.id + ">: " + message.content,
+        color: message.member.displayColor || 3553598
+      }}).then(newMsg => { msg = newMsg; message.delete(); })
+    } catch(e) {} // if it doesn't work, we still have the original "msg" value we can pass on further.
 
-        let modules = await db.getModules(guild.id);
-        
-        if (modules.includes("recover")) {
-            let countingChannel = await db.getChannel(guild.id);
-            let channel = guild.channels.get(countingChannel)
+    return gdb.doStuffAfterCount(count, message.member, msg);
+  }
+  
+  if (!prefix) prefix = config.prefix
 
-            if (channel) {
-                let c = await db.getCount(guild.id);
-                let messages = await channel.fetchMessages({ limit: 100, after: c.message })
-                if (messages.array().length > 0) {
-                    let botMsg = await channel.send("💢 " + strings["MAKING_READY"] + " \`" + strings["LOCKING"] + "\`")
-                    await channel.overwritePermissions(guild.defaultRole, { SEND_MESSAGES: false })
-                        .then(() => { botMsg.edit("💢 " + strings["MAKING_READY"] + " \`" + strings["S_DELETING"] + "\`") })
-                        .catch(() => { botMsg.edit("💢 " + strings["MAKING_READY"] + " \`" + strings["F_DELETING"] + "\`") })
-                    
-                    let processing = true;
-                    let fail = false;
-                    while (processing) {
-                        let messages = await channel.fetchMessages({ limit: 100, after: c.message });
-                        messages = messages.filter(m => m.id != botMsg.id);
-                        if (messages.array().length == 0) processing = false;
-                        else await channel.bulkDelete(messages)
-                            .catch(() => { fail = true; });
-                    }
+  if (message.content.startsWith(prefix) || message.content.match(`^<@!?${client.user.id}> `)) {
+    if (!message.member && message.author.id) try { message.member = await message.guild.fetchMember(message.author.id, true) } catch(e) {} // on bigger bots with not enough ram, not all members are loaded in. So if a member is missing, we try to load it in.
 
-                    await botMsg.edit("💢 " + strings["MAKING_READY"] + " \`" + (fail ? strings["F_RESTORING"] : strings["S_RESTORING"]) + "\`");
-                    await channel.overwritePermissions(guild.defaultRole, { SEND_MESSAGES: true })
-                        .then(() => { botMsg.edit("💢 " + strings["MAKING_READY"] + " \`" + strings["S_UNLOCKED"] + "\`") })
-                        .catch(() => { botMsg.edit("💢 " + strings["MAKING_READY"] + " \`" + strings["F_UNLOCKED"] + "\`") })
-                    
-                    botMsg.delete(15000);
-                }
-            }
-        }
-    } catch(e) {}
-    return disabledGuilds = disabledGuilds.filter(g => g != guild.id)
-}
+    let args = message.content.split(" ");
+    if (args[0].match(`^<@!?${client.user.id}>`)) args.shift(); else args = message.content.slice(prefix.length).split(" ");
+    const identifier = args.shift().toLowerCase(), command = aliases[identifier] || identifier
+
+    const commandFile = commands[command], permissionLevel = getPermissionLevel(message.member)
+    if (commandFile) {
+      if (permissionLevel < commandFile.permissionRequired) return message.channel.send("❌ You don't have permission to do this!");
+      if (commandFile.checkArgs(args, permissionLevel) !== true) return message.channel.send("❌ Invalid arguments! Usage is `" + prefix + command + Object.keys(commandFile.usage).map(a => " " + a).join("") + "\`, for additional help type `" + prefix + "help " + command + "`.");
+      
+      commandFile.run(client, message, args, config, gdb, prefix, permissionLevel, db)
+    }
+  } else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send("👋 My prefix is `" + prefix + "`, for help type `" + prefix + "help`.");
+})
 
 let getPermissionLevel = (member) => {
-    if (config.admins[0] == member.user.id) return 4;
-    if (config.admins.includes(member.user.id)) return 3;
-    if (member.hasPermission("MANAGE_GUILD")) return 2;
-    if (member.hasPermission("MANAGE_MESSAGES")) return 1;
-    return 0;
+  if (config.admins[0] == member.user.id) return 5;
+  if (config.admins.includes(member.user.id)) return 4;
+  if (member.guild.ownerID == member.id) return 3;
+  if (member.hasPermission("MANAGE_GUILD")) return 2;
+  if (member.hasPermission("MANAGE_MESSAGES")) return 1;
+  return 0;
 }
 
-client.on("disconnect", dc => { console.log((client.shard ? "Shard " + client.shard.id + ": " : "") + "Disconnected.", dc) });
-client.on("error", err => { console.log((client.shard ? "Shard " + client.shard.id + ": " : "") + "Unexpected error:", err) });
-client.on("rateLimit", rl => { console.log((client.shard ? "Shard " + client.shard.id + ": " : "") + "Rate limited. [" + rl.timeDifference + "ms]") });
-client.on("reconnecting", () => { console.log((client.shard ? "Shard " + client.shard.id + ": " : "") + "Reconnecting...") });
-client.on("resume", replayed => { console.log((client.shard ? "Shard " + client.shard.id + ": " : "") + "Resumed. [" + replayed + " events replayed]") });
-client.on("warn", info => { console.log((client.shard ? "Shard " + client.shard.id + ": " : "") + "Unexpected warning:", info) })
+let disabledGuilds = [];
+async function processGuild(guild) {
+  disabledGuilds.push(guild.id);
 
-client.login(config.token)
+  const gdb = await db.guild(guild.id);
+  try {
+    const {timeouts, timeoutrole, modules, channel: countingChannel, message} = await gdb.get();
+    
+    for (let userid in timeouts) {
+      if (Date.now() > timeouts[userid]) try { guild.members.get(userid).removeRole(timeoutrole.role, "User no longer timed out") } catch(e) {}
+      else setTimeout(() => { try { guild.members.get(userid).removeRole(timeoutrole.role, "User no longer timed out") } catch(e) {}}, timeouts[userid] - Date.now())
+    }
+
+    if (modules.includes("recover")) {
+      const channel = guild.channels.get(countingChannel);
+
+      if (channel) {
+        let messages = await channel.fetchMessages({ limit: 1, after: message })
+        if (messages.size) {
+          let botMsg = await channel.send("💢 Making the channel ready for counting, please wait ...")
+          await channel.overwritePermissions(guild.defaultRole, { SEND_MESSAGES: false })
+
+          let processing = true, fail = false;
+          while (processing) {
+            let messages = await channel.fetchMessages({ limit: 100, after: message });
+            messages = messages.filter(m => m.id !== botMsg.id);
+            if (messages.size == 0) processing = false;
+            else await channel.bulkDelete(messages).catch(() => { processing = false; fail = true; })
+          }
+
+          await channel.overwritePermissions(guild.defaultRole, { SEND_MESSAGES: true })
+          if (fail) await botMsg.edit("❌ Could not delete messages. Do I have permission? (Manage Messages)")
+          else await botMsg.edit("🔰 Channel is ready! Happy counting!").then(() => botMsg.delete(15000))
+        }
+      }
+    }
+  } catch(e) {} return disabledGuilds = disabledGuilds.filter(g => g !== guild.id)
+}
+
+client
+  .on("messageDelete", async message => {
+    if (!message.guild || message.author.bot) return;
+
+    const gdb = await db.guild(message.guild.id), {channel, message: lastMessage} = await gdb.get();
+    if (message.channel.id == channel && message.id == lastMessage) return message.channel.send(message.content + " (" + message.author.toString() + ")").then(m => gdb.set("message", m.id)) // resend if the last count got deleted
+  })
+  .on("messageUpdate", async (message, newMessage) => {
+    if (!message.guild || message.author.bot) return;
+
+    const gdb = await db.guild(message.guild.id), {channel, message: lastMessage, modules, regex} = await gdb.get();
+
+    if (message.channel.id == channel && message.id == lastMessage && message.content !== newMessage.content) {
+      let regexMatches = false;
+      if (regex.length && getPermissionLevel(message.member) == 0) for (let r of regex) if ((new RegExp(r, 'g')).test(message.content)) regexMatches = true;
+      
+      if (!(modules.includes("talking") && message.content.split(" ")[0] == newMessage.content.split(" ")[0]) || regexMatches)
+        return message.channel.send(message.content + " (" + message.author.toString() + ")").then(m => message.delete() && gdb.set("message", m.id)) // resend if the last count got edited
+    }
+  })
+
+  .on("rateLimit", rl => rl.path.includes("reactions") ? null : console.log(shId + "Rate limited. [" + rl.timeDifference + "ms, endpoint: " + rl.path + ", limit: " + rl.limit + "]"))
+  .on("disconnect", dc => console.log(shId + "Disconnected:", dc))
+  .on("reconnecting", () => console.log(shId + "Reconnecting..."))
+  .on("resume", replayed => console.log(shId + "Resumed. [" + replayed + " events replayed]"))
+  .on("error", err => console.log(shId + "Unexpected error:", err))
+  .on("warn", warn => console.log(shId + "Unexpected warning:", warn))
+  .login(config.token)
+
+if (config.listKeys && Object.values(config.listKeys).length) BLAPI.handle(client, config.listKeys, 15);

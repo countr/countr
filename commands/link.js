@@ -1,20 +1,30 @@
-module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
-    let channel = message.channel;
-
-    if (args[0]) {
-        channel = message.guild.channels.find(c => c.name == args[0]);
-        if (!channel) channel = message.guild.channels.get(args[0]);
-        if (!channel) channel = message.guild.channels.get(args[0].replace("<#", "").replace(">", ""));
-        if (!channel) return  message.channel.send("❌ " + strings["CHANNEL_NOT_FOUND"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help link\`"));
-    }
-    
-    let botMsg = await message.channel.send("♨ " + strings["SAVING_CHANNEL"]);
-
-    db.setChannel(message.guild.id, channel.id)
-        .then(() => { botMsg.edit("✅ " + strings["SAVED_CHANNEL"]) })
-        .catch(err => { console.log(err); botMsg.edit("❌ " + strings["UNKNOWN_ERROR"]) });
+module.exports = {
+  description: "Link a counting channel manually.",
+  usage: {
+    "[<channel>]": "The new counting channel. Leave empty to choose current channel."
+  },
+  examples: {},
+  aliases: [ "connect" ],
+  permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
+  checkArgs: (args) => args.length == 0 || args.length == 1
 }
 
-// 0 All, 1 Mods, 2 Admins, 3 Global Admins, 4 First Global Admin
-module.exports.permissionRequired = 2
-module.exports.argsRequired = 0
+module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
+  let channel = message.channel;
+
+  if (args[0]) channel = [
+    message.guild.channels.find(c => c.name == args[0]),
+    message.guild.channels.get(args[0].replace("<#", "").replace(">", ""))
+  ].find(c => c)
+
+  if (!channel) return message.channel.send("❌ Invalid channel. For help, type `" + prefix + "help link`")
+
+  gdb.setMultiple({
+    channel: channel.id,
+    count: 0,
+    user: "",
+    message: message.id
+  })
+    .then(() => message.channel.send("✅ The channel has been linked! Keep in mind commands inside the counting channel will not work, and these commands has to be outside of the counting channel."))
+    .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occurred. Please try again, or contact support."))
+}

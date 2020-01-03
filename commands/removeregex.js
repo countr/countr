@@ -1,14 +1,29 @@
-module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
-    let regex = args.join(" ");
-    if (!await db.regexExists(message.guild.id, regex)) return message.channel.send("❌ " + strings["REGEX_NOT_FOUND"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help removeregex\`"));
-
-    let botMsg = await message.channel.send("♨ " + strings["REMOVING_REGEX"]);
-
-    db.removeRegex(message.guild.id, regex)
-        .then(() => { botMsg.edit("✅ " + strings["REMOVED_REGEX"]) })
-        .catch(err => { console.log(err); botMsg.edit("❌ " + strings["UNKNOWN_ERROR"]) });
+module.exports = {
+  description: "Remove a regex filter.",
+  usage: {
+    "<regex ...>|all": "The regex filter you want to remove, or all regex filters."
+  },
+  examples: {
+    "duck|poop": "Remove the regex filter `duck|poop`.",
+    "all": "Remove all regex filters."
+  },
+  aliases: [ "-regex" ],
+  permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
+  checkArgs: (args) => !!args.length
 }
 
-// 0 All, 1 Mods, 2 Admins, 3 Global Admins, 4 First Global Admin
-module.exports.permissionRequired = 2
-module.exports.argsRequired = 1
+module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
+  let filter = args.join(" "), { regex: filters } = await gdb.get();
+
+  if (filter == "all") {
+    gdb.set("regex", [])
+      .then(() => message.channel.send("✅ All regex filters have been removed."))
+      .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occurred. Please try again, or contact support."))
+  } else {
+    if (!filters.includes(filter)) return message.channel.send("❌ Regex filter not found. For help, tyoe `" + prefix + "help removeregex`")
+
+    gdb.removeRegex(filter)
+      .then(() => message.channel.send("✅ Regex filter `" + filter + "` have been removed."))
+      .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occurred. Please try again, or contact support."))
+  }
+}

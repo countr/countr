@@ -1,31 +1,105 @@
-module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
-    if (args.length == 0) return message.channel.send("📋 " + strings["DOCUMENTATION"] + ": https://countr.xyz/\n📎 " + strings["SUPPORT_SERVER"] + ": https://countr.page.link/support");
+module.exports = {
+  description: "Get help on commands.",
+  usage: {
+    "[-all]": "If you include this, it will show all the commands excluding bot-admins-only commands.",
+    "[<search ...>]": "Search for a specific command, category or related."
+  },
+  examples: {
+    "notifyme": "Will give you infomation about the notifyme-command.",
+    "-all add": "Will give you all commands that have \"add\" in their command, description or usage."
+  },
+  aliases: [ "commands", "?" ],
+  permissionRequired: 0, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
+  checkArgs: () => true
+}
 
-    let command = args[0].toLowerCase()
-    let commandDesc = strings["COMMAND_" + command.toUpperCase()]
+const fs = require("fs");
 
-    if (commandDesc) return message.channel.send("🔅 **\`" + await db.getPrefix(message.guild.id) + command + (Object.keys(commandDesc.usage).join(" ") ? " " + Object.keys(commandDesc.usage).join(" ") : "") + "\`: " + commandDesc.description + "**" + (formatUsage(commandDesc.usage, await db.getPrefix(message.guild.id)) ? "\n\n**" + strings["ARGUMENTS"] + ":**\n" + formatUsage(commandDesc.usage, await db.getPrefix(message.guild.id)) : "") + (formatExamples(commandDesc.examples, command, await db.getPrefix(message.guild.id)) ? "\n\n**" + strings["EXAMPLES"] + ":**\n" + formatExamples(commandDesc.examples, command, await db.getPrefix(message.guild.id)) : ""))
+module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
+  let permission = permissionLevel;
+  if (args[0] == "-all") { permission = 2; args.shift(); }
+
+  let search = args.join(" ");
+  if (search.length > 20 || search.includes("\n")) return message.channel.send("❌ Invalid search query. For help, type `" + prefix + "help help`");
+  
+  let commandsFound = [];
+  for (const command in allCommands) if (allCommands[command].permissionRequired <= permission && [
+    command.includes(search),
+    (prefix + command).includes(search),
+    allCommands[command].description.includes(search),
+    allCommands[command].aliases.includes(search),
+    Object.keys(allCommands[command].usage).includes(search),
+    Object.values(allCommands[command].usage).includes(search),
+    Object.values(allCommands[command].examples).includes(search)
+  ].includes(true)) commandsFound.push({
+    name: "\`" + prefix + command + Object.keys(allCommands[command].usage).map(arg => " " + arg).join("") + "\`",
+    value: [
+      //"**Usage:** \`" + prefix + command + Object.keys(allCommands[command].usage).map(arg => " " + arg).join("") + "\`",
+      "**Description:** " + allCommands[command].description,
+      "**Permission Level Required:** " + ["None", "Chat Moderators", "Server Administrators", "Server Owner", "Bot Support Team", "Bot Developer"][allCommands[command].permissionRequired] + (permission !== permissionLevel ? " \`" + (permissionLevel >= allCommands[command].permissionRequired ? "✅" : "❌") + "\`" : ""),
+      "**Aliases:** " + (allCommands[command].aliases.length ? allCommands[command].aliases.map(alias => "\`" + prefix + alias + "\`").join(", ") : "None."),
+      "**Documentation:** https://countr.xyz/#/commands?id=c" + command
+    ].join("\n"),
+    inline: false
+  })
+
+  let pages = Math.ceil(commandsFound.length / 5), page = 1;
+
+  const help = {embed: {
+    title: "📋 Commands",
+    description: [
+      "`[<val>]` means it is optional to include a value, `<val>` means it is required to include a value,",
+      "`[xyz]` means it is optional to include \"xyz\", `xyz` means it is required to include \"xyz\".",
+      search.length ? "\n**Found **\`" + commandsFound.length + "\`** results with query:** \`" + search + "\`" : "\n**Found **\`" + commandsFound.length + "\`** commands.**"
+    ].filter(s => s.length).join("\n"),
+    color: config.color,
+    fields: commandsFound.slice(0, 5), // only show the 5 first elements
+    footer: { text: "Requested by " + message.author.tag + (pages > 1 ? " • Page " + page + " of " + pages : ""), icon_url: message.author.displayAvatarURL },
+    timestamp: Date.now()
+  }}
+
+  message.channel.send(help).then(async botMsg => {
+    if (pages > 1) await botMsg.react("♻️") && await botMsg.react("⬅️") && await botMsg.react("➡️");
+    botMsg.react("❌")
     
-    return message.channel.send("⚠ " + strings["COMMAND_DOES_NOT_EXIST"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help help\`"));
+    while (true) try {
+      let collected = await botMsg.awaitReactions((_, user) => user.id == message.author.id, { errors: [ "time" ], time: 180000, maxEmojis: 1 })
+      let reaction = collected.first();
+
+      if (reaction.emoji == "♻️") page = 1;
+      else if (reaction.emoji == "⬅️") page -= 1;
+      else if (reaction.emoji == "➡️") page += 1;
+      else if (reaction.emoji == "❌") return botMsg.edit("🔰 Closed by user. Open it again with \`" + prefix + "help\`.", {embed:{}}) && botMsg.clearReactions().catch();
+
+      if (page < 1) page = 1; // if they try accessing a page below page one, we restrict them
+      else if (page > pages) page = pages; // if they try accessing a page that does not exist, we restrict them.
+      
+      reaction.remove(message.author.id);
+      
+      if (JSON.stringify(help.embed.fields) !== JSON.stringify(commandsFound.slice((page - 1) * 5, page * 5))) { // we don't want to excessively rate limit the bot if they try to access a page that does not exist
+        help.embed.fields = commandsFound.slice((page - 1) * 5, page * 5)
+        help.embed.footer.text = "Requested by " + message.author.tag + " • Page " + page + " of " + pages
+        botMsg.edit(help)
+      }
+    } catch(e) { // the timer went out
+      return botMsg.edit("⏲️ Timed out. Open it again with \`" + prefix + "help\`.", {embed:{}}) && botMsg.clearReactions().catch();
+    }
+  }).catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links, Add Reactions, Manage Messages)"))
 }
 
-// 0 All, 1 Mods, 2 Admins, 3 Global Admins, 4 First Global Admin
-module.exports.permissionRequired = 0
-module.exports.argsRequired = 0
+const allCommands = {};
+fs.readdir("./commands/", (err, files) => {
+  if (err) console.error(err)
+  for (const file of files) if (file.endsWith(".js")) {
+    const commandFile = require("./" + file);
 
-function format(str, prefix) {
-    while (str.includes("{{PREFIX}}")) str = str.replace("{{PREFIX}}", prefix)
-    return str;
-}
-
-function formatUsage(args, prefix) {
-    let list = [];
-    for (var arg in args) list.push("- \`" + arg + "\`: " + format(args[arg], prefix));
-    return list.join("\n");
-}
-
-function formatExamples(examples, command, prefix) {
-    let list = [];
-    for (var ex in examples) list.push("- \`" + prefix + command + (ex !== "-" ? " " + ex : "") + "\`: " + format(examples[ex], prefix));
-    return list.join("\n");
-}
+    const info = {}
+    info.description = commandFile.description;
+    info.usage = commandFile.usage;
+    info.examples = commandFile.examples;
+    info.permissionRequired = commandFile.permissionRequired;
+    info.aliases = commandFile.aliases;
+    
+    allCommands[file.replace(".js", "")] = info;
+  }
+})

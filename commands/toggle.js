@@ -1,25 +1,51 @@
-module.exports.run = async (client, message, args, db, permissionLevel, strings, config) => {
-    if (!args[0]) return message.channel.send("📋 " + strings["LIST_MODULES"] + ":\n" + formatModules(strings["MODULES"]))
-
-    let argModule = args[0].toLowerCase();
-    if (!Object.keys(strings["MODULES"]).includes(argModule)) return message.channel.send("❌ " + strings["MODULE_DOESNT_EXIST"] + " " + strings["FOR_HELP"].replace("{{HELP}}", "\`" + await db.getPrefix(message.guild.id) + "help toggle\`"));
-
-    let gModules = await db.getModules(message.guild.id);
-    let enabled = gModules.includes(argModule);
-
-    let botMsg = await message.channel.send("♨ " + strings["ENABLING_DISABLING_MODULE_Y"].replace("{{STATE}}", (enabled ? strings["DISABLING"] : strings["ENABLING"])).replace("{{MODULE}}", argModule));
-
-    db.toggleModule(message.guild.id, argModule)
-        .then(() => { botMsg.edit("✅ " + strings["MODULE_X_HAS_BEEN_ENABLED_DISABLED"].replace("{{MODULE}}", "\`" + argModule + "\`").replace("{{STATE}}", (enabled ? strings["DISABLED_LC"] : strings["ENABLED_LC"]))) })
-        .catch(err => { console.log(err); botMsg.edit("❌ " + strings["UNKNOWN_ERROR"]) });
+module.exports = {
+  description: "Manage modules you can enable or disable in your server.",
+  usage: {
+    "[<module>]": "The module you want to toggle."
+  },
+  examples: {
+    "allow-spam": "Toggle the module allow-spam."
+  },
+  aliases: [ "modules", "module" ],
+  permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
+  checkArgs: (args) => !args.length || args.length == 1
 }
 
-// 0 All, 1 Mods, 2 Admins, 3 Global Admins, 4 First Global Admin
-module.exports.permissionRequired = 2
-module.exports.argsRequired = 0
+module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
+  let { modules } = await gdb.get();
 
-function formatModules(modules) {
-    let modulesList = []
-    for (var i in modules) modulesList.push("- \`" + i + "\`: " + modules[i])
-    return modulesList.join("\n")
+  if (!args[0]) return message.channel.send({ embed: {
+    title: "📋 Modules",
+    description: "Toggle a module with `" + prefix + "toggle <module>`.",
+    fields: fields.map(f => { f.name = f.name + " " + (modules.includes(f.name) ? "✅" : "❌"); return f; }),
+    color: config.color,
+    footer: { text: "Requested by " + message.author.tag, icon_url: message.author.displayAvatarURL },
+    timestamp: Date.now()
+  }}).catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
+
+  let _module = args[0].toLowerCase();
+  if (!allModules[_module]) return message.channel.send("❌ Invalid module. For help, type `" + prefix + "help toggle`")
+  
+  if (!modules.includes(_module)) { // preventing loops
+    let incompatibles = allModules[_module].incompatibleWith || [];
+    for (const incompatibleModule of incompatibles) if (modules.includes(incompatibleModule)) return message.channel.send("❌ This module is incompatible with the module `" + incompatibleModule + "`.");
+  }
+
+  gdb.toggleModule(_module)
+    .then(state => message.channel.send("✅ The module \`" + _module + "\` has now been " + (state ? "enabled" : "disabled") + "."))
+    .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occurred. Please try again, or contact support."))
 }
+
+const allModules = {
+  "allow-spam": { description: "Allow people to count multiple times in a row, instead of forcing them to wait for the next person to count first." },
+  "talking": { description: "Allow people to send a text message after the count. Ex. `1 Hi there!`" },
+  "recover": { description: "Make the bot try to recover itself after it goes offline by removing unprocessed messages in the counting channel when it goes online." },
+  "reposting": { description: "Repost the message being sent in a nice embed, preventing the users from editing or self-deleting their count later on.", incompatibleWith: [ "webhook" ] },
+  "webhook": { description: "Same as the module `reposting` except that it will repost it in a nice embed, impersonating the user who sent it.", incompatibleWith: [ "reposting" ] }
+}, fields = []
+
+for (const moduleName in allModules) fields.push({
+  name: moduleName,
+  value: allModules[moduleName].description + (allModules[moduleName].incompatibleWith ? "\n**Incompatible with:** " + allModules[moduleName].incompatibleWith.map(m => "\`" + m + "\`").join(", ") : ""),
+  inline: true
+})
