@@ -35,3 +35,7 @@ If you want to keep yourself up-to-date in your counting channel, or someone els
 # Timeout role
 
 If you want to give users who fail to count a role (because they thought 1+1 was 3 or something), you can do exactly that. To set this up, check out [`c!timeoutrole`](/commands#ctimeoutrole).
+
+# Web analytics
+
+We have a web analytics page, located at [analytics.countr.xyz](https://analytics.countr.xyz/). This is in BETA, so if you find a bug, please go to our [issue tracker](https://github.com/gleeny/countr/issues) or go to our [support server](https://discord.gg/Ccj5bjb) to let us know, thank you!
