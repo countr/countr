@@ -8,16 +8,5 @@ module.exports = {
 }
 
 module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
-  message.channel.send({
-    "embed": {
-      "title": "Invite Countr",
-      "description": "[https://discordapp.com/api/oauth2/authorize?...](https://discordapp.com/api/oauth2/authorize?client_id=" + client.user.id + "&permissions=805432400&scope=bot)",
-      "color": config.color,
-      "timestamp": Date.now(),
-      "footer": {
-        "icon_url": message.author.displayAvatarURL,
-        "text": "Requested by " + message.author.tag
-      }
-    }
-  }).catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
+  message.channel.send("🔗 Invite me here: <https://discordapp.com/api/oauth2/authorize?client_id=" + client.user.id + "&permissions=805432400&scope=bot>");
 }
