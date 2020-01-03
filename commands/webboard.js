@@ -8,5 +8,5 @@ module.exports = {
 }
 
 module.exports.run = async function(client, message, args, config, gdb, prefix, permissionLevel, db) {
-  message.channel.send("🆗 Your link to the web scoreboard is: <https://analytics.countr.xyz/viewguild.php/?id=" + message.guild.id + ">");
+  message.channel.send("📈 Your link to the web scoreboard is: <https://analytics.countr.xyz/viewguild.php/?id=" + message.guild.id + ">");
 }
