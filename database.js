@@ -101,6 +101,8 @@ module.exports = (client, config) => {
               member.addRole(gRole, "Role Reward " + ID)
             }
           } catch(e) {}
+
+          addCount += 1;
                 
           let guild = await getGuild(gid);
           guild.count = savedGuilds[gid].count;
@@ -109,8 +111,6 @@ module.exports = (client, config) => {
           guild.log = savedGuilds[gid].log;
           await guild.save().then(resolve).catch(reject);
           updateTopic(gid, client);
-
-          addCount += 1;
         }),
 
         doStuffAfterCount: (count, member, message) => new Promise(async function(resolve, reject) {
