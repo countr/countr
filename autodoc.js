@@ -7,7 +7,7 @@ fs.readdir("./commands/", (err, files) => {
   
   for (const file of files) if (file.endsWith(".js")) {
 		let commandName = file.replace(".js", "")
-		let commandFile = require("../countr-rewrite/commands/" + file)
+		let commandFile = require("../countr/commands/" + file)
 		
 		if (commandFile.permissionRequired < 4) { console.log(commandName, commandFile)
 			if (!content[commandFile.permissionRequired.toString()]) content[commandFile.permissionRequired.toString()] = {}
