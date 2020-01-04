@@ -14,9 +14,12 @@ client.on("ready", async () => {
 
   await Promise.all(client.guilds.map(processGuild))
   console.log(shId + "All " + client.guilds.size + " guilds have been processed.")
+
+  updatePresence()
+  client.setInterval(updatePresence, 60000)
 })
 
-setInterval(async () => {
+async function updatePresence() {
   if (!client.guilds.size) return; // client is not ready yet, or have lost connection
   let name = config.prefix + "help (" + await db.global.counts() + " counts this week)"
   let guild = client.guilds.get(config.mainGuild)
@@ -25,7 +28,7 @@ setInterval(async () => {
     name = "#" + guild.channels.get(channel).name + " (" + count + " counts so far)"
   }
   client.user.setPresence({ status: "online", game: { name, type: "WATCHING" } })
-}, 60000)
+}
 
 // command handler
 const commands = {}, aliases = {} // { "command": require("that_command") }, { "alias": "command" }
