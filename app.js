@@ -122,8 +122,11 @@ async function processGuild(guild) {
     const {timeouts, timeoutrole, modules, channel: countingChannel, message} = await gdb.get();
     
     for (let userid in timeouts) {
-      if (Date.now() > timeouts[userid]) try { guild.members.get(userid).removeRole(timeoutrole.role, "User no longer timed out") } catch(e) {}
-      else setTimeout(() => { try { guild.members.get(userid).removeRole(timeoutrole.role, "User no longer timed out") } catch(e) {}}, timeouts[userid] - Date.now())
+      const user = guild.members.get(userid);
+      if (user.roles.get(timeoutrole.role)) {
+        if (Date.now() > timeouts[userid]) try { user.removeRole(timeoutrole.role, "User no longer timed out") } catch(e) {}
+        else setTimeout(() => { try { user.removeRole(timeoutrole.role, "User no longer timed out") } catch(e) {}}, timeouts[userid] - Date.now())
+      }
     }
 
     if (modules.includes("recover")) {
