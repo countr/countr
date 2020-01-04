@@ -7,7 +7,13 @@ client.on("ready", async () => {
   console.log(shId + "Ready as " + client.user.tag);
   client.user.setPresence({ status: "idle", game: { name: "the loading screen", type: "WATCHING" }})
 
-  client.guilds.forEach(processGuild)
+  enabledGuilds = [];
+
+  let loadtime = await db.refreshAllGuilds();
+  console.log(shId + "All " + client.guilds.size + " guilds' databases have been cached. [" + loadtime + "ms]")
+
+  await Promise.all(client.guilds.map(processGuild))
+  console.log(shId + "All " + client.guilds.size + " guilds have been processed.")
 })
 
 setInterval(async () => {
@@ -33,13 +39,13 @@ fs.readdir("./commands/", (err, files) => {
 })
 
 client.on("message", async message => {
-  if (!message.guild || message.author.id == client.user.id || message.author.discriminator == "0000") return;
+  if (!message.guild || !enabledGuilds.includes(message.guild.id) || message.author.id == client.user.id || message.author.discriminator == "0000") return;
 
   const gdb = await db.guild(message.guild.id); let {channel, count, user, modules, regex, timeoutrole, prefix} = await gdb.get();
   if (channel == message.channel.id) {
     if (!message.member && message.author.id) try { message.member = await message.guild.fetchMember(message.author.id, true) } catch(e) {} // on bigger bots with not enough ram, not all members are loaded in. So if a member is missing, we try to load it in.
 
-    if (message.webhookID == null && (disabledGuilds.includes(message.guild.id) || message.author.bot)) return message.delete();
+    if (message.webhookID == null) return message.delete();
     if (message.webhookID || (message.content.startsWith("!") && getPermissionLevel(message.member) >= 1) || message.type !== "DEFAULT") return;
 
     let regexMatches = false;
@@ -113,10 +119,8 @@ let getPermissionLevel = (member) => {
   return 0;
 }
 
-let disabledGuilds = [];
+let enabledGuilds = [];
 async function processGuild(guild) {
-  disabledGuilds.push(guild.id);
-
   const gdb = await db.guild(guild.id);
   try {
     const {timeouts, timeoutrole, modules, channel: countingChannel, message} = await gdb.get();
@@ -152,7 +156,9 @@ async function processGuild(guild) {
         }
       }
     }
-  } catch(e) {} return disabledGuilds = disabledGuilds.filter(g => g !== guild.id)
+  } catch(e) {}
+  
+  return enabledGuilds.push(guild.id)
 }
 
 client
@@ -176,6 +182,7 @@ client
     }
   })
 
+  .on("guildCreate", guild => enabledGuilds.push(guild.id))
   .on("rateLimit", rl => rl.path.includes("reactions") ? null : console.log(shId + "Rate limited. [" + rl.timeDifference + "ms, endpoint: " + rl.path + ", limit: " + rl.limit + "]"))
   .on("disconnect", dc => console.log(shId + "Disconnected:", dc))
   .on("reconnecting", () => console.log(shId + "Reconnecting..."))
