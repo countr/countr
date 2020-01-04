@@ -154,8 +154,8 @@ async function processGuild(guild) {
           }
 
           await channel.overwritePermissions(guild.defaultRole, { SEND_MESSAGES: true })
-          if (fail) await botMsg.edit("❌ Could not delete messages. Do I have permission? (Manage Messages)")
-          else await botMsg.edit("🔰 Channel is ready! Happy counting!").then(() => botMsg.delete(15000))
+          if (fail) botMsg.edit("❌ Could not delete messages. Do I have permission? (Manage Messages)")
+          else botMsg.edit("🔰 Channel is ready! Happy counting!").then(() => botMsg.delete(15000))
         }
       }
     }
