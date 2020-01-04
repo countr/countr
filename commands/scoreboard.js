@@ -19,13 +19,18 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
   }
 
   message.channel.send({
-    embed: {
-      author: {
-        name: message.guild.name + " Scoreboard",
-        icon_url: message.guild.iconURL
+    "embed": {
+      "author": {
+        "name": message.guild.name + " Scoreboard",
+        "icon_url": message.guild.iconURL
       },
-      description,
-      color: config.color
+      "description": description,
+      "color": config.color,
+      "timestamp": Date.now(),
+      "footer": {
+        "icon_url": message.author.displayAvatarURL,
+        "text": "Requested by " + message.author.tag
+      }
     }
   }).catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
 }
