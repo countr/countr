@@ -17,7 +17,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
   if (!args[0]) return message.channel.send({ embed: {
     title: "📋 Modules",
     description: "Toggle a module with `" + prefix + "toggle <module>`.",
-    fields: fields.map(f => { f.name = f.name + " " + (modules.includes(f.name) ? "✅" : "❌"); return f; }),
+    fields: JSON.parse(JSON.stringify(fields)).map(f => { f.name = f.name + " " + (modules.includes(f.name) ? "✅" : "❌"); return f; }),
     color: config.color,
     footer: { text: "Requested by " + message.author.tag, icon_url: message.author.displayAvatarURL },
     timestamp: Date.now()
