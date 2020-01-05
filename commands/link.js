@@ -23,7 +23,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
     channel: channel.id,
     count: 0,
     user: "",
-    message: message.id
+    message: message.id + 1 // if the user deletes this message, which they probably will, it will not repost it
   })
     .then(() => message.channel.send("✅ The channel has been linked! Keep in mind commands inside the counting channel will not work, and these commands has to be outside of the counting channel."))
     .catch(e => console.log(e) && message.channel.send("🆘 An unknown database error occurred. Please try again, or contact support."))
