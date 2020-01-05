@@ -34,6 +34,7 @@ Everyone with the `MANAGE_MESSAGES`-permission get access to these commands.
 - [c!listpins](#clistpins): Get a list of pintriggers.
 - [c!listregex](#clistregex): Get a list of regex filters.
 - [c!listroles](#clistroles): Get a list of role rewards.
+- [c!setcount](#csetcount): Set the count.
 
 # Level 2: Admin
 Everyone with the `MANAGE_SERVER`-permission get access to these commands.
@@ -56,7 +57,6 @@ Everyone with the `MANAGE_SERVER`-permission get access to these commands.
 - [c!removetimeoutrole](#cremovetimeoutrole): Remove and disable the timeout role.
 - [c!resetcount](#cresetcount): Reset the count.
 - [c!resetscore](#cresetscore): Reset a member's or multiple members' score.
-- [c!setcount](#csetcount): Set the count.
 - [c!setprefix](#csetprefix): Set a new prefix for the bot.
 - [c!setscore](#csetscore): Set a member's or multiple members' score.
 - [c!settimeoutrole](#csettimeoutrole): Set a timeout role, so when someone counts <fail amount> times wrong within <time> seconds, they will get the role. Works best if you deny the role access to the channel.
