@@ -71,12 +71,12 @@ module.exports = (client, config) => {
       }),
 
       factoryReset: () => new Promise(async function(resolve, reject) {
-        savedGuilds[gid] = guildObject;
+        savedGuilds[gid] = JSON.parse(JSON.stringify(guildObject));
         savedGuilds[gid].guildid = gid;
         
         let guild = await getGuild(gid);
-        for (const key in guildObject) guild[key] = guildObject[key];
-        await guild.save().then(resolve).catch(reject);
+        for (const key in guildObject) guild[key] = savedGuilds[gid][key];
+        guild.save().then(resolve).catch(reject);
       }),
 
       addToCount: (member) => new Promise(async function(resolve, reject) {
@@ -275,7 +275,7 @@ const guildObject = {
   pins: {}, // the guild's pin triggers,
   liveboard: {}, // the guild's live leaderboard location (premium)
   log: {} // the guild's confirmed counts the last week, ex { "YYYY-MM-DD": 1234 }
-}, guildSchema = mongoose.Schema(guildObject, { minimize: true })
+}, guildSchema = mongoose.Schema(JSON.parse(JSON.stringify(guildObject)), { minimize: true })
 
 const globalSchema = mongoose.Schema({
   counts: Number, week: Number
@@ -298,9 +298,9 @@ function updateTopic(gid, client) {
 let savedGuilds = {};
 async function cacheGuild(gid, force) {
   if (!savedGuilds[gid] || force) {
-    let guild = await getGuild(gid);
+    let guild = await getGuild(gid), defaultValues = JSON.parse(JSON.stringify(guildObject));
     savedGuilds[gid] = {};
-    for (const prop in guildObject) savedGuilds[gid][prop] = guild[prop] || guildObject[prop]; // if the guild doesn't have all properties, we give it all properties.
+    for (const prop in guildObject) savedGuilds[gid][prop] = guild[prop] || defaultValues[prop]; // if the guild doesn't have all properties, we give it all properties.
   }
   return savedGuilds[gid];
 }
@@ -310,7 +310,7 @@ function getGuild(gid) {
     Guild.findOne({ guildid: gid }, (err, guild) => {
       if (err) return reject(err);
       if (!guild) {
-        let newGuild = new Guild(guildObject);
+        let newGuild = new Guild(JSON.parse(JSON.stringify(guildObject)));
         newGuild.guildid = gid;
 
         return resolve(newGuild);
