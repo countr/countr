@@ -14,7 +14,7 @@ Countr is not free for us to host, as the bill is rising we need some supporters
 
 We have multiple ways on how you can support us, and for this reason we have made a credits system. The credits system adds up all your monthly donations, so if you donate $3 somewhere and $2 somewhere else, it will give you all $5 features. (more about this below)
 
-You can currently support us in two ways: [on Patreon](https://patreon.com/gleeny) or through Nitro boosts in our server. If you have a Nitro subscription including boosts, and don't know what to do with them, you can gain $2 by boosting our server. That will give you all $1 features. And if you donate another dollar on Patreon directly to us, you have all $3 features.
+You can currently support us in two ways: [on Patreon](https://patreon.com/promises) or through Nitro boosts in our server. If you have a Nitro subscription including boosts, and don't know what to do with them, you can gain $2 by boosting our server. That will give you all $1 features. And if you donate another dollar on Patreon directly to us, you have all $3 features.
 
 > [!WARNING]
 > - You must be in the support server to get your rewards, this is due to our automated credits system.
