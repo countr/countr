@@ -4,7 +4,7 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gleeny/countr.git"
+    "url": "git+https://github.com/promise/countr.git"
   },
   "scripts": {
     "start": "node app.js",
@@ -13,9 +13,9 @@
   "author": "Promise <me@promise.solutions> (https://promise.solutions/)",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/gleeny/countr/issues"
+    "url": "https://github.com/promise/countr/issues"
   },
-  "homepage": "https://github.com/gleeny/countr#readme",
+  "homepage": "https://github.com/promise/countr#readme",
   "dependencies": {
     "blapi": "^1.2.6",
     "bufferutil": "^4.0.1",

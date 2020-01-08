@@ -77,7 +77,7 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
             "**Documentation:** https://countr.xyz/",
             "**Invite me:** [https://discordapp.com/api/oauth2/authorize?...](https://discordapp.com/api/oauth2/authorize?client_id=" + client.user.id + "&permissions=805432400&scope=bot)",
             "**Uptime:** https://uptime.countr.xyz/",
-            "**Source Code**: https://github.com/gleeny/countr"
+            "**Source Code**: https://github.com/promise/countr"
           ].join("\n"),
           "inline": false
         },
