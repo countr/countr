@@ -5,6 +5,7 @@ We do not recommend self-hosting the bot, but it's always an option. To selfhost
 * npm - comes with Node, doesn't really matter what version afaik
 * A Discord bot token, and having the bot in your server
 * An mlab.com-database set up, as well as a user to it (with write access)
+* A clone of the source code, this can be found [here](https://github.com/promise/countr) and needs to be extracted to a folder.
 
 We will have to do this once:
 * Rename `config.example.json` to `config.json`, and fill in the values.
