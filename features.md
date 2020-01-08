@@ -38,4 +38,4 @@ If you want to give users who fail to count a role (because they thought 1+1 was
 
 # Web analytics
 
-We have a web analytics page, located at [analytics.countr.xyz](https://analytics.countr.xyz/). This is in BETA, so if you find a bug, please go to our [issue tracker](https://github.com/gleeny/countr/issues) or go to our [support server](https://discord.gg/Ccj5bjb) to let us know, thank you!
+We have a web analytics page, located at [analytics.countr.xyz](https://analytics.countr.xyz/). This is in BETA, so if you find a bug, please go to our [issue tracker](https://github.com/promise/countr/issues) or go to our [support server](https://discord.gg/Ccj5bjb) to let us know, thank you!
