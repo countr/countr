@@ -3,7 +3,7 @@ name: 'Documentation: Request missing documentation'
 about: Create a report on something you feel is missing in the documentation
 title: '[DOCS] *short summary*'
 labels: feature_request
-assignees: gleeny
+assignees: promise
 ---
 
 # Missing Documentation

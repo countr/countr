@@ -3,7 +3,7 @@ name: 'Bot: Bug Report'
 about: Create a bug report for the bot and help us improve
 title: '[BOT] *short summary*'
 labels: bug
-assignees: gleeny
+assignees: promise
 ---
 
 # Bug

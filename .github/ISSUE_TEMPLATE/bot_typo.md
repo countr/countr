@@ -3,7 +3,7 @@ name: 'Bot: Report a typo'
 about: Create a report on a typo in the bot
 title: '[BOT] *short summary*'
 labels: typo
-assignees: gleeny
+assignees: promise
 ---
 
 # Typo

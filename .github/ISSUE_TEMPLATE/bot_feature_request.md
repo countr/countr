@@ -3,7 +3,7 @@ name: 'Bot: Feature Request'
 about: Create a feature request on something you feel should be added to the bot
 title: '[BOT] *short summary*'
 labels: feature_request
-assignees: gleeny
+assignees: promise
 ---
 
 # Feature request
