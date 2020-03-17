@@ -57,7 +57,7 @@ fs.readdir("./src/commands/", (err, files) => {
 client.on("message", async message => {
   if (!message.guild || !enabledGuilds.includes(message.guild.id) || message.author.id == client.user.id || message.author.discriminator == "0000") return;
 
-  const gdb = db.guild(message.guild.id); let { channel, count, user, modules, regex, timeoutrole, prefix } = gdb.get(); const strings = getStrings(message.guild.id);
+  const gdb = db.guild(message.guild.id); let { channel, count, user, modules, regex, timeoutrole, prefix } = gdb.get();
   if (channel == message.channel.id) {
     if (!message.member && message.author.id) try { message.member = await message.guild.member.fetch(message.author.id) } catch(e) {} // on bigger bots with not enough ram, not all members are loaded in. So if a member is missing, we try to load it in.
     if (message.webhookID || (message.content.startsWith("!") && getPermissionLevel(message.member) >= 1) || message.type !== "DEFAULT") return;
@@ -139,8 +139,8 @@ function getStrings(guild, command = "", alias = "", usage = "") {
   const lang = require(`../static/language/${language}.json`) // Get guild language file
 
   for (const string in lang) {
-    if (typeof string == "string") strings[string] = lang[string] // If some strings doesnt exist, we can use the english ones
-    else if (typeof string == "object") for (const sub in lang[string]) strings[string][sub] = lang[string][sub] 
+    if (typeof strings[string] == "string") strings[string] = lang[string] // If some strings doesnt exist, we can use the english ones
+    else if (typeof strings[string] == "object") for (const sub in lang[string]) strings[string][sub] = lang[string][sub] 
   }
 
   for (const string in strings) strings[string] = strings[string]
@@ -155,7 +155,7 @@ function getStrings(guild, command = "", alias = "", usage = "") {
 async function processGuild(guild) {
   const gdb = await db.guild(guild.id);
   try {
-    const { timeouts, timeoutrole, modules, channel: countingChannel, message, language } = await gdb.get(), strings = getStrings(guild.id);
+    const { timeouts, timeoutrole, modules, channel: countingChannel, message } = await gdb.get();
     
     for (let userid in timeouts) {
       const user = guild.members.get(userid);
