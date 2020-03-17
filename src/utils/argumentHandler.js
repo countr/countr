@@ -1,0 +1,3 @@
+// convert a string of arguments to a list of them, and support words in "quotes"
+// single words "and multiple words in quotes" is considered "arguments" => [ "single", "words", "and multiple words in quotes", "is", "considered", "arguments" ]
+module.exports.parse = _arguments => /\"[^"]+\"|[^ ]+/g.exec(_arguments).map(argument => argument.startsWith("\"") && argument.endsWith("\"") ? argument.slice(1).slice(0, -1) : argument)
