@@ -172,7 +172,7 @@ async function processGuild(guild) {
         let messages = await channel.messages.fetch({ limit: 1, after: message })
         if (messages.size) {
           const strings = getStrings(message.guild.id);
-          let botMsg = await channel.send("💢 " + strings.channelGettingReady)
+          let botMsg = await channel.send(`💢 ${strings.channelGettingReady}`)
           await channel.overwritePermissions(guild.defaultRole, { SEND_MESSAGES: false })
 
           let processing = true, fail = false;
@@ -184,8 +184,8 @@ async function processGuild(guild) {
           }
 
           await channel.overwritePermissions(guild.defaultRole, { SEND_MESSAGES: true })
-          if (fail) botMsg.edit("❌ " + strings.channelGettingReadyError)
-          else botMsg.edit("🔰 " + strings.channelGettingReadyDone).then(() => botMsg.delete(15000))
+          if (fail) botMsg.edit(`❌ ${strings.channelGettingReadyError}`)
+          else botMsg.edit(`🔰 ${strings.channelGettingReadyDone}`).then(() => botMsg.delete(15000))
         }
       }
     }
