@@ -117,12 +117,12 @@ client.on("message", async message => {
     if (commandFile) {
       const strings = getStrings(message.guild.id, command, identifier, Object.keys(commandFile.usage).join(" ")); // we will use these regardless, so let's just get them now
 
-      if (permissionLevel < commandFile.permissionLevel) return message.channel.send("❌ " + strings.noPermission)
-      if (commandFile.checkArgs(args, permissionLevel) !== true) return message.channel.send("❌ " + strings.invalidArguments)
+      if (permissionLevel < commandFile.permissionLevel) return message.channel.send(`❌ ${strings.noPermission}`) 
+      if (commandFile.checkArgs(args, permissionLevel) !== true) return message.channel.send(`❌ ${strings.invalidArguments}`)
 
       commandFile.run(client, message, args, gdb, strings, { config, prefix, permissionLevel, db, content })
     }
-  } else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send("👋 " + getStrings(message.guild.id).hello);
+  } else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send(`👋 ${getStrings(message.guild.id).hello}`);
 })
 
 function getPermissionLevel(member) {
