@@ -107,8 +107,10 @@ client.on("message", async message => {
 
   if (!prefix) prefix = config.prefix;
   if (message.content.startsWith("prefix") || message.content.match(`^<@!?${client.user.id}> `)) {
-    let args = message.content.match(/\".+\"|[^ ]+/g)
-    if (args[0].match()) args.shift(); else args = message.content.slice(prefix.length).match(/\".+\"|[^ ]+/g)
+    let content = message.content.split(" ")
+    if (content[0].match(`^<@!?${client.user.id}>`)) content.shift(); else content = message.content.slice(prefix.length).split(" ")
+    content = content.join(" ")
+    let args = content.join(" ").match(/\".+\"|[^ ]+/g)
     const identifier = args.shift().toLowerCase(), command = aliases[identifier] || identifier;
 
     const commandFile = commands[command], permissionLevel = getPermissionLevel(message.member);
@@ -118,7 +120,7 @@ client.on("message", async message => {
       if (permissionLevel < commandFile.permissionLevel) return message.channel.send("❌ " + strings.noPermission)
       if (commandFile.checkArgs(args, permissionLevel) !== true) return message.channel.send("❌ " + strings.invalidArguments)
 
-      commandFile.run(client, message, args, gdb, strings, { config, prefix, permissionLevel, db })
+      commandFile.run(client, message, args, gdb, strings, { config, prefix, permissionLevel, db, content })
     }
   } else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send("👋 " + getStrings(message.guild.id).hello);
 })

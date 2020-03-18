@@ -13,8 +13,7 @@ module.exports = {
   checkArgs: (args) => !!args.length
 }
 
-module.exports.run = async function(client, message, args, gdb, strings) {
-  let regex = args.join(" ");
+module.exports.run = async function(client, message, args, gdb, strings, { content: regex }) {
   if (!testRegex(regex)) return message.channel.send(`❌ ${strings.invalidRegex} ${strings.commandHelp}`)
 
   return gdb.addRegex(regex)
