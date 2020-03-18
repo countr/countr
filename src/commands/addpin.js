@@ -28,6 +28,6 @@ module.exports.run = async function(client, message, args, gdb, strings) {
 
   let { pins } = gdb.get(), id = generateID(Object.keys(pins));
   return gdb.setPin(id, mode, count, action)
-    .then(() => message.channel.send(`✅ ${strings.savedPintrigger.replace(/{{ID}}/g, id)}`))
+    .then(() => message.channel.send(`✅ ${strings.savedPin.replace(/{{ID}}/g, id)}`))
     .catch(e => console.log(e) && message.channel.send(`🆘 ${strings.databaseError}`))
 }
