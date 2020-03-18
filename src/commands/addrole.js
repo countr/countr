@@ -15,10 +15,10 @@ module.exports = {
   checkArgs: (args) => args.length == 4
 }
 
-const { modes, durations } = require("../utils/constants.js").rolereward, { role } = require("../utils/resolvers.js"), { generateID } = require("../database.js")
+const { modes, durations } = require("../utils/constants.js").rolereward, { getRole } = require("../utils/resolvers.js"), { generateID } = require("../database.js")
 
 module.exports.run = async function(client, message, args, gdb, strings) {
-  let role = role(args[0]);
+  let role = getRole(args[0]);
   if (!role) return message.channel.send(`❌ ${strings.invalidRole} ${strings.commandHelp}`)
 
   let mode = args[1].toLowerCase();
