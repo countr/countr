@@ -1,4 +1,4 @@
-const Discord = require("discord.js"), fs = require("fs"), BLAPI = require("blapi"), config = require("../static/config.json"), argumentHandler = require("./arguments/handler.js");
+const Discord = require("discord.js"), fs = require("fs"), BLAPI = require("blapi"), config = require("../config.json"), argumentHandler = require("./arguments/handler.js");
 
 const client = new Discord.Client({
   messageCacheLifetime: 30,
@@ -137,13 +137,10 @@ function getPermissionLevel(member) {
 function getStrings(guild, command = "", alias = "", usage = "") {
   const { language, prefix } = db.guild(guild).get();
   
-  const strings = JSON.parse(JSON.stringify(require("../static/language/en.json"))) // Parse default language to avoid overwriting on the require function
-  const lang = require(`../static/language/${language}.json`) // Get guild language file
+  const strings = JSON.parse(JSON.stringify(require("../language/en.json"))) // Parse default language to avoid overwriting on the require function
+  const lang = require(`../language/${language}.json`) // Get guild language file
 
-  for (const string in lang) {
-    if (typeof strings[string] == "string") strings[string] = lang[string] // If some strings doesnt exist, we can use the english ones
-    else if (typeof strings[string] == "object") for (const sub in lang[string]) strings[string][sub] = lang[string][sub] 
-  }
+  for (const string in lang) if (typeof strings[string] == "string") strings[string] = lang[string] // If some strings doesnt exist, we can use the english ones
 
   for (const string in strings) strings[string] = strings[string]
     .replace(/{{PREFIX}}/gm, prefix || config.prefix)
