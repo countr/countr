@@ -106,13 +106,13 @@ client.on("message", async message => {
   }
 
   if (!prefix) prefix = config.prefix;
-  if (message.content.startsWith("prefix") || message.content.match(`^<@!?${client.user.id}> `)) {
+  if (message.content.startsWith(prefix) || message.content.match(`^<@!?${client.user.id}> `)) {
     let content = message.content.split(" ")
     if (content[0].match(`^<@!?${client.user.id}>`)) content.shift(); else content = message.content.slice(prefix.length).split(" ")
+    const identifier = content.shift().toLowerCase(), command = aliases[identifier] || identifier;
     content = content.join(" ")
     
-    let args = content.match(/\".+\"|[^ ]+/g)
-    const identifier = args.shift().toLowerCase(), command = aliases[identifier] || identifier;
+    const args = content.match(/\".+\"|[^ ]+/g)
 
     const commandFile = commands[command], permissionLevel = getPermissionLevel(message.member);
     if (commandFile) {
