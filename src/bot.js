@@ -110,7 +110,8 @@ client.on("message", async message => {
     let content = message.content.split(" ")
     if (content[0].match(`^<@!?${client.user.id}>`)) content.shift(); else content = message.content.slice(prefix.length).split(" ")
     content = content.join(" ")
-    let args = content.join(" ").match(/\".+\"|[^ ]+/g)
+    
+    let args = content.match(/\".+\"|[^ ]+/g)
     const identifier = args.shift().toLowerCase(), command = aliases[identifier] || identifier;
 
     const commandFile = commands[command], permissionLevel = getPermissionLevel(message.member);
