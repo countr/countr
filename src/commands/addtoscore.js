@@ -23,17 +23,17 @@ module.exports.run = async function(client, message, args, gdb, strings) {
 
   const members = [];
   for (const search of args) {
-    const role = await getRole(search);
+    const role = await getRole(search, message.guild);
     
     if (role) obj.members.forEach(m => members.push(m)); // fetching roles is less time consuming than fetching members, that's why we try with a role first.
     else {
-      const member = await getMember(search);
+      const member = await getMember(search, message.guild);
       if (member) members.push(member);
     }
   }
 
   const additions = {}
-  for (const member of members) addition[member.id] = addition;
+  for (const member of members) additions[member.id] = addition;
 
   return gdb.importScores(additions, "add")
     .then(() => message.channel.send(`✅ ${members.length > 1 ? strings.savedScoresPlural.replace(/{{MEMBERS}}/g, members.length) : strings.savedScoresSingular}`) && message.channel.stopTyping())
