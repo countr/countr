@@ -36,6 +36,6 @@ module.exports.run = async function(client, message, args, gdb, strings) {
   for (const member of members) additions[member.id] = addition;
 
   return gdb.importScores(additions, "add")
-    .then(() => message.channel.send(`✅ ${members.length > 1 ? strings.savedScoresPlural.replace(/{{MEMBERS}}/g, members.length) : strings.savedScoresSingular}`) && message.channel.stopTyping())
+    .then(() => message.channel.send(`✅ ${members.length == 1 ? strings.savedScoresSingular : strings.savedScoresPlural.replace(/{{MEMBERS}}/g, members.length)}`) && message.channel.stopTyping())
     .catch(e => console.log(e) && message.channel.send(`🆘 ${strings.databaseError}`))
 }
