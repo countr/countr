@@ -14,17 +14,17 @@ module.exports = {
   checkArgs: (args) => args.length == 2 || args.length == 3
 }
 
-const { generateID } = require("../database.js")
+const { modes, actions } = require("../utils/constants.js").pintrigger, { generateID } = require("../database.js")
 
 module.exports.run = async function(client, message, args, gdb, strings) {
   let mode = args[0].toLowerCase();
-  if (!["each", "only"].includes(mode)) return message.channel.send(`❌ ${strings.invalidMode} ${strings.commandHelp}`)
+  if (!modes.includes(mode)) return message.channel.send(`❌ ${strings.invalidMode} ${strings.commandHelp}`)
 
   let count = parseInt(args[1]);
   if (!count) return message.channel.send(`❌ ${strings.invalidCount} ${strings.commandHelp}`)
 
   let action = (args[2] || "keep").toLowerCase();
-  if (!["keep", "repost"].includes(action)) return message.channel.send(`❌ ${strings.invalidAction} ${strings.commandHelp}`)
+  if (!actions.includes(action)) return message.channel.send(`❌ ${strings.invalidAction} ${strings.commandHelp}`)
 
   let { pins } = gdb.get(), id = generateID(Object.keys(pins));
   return gdb.setPin(id, mode, count, action)

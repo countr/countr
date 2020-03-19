@@ -15,9 +15,11 @@ module.exports = {
   checkArgs: (args) => args.length == 3
 }
 
+const { modes, actions } = require("../utils/constants.js")
+
 module.exports.run = async function(client, message, args, gdb, strings) {
   let id = args[0], { pins } = gdb.get();
-  if (!pins[id]) return message.channel.send(`❌ ${strings.invalidPin} ${strings.commandHelp}`)
+  if (!pins[id]) return message.channel.send(`❌ ${strings.invalidPintrigger} ${strings.commandHelp}`)
 
   let property = args[1].toLowerCase();
   if (!["mode", "count", "action"].includes(property)) return message.channel.send(`❌ ${strings.invalidProperty} ${strings.commandHelp}`)
@@ -26,7 +28,7 @@ module.exports.run = async function(client, message, args, gdb, strings) {
   switch (property) {
     case "mode":
       value = args[2].toLowerCase();
-      if (!["each", "only"].includes(value)) return message.channel.send(`❌ ${strings.invalidMode} ${strings.commandHelp}`)
+      if (!modes.includes(value)) return message.channel.send(`❌ ${strings.invalidMode} ${strings.commandHelp}`)
       break;
     case "count":
       value = parseInt(args[2]);
@@ -34,7 +36,7 @@ module.exports.run = async function(client, message, args, gdb, strings) {
       break;
     case "action":
       value = args[2].toLowerCase();
-      if (!["keep", "repost"].includes(value)) return message.channel.send(`❌ ${strings.invalidAction} ${strings.commandHelp}`)
+      if (!actions.includes(value)) return message.channel.send(`❌ ${strings.invalidAction} ${strings.commandHelp}`)
       break;
   }
 
