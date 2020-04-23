@@ -22,7 +22,7 @@ After all this, start the bot with `npm run start`.
 |:---------|:------|:--------|:----------|
 | `token`  | The Discord bot token | N/A | Yes |
 | `database_uri` | The mlab.com-user and password-URI. | N/A | Yes |
-| `admins` | An array of admins, the first one being the owner. | `[ "110090225929191424" ]` | No, but recommended |
+| `admins` | An array of admins, the first one being the owner. | `[ "110090225929191424" ]` | Yes, but recommended |
 | `prefix` | The prefix you want the bot to use for commands. | `"c!"` | Yes |
 | `mainGuild` | The main guild the bot will be in. | `null` | No |
 | `color` | The brand color in decimal number. | `12404274` | Yes |
