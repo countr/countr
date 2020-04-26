@@ -16,18 +16,20 @@ const client = new Discord.Client({
 
 let shId = "Shard -1:", fails = {}, enabledGuilds = []
 
-client.on("shardReady", async shardid => {
+client.on("shardReady", async (shardid, unavailable = []) => {
   shId = `Shard ${shardid}:`
 
   console.log(shId, `Ready as ${client.user.tag}`);
   
-  enabledGuilds = [];
+  enabledGuilds = []
 
-  const loadtime = true || await db.refreshAllGuilds();
-  console.log(shId, `All ${client.guilds.cache.size} guilds' databases have been cached. [${loadtime}ms]`);
+  const guilds = flat([client.guilds.map(g => g.id), Array.from(unavailable)]), loadtime = true || await db.refreshAllGuilds(guilds);
+  console.log(shId, `All ${guilds.length} guilds' databases have been cached. [${loadtime}ms]`);
 
   await Promise.all(client.guilds.cache.map(processGuild))
-  console.log(shId, "All guilds have been processed and is now ready.")
+  console.log(shId, `All ${client.guilds.cache.size} cached guilds have been processed and is now ready.`)
+
+  enabledGuilds = null;
 
   updatePresence()
   client.setInterval(updatePresence, 60000)
@@ -55,7 +57,8 @@ fs.readdir("./src/commands/", (err, files) => {
 })
 
 client.on("message", async message => {
-  if (!message.guild || !enabledGuilds.includes(message.guild.id) || message.author.id == client.user.id || message.author.discriminator == "0000") return;
+  if (!message.guild || message.author.id == client.user.id || message.author.discriminator == "0000") return;
+  if (enabledGuilds && !enabledGuilds.includes(message.guild.id)) return;
 
   let gdb = db.guild(message.guild.id), { channel, count, user, modules, regex, timeoutrole, prefix } = gdb.get();
   if (channel == message.channel.id) {
