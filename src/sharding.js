@@ -2,7 +2,7 @@ const Discord = require("discord.js"), express = require("express"), config = re
 
 const manager = new Discord.ShardingManager("./src/bot.js", {
   token: config.token,
-  totalShards: 2
+  totalShards: "auto"
 })
 
 let bot = {};
@@ -11,9 +11,9 @@ manager.on("shardCreate", shard => console.log(`Manager: Shard ${shard.id} is st
 api.get("/", (_, response) => response.json(bot))
 
 setInterval(async () => {
-  const rawShards = Array.from(manager.shards.values()), newInfo = { guilds: 0, users: 0, shards: {} };
+  const newInfo = { guilds: 0, users: 0, shards: {} };
   
-  await Promise.all(rawShards.map(shard => new Promise(async resolve => {
+  await Promise.all(manager.shards.map(shard => new Promise(async resolve => {
     const shardInfo = {
       status: await shard.fetchClientValue("status").catch(() => 6),
       guilds: await shard.fetchClientValue("guilds.cache.size").catch(() => null),

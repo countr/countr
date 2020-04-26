@@ -57,7 +57,7 @@ fs.readdir("./src/commands/", (err, files) => {
 client.on("message", async message => {
   if (!message.guild || !enabledGuilds.includes(message.guild.id) || message.author.id == client.user.id || message.author.discriminator == "0000") return;
 
-  const gdb = db.guild(message.guild.id); let { channel, count, user, modules, regex, timeoutrole, prefix } = gdb.get();
+  let gdb = db.guild(message.guild.id), { channel, count, user, modules, regex, timeoutrole, prefix } = gdb.get();
   if (channel == message.channel.id) {
     if (!message.member && message.author.id) try { message.member = await message.guild.member.fetch(message.author.id) } catch(e) {} // on bigger bots with not enough ram, not all members are loaded in. So if a member is missing, we try to load it in.
     if (message.webhookID || (message.content.startsWith("!") && getPermissionLevel(message.member) >= 1) || message.type !== "DEFAULT") return;
@@ -119,7 +119,7 @@ client.on("message", async message => {
       const strings = getStrings(message.guild.id, command, identifier, Object.keys(commandFile.usage).join(" ")); // we will use these regardless, so let's just get them now
 
       if (permissionLevel < commandFile.permissionLevel) return message.channel.send(`❌ ${strings.noPermission}`) 
-      if (commandFile.checkArgs(args, permissionLevel) !== true) return message.channel.send(`❌ ${strings.invalidArguments}`)
+      if (!commandFile.checkArgs(args, permissionLevel)) return message.channel.send(`❌ ${strings.invalidArguments}`)
 
       commandFile.run(client, message, args, gdb, strings, { config, prefix, permissionLevel, db, content })
     }
@@ -160,8 +160,8 @@ async function processGuild(guild) {
     for (let userid in timeouts) {
       const user = guild.members.get(userid);
       if (user.roles.get(timeoutrole.role)) {
-        if (Date.now() > timeouts[userid]) try { user.removeRole(timeoutrole.role, "User no longer timed out") } catch(e) {}
-        else setTimeout(() => { try { user.removeRole(timeoutrole.role, "User no longer timed out") } catch(e) {}}, timeouts[userid] - Date.now())
+        if (Date.now() > timeouts[userid]) user.roles.remove(timeoutrole.role, "User no longer timed out").catch()
+        else setTimeout(() => user.roles.remove(timeoutrole.role, "User no longer timed out").catch(), timeouts[userid] - Date.now())
       }
     }
 

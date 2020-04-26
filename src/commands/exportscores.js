@@ -27,7 +27,7 @@ module.exports.run = async function(client, message, args, gdb, strings) {
       files: [
         {
           attachment: Buffer.from(JSON.stringify(users, null, 2)),
-          name: `Countr Scores.${message.guild.id}.${Date.now().json}`
+          name: `Countr Scores.${message.guild.id}.${Date.now()}.json`
         }
       ]
     }).catch(() => message.channel.send(`🆘 ${strings.permissionError} (Attach Files)`))
@@ -39,7 +39,7 @@ module.exports.run = async function(client, message, args, gdb, strings) {
       files: [
         {
           attachment: Buffer.from(JSON.stringify(exported, null, 2)),
-          name: `Countr Scores.${message.guild.id}.${Date.now().json}`
+          name: `Countr Scores.${message.guild.id}.${Date.now()}.json`
         }
       ]
     })
