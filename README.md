@@ -13,7 +13,7 @@ Countr is an advanced counting bot which can manage a counting channel in your g
 
 Want to contribute? Great, we love that! Please take your time on [opening a new issue](https://github.com/promise/countr/issues/new).
 
-## Contributrs
+## Contributors
 
 You can see all contributors and their GitHub-profiles [here](https://github.com/promise/countr/graphs/contributors).
 
