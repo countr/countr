@@ -27,7 +27,7 @@ client.on("shardReady", async (shardid, unavailable = []) => {
   console.log(shId, `All ${guilds.length} guilds' databases have been cached. [${loadtime}ms]`);
 
   await Promise.all(client.guilds.cache.map(processGuild))
-  console.log(shId, `All ${client.guilds.cache.size} cached guilds have been processed and is now ready.`)
+  console.log(shId, `All ${client.guilds.cache.size} available guilds have been processed and is now ready.`)
 
   enabledGuilds = null;
 
