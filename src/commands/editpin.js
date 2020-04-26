@@ -15,7 +15,7 @@ module.exports = {
   checkArgs: (args) => args.length == 3
 }
 
-const { modes, actions } = require("../utils/constants.js")
+const { modes, actions } = require("../constants/index.js").pintrigger
 
 module.exports.run = async function(client, message, args, gdb, strings) {
   let id = args[0], { pins } = gdb.get();

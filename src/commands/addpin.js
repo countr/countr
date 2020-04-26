@@ -14,7 +14,7 @@ module.exports = {
   checkArgs: (args) => args.length == 2 || args.length == 3
 }
 
-const { modes, actions } = require("../utils/constants.js").pintrigger, { generateID } = require("../database.js")
+const { modes, actions } = require("../constants/index.js").pintrigger, { generateID } = require("../database.js")
 
 module.exports.run = async function(client, message, args, gdb, strings) {
   let mode = args[0].toLowerCase();

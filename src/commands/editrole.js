@@ -14,7 +14,7 @@ module.exports = {
   checkArgs: (args) => args.length == 3
 }
 
-const { modes, durations } = require("../utils/constants.js"), { getRole } = require("../utils/resolvers.js")
+const { modes, durations } = require("../constants/index.js").rolereward, { getRole } = require("../constants/resolvers.js")
 
 module.exports.run = async function(client, message, args, gdb, strings) {
   let id = args[0], {roles } = gdb.get();

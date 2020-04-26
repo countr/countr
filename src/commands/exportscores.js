@@ -1,13 +1,12 @@
 module.exports = {
   description: "Export scores to a JSON-file.",
   usage: {
-    "<member(s ...) and/or role(s ...)>|members|raw": "The member(s) and/or role(s') members you want to export the scores of."
+    "<member(s ...)>|members|raw": "The member(s) you want to export the scores of."
   },
   examples: {
     "110090225929191424": "Export the score of user with ID 110090225929191424.",
     "@Promise#0001": "Export the score of user Promise#0001.",
     "110090225929191424 @Promise#0001": "Export the scores of user with ID 110090225929191424 and user Promise#0001.",
-    "@Staff Server_Moderators": "Export the scores of all members of roles Staff and Server Moderators.",
     "110090225929191424 @Promise#0001 @Staff Server_Moderators": "Mix members and roles if you want to.",
     "members": "Export all scores of all the members in this server.",
     "raw": "Export all scores raw."
@@ -17,7 +16,7 @@ module.exports = {
   checkArgs: (args) => !!args.length
 }
 
-const { getRole, getMember } = require("../utils/resolvers.js")
+const { getRole, getMember } = require("../constants/resolvers.js")
 
 module.exports.run = async function(client, message, args, gdb, strings) {
   if (args[0] == "raw") {

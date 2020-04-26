@@ -1,4 +1,4 @@
-const Discord = require("discord.js"), fs = require("fs"), BLAPI = require("blapi"), config = require("../config.json"), argumentHandler = require("./arguments/handler.js");
+const Discord = require("discord.js"), fs = require("fs"), BLAPI = require("blapi"), config = require("../config.json"), { parseArgs, getPermissionLevel, flat } = require("./constants/index.js")
 
 const client = new Discord.Client({
   messageCacheLifetime: 30,
@@ -112,7 +112,7 @@ client.on("message", async message => {
     const identifier = content.shift().toLowerCase(), command = aliases[identifier] || identifier;
     content = content.join(" ")
     
-    const args = content.match(/\".+\"|[^ ]+/g)
+    const args = parseArgs(content)
 
     const commandFile = commands[command], permissionLevel = getPermissionLevel(message.member);
     if (commandFile) {
@@ -125,15 +125,6 @@ client.on("message", async message => {
     }
   } else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send(`👋 ${getStrings(message.guild.id).hello}`);
 })
-
-function getPermissionLevel(member) {
-  if (config.admins[0] == member.user.id) return 5;
-  if (config.admins.includes(member.user.id)) return 4;
-  if (member.guild.ownerID == member.id) return 3;
-  if (member.hasPermission("MANAGE_GUILD")) return 2;
-  if (member.hasPermission("MANAGE_MESSAGES")) return 1;
-  return 0;
-}
 
 function getStrings(guild, command = "", alias = "", usage = "") {
   const { language, prefix } = db.guild(guild).get();

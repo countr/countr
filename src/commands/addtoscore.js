@@ -13,7 +13,7 @@ module.exports = {
   checkArgs: (args) => args.length >= 2
 }
 
-const { getRole, getMember } = require("../utils/resolvers.js")
+const { getRole, getMember } = require("../constants/resolvers.js")
 
 module.exports.run = async function(client, message, args, gdb, strings) {
   const addition = parseInt(args.pop());
