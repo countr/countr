@@ -23,7 +23,7 @@ client.on("shardReady", async (shardid, unavailable = []) => {
   
   enabledGuilds = []
 
-  const guilds = flat([client.guilds.map(g => g.id), Array.from(unavailable)]), loadtime = true || await db.refreshAllGuilds(guilds);
+  const guilds = flat([client.guilds.cache.map(g => g.id), Array.from(unavailable)]), loadtime = true || await db.refreshAllGuilds(guilds);
   console.log(shId, `All ${guilds.length} guilds' databases have been cached. [${loadtime}ms]`);
 
   await Promise.all(client.guilds.cache.map(processGuild))
