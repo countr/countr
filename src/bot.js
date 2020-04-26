@@ -46,7 +46,7 @@ async function updatePresence() {
 }
 
 // command handler
-const commands = {}, aliases = {} // { "command": require("that_command") }, { "alias": "command" }
+const commands = {}, aliases = {} // { "command": require("that_command.js") }, { "alias": "command.js" }
 fs.readdir("./src/commands/", (err, files) => {
   if (err) return console.log(err);
   for (const file of files) if (file.endsWith(".js")) {
