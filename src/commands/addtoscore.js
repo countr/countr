@@ -1,7 +1,7 @@
 module.exports = {
   description: "Set a member's score",
   usage: {
-    "<member(s ...) and/or role(s ...)>": "The member(s) or members of role(s) you want to set the score of",
+    "<member(s ...)>": "The member(s) or members of role(s) you want to set the score of",
     "<score>": "The new score"
   },
   examples: {
@@ -13,7 +13,7 @@ module.exports = {
   checkArgs: (args) => args.length >= 2
 }
 
-const { getRole, getMember } = require("../constants/resolvers.js")
+const { getMember } = require("../constants/resolvers.js")
 
 module.exports.run = async function(client, message, args, gdb, strings) {
   const addition = parseInt(args.pop());
@@ -23,13 +23,8 @@ module.exports.run = async function(client, message, args, gdb, strings) {
 
   const members = [];
   for (const search of args) {
-    const role = await getRole(search, message.guild);
-    
-    if (role) obj.members.forEach(m => members.push(m)); // fetching roles is less time consuming than fetching members, that's why we try with a role first.
-    else {
-      const member = await getMember(search, message.guild);
-      if (member) members.push(member);
-    }
+    const member = await getMember(search, message.guild);
+    if (member) members.push(member);
   }
 
   const additions = {}

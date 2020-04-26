@@ -16,7 +16,7 @@ module.exports = {
   checkArgs: (args) => !!args.length
 }
 
-const { getRole, getMember } = require("../constants/resolvers.js")
+const { getMember } = require("../constants/resolvers.js")
 
 module.exports.run = async function(client, message, args, gdb, strings) {
   if (args[0] == "raw") {
@@ -43,11 +43,8 @@ module.exports.run = async function(client, message, args, gdb, strings) {
       ]
     })
   } else {
-    const hits = await Promise.all(args.map(async search => await getRole(search, message.guild) || await getMember(search, message.guild))), { users } = gdb.get(), exported = {};
-    for (const hit of hits) {
-      if (hit.members) for (const member of hit.members.array()) exported[member.id] = users[member.id] || 0;
-      else exported[hit.id] = users[hit.id] || 0;
-    }
+    const members = await Promise.all(args.map(async search => await getMember(search, message.guild))), { users } = gdb.get(), exported = {};
+    for (const member of members) if (member) exported[member.id] = users[member.id] || 0;
 
     const amount = Object.keys(exported).length;
 
