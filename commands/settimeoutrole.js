@@ -21,13 +21,13 @@ module.exports.run = async function(client, message, args, config, gdb, prefix, 
     message.guild.roles.get(args[0]),
     message.guild.roles.get(args[0].replace("<&", "").replace(">", ""))
   ].find(r => r)
-  if (!role) return message.channel.send("❌ Invalid role. For help, type `" + prefix + "help timeoutrole")
+  if (!role) return message.channel.send("❌ Invalid role. For help, type `" + prefix + "help timeoutrole`")
 
   let fails = parseInt(args[1])
-  if (!fails) return message.channel.send("❌ Invalid fails. For help, type `" + prefix + "help timeoutrole")
+  if (!fails) return message.channel.send("❌ Invalid fails. For help, type `" + prefix + "help timeoutrole`")
   
   let time = parseInt(args[2])
-  if (!time) return message.channel.send("❌ Invalid time. For help, type `" + prefix + "help timeoutrole")
+  if (!time) return message.channel.send("❌ Invalid time. For help, type `" + prefix + "help timeoutrole`")
 
   let duration = parseInt(args[3]) || null;
 
