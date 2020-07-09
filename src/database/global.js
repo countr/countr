@@ -1,6 +1,6 @@
 const mongoose = require("mongoose"), integration = require("./integration.js");
 
-const pendingCounts = 0;
+let pendingCounts = 0;
 
 const globalSchema = mongoose.Schema({ counts: 0, week: getWeek(new Date()) }, { minimize: false }) 
 const Global = mongoose.model("Global", globalSchema)
@@ -15,7 +15,7 @@ setInterval(() => Global.findOne({}, (err, stats) => {
   pendingCounts = 0;
 
   if (stats.week !== thisWeek) {
-    integration({ counts: stats.counts, week: stats.week });
+    integration(stats.counts, stats.week);
     stats.counts = 0;
     stats.week = thisWeek;
   }

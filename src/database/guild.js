@@ -2,7 +2,7 @@ const config = require("../../config.json"), mongoose = require("mongoose"), glo
 
 const dbCache = new Map(), dbSaveQueue = new Map();
 
-const guildSchema = {
+const guildObject = {
   guildid: "", // the guild ID
   channel: "", // the counting channel ID
   count: 0, // the current count
@@ -22,13 +22,13 @@ const guildSchema = {
   log: {} // the guild's confirmed counts the last week, ex { "YYYY-MM-DD": 1234 }
 };
 
-const guildSchema = mongoose.Schema(Object.assign({}, guildSchema), { minimize: true }); // make a copy of guildSchema
+const guildSchema = mongoose.Schema(Object.assign({}, guildObject), { minimize: true }); // make a copy of guildObject
 const Guild = mongoose.model("Guild", guildSchema);
 
 const get = (guildid) => new Promise((resolve, reject) => Guild.findOne({ guildid }, (err, guild) => {
   if (err) return reject(err);
   if (!guild) {
-    guild = new Guild(Object.assign({}, guildSchema));
+    guild = new Guild(Object.assign({}, guildObject));
     guild.guildid = guildid;
   }
   return resolve(guild)
@@ -71,9 +71,9 @@ module.exports = (client) => (guildid => {
     },
     reset: () => {
       let guildCache = dbCache.get(guildid), guildSaveQueue = dbSaveQueue.get(guildid);
-      for (const key in guildSchema) guildCache[key] = guildSchema[key];
+      for (const key in guildObject) guildCache[key] = guildObject[key];
 
-      save(guildid, Object.keys(guildSchema))
+      save(guildid, Object.keys(guildObject))
     },
 
     // counting
