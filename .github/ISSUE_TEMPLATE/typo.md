@@ -1,7 +1,6 @@
 ---
-name: 'Documentation: Report a typo'
-about: Create a report on a typo in the documentation
-title: '[DOCS] *short summary*'
+name: 'Report a typo'
+about: Create a report on a typo in the bot's code
 labels: typo
 assignees: promise
 ---

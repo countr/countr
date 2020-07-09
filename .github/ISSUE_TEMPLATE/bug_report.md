@@ -1,12 +1,11 @@
 ---
-name: 'Bot: Bug Report'
-about: Create a bug report for the bot and help us improve
-title: '[BOT] *short summary*'
+name: 'Bug Report'
+about: Create a bug report and help us improve
 labels: bug
 assignees: promise
 ---
 
-# Bug
+# Bug Report
 
 Write a summary here. It can be as short as the short summary in the title, or longer.
 
