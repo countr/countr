@@ -67,7 +67,7 @@ module.exports = (client) => (guildid => {
       let guildCache = dbCache.get(guildid);
       for (const key in changes) guildCache[key] = changes[key];
 
-      save(guildid, changes)
+      save(guildid, Object.keys(changes))
     },
     reset: () => {
       let guildCache = dbCache.get(guildid), guildSaveQueue = dbSaveQueue.get(guildid);
@@ -86,8 +86,8 @@ module.exports = (client) => (guildid => {
       guildCache.users[member.id]++;
 
       let dateFormat = getDateFormatted(new Date());
-      if (!guildCache.log[format]) {
-        guildCache.log[format] = 0;
+      if (!guildCache.log[dateFormat]) {
+        guildCache.log[dateFormat] = 0;
         while (Object.keys(guildCache.log) > 7) delete guildCache.log[Object.keys(guildCache.log)[0]] // delete the oldest log
       }
 
