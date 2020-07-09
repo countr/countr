@@ -90,6 +90,7 @@ module.exports = (client) => (guildid => {
         guildCache.log[dateFormat] = 0;
         while (Object.keys(guildCache.log) > 7) delete guildCache.log[Object.keys(guildCache.log)[0]] // delete the oldest log
       }
+      savedGuilds[gid].log[dateFormat] += 1;
 
       save(guildid, ["count", "user", "users", "log"])
 
