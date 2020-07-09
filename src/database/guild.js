@@ -54,8 +54,8 @@ module.exports = (client) => (async guildid => {
   return {
 
     // debugging
-    reload: load.bind(guildid),
-    unload: dbCache.delete.bind(guildid),
+    reload: () => load(guildid),
+    unload: () => dbCache.delete(guildid),
 
     // general access and modifications
     get: () => dbCache.get(guildid),
@@ -70,7 +70,7 @@ module.exports = (client) => (async guildid => {
       save(guildid, Object.keys(changes))
     },
     reset: () => {
-      let guildCache = dbCache.get(guildid), guildSaveQueue = dbSaveQueue.get(guildid);
+      let guildCache = dbCache.get(guildid);
       for (const key in guildObject) guildCache[key] = guildObject[key];
 
       save(guildid, Object.keys(guildObject))
@@ -88,7 +88,7 @@ module.exports = (client) => (async guildid => {
       let dateFormat = getDateFormatted(new Date());
       if (!guildCache.log[dateFormat]) {
         guildCache.log[dateFormat] = 0;
-        while (Object.keys(guildCache.log) > 7) delete guildCache.log[Object.keys(guildCache.log)[0]] // delete the oldest log
+        while (Object.keys(guildCache.log).length > 7) delete guildCache.log[Object.keys(guildCache.log)[0]] // delete the oldest log
       }
       savedGuilds[gid].log[dateFormat] += 1;
 
