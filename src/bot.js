@@ -1,10 +1,10 @@
-const Discord = require("discord.js"), fs = require("fs"), BLAPI = require("blapi"), config = require("../config.json"), { parseArgs, getPermissionLevel, flat } = require("./constants/index.js");
+const Discord = require("discord.js"), fs = require("fs"), BLAPI = require("blapi"), config = require("../config.json"), countingHandler = require("./handlers/counting.js"), commandHandler = require("./handlers/commands.js");
 
 const client = new Discord.Client({
   messageCacheLifetime: 30,
   messageSweepInterval: 60,
   disableMentions: "everyone",
-  partials: [ "GUILD_MEMBER" ],
+  partials: [ "USER", "GUILD_MEMBER", "CHANNEL" ],
   presence: {
     status: "idle",
     activity: {
@@ -49,3 +49,38 @@ async function updatePresence() {
     }
   })
 }
+
+// command handler
+const commands = new Map(), aliases = new Map();
+fs.readdir("./src/commands/", (err, files) => {
+  if (err) return console.log(err);
+  for (const file of files) if (file.endsWith(".js")) {
+    const commandFile = require(`./commands/${file}`), fileName = file.replace(".js", "");
+    commands.set(fileName, commandFile);
+    if (commandFile.aliases) for (const alias of commandFile.aliases) aliases.set(alias, fileName);
+  }
+})
+
+client.on("message", async message => {
+  if (
+    !message.guild || // dms
+    disabledGuilds == null ||
+    disabledGuilds.includes(message.guild.id)
+  ) return;
+
+  // since we opt in for partials, we need to add these checks
+  if (message.partial && (!message.author || !message.channel || !message.content)) message = await message.fetch();
+  if (message.author.partial && !message.author.bot) message.author = await message.author.fetch();
+  if (message.author.bot) return; // we don't allow bots
+  if (message.channel.partial && !message.channel.id) message.channel = await message.channel.fetch();
+
+  const gdb = await db.guild(message.guild.id);
+  let { channel, prefix } = gdb.get();
+
+  // 
+  if (channel == message.channel.id) return countingHandler(); // TODO add args
+
+  if (!prefix) prefix = config.prefix;
+  if (message.content.startsWith(prefix) || message.content.match(`^<@!?${client.user.id}> `)) return commandHandler(); // TODO add args
+  else if (message.content.match(`^<@!?${client.user.id}>`))
+})
