@@ -23,6 +23,7 @@ client.on("shardReady", async (shardid, unavailable = new Set()) => {
   shard = `Shard ${shardid}:`;
   console.log(shard, `Ready as ${client.user.tag}!`)
 
+  // process guilds
   disabledGuilds = client.guilds.cache.map(guild => guild.id);
   disabledGuilds.push(...unavailable) // we add the unavailable guilds as well
   let startTimestamp = Date.now()
@@ -30,6 +31,7 @@ client.on("shardReady", async (shardid, unavailable = new Set()) => {
   console.log(shard, `All ${client.guilds.cache.size} available guilds have been processed and is now ready for counting! [${Date.now() - startTimestamp}ms]`)
   disabledGuilds = []
 
+  // update presence
   updatePresence();
   client.setInterval(updatePresence, 60000)
 })
@@ -40,7 +42,6 @@ async function updatePresence() {
     const gdb = await db.guild(guild.id), { channel, count } = gdb.get();
     name = `#${guild.channels.cache.get(channel).name} • ${count}`
   }
-  
   return client.user.setPresence({
     status: "online",
     activity: {
