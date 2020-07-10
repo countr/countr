@@ -78,7 +78,6 @@ client.on("message", async message => {
   const gdb = await db.guild(message.guild.id);
   let { channel, prefix = config.prefix } = gdb.get();
 
-  // 
   if (channel == message.channel.id) return countingHandler(); // TODO add args
 
   if (message.content.startsWith(prefix) || message.content.match(`^<@!?${client.user.id}> `)) return commandHandler(); // TODO add args
