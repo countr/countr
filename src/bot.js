@@ -1,4 +1,4 @@
-const Discord = require("discord.js"), fs = require("fs"), BLAPI = require("blapi"), config = require("../config.json"), countingHandler = require("./handlers/counting.js"), commandHandler = require("./handlers/commands.js");
+const Discord = require("discord.js"), fs = require("fs"), BLAPI = require("blapi"), config = require("../config.json"), countingHandler = require("./handlers/counting.js"), commandHandler = require("./handlers/commands.js"), getTranslations = require("./handlers/translations.js");
 
 const client = new Discord.Client({
   messageCacheLifetime: 30,
@@ -82,5 +82,5 @@ client.on("message", async message => {
   if (channel == message.channel.id) return countingHandler(); // TODO add args
 
   if (message.content.startsWith(prefix) || message.content.match(`^<@!?${client.user.id}> `)) return commandHandler(); // TODO add args
-  else if (message.content.match(`^<@!?${client.user.id}>`))
+  else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send(getTranslations(gdb)["HELLO"])
 })

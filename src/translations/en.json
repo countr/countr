@@ -1,0 +1,3 @@
+{
+  "HELLO": "My prefix is `{{PREFIX}}`, for help type `{{PREFIX}}help`.",
+}
