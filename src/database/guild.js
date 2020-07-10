@@ -1,4 +1,4 @@
-const config = require("../../config.json"), mongoose = require("mongoose"), global = require("./global.js");
+const config = require("../../config.json"), mongoose = require("mongoose"), global = require("./global.js"), { getDateFormatted } = require("../constants/time.js");
 
 const dbCache = new Map(), dbSaveQueue = new Map();
 
@@ -166,10 +166,3 @@ module.exports = (client) => (async guildid => {
     // TODO miscellaneous
   }
 })
-
-function getDateFormatted(d) { // https://stackoverflow.com/a/23593099
-  let month = (d.getMonth() + 1).toString(), day = d.getDate().toString(), year = d.getFullYear();
-  if (month.length < 2) month = "0" + month;
-  if (day.length < 2) day = "0" + day;
-  return [year, month, day].join("-")
-}
