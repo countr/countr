@@ -58,7 +58,7 @@ module.exports = (client) => (async guildid => {
     unload: () => dbCache.delete(guildid),
 
     // general access and modifications
-    get: () => dbCache.get(guildid),
+    get: () => Object.assign({}, dbCache.get(guildid)),
     set: (key, value) => {
       dbCache.get(guildid)[key] = value;
       save(guildid, [ key ])
