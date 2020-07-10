@@ -19,7 +19,7 @@ const client = new Discord.Client({
 
 let shard = "Shard N/A:", fails = new Map(), disabledGuilds = null;
 
-client.on("shardReady", async (shardid, unavailable = []) => {
+client.on("shardReady", async (shardid, unavailable = new Set()) => {
   shard = `Shard ${shardid}:`;
   console.log(shard, `Ready as ${client.user.tag}!`)
 
