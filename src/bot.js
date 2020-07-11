@@ -24,12 +24,12 @@ client.on("shardReady", async (shardid, unavailable = new Set()) => {
   console.log(shard, `Ready as ${client.user.tag}!`)
 
   // process guilds
-  disabledGuilds = client.guilds.cache.map(guild => guild.id);
-  disabledGuilds.push(...unavailable) // we add the unavailable guilds as well
+  disabledGuilds = new Set(client.guilds.cache.map(guild => guild.id))
+  unavailable.forEach(guildid => disabledGuilds.add(guildid)) // we add the unavailable guilds as well
   let startTimestamp = Date.now()
   await Promise.all(client.guilds.cache.map(processGuild))
   console.log(shard, `All ${client.guilds.cache.size} available guilds have been processed and is now ready for counting! [${Date.now() - startTimestamp}ms]`)
-  disabledGuilds = []
+  disabledGuilds = false
 
   // update presence
   updatePresence();
@@ -66,7 +66,7 @@ client.on("message", async message => {
   if (
     !message.guild || // dms
     disabledGuilds == null ||
-    disabledGuilds.includes(message.guild.id)
+    disabledGuilds.has(message.guild.id)
   ) return;
 
   // since we opt in for partials, we need to add these checks
