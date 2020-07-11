@@ -19,6 +19,9 @@ module.exports = (message, prefix, gdb, db) => {
   content = content.join(" ");
 
   if (!commands.has(commandName)) return; // this is not a command
+  
+  if (message.partial && !message.member) message = await message.fetch();
+  if (message.member.partial) message.member = await message.member.fetch(); 
 
   const commandFile = commands.get(commandName), permissionLevel = getPermissionLevel(message.member), strings = getTranslations(gdb, commandName, commandOrAlias, Object.keys(commandFile.usage).join(" "));
 

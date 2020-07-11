@@ -82,8 +82,8 @@ async function processGuild(guild) {
     if (!member) member = await guild.members.fetch(userid);
     if (member && member.partial) member = await member.fetch();
     if (member && member.roles.cache.get(timeoutrole.role)) {
-      if (Date.now() >= timeouts[userid]) user.roles.remove(timeoutrole.role, "User no longer timed out (offline)").catch()
-      else setTimeout(() => user.roles.remove(timeoutrole.role, "User no longer timed out").catch(), timeouts[userid] - Date.now())
+      if (Date.now() >= timeouts[userid]) member.roles.remove(timeoutrole.role, "User no longer timed out (offline)").catch()
+      else setTimeout(() => member.roles.remove(timeoutrole.role, "User no longer timed out").catch(), timeouts[userid] - Date.now())
     }
   } catch(e) {}
 
