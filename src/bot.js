@@ -123,3 +123,15 @@ async function processGuild(guild) {
 
   disabledGuilds.delete(guild.id);
 }
+
+client
+  .on("error", err => console.log(shard, "Client error.", err))
+  .on("rateLimit", rateLimitInfo => console.log(shard, "Rate limited.", rateLimitInfo))
+  .on("shardDisconnected", closeEvent => console.log(shard, "Disconnected.", closeEvent))
+  .on("shardError", err => console.log(shard, "Error.", err))
+  .on("shardReconnecting", () => console.log(shard, "Reconnecting."))
+  .on("shardResume", (_, replayedEvents) => console.log(shard, `Resumed. ${replayedEvents} replayed events.`))
+  .on("warn", info => console.log(shard, "Warning.", info))
+  .login(config.token)
+
+if (config.listKeys && Object.values(config.listKeys).length) BLAPI.handle(client, config.listKeys);
