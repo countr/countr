@@ -17,7 +17,7 @@ const client = new Discord.Client({
   }
 }), db = require("./database/index.js")(client);
 
-let shard = "Shard N/A:", fails = new Map(), disabledGuilds = null;
+let shard = "Shard N/A:", disabledGuilds = null;
 
 client.on("shardReady", async (shardid, unavailable = new Set()) => {
   shard = `Shard ${shardid}:`;
