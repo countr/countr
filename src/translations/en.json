@@ -2,4 +2,8 @@
   "hello": "My prefix is `{{PREFIX}}`, for help type `{{PREFIX}}help`.",
   "noPermission": "You don't have permission to do this.",
   "invalidArguments": "Invalid arguments. ",
+
+  "channelGettingReady": "Making channel ready for counting.",
+  "channelGettingReadyError": "Something went wrong when making the channel ready for counting. Do I have permissions? (Manage Channels)",
+  "channelGettingReadyDone": "The channel is ready! Happy counting!",
 }
