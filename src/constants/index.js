@@ -28,9 +28,6 @@ module.exports.getPermissionLevel = member => {
 // filter duplicates
 module.exports.onlyUnique = (value, index, self) => self.indexOf(value) == index;
 
-// command argument parser
-module.exports.parseArgs = args => (args.match(/\"[^"]+\"|[^ ]+/g) || []).map(arg => arg.startsWith("\"") && arg.endsWith("\"") ? arg.slice(1).slice(0, -1) : arg);
-
 // random id generator
 const base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 module.exports.generateID = (alreadyGenerated) => {

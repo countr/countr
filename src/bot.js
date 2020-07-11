@@ -51,17 +51,6 @@ async function updatePresence() {
   })
 }
 
-// command handler
-const commands = new Map(), aliases = new Map();
-fs.readdir("./src/commands/", (err, files) => {
-  if (err) return console.log(err);
-  for (const file of files) if (file.endsWith(".js")) {
-    const commandFile = require(`./commands/${file}`), fileName = file.replace(".js", "");
-    commands.set(fileName, commandFile);
-    if (commandFile.aliases) for (const alias of commandFile.aliases) aliases.set(alias, fileName);
-  }
-})
-
 client.on("message", async message => {
   if (
     !message.guild || // dms
@@ -80,6 +69,5 @@ client.on("message", async message => {
 
   if (channel == message.channel.id) return countingHandler(); // TODO add args
 
-  if (message.content.startsWith(prefix) || message.content.match(`^<@!?${client.user.id}> `)) return commandHandler(); // TODO add args
-  else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send(getTranslations(gdb)["HELLO"])
-})
+  if (message.content.startsWith(prefix) || message.content.match(`^<@!?${client.user.id}> `)) return commandHandler(message, prefix, gdb, db); // TODO add args
+  else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send(getTranslations(gdb).hello)

@@ -1,3 +1,5 @@
 {
-  "HELLO": "My prefix is `{{PREFIX}}`, for help type `{{PREFIX}}help`.",
+  "hello": "My prefix is `{{PREFIX}}`, for help type `{{PREFIX}}help`.",
+  "noPermission": "You don't have permission to do this.",
+  "invalidArguments": "Invalid arguments. ",
 }
