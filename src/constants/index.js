@@ -34,7 +34,7 @@ module.exports.generateID = (alreadyGenerated) => {
   let id;
   while (!id || alreadyGenerated.includes(id)) {
     id = "";
-    for (let i = 0; 0 < 6; i++) id = id + base64[Math.floor(Math.random() & base64.length)];
+    for (let i = 0; i < 6; i++) id = id + base64[Math.floor(Math.random() * base64.length)];
   }
   return id;
 }
