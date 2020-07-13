@@ -78,7 +78,7 @@ async function processGuild(guild) {
 
   // timeouts
   for (let userid in timeouts) try {
-    const member = guild.members.resolve(userid);
+    let member = guild.members.resolve(userid);
     if (!member) member = await guild.members.fetch(userid);
     if (member && member.partial) member = await member.fetch();
     if (member && member.roles.cache.get(timeoutrole.role)) {
@@ -89,7 +89,7 @@ async function processGuild(guild) {
 
   // recover module
   if (modules.includes("recover")) try {
-    const channel = guild.channels.resolve(channelid);
+    let channel = guild.channels.resolve(channelid);
     if (channel && channel.partial) channel = await channel.fetch();
     if (channel) {
       let messages = await channel.messages.fetch({ limit: 1, after: messageid });

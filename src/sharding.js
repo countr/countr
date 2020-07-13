@@ -10,7 +10,8 @@ manager.on("shardCreate", shard => {
 })
 
 if (config.port) {
-  const api = express(), botInfo = {};
+  const api = express();
+  let botInfo = {};
   api.get("/", (_, response) => response.json(botInfo));
 
   setInterval(async () => {

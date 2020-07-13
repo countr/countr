@@ -2,7 +2,7 @@ const { getPermissionLevel } = require("../constants");
 
 const fails = new Map();
 
-module.exports = (message, gdb) => {
+module.exports = async (message, gdb) => {
   if (message.partial && !message.member) message = await message.fetch();
   if (message.member.partial) message.member = await message.member.fetch(); 
 

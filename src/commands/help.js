@@ -1,5 +1,3 @@
-const { config } = require("process");
-
 module.exports = {
   description: "Get help on how to use the bot.",
   usage: {

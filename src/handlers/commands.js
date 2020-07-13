@@ -11,7 +11,7 @@ fs.readdir("./src/commands/", (err, files) => {
   }
 })
 
-module.exports = (message, prefix, gdb, db) => {
+module.exports = async (message, prefix, gdb, db) => {
   let content;
   if (message.content.match(`^<@!?${client.user.id}> `)) content = message.content.split(" ").slice(1);
   else content = message.content.slice(prefix.length).split(" ")
