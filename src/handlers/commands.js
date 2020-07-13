@@ -30,5 +30,5 @@ module.exports = (message, prefix, gdb, db) => {
   const args = (content.match(/\"[^"]+\"|[^ ]+/g) || []).map(arg => arg.startsWith("\"") && arg.endsWith("\"") ? arg.slice(1).slice(0, -1) : arg);
   if (!commandFile.checkArgs(args, permissionLevel)) return message.channel.send(`❌ ${strings.invalidArguments}`)
 
-  commandFile.run(message, args, gdb, strings, { client: message.client, config, prefix, permissionLevel, db, content })
+  commandFile.run(message, args, gdb, strings, { client: message.client, prefix, permissionLevel, db, content })
 }
