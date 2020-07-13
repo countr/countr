@@ -1,4 +1,4 @@
-const config = require("../../config.json"), { getPermissionLevel } = require("../constants/index.js"), getTranslations = require("./translations.js");
+const { getPermissionLevel } = require("../constants/index.js"), getTranslations = require("./translations.js");
 
 // loading commands
 const commands = new Map(), aliases = new Map();

@@ -10,7 +10,7 @@ module.exports = async (message, gdb) => {
 
   if (message.content.startsWith("!") && permissionLevel >= 1) return;
 
-  let { count, user, modules, regex, timeoutrole, prefix } = gdb.get(), regexMatches = false;
+  let { count, user, modules, regex, timeoutrole } = gdb.get(), regexMatches = false;
   if (regex.length && permissionLevel == 0)
     for (let r of regex)
       if ((new RegExp(r, 'g')).test(message.content)) {
@@ -48,7 +48,7 @@ module.exports = async (message, gdb) => {
 
   let countingMessage = message;
   if (modules.includes("webhook")) try {
-    const webhooks = await message.channel.fetchWebhooks(), webhook = webhooks.find(wh => wh.name == "Countr");
+    let webhooks = await message.channel.fetchWebhooks(), webhook = webhooks.find(wh => wh.name == "Countr");
     if (!webhook) webhook = await message.chanel.createWebhook("Countr").catch(() => null);
 
     if (webhook) {
@@ -69,5 +69,5 @@ module.exports = async (message, gdb) => {
     message.delete();
   } catch(e) {}
   
-  return gdb.afterCount(count, message.member, message)
+  return gdb.afterCount(count, message.member, countingMessage)
 }
