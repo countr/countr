@@ -1,0 +1,23 @@
+name: ESLint
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+
+jobs:
+  test_pull_request:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Install modules
+        run: npm ci
+      - name: Install ESLint
+        run: npm i -g eslint
+      - name: Run ESLint
+        run: eslint . --ext .js
