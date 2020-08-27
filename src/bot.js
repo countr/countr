@@ -1,4 +1,4 @@
-const Discord = require("discord.js"), fs = require("fs"), BLAPI = require("blapi"), config = require("../config.json"), countingHandler = require("./handlers/counting.js"), commandHandler = require("./handlers/commands.js"), getTranslations = require("./handlers/translations.js");
+const Discord = require("discord.js"), fs = require("fs"), BLAPI = require("blapi"), config = require("../config.json"), countingHandler = require("./handlers/counting.js"), commandHandler = require("./handlers/commands.js");
 
 const client = new Discord.Client({
   messageCacheLifetime: 30,
@@ -70,7 +70,7 @@ client.on("message", async message => {
   if (channel == message.channel.id) return countingHandler(); // TODO add args
 
   if (message.content.startsWith(prefix) || message.content.match(`^<@!?${client.user.id}> `)) return commandHandler(message, prefix, gdb, db); // TODO add args
-  else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send(getTranslations(gdb).hello)
+  else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send(`My prefix is \`${prefix}\`, for help type \`${prefix}help\`.`)
 })
 
 async function processGuild(guild) {
@@ -94,7 +94,7 @@ async function processGuild(guild) {
     if (channel) {
       let messages = await channel.messages.fetch({ limit: 1, after: messageid });
       if (messages.size) {
-        const strings = getTranslations(gdb), alert = await channel.send(`💢 ${strings.channelGettingReady}`);
+        const alert = await channel.send(`💢 Making channel ready for counting.`);
         if (!channel.permissionsFor(guild.me).has("SEND_MESSAGES")) await channel.updateOverwrite(guild.me, { SEND_MESSAGES: true });
 
         let defaultPermissions = channel.permissionOverwrites.get(guild.roles.everyone), oldPermission = null;
@@ -115,8 +115,8 @@ async function processGuild(guild) {
         }
 
         await channel.updateOverwrite(guild.roles.everyone, { SEND_MESSAGES: oldPermission })
-        if (fail) alert.edit(`❌ ${strings.channelGettingReadyError}`);
-        else alert.edit(`🔰 ${strings.channelGettingReadyDone}`).then(m => m.delete(15000))
+        if (fail) alert.edit(`❌ Something went wrong when making the channel ready for counting. Do I have permissions? (Manage Channels)`);
+        else alert.edit(`🔰 The channel is ready! Happy counting!`).then(m => m.delete(15000))
       }
     }
   } catch(e) {}
