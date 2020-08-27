@@ -13,12 +13,12 @@ module.exports = {
   checkArgs: (args) => !!args.length
 }
 
-module.exports.run = async function(client, message, args, gdb, strings, { content: regex }) {
-  if (!testRegex(regex)) return message.channel.send(`❌ ${strings.invalidRegex} ${strings.commandHelp}`)
+module.exports.run = async function(message, args, gdb, { prefix, content: regex }) {
+  if (!testRegex(regex)) return message.channel.send(`❌ Invalid regex. For help, type \`${prefix}help addregex\`.`)
 
   return gdb.addRegex(regex)
-    .then(() => message.channel.send(`✅ ${strings.savedRegex.replace(/{{REGEX}}/g, regex)}`))
-    .catch(e => console.log(e) && message.channel.send(`🆘 ${strings.databaseError}`))
+    .then(() => message.channel.send(`✅ Regex \`${regex} has been saved.`))
+    .catch(e => console.log(e) && message.channel.send(`🆘 An unknown database error occurred. Please try again, or contact support.`))
 }
 
 function testRegex(regex) {

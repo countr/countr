@@ -17,21 +17,21 @@ module.exports = {
 
 const { modes, durations, getRole, generateID } = require("../constants/index.js").rolereward;
 
-module.exports.run = async function(client, message, args, gdb, strings) {
+module.exports.run = async function(message, args, gdb, { prefix }) {
   let role = await getRole(args[0], message.guild);
-  if (!role) return message.channel.send(`❌ ${strings.invalidRole} ${strings.commandHelp}`)
+  if (!role) return message.channel.send(`❌ Invalid role. For help, type \`${prefix}help addrole\`.`)
 
   let mode = args[1].toLowerCase();
-  if (!modes.includes(mode)) return message.channel.send(`❌ ${strings.invalidMode} ${strings.commandHelp}`);
+  if (!modes.includes(mode)) return message.channel.send(`❌ Invalid mode. For help, type \`${prefix}help addrole\`.`);
 
   let count = parseInt(args[2]);
-  if (!count) return message.channel.send(`❌ ${strings.invalidCount} ${strings.commandHelp}`)
+  if (!count) return message.channel.send(`❌ Invalid count. For help, type \`${prefix}help addrole\`.`)
 
   let duration = args[3].toLowerCase();
-  if (!durations.includes(duration)) return message.channel.send(`❌ ${strings.invalidDuration} ${strings.commandHelp}`)
+  if (!durations.includes(duration)) return message.channel.send(`❌Invalid duration. For help, type \`${prefix}help addrole\`.`)
 
   let { pins } = gdb.get(), id = generateID(Object.keys(pins));
   return gdb.setRole(id, role.id, mode, count, duration)
-    .then(() => message.channel.send(`✅ ${strings.savedRole.replace(/{{ID}}/g, id)}`))
-    .catch(e => console.log(e) && message.channel.send(`🆘 ${strings.databaseError}`))
+    .then(() => message.channel.send(`✅ Rolereward with ID ${id} has been saved.`))
+    .catch(e => console.log(e) && message.channel.send(`🆘 An unknown database error occurred. Please try again, or contact support.`))
 }
