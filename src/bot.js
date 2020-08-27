@@ -1,4 +1,4 @@
-const Discord = require("discord.js"), fs = require("fs"), BLAPI = require("blapi"), config = require("../config.json"), countingHandler = require("./handlers/counting.js"), commandHandler = require("./handlers/commands.js");
+const Discord = require("discord.js"), fs = require("fs"), BLAPI = require("blapi"), config = require("../config.json"), countingHandler = require("./handlers/counting.js"), commandHandler = require("./handlers/commands.js"), prepareGuildHandler = require("./handlers/prepareGuilds.js");
 
 const client = new Discord.Client({
   messageCacheLifetime: 30,
@@ -24,12 +24,9 @@ client.on("shardReady", async (shardid, unavailable = new Set()) => {
   console.log(shard, `Ready as ${client.user.tag}!`)
 
   // process guilds
-  disabledGuilds = new Set(client.guilds.cache.map(guild => guild.id))
-  unavailable.forEach(guildid => disabledGuilds.add(guildid)) // we add the unavailable guilds as well
-  let startTimestamp = Date.now()
-  await Promise.all(client.guilds.cache.map(processGuild))
-  console.log(shard, `All ${client.guilds.cache.size} available guilds have been processed and is now ready for counting! [${Date.now() - startTimestamp}ms]`)
-  disabledGuilds = false
+  disabledGuilds = new Set([...client.guilds.cache.map(guild => guild.id), ...unavailable]);
+  await prepareGuildsHandler();
+  disabledGuilds = new Set();
 
   // update presence
   updatePresence();
@@ -54,11 +51,11 @@ async function updatePresence() {
 client.on("message", async message => {
   if (
     !message.guild || // dms
-    disabledGuilds == null ||
+    !disabledGuilds ||
     disabledGuilds.has(message.guild.id)
   ) return;
 
-  // since we opt in for partials, we need to add these checks
+  // since we opt in for partials, we need to add these checks. It shouldn't need this in v12 anymore, but it's always good to be sure.
   if (message.partial && (!message.author || !message.channel || !message.content)) message = await message.fetch();
   if (message.author.partial && !message.author.bot) message.author = await message.author.fetch();
   if (message.author.bot) return; // we don't allow bots
@@ -72,57 +69,6 @@ client.on("message", async message => {
   if (message.content.startsWith(prefix) || message.content.match(`^<@!?${client.user.id}> `)) return commandHandler(message, prefix, gdb, db); // TODO add args
   else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send(`My prefix is \`${prefix}\`, for help type \`${prefix}help\`.`)
 })
-
-async function processGuild(guild) {
-  const gdb = await db.guild(guildid), { timeouts, timeoutrole, modules, channel: channelid, message: messageid } = await gdb.get();
-
-  // timeouts
-  for (let userid in timeouts) try {
-    let member = guild.members.resolve(userid);
-    if (!member) member = await guild.members.fetch(userid);
-    if (member && member.partial) member = await member.fetch();
-    if (member && member.roles.cache.get(timeoutrole.role)) {
-      if (Date.now() >= timeouts[userid]) member.roles.remove(timeoutrole.role, "User no longer timed out (offline)").catch()
-      else setTimeout(() => member.roles.remove(timeoutrole.role, "User no longer timed out").catch(), timeouts[userid] - Date.now())
-    }
-  } catch(e) {}
-
-  // recover module
-  if (modules.includes("recover")) try {
-    let channel = guild.channels.resolve(channelid);
-    if (channel && channel.partial) channel = await channel.fetch();
-    if (channel) {
-      let messages = await channel.messages.fetch({ limit: 1, after: messageid });
-      if (messages.size) {
-        const alert = await channel.send(`💢 Making channel ready for counting.`);
-        if (!channel.permissionsFor(guild.me).has("SEND_MESSAGES")) await channel.updateOverwrite(guild.me, { SEND_MESSAGES: true });
-
-        let defaultPermissions = channel.permissionOverwrites.get(guild.roles.everyone), oldPermission = null;
-        if (defaultPermissions.allow.has("SEND_MESSAGES")) oldPermission = true;
-        else if (defaultPermissions.deny.has("SEND_MESSAGES")) oldPermission = false;
-
-        await channel.updateOverwrite(guild.roles.everyone, { SEND_MESSAGES: false }, "Making channel ready for counting");
-
-        let processing = true, fail = false;
-        while (processing) {
-          let messages = await channel.messages.fetch({ limit: 100, after: messageid });
-          messages = messages.filter(m => m.id !== alert.id);
-          if (messages.size == 0) processing = false;
-          else await channel.bulkDelete(messages).catch(() => {
-            processing = false;
-            fail = true;
-          })
-        }
-
-        await channel.updateOverwrite(guild.roles.everyone, { SEND_MESSAGES: oldPermission })
-        if (fail) alert.edit(`❌ Something went wrong when making the channel ready for counting. Do I have permissions? (Manage Channels)`);
-        else alert.edit(`🔰 The channel is ready! Happy counting!`).then(m => m.delete(15000))
-      }
-    }
-  } catch(e) {}
-
-  disabledGuilds.delete(guild.id);
-}
 
 client
   .on("error", err => console.log(shard, "Client error.", err))
