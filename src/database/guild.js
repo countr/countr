@@ -10,7 +10,6 @@ const guildObject = {
   modules: [], // the guild's modules
   notifications: {}, // the guild's users' notifications
   roles: {}, // the guild's roles
-  topic: "", // the topic
   message: "", // the current count's ID
   prefix: "", // the prefix
   users: {}, // the users' amount of counts
