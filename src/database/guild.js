@@ -45,7 +45,7 @@ const save = async (guildid, changes) => {
     dbSaveQueue.set(guildid, changes);
     let guild = await get(guildid), guildCache = dbCache.get(guildid), guildSaveQueue = dbSaveQueue.get(guildid);
     for (const key of guildSaveQueue) guild[key] = guildCache[key];
-    return guild.save().then(res => dbSaveQueue.delete(guildid)).catch(reject)
+    return guild.save().then(() => dbSaveQueue.delete(guildid)).catch(console.log)
   } else dbSaveQueue.get(guildid).push(...changes)
 }
 

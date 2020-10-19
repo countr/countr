@@ -2,14 +2,14 @@ const mongoose = require("mongoose"), integration = require("./integration.js");
 
 let pendingCounts = 0;
 
-const globalSchema = mongoose.Schema({ counts: 0, week: getWeek(new Date()) }, { minimize: false }) 
+const globalSchema = mongoose.Schema({ counts: 0, week: 0 }, { minimize: false }) 
 const Global = mongoose.model("Global", globalSchema)
 
 setInterval(() => Global.findOne({}, (err, stats) => {
   if (err) return reject(err);
   const thisWeek = getWeek(new Date())
 
-  if (!stats) stats = new Global({ counts: 0, week })
+  if (!stats) stats = new Global({ counts: 0, week: thisWeek })
 
   stats.counts += pendingCounts;
   pendingCounts = 0;
@@ -27,7 +27,7 @@ module.exports = {
   addCount: () => pendingCounts++,
   getCount: () => new Promise((resolve, reject) => Global.findOne({}, (err, stats) => {
     if (err) return reject(err);
-    return resolve(stats.counts + pendingCounts)
+    return resolve((stats ? stats.counts : 0) + pendingCounts)
   }))
 }
 
