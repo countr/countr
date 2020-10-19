@@ -41,5 +41,5 @@ module.exports = async (message, gdb, db, countingChannel, prefix) => {
   }
 
   const response = await processCommand();
-  if (message.channel.id == countingChannel) setTimeout(() => message.channel.bulkDelete([response, message]), 10000)
+  if (message.channel.id == countingChannel) setTimeout(() => message.channel.id == gdb.get().channel ? message.channel.bulkDelete([response, message]) : null, 10000)
 }
