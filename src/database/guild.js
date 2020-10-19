@@ -90,13 +90,13 @@ module.exports = (client) => (async guildid => {
         guildCache.log[dateFormat] = 0;
         while (Object.keys(guildCache.log).length > 7) delete guildCache.log[Object.keys(guildCache.log)[0]] // delete the oldest log
       }
-      savedGuilds[gid].log[dateFormat] += 1;
+      guildCache.log[dateFormat] += 1;
 
       save(guildid, ["count", "user", "users", "log"])
 
       // checking rolerewards
       for (const rid in guildCache.roles) try {
-        const role = guildCache.roles[rid], guildRole = client.guilds.get(guildid).roles.get(role ? role.role : null);
+        const role = guildCache.roles[rid], guildRole = client.guilds.resolve(guildid).roles.resolve(role ? role.role : null);
         if (role && guildRole && (
           role.mode == "only" && guildCache.count == role.count ||
           role.mode == "each" && guildCache.count % role.count == 0 ||
@@ -110,7 +110,7 @@ module.exports = (client) => (async guildid => {
       global.addCount()
     },
     afterCount: async (count, member, message) => {
-      let guildCache = dbCache.get(guildid), guild = client.guilds.get(guildid);
+      let guildCache = dbCache.get(guildid), guild = client.guilds.resolve(guildid);
       guildCache.message = message.id;
 
       let countMessage = message;
