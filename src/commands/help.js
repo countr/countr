@@ -46,7 +46,7 @@ module.exports.run = async (message, args, gdb, { prefix, permissionLevel, conte
     if (!commandFile) commandFile = commands.find(({ description }) => description.toLowerCase().includes(searchQuery))
     if (!commandFile) return message.channel.send("❌ No command was found with your search.")
 
-    message.channel.send({
+    return message.channel.send({
       embed: {
         title: `Help: ${commandFile.command}`,
         description: commandFile.description,

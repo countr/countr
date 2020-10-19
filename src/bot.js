@@ -71,9 +71,8 @@ client.on("message", async message => {
   let { channel, prefix } = gdb.get();
   if (!prefix.length) prefix = config.prefix;
 
-  if (channel == message.channel.id) return countingHandler(); // TODO add args
-
-  if (message.content.startsWith(prefix) || message.content.match(`^<@!?${client.user.id}> `)) return commandHandler(message, gdb, db, prefix);
+  if (message.content.startsWith(prefix) || message.content.match(`^<@!?${client.user.id}> `)) return commandHandler(message, gdb, db, channel, prefix);
+  else if (channel == message.channel.id) return countingHandler(); // TODO add args
   else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send(`My prefix is \`${prefix}\`, for help type \`${prefix}help\`.`)
 })
 

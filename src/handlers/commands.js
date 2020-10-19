@@ -11,7 +11,7 @@ fs.readdir("./src/commands/", (err, files) => {
   }
 })
 
-module.exports = async (message, gdb, db, prefix) => {
+module.exports = async (message, gdb, db, countingChannel, prefix) => {
   let content;
   if (message.content.match(`^<@!?${message.client.user.id}> `)) content = message.content.split(" ").slice(1);
   else content = message.content.slice(prefix.length).split(" ")
@@ -23,12 +23,20 @@ module.exports = async (message, gdb, db, prefix) => {
   
   if (!commands.has(commandName)) return; // this is not a command
 
-  const commandFile = commands.get(commandName), permissionLevel = getPermissionLevel(message.member);
+  const commandFile = commands.get(commandName);
 
-  if (permissionLevel < commandFile.permissionRequired) return message.channel.send(`❌ You don't have permission to do this.`)
+  function processCommand() {
+    if (message.channel.id == countingChannel && !commandFile.allowInCountingChannel) return message.channel.send(`❌ This command is disabled inside the counting channel.`)
+    
+    const permissionLevel = getPermissionLevel(message.member);
+    if (permissionLevel < commandFile.permissionRequired) return message.channel.send(`❌ You don't have permission to do this.`)
 
-  const args = (content.match(/\"[^"]+\"|[^ ]+/g) || []).map(arg => arg.startsWith("\"") && arg.endsWith("\"") ? arg.slice(1).slice(0, -1) : arg);
-  if (!commandFile.checkArgs(args, permissionLevel)) return message.channel.send(`❌ Invalid arguments. For help, type \`${prefix}help\`.`)
+    const args = (content.match(/\"[^"]+\"|[^ ]+/g) || []).map(arg => arg.startsWith("\"") && arg.endsWith("\"") ? arg.slice(1).slice(0, -1) : arg);
+    if (!commandFile.checkArgs(args, permissionLevel)) return message.channel.send(`❌ Invalid arguments. For help, type \`${prefix}help\`.`)
 
-  return commandFile.run(message, args, gdb, { prefix, permissionLevel, db, content })
+    return commandFile.run(message, args, gdb, { prefix, permissionLevel, db, content })
+  }
+
+  const response = await processCommand();
+  if (message.channel.id == countingChannel && response && response.delete) setTimeout(() => message.channel.bulkDelete([response, message]), 10000)
 }

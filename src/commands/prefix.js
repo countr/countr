@@ -8,7 +8,8 @@ module.exports = {
   },
   aliases: [ "setprefix" ],
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
-  checkArgs: (args) => true
+  checkArgs: (args) => true,
+  allowInCountingChannel: true
 }
 
 const config = require("../../config.json")
