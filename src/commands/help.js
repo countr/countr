@@ -82,21 +82,24 @@ module.exports.run = async (message, args, gdb, { prefix, permissionLevel, conte
 }
 
 // loading commands
-let commands = []
-for (const static of require("./_static.json")) commands.push({
-  description: "Static command.",
+let commands = [], defaultCommand = {
+  description: "Undocumented.",
   usage: {},
   examples: {},
+  aliases: [], // all except the first trigger
+  permissionRequired: 0
+}
+for (const static of require("./_static.json")) commands.push(Object.assign({}, defaultCommand, {
+  description: "Static command.",
   aliases: static.triggers.slice(1), // all except the first trigger
-  permissionRequired: 0,
   command: static.triggers[0] // the first trigger
-})
+}))
 fs.readdir("./src/commands/", (err, files) => {
   if (err) return console.log(err);
   for (const file of files) if (file.endsWith(".js")) {
     const commandFile = Object.assign({}, require(`../commands/${file}`)), fileName = file.replace(".js", "");
     commandFile.command = fileName;
-    commands.push(commandFile);
+    commands.push(Object.assign({}, defaultCommand, commandFile));
   }
   // sort the commands list by name once all commands have been loaded in
   commands = commands.sort((a, b) => a.command.localeCompare(b.command))
