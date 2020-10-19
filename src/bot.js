@@ -62,11 +62,12 @@ client.on("message", async message => {
   if (message.channel.partial && !message.channel.id) message.channel = await message.channel.fetch();
 
   const gdb = await db.guild(message.guild.id);
-  let { channel, prefix = config.prefix } = gdb.get();
+  let { channel, prefix } = gdb.get();
+  if (!prefix.length) prefix = config.prefix;
 
   if (channel == message.channel.id) return countingHandler(); // TODO add args
 
-  if (message.content.startsWith(prefix) || message.content.match(`^<@!?${client.user.id}> `)) return commandHandler(message, prefix, gdb, db); // TODO add args
+  if (message.content.startsWith(prefix) || message.content.match(`^<@!?${client.user.id}> `)) return commandHandler(message, gdb, db, prefix);
   else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send(`My prefix is \`${prefix}\`, for help type \`${prefix}help\`.`)
 })
 

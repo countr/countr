@@ -1,7 +1,7 @@
-const { getPermissionLevel } = require("../constants/index.js"), getTranslations = require("./translations.js");
+const { getPermissionLevel } = require("../constants/index.js"), fs = require("fs");
 
 // loading commands
-const commands = new Map(), aliases = new Map(), shorts = new Map();
+const commands = new Map(), aliases = new Map(), statics = require("../commands/_static.json");
 fs.readdir("./src/commands/", (err, files) => {
   if (err) return console.log(err);
   for (const file of files) if (file.endsWith(".js")) {
@@ -10,30 +10,25 @@ fs.readdir("./src/commands/", (err, files) => {
     if (commandFile.aliases) for (const alias of commandFile.aliases) aliases.set(alias, fileName);
   }
 })
-for (const short of require("../commands/_.json")) short.triggers.forEach(trigger => shorts.set(trigger, short.message))
 
-module.exports = async (message, prefix, gdb, db) => {
+module.exports = async (message, gdb, db, prefix) => {
   let content;
-  if (message.content.match(`^<@!?${client.user.id}> `)) content = message.content.split(" ").slice(1);
+  if (message.content.match(`^<@!?${message.client.user.id}> `)) content = message.content.split(" ").slice(1);
   else content = message.content.slice(prefix.length).split(" ")
   const commandOrAlias = content.shift().toLowerCase(), commandName = aliases.get(commandOrAlias) || commandOrAlias;
   content = content.join(" ");
 
-  const short = shorts.get(commandName);
-  if (short) return message.channel.send(short);
-
-  const commandFile = commands.get(commandName);
-  if (!commandFile) return;
+  const static = statics.find(s => s.triggers.includes(commandName));
+  if (static) return message.channel.send(static.message.replace(/{{BOT_ID}}/g, message.client.user.id));
   
-  if (message.partial && !message.member) message = await message.fetch();
-  if (message.member.partial) message.member = await message.member.fetch(); 
+  if (!commands.has(commandName)) return; // this is not a command
 
-  const permissionLevel = getPermissionLevel(message.member), strings = getTranslations(gdb, commandName, commandOrAlias, Object.keys(commandFile.usage).join(" "));
+  const commandFile = commands.get(commandName), permissionLevel = getPermissionLevel(message.member);
 
-  if (permissionLevel < commandFile.permissionLevel) return message.channel.send(`❌ ${strings.noPermission}`)
+  if (permissionLevel < commandFile.permissionRequired) return message.channel.send(`❌ You don't have permission to do this.`)
 
   const args = (content.match(/\"[^"]+\"|[^ ]+/g) || []).map(arg => arg.startsWith("\"") && arg.endsWith("\"") ? arg.slice(1).slice(0, -1) : arg);
-  if (!commandFile.checkArgs(args, permissionLevel)) return message.channel.send(`❌ ${strings.invalidArguments}`)
+  if (!commandFile.checkArgs(args, permissionLevel)) return message.channel.send(`❌ Invalid arguments. For help, type \`${prefix}help\`.`)
 
-  commandFile.run(message, args, gdb, { prefix, permissionLevel, db, content })
+  return commandFile.run(message, args, gdb, { prefix, permissionLevel, db, content })
 }
