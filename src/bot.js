@@ -1,21 +1,27 @@
-const Discord = require("discord.js"), fs = require("fs"), BLAPI = require("blapi"), config = require("../config.json"), countingHandler = require("./handlers/counting.js"), commandHandler = require("./handlers/commands.js"), prepareGuildHandler = require("./handlers/prepareGuilds.js");
-
-const client = new Discord.Client({
-  messageCacheLifetime: 30,
-  messageSweepInterval: 60,
-  disableMentions: "everyone",
-  partials: [ "USER", "GUILD_MEMBER", "CHANNEL" ],
-  presence: {
-    status: "idle",
-    activity: {
-      type: "WATCHING",
-      name: "the loading screen"
+const
+  Discord = require("discord.js"),
+  BLAPI = require("blapi"),
+  config = require("../config.json"),
+  commandHandler = require("./handlers/commands.js"),
+  countingHandler = require("./handlers/counting.js"),
+  prepareGuildHandler = require("./handlers/prepareGuilds.js"),
+  client = new Discord.Client({
+    messageCacheLifetime: 30,
+    messageSweepInterval: 60,
+    disableMentions: "everyone",
+    partials: [ "USER", "CHANNEL", "GUILD_MEMBER", "MESSAGE", "REACTION" ],
+    presence: {
+      status: "idle",
+      activity: {
+        type: "WATCHING",
+        name: "the loading screen"
+      }
+    },
+    ws: {
+      intents: [ "GUILDS", "GUILD_MESSAGES" ]
     }
-  },
-  ws: {
-    intents: [ "GUILDS", "GUILD_MESSAGES" ]
-  }
-}), db = require("./database/index.js")(client);
+  }),
+  db = require("./database/index.js")(client);
 
 let shard = "Shard N/A:", disabledGuilds = null;
 
