@@ -1,125 +1,103 @@
 module.exports = {
   description: "Get help on how to use the bot.",
   usage: {
-    "[-all]": "If you include this, it will show all the commands excluding bot-admins-only commands.",
-    "[<search ...>]": "Search for a specific command, category or related."
+    "[search ...]": "Something you want to search for, for example a command."
   },
   examples: {
-    "notifyme": "Will give you infomation about the notifyme-command.",
-    "-all add": "Will give you all commands that have \"add\" in their command, description or usage."
+    "help": "Get help on the command help. Oh wait, you already did."
   },
-  aliases: [ "commands", "?" ],
+  aliases: [ "commands" ],
   permissionRequired: 0, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
-  checkArgs: () => true
+  checkArgs: (args) => args.length <= 1
 }
 
-const fs = require("fs"), permissionLevels = [ "None", "Moderators", "Administrators", "Server Owner", "Bot Administrator", "Bot Owner" ], config = require("../../config.json")
+const fs = require("fs"), config = require("../../config.json");
+
+module.exports.run = async (message, args, gdb, { prefix, permissionLevel, content: searchQuery }) => {
+  if (!searchQuery) return message.channel.send({
+    embed: {
+      title: `${message.client.user.username} Help`,
+      description: [
+        `• To get started with the bot, do \`${prefix}setup\`.`,
+        `• If you need help with a command, do \`${prefix}help <command>\`.`,
+        "• If you need further help, check out the documentation: https://countr.xyz/"
+      ].join("\n"),
+      color: config.color,
+      timestamp: Date.now(),
+      footer: {
+        icon_url: message.author.displayAvatarURL(),
+        text: `Requested by ${message.author.tag}`
+      },
+      fields: [
+        {
+          name: "Available commands",
+          value: commands.map(commandFile => {
+            if (commandFile.permissionRequired >= 4) return null;
+            if (commandFile.permissionRequired > permissionLevel) return `~~*\`${commandFile.command}\`*~~`
+            return `\`${commandFile.command}\``;
+          }).filter(c => c).join(", "),
+          inline: true
+        }
+      ]
+    }
+  }); else {
+    searchQuery = searchQuery.toLowerCase();
+    let commandFile = commands.find(({ command, aliases }) => searchQuery == command || aliases.includes(searchQuery));
+    if (!commandFile) commandFile = commands.find(({ description }) => description.toLowerCase().includes(searchQuery))
+    if (!commandFile) return message.channel.send("❌ No command was found with your search.")
+
+    message.channel.send({
+      embed: {
+        title: `Help: ${commandFile.command}`,
+        description: commandFile.description,
+        color: config.color,
+        timestamp: Date.now(),
+        footer: {
+          icon_url: message.author.displayAvatarURL(),
+          text: `Requested by ${message.author.tag}`
+        },
+        fields: [
+          {
+            name: "Usage",
+            value: Object.keys(commandFile.usage).length ? `\`${prefix}${commandFile.command}${Object.keys(commandFile.usage).map(a => ` ${a}`).join()}\`${Object.keys(commandFile.usage).map(a => `\n• \`${a}\`: ${commandFile.usage[a]}`)}` : null
+          },
+          {
+            name: "Examples",
+            value: Object.keys(commandFile.examples).length ? Object.keys(commandFile.examples).map(ex => `• \`${prefix}${commandFile.command}${ex ? ` ${ex}` : ""}\`: ${commandFile.examples[ex]}`).join("\n") : null
+          },
+          {
+            name: "Permission Level",// 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
+            value: `${commandFile.permissionRequired}: ${["All", "Mods", "Admins", "Server Owner", "Bot Admin", "Bot Owner"][commandFile.permissionRequired]} ${permissionLevel >= commandFile.permissionRequired ? "✅" : "❌"}`,
+            inline: true
+          },
+          {
+            name: "Aliases",
+            value: commandFile.aliases.length ? commandFile.aliases.map(a => `\`${a}\``).join(", ") : null,
+            inline: true
+          }
+        ].filter(f => f.value)
+      }
+    })
+  }
+}
 
 // loading commands
-const allCommands = {};
+let commands = []
+for (const static of require("./_static.json")) commands.push({
+  description: "Static command.",
+  usage: {},
+  examples: {},
+  aliases: static.triggers.slice(1), // all except the first trigger
+  permissionRequired: 0,
+  command: static.triggers[0] // the first trigger
+})
 fs.readdir("./src/commands/", (err, files) => {
   if (err) return console.log(err);
   for (const file of files) if (file.endsWith(".js")) {
-    const { description, usage, examples, permissionRequired, aliases } = require(`./${file}`), commandName = file.replace(".js", "");
-    allCommands[commandName] = { description, usage, examples, permissionRequired, aliases };
+    const commandFile = Object.assign({}, require(`../commands/${file}`)), fileName = file.replace(".js", "");
+    commandFile.command = fileName;
+    commands.push(commandFile);
   }
-  console.log(allCommands)
+  // sort the commands list by name once all commands have been loaded in
+  commands = commands.sort((a, b) => a.command.localeCompare(b.command))
 })
-
-module.exports.run = async (message, args, gdb, strings, { prefix, permissionLevel, content: search }) => {
-  let permission = permissionLevel;
-  if (search.startsWith("-all ") || search == "-all") {
-    permission = 2;
-    if (search == "-all") search = "";
-    else search.slice(5);
-  }
-
-  if (search.length > 20 || search.includes("\n")) return message.channel.send(`❌ ${strings.commandHelpInvalidSearchQuery} ${strings.help}`)
-
-  if (allCommands[search] || allCommands[search.slice(prefix.length)]) return message.channel.send({
-    embed: {
-      // TODO embed for single command
-    }
-  })
-
-  const commandsFound = [];
-  for (const commandName in allCommands) {
-    const command = allCommands[commandName];
-    if (command.permissionRequired <= permission && (
-      (prefix + commandName).includes(search) ||
-      command.description.includes(search) ||
-      command.aliases.find(alias => alias.includes(search)) ||
-      Object.values(command.usage).find(usage => usage.includes(search)) ||
-      Object.values(command.examples).find(example => example.includes(search))
-    )) commandsFound.push({
-      name: `\`${prefix}${commandName}${Object.keys(command.usage).map(arg => " " + arg).join("")}\``,
-      value: [
-        `**Description:** ${command.description}`,
-        `**Permission:** ${permissionLevels[command.permissionRequired]}`,
-        (command.aliases && command.aliases.length) ? `**Aliases:** ${command.aliases.map(alias => `\`${alias}\``).join(", ")}` : null,
-        `**More information:** \`${prefix}help ${commandName}\``
-      ].filter(str => str).join("\n"),
-      inline: false
-    })
-  }
-
-  const pageCount = Math.ceil(commandsFound.length / 8);
-  let currentPage = 1;
-
-  const embed = {
-    title: `📋 Commands`,
-    description: [
-      "", // TODO uhhhh idk something here explaining the formatting
-      search.length ? `**Found ${commandsFound.length} results matching your search.**` : `**Displaying ${commandsFound.length} commands.`
-    ].join("\n"),
-    color: config.color,
-    fields: commandsFound.slice(0, 5), // only show the first eight commands
-    timestamp: Date.now(),
-    footer: {
-      text: `Requested by ${message.author.tag} • Page ${currentPage} of ${pageCount}`,
-      icon_url: message.author.displayAvatarURL()
-    }
-  }
-
-  message.channel.send({ embed }).then(async helpMessage => {
-    if (pages > 1) reactMultipleAsync(helpMessage, [ "♻", "⬅", "➡", "❌" ]);
-    else helpMessage.react("❌");
-
-    while (true) try {
-      const oldPage = currentPage, collected = await helpMessage.awaitReactions((reaction, user) => user.id == message.author.id, { errors: [ "time" ], time: 180000, maxEmojis: 1 }), reaction = collected.first();
-      switch(reaction.emoji) {
-        case "♻":
-          currentPage = 1;
-          break;
-        case "⬅":
-          currentPage--;
-          break;
-        case "➡":
-          currentPage++;
-          break;
-        case "❌":
-          return helpMessage.edit(`✔ ${commandHelpClosedByUser}`, { embed: {}}) && helpMessage.clearReactions().catch();
-      }
-
-      if (currentPage < 1) currentPage = 1;
-      if (currentPage > pageCount) currentPage = pageCount;
-
-      reaction.users.remove(message.author);
-
-      if (oldPage !== currentPage) {
-        embed.fields = commandsFound.slice((currentPage - 1) * 5, currentPage * 5);
-        embed.footer.text = `Requested by ${message.author.tag} • Page ${currentPage} of ${pageCount}`
-        helpMessage.edit({ embed })
-      }
-    } catch(e) {
-      return helpMessage.edit(`⌛ ${commandHelpTimedOut}`, { embed: {}}) && helpMessage.clearReactions().catch();
-    }
-  }).catch(() => message.channel.send(`🆘 ${strings.missingPermission} (${strings.permissionEmbedLinks}, ${strings.permissionAddReactions}, ${strings.permissionManageMessages})`))
-}
-
-async function reactMultipleAsync(message, emojis) {
-  for (const emoji of emojis) {
-    await message.react(emoji);
-    await new Promise(resolve => setInterval(resolve, 500))
-  }
-}
