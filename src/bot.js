@@ -25,7 +25,7 @@ client.on("shardReady", async (shardid, unavailable = new Set()) => {
 
   // process guilds
   disabledGuilds = new Set([...client.guilds.cache.map(guild => guild.id), ...unavailable]);
-  await prepareGuildsHandler();
+  await prepareGuildHandler(disabledGuilds, client, db, shard);
   disabledGuilds = new Set();
 
   // update presence

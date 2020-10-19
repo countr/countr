@@ -1,11 +1,11 @@
-module.exports = async (disabledGuilds) => {
+module.exports = async (disabledGuilds, client, db, shard) => {
   let startTimestamp = Date.now();
-  await Promise.all(client.guilds.cache.map(guild => processGuild(guild, disabledGuilds)))
+  await Promise.all(client.guilds.cache.map(guild => processGuild(guild, disabledGuilds, db)))
   return console.log(shard, `All ${client.guilds.cache.size} available guilds have been processed and is now ready for counting! [${Date.now() - startTimestamp}ms]`)
 }
 
-async function processGuild(guild, disabledGuilds) {
-  const gdb = await db.guild(guildid), { timeouts, timeoutrole, modules, channel: channelid, message: messageid } = await gdb.get();
+async function processGuild(guild, disabledGuilds, db) {
+  const gdb = await db.guild(guild.id), { timeouts, timeoutrole, modules, channel: channelid, message: messageid } = await gdb.get();
 
   // timeouts
   for (let userid in timeouts) try {
