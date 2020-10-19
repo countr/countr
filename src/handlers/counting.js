@@ -1,7 +1,5 @@
 const { getPermissionLevel } = require("../constants");
 
-const fails = new Map();
-
 module.exports = async (message, gdb) => {
   if (message.partial && !message.member) message = await message.fetch();
   if (message.member.partial) message.member = await message.member.fetch(); 
@@ -31,7 +29,7 @@ module.exports = async (message, gdb) => {
   let countingMessage = message;
   if (modules.includes("webhook")) try {
     let webhooks = await message.channel.fetchWebhooks(), webhook = webhooks.find(wh => wh.name == "Countr");
-    if (!webhook) webhook = await message.chanel.createWebhook("Countr").catch(() => null);
+    if (!webhook) webhook = await message.channel.createWebhook("Countr").catch(() => null);
 
     if (webhook) {
       countingMessage = await webhook.send(message.content, {
@@ -42,12 +40,7 @@ module.exports = async (message, gdb) => {
     }
   } catch(e) {}
   else if (modules.includes("reposting")) try {
-    countingMessage = await message.channel.send({
-      embed: {
-        description: `${message.author}: ${message.content}`,
-        color: message.member.displayColor || 3553598
-      }
-    })
+    countingMessage = await message.channel.send(`${message.author}: ${message.content}`)
     message.delete();
   } catch(e) {}
   
