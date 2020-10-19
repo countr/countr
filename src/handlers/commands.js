@@ -19,13 +19,16 @@ module.exports = async (message, gdb, db, countingChannel, prefix) => {
   content = content.join(" ");
 
   const static = statics.find(s => s.triggers.includes(commandName));
-  if (static) return message.channel.send(static.message.replace(/{{BOT_ID}}/g, message.client.user.id));
-  
-  if (!commands.has(commandName)) return; // this is not a command
-
-  const commandFile = commands.get(commandName);
+  if (!static && !commands.has(commandName)) { // this is not a command
+    if (message.channel.id == countingChannel) return message.delete();
+    else return;
+  }
 
   function processCommand() {
+    if (static) return message.channel.send(static.message.replace(/{{BOT_ID}}/g, message.client.user.id));
+
+    const commandFile = commands.get(commandName);
+
     if (message.channel.id == countingChannel && !commandFile.allowInCountingChannel) return message.channel.send(`❌ This command is disabled inside the counting channel.`)
     
     const permissionLevel = getPermissionLevel(message.member);
@@ -38,5 +41,5 @@ module.exports = async (message, gdb, db, countingChannel, prefix) => {
   }
 
   const response = await processCommand();
-  if (message.channel.id == countingChannel && response && response.delete) setTimeout(() => message.channel.bulkDelete([response, message]), 10000)
+  if (message.channel.id == countingChannel) setTimeout(() => message.channel.bulkDelete([response, message]), 10000)
 }
