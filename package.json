@@ -6,14 +6,14 @@
   },
   "license": "GPL-3.0",
   "dependencies": {
-    "blapi": "^1.4.0",
+    "blapi": "^2.0.1",
     "bufferutil": "^4.0.1",
-    "discord.js": "^12.2.0",
-    "erlpack": "github:discordapp/erlpack",
+    "discord.js": "^12.3.1",
+    "erlpack": "github:discord/erlpack",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
-    "mongoose": "^5.9.22",
-    "node-fetch": "^2.6.0",
+    "mongoose": "^5.10.9",
+    "node-fetch": "^2.6.1",
     "utf-8-validate": "^5.0.2",
     "zlib-sync": "^0.1.7"
   }
