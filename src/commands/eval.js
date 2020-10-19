@@ -10,7 +10,7 @@ module.exports = {
   allowInCountingChannel: true
 }
 
-module.exports.run = async function(message, args, gdb, { content }) {
+module.exports.run = async (message, args, gdb, { content }) => {
   try {
     let evaled = eval(content);
     if (typeof evaled != "string") evaled = require("util").inspect(evaled);
