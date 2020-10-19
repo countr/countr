@@ -1,7 +1,7 @@
 const config = require("../../config.json")
 
 // load other files
-module.exports = Object.assign({}, Object.assign(require("./resolvers.js"), require("./time.js")))
+module.exports = Object.assign({}, require("./resolvers.js"), require("./time.js"))
 
 // general information
 module.exports.embedColor = 0xBD4632;

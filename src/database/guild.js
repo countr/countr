@@ -71,7 +71,8 @@ module.exports = (client) => (async guildid => {
     },
     reset: () => {
       let guildCache = dbCache.get(guildid);
-      for (const key in guildObject) guildCache[key] = guildObject[key];
+      Object.assign(guildCache, guildObject);
+      guildCache.guildid = guildid;
 
       save(guildid, Object.keys(guildObject))
     },
