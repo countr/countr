@@ -12,6 +12,18 @@ module.exports.propertyTypes = {
     "convert": parseInt,
     "format": async n => n
   },
+  "regex": {
+    "short": "Regex",
+    "convert": async regex => {
+      try {
+        new RegExp(regex);
+        return regex;
+      } catch(e) {
+        return false;
+      }
+    },
+    "format": async regex => regex
+  },
   "role": {
     "short": "Role",
     "convert": async (search, { guild }) => {
@@ -60,6 +72,14 @@ module.exports.flow = {
         module.exports.propertyTypes.numberX
       ],
       "explanation": "When someone gets a score of {0}"
+    },
+    "regex": {
+      "short": "Regex match",
+      "long": "This will get triggered when a count matches a regex.",
+      "properties": [
+        module.exports.propertyTypes.regex
+      ],
+      "explanation": "When a message matches the regex `{0}`"
     }
   },
   actions: {
