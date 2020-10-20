@@ -67,6 +67,12 @@ module.exports.run = async (message, args, gdb) => {
       actions: Array(limitActions).fill(null) // { type, data }
     },
     generateEmbed = async () => ({
+      title: "Creating a new flow",
+      description: [
+        "Welcome to the flow creator! I will guide you through the process of creating a new flow. This can be tedious sometimes, but you can customize it completely. Basically, a trigger is something that will activate and run this flow. An action is something the flow will do once it's triggered.",
+        "Get started by creating a trigger with the command `edit trigger 1`, and also create an action with `edit action 1`.",
+        `You can have ${limitTriggers == 1 ? `1 trigger` : `${limitTriggers} triggers`} and ${limitActions == 1 ? `1 action` : `${limitActions} actions`} per flow.`
+      ].join("\n\n"),
       color: config.color,
       timestamp: Date.now(),
       footer: {
@@ -75,12 +81,23 @@ module.exports.run = async (message, args, gdb) => {
       },
       fields: [
         {
-          name: "Triggers",
-          value: await Promise.all(newFlow.triggers.map(async (trigger, index) => `${index + 1} - ${trigger ? await formatExplanation(trigger) : "**Empty**"}`))
+          name: "Flow Commands",
+          value: [
+            "• `edit <trigger or action> <slot>`: Edit a trigger or action.",
+            "• `finish`: Finish the flow and save it.",
+            "• `cancel`: Cancel the creation without saving.",
+            "**The commands does not require the bot prefix, just simply write it in chat.**"
+          ].join("\n")
         },
         {
-          name: "Actions",
-          value: await Promise.all(newFlow.actions.map(async (action, index) => `${index + 1} - ${action ? await formatExplanation(action) : "**Empty**"}`))
+          name: "Current Flow Actions",
+          value: await Promise.all(newFlow.actions.map(async (action, index) => `${index + 1} - ${action ? await formatExplanation(action) : "**Empty**"}`)),
+          inline: true
+        },
+        {
+          name: "Current Flow Triggers",
+          value: await Promise.all(newFlow.triggers.map(async (trigger, index) => `${index + 1} - ${trigger ? await formatExplanation(trigger) : "**Empty**"}`)),
+          inline: true
         }
       ]
     }),
@@ -92,32 +109,36 @@ module.exports.run = async (message, args, gdb) => {
   while (editing) {
     try {
       pinned.edit({ embed: await generateEmbed() })
-      const inputs = channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 1800000, errors: [ 'time' ]}), input = inputs.first(), messagesToDelete = [ input ];
+      const inputs = await channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 1800000, errors: [ 'time' ]}), input = inputs.first(), messagesToDelete = [ input ];
 
-      const args = input.split(" "), command = args.shift();
+      const args = input.content.split(" "), command = args.shift();
 
-      if (command == "edit" && !args[1] || !["trigger", "action"].includes(args[0]) || !parseInt(args[1])) {
+      if (command == "edit" && ["trigger", "action"].includes(args[0]) && parseInt(args[1])) {
         const i = parseInt(args[1])
         if (args[0] == "trigger") {
           
-        } else {
-
+        } else { // action
+          message.channel.send({
+            embed: {
+              title: `Editing Action ${i}`,
+              description: [
+                "ooga" // todo for tomorrow
+              ]
+            }
+          })
         }
       }
       else if (command == "finish") {
         editing = false;
         successStatus = true;
 
-        gdb.createFlow(flowID, newFlow)
+        // gdb.createFlow(flowID, newFlow)
       }
-      else if (command == "cancel") {
-        editing = false;
-        successStatus = "cancelled";
-      }
+      else if (command == "cancel") editing = false;
       else if (command == "help") messagesToDelete.push(await channel.send(`🔗 Check the pinned message for help! ${pinned.url}`));
       else messagesToDelete.push(await channel.send(`❌ Invalid request. See the pinned message for more information!`))
 
-      if (!["finish", "cancel"].includes(command)) setTimeout(() => channel.bulkDelete(messagesToDelete), 15000)
+      if (!["finish", "cancel"].includes(command)) setTimeout(() => channel.bulkDelete(messagesToDelete), 5000)
     } catch(e) {
       editing = false;
       console.log(e)
@@ -126,7 +147,7 @@ module.exports.run = async (message, args, gdb) => {
 
   channel.delete();
   console.log(newFlow);
-  if (success) status.edit(`✅ Flow \`${flowID}\` has been created.`);
+  if (successStatus) status.edit(`✅ Flow \`${flowID}\` has been created.`);
   else status.edit(`✴️ Flow creation has been cancelled.`);
 }
 
