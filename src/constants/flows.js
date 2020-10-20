@@ -1,5 +1,11 @@
 const { getRole, getChannel } = require("./resolvers.js")
 
+module.exports = {
+  limitTriggers: 1,
+  limitActions: 3,
+  limitFlows: 5
+}
+
 module.exports.propertyTypes = {
   "numberX": {
     "short": "Number (X)",

@@ -1,11 +1,10 @@
 const config = require("../../config.json")
 
-// load other files
-module.exports = Object.assign({}, require("./flows.js"), require("./resolvers.js"), require("./time.js"))
-
-// general information
-module.exports.embedColor = 0xBD4632;
-module.exports.hexColor = "BD4632";
+// load other files, and also general information
+module.exports = Object.assign({
+  embedColor: 0xBD4632,
+  hexColor: "BD4632"
+}, require("./flows.js"), require("./resolvers.js"), require("./time.js"))
 
 // permission calculator
 module.exports.getPermissionLevel = member => {
