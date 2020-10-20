@@ -9,7 +9,7 @@ const guildObject = {
   user: "", // the current count's user
   modules: [], // the guild's modules
   notifications: {}, // the guild's users' notifications
-  flows: [],
+  flows: {}, // the guild's flows
   message: "", // the current count's ID
   prefix: "", // the prefix
   users: {}, // the users' amount of counts
