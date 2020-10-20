@@ -19,7 +19,6 @@ module.exports.run = async (message, args, gdb) => {
     if (!overwrite) return message.channel.send("✴️ New configuration canceled.");
   }
 
-  // check if bot has permissions first!! TODO
   if (!message.guild.me.hasPermission("MANAGE_CHANNELS")) return message.channel.send("❌ The bot is missing the `Manage Channels`-permission. Please fix the issue and retry.")
 
   const newChannel = await message.guild.channels.create("counting", {
