@@ -23,7 +23,7 @@ module.exports = {
   checkArgs: (args) => !args.length
 }
 
-const { limitTriggers, limitActions, limitFlows, generateID, propertyTypes, flow } = require("../constants/index.js"), config = require("../../config.json");
+const { limitTriggers, limitActions, limitFlows, generateID, propertyTypes, flow } = require("../constants/index.js"), config = require("../../config.json"), allActions = Object.values(flow.actions), allTriggers = Object.values(flow.triggers);
 
 module.exports.run = async (message, args, gdb) => {
   let { flows } = gdb.get();
@@ -83,10 +83,10 @@ module.exports.run = async (message, args, gdb) => {
         {
           name: "Flow Commands",
           value: [
-            "• `edit <trigger or action> <slot>`: Edit a trigger or action.",
+            "• `edit <trigger or action> <slot>`: Edit a trigger or action's slot.",
             "• `finish`: Finish the flow and save it.",
             "• `cancel`: Cancel the creation without saving.",
-            "**The commands does not require the bot prefix, just simply write it in chat.**"
+            "**The commands does not require the bot prefix, just simply write it in the channel.** Also notice that normal bot commands have been disabled in this channel."
           ].join("\n")
         },
         {
@@ -108,28 +108,47 @@ module.exports.run = async (message, args, gdb) => {
   let editing = true, successStatus = false;
   while (editing) {
     try {
-      pinned.edit({ embed: await generateEmbed() })
+      pinned.edit('', { embed: await generateEmbed() })
       const inputs = await channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 1800000, errors: [ 'time' ]}), input = inputs.first(), messagesToDelete = [ input ];
 
       const args = input.content.split(" "), command = args.shift();
 
       if (command == "edit" && ["trigger", "action"].includes(args[0]) && parseInt(args[1])) {
-        const i = parseInt(args[1])
+        const slot = parseInt(args[1])
         if (args[0] == "trigger") {
-          
+          if (slot > limitTriggers) messagesToDelete.push(await channel.send(`❌ You can not blabla`)) // todo
+          else {
+          }
         } else { // action
-          if (i > limitActions) messagesToDelete.push(await channel.send(`❌ You can not blabla`))
+          if (slot > limitActions) messagesToDelete.push(await channel.send(`❌ You can not blabla`)) // todo
           else {
             messagesToDelete.push(await channel.send({
               embed: {
-                title: `Editing Action ${i}`,
-                description: [
-                  "ooga" // todo for tomorrow
-                ].join("\n"),
+                title: `Select Action for Slot ${slot}`,
+                description: allActions.map((action, index) => `${index + 1} - **${action.short}**${action.long ? `\n${action.long}` : ''}`).join("\n\n"),
                 color: config.color,
                 timestamp: Date.now()
               }
             }));
+            const selections = await channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 1800000, errors: [ 'time' ]}), selection = selections.first();
+            messagesToDelete.push(selection);
+            const newActionIndex = parseInt(selection.content);
+            if (!newActionIndex || newActionIndex > Object.keys(flow.actions).length) messagesToDelete.push(await channel.send(`✴️ Invalid action. Cancelled.`));
+            else {
+              let action = allActions[newActionIndex - 1];
+              for (const property of action.properties) {
+                messagesToDelete.push(await channel.send({
+                  embed: {
+                    title: `Define ${property.short}`,
+                    description: property.help || undefined,
+                    color: config.color,
+                    timestamp: Date.now()
+                  }
+                }))
+                const values = await channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 1800000, errors: [ 'time' ]}), value = values.first();
+                
+              }
+            }
           }
         }
       }

@@ -9,11 +9,12 @@ module.exports = {
 module.exports.propertyTypes = {
   "numberX": {
     "short": "Number (X)",
-    "convert": parseInt,
-    "format": async n => n
+    "help": "This can be any positive number.",
+    "convert": parseInt
   },
   "regex": {
     "short": "Regex",
+    "help": "Get help on how to create a regex here: oogabooga.com", // todo
     "convert": async regex => {
       try {
         new RegExp(regex);
@@ -21,11 +22,11 @@ module.exports.propertyTypes = {
       } catch(e) {
         return false;
       }
-    },
-    "format": async regex => regex
+    }
   },
   "role": {
     "short": "Role",
+    "help": "Any role. Make sure the role is below Countr's highest role.",
     "convert": async (search, { guild }) => {
       const result = await getRole(search, guild);
       if (result) return result.id; else return null;
@@ -34,6 +35,7 @@ module.exports.propertyTypes = {
   },
   "channel": {
     "short": "Channel",
+    "help": "Any channel. Make sure Countr has access to the channel, and that it is a text based channel. (news channels also work)",
     "convert": async (search, { guild }) => {
       const result = await getChannel(search, guild);
       if (result) return result.id; else return null;
@@ -42,8 +44,7 @@ module.exports.propertyTypes = {
   },
   "text": {
     "short": "Text",
-    "convert": async m => m,
-    "format": async text => text
+    "help": "Any text. Get creative with these placeholders: " // todo
   }
 };
 
@@ -116,12 +117,19 @@ module.exports.flow = {
       "long": "This will send a message in a channel (it doesn't have to be the counting channel!)",
       "properties": [
         module.exports.propertyTypes.channel,
-        module.exports.propertyTypes.message
+        module.exports.propertyTypes.text
       ],
       "explanation": "Send a message in {0}: ```{1}```"
     }
   }
 }
+
+for (const i in module.exports.propertyTypes) module.exports.propertyTypes[i] = Object.assign({
+  "short": "N/A",
+  "help": null,
+  "convert": async any => any,
+  "format": async any => any
+}, module.exports.propertyTypes[i])
 
 for (const i in module.exports.flow.triggers) module.exports.flow.triggers[i] = Object.assign({
   "short": "N/A",
