@@ -118,14 +118,19 @@ module.exports.run = async (message, args, gdb) => {
         if (args[0] == "trigger") {
           
         } else { // action
-          message.channel.send({
-            embed: {
-              title: `Editing Action ${i}`,
-              description: [
-                "ooga" // todo for tomorrow
-              ]
-            }
-          })
+          if (i > limitActions) messagesToDelete.push(await channel.send(`❌ You can not blabla`))
+          else {
+            messagesToDelete.push(await channel.send({
+              embed: {
+                title: `Editing Action ${i}`,
+                description: [
+                  "ooga" // todo for tomorrow
+                ].join("\n"),
+                color: config.color,
+                timestamp: Date.now()
+              }
+            }));
+          }
         }
       }
       else if (command == "finish") {
