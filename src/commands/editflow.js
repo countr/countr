@@ -72,12 +72,12 @@ module.exports.run = async (message, [ flowID ], gdb) => {
         },
         {
           name: "Current Flow Actions",
-          value: await Promise.all(newFlow.actions.map(async (action, index) => `${index + 1} - ${action ? `${await formatExplanation(action)}` : "**Empty**"}`)),
+          value: await Promise.all(newFlow.actions.slice(0, limitActions).map(async (action, index) => `${index + 1} - ${action ? `${await formatExplanation(action)}` : "**Empty**"}`)),
           inline: true
         },
         {
           name: "Current Flow Triggers",
-          value: await Promise.all(newFlow.triggers.map(async (trigger, index) => `${index + 1} - ${trigger ? `${await formatExplanation(trigger)}` : "**Empty**"}`)),
+          value: await Promise.all(newFlow.triggers.slice(0, limitTriggers).map(async (trigger, index) => `${index + 1} - ${trigger ? `${await formatExplanation(trigger)}` : "**Empty**"}`)),
           inline: true
         }
       ]
