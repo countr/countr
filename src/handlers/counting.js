@@ -1,9 +1,6 @@
 const { getPermissionLevel } = require("../constants");
 
 module.exports = async (message, gdb) => {
-  if (message.partial && !message.member) message = await message.fetch();
-  if (message.member.partial) message.member = await message.member.fetch(); 
-
   const permissionLevel = getPermissionLevel(message.member);
 
   if (message.content.startsWith("!") && permissionLevel >= 1) return;
