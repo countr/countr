@@ -170,9 +170,8 @@ module.exports.flowWalkthrough = async (guild, author, flowID, channel, newFlow,
       if (command == "edit" && ["trigger", "action"].includes(args[0]) && parseInt(args[1])) {
         const slot = parseInt(args[1])
         if (args[0] == "trigger") {
-          if (slot > module.exports.limitTriggers) messagesToDelete.push(await channel.send(`❌ You can only have ${module.exports.limitTriggers == 1 ? `1 trigger` : `${module.exports.limitTriggers} triggers`} and ${module.exports.limitActions == 1 ? `1 action` : `${module.exports.limitActions} actions`} per flow.`))
+          if (slot > module.exports.limitTriggers) messagesToDelete.push(await channel.send(`❌ You can only have ${module.exports.limitTriggers == 1 ? `1 trigger` : `${module.exports.limitTriggers} triggers`} per flow.`))
           else {
-            if (slot > module.exports.limitTriggers) messagesToDelete.push(await channel.send(`❌ You can only have ${module.exports.limitTriggers == 1 ? `1 trigger` : `${module.exports.limitTriggers} triggers`} and ${module.exports.limitActions == 1 ? `1 action` : `${module.exports.limitActions} actions`} per flow.`))
             messagesToDelete.push(await channel.send({
               embed: {
                 title: `📝 Select Trigger for Slot ${slot}`,
@@ -245,7 +244,7 @@ module.exports.flowWalkthrough = async (guild, author, flowID, channel, newFlow,
             }
           }
         } else { // action
-          if (slot > module.exports.limitActions) messagesToDelete.push(await channel.send(`❌ You can not blabla`)) // todo
+          if (slot > module.exports.limitActions) messagesToDelete.push(await channel.send(`❌ You can only have ${module.exports.limitActions == 1 ? `1 action` : `${module.exports.limitActions} actions`} per flow.`))
           else {
             messagesToDelete.push(await channel.send({
               embed: {
