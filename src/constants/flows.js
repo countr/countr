@@ -10,7 +10,7 @@ module.exports.propertyTypes = {
   "numberX": {
     "short": "Number (X)",
     "help": "This can be any positive number.",
-    "convert": parseInt
+    "convert": async num => parseInt(num)
   },
   "regex": {
     "short": "Regex",
@@ -31,7 +31,7 @@ module.exports.propertyTypes = {
       const result = await getRole(search, guild);
       if (result) return result.id; else return null;
     },
-    "format": async roleid => `<&${roleid}>`
+    "format": async roleid => `<@&${roleid}>`
   },
   "channel": {
     "short": "Channel",
@@ -47,6 +47,13 @@ module.exports.propertyTypes = {
     "help": "Any text. Get creative with these placeholders: " // todo
   }
 };
+
+for (const i in module.exports.propertyTypes) module.exports.propertyTypes[i] = Object.assign({
+  "short": "N/A",
+  "help": null,
+  "convert": async any => any,
+  "format": async any => any
+}, module.exports.propertyTypes[i])
 
 module.exports.flow = {
   triggers: {
@@ -123,13 +130,6 @@ module.exports.flow = {
     }
   }
 }
-
-for (const i in module.exports.propertyTypes) module.exports.propertyTypes[i] = Object.assign({
-  "short": "N/A",
-  "help": null,
-  "convert": async any => any,
-  "format": async any => any
-}, module.exports.propertyTypes[i])
 
 for (const i in module.exports.flow.triggers) module.exports.flow.triggers[i] = Object.assign({
   "short": "N/A",

@@ -59,7 +59,7 @@ client.on("message", async message => {
     !message.guild || // dms
     !disabledGuilds ||
     disabledGuilds.has(message.guild.id) ||
-    message.channel.name == "new-countr-flow" // ignore flow channels
+    message.channel.name == "countr-flow-editor" // ignore flow channels
   ) return;
 
   // since we opt in for partials, we need to add these checks. It shouldn't need this in v12 anymore, but it's always good to be sure.
