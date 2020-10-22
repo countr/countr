@@ -27,7 +27,7 @@ const { limitTriggers, limitActions, limitFlows, generateID, propertyTypes, flow
 
 module.exports.run = async (message, args, gdb) => {
   let { flows } = gdb.get();
-  if (flows.length >= limitFlows) return message.channel.send(`❌ You can only have ${limitFlows} flows at once.`)
+  if (Object.keys(flows).length >= limitFlows) return message.channel.send(`❌ You can only have ${limitFlows} flows configured.`)
 
   if (!message.guild.me.hasPermission("MANAGE_CHANNELS")) return message.channel.send("❌ The bot is missing the `Manage Channels`-permission. When creating a flow, the bot will create a new channel so you can configure your flow.")
 
@@ -109,7 +109,6 @@ module.exports.run = async (message, args, gdb) => {
   while (editing) {
     try {
       pinned.edit('', { embed: await generateEmbed() })
-      console.log(newFlow)
       const inputs = await channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 1800000, errors: [ 'time' ]}), input = inputs.first(), messagesToDelete = [ input ];
 
       const args = input.content.split(" "), command = args.shift();
@@ -117,9 +116,9 @@ module.exports.run = async (message, args, gdb) => {
       if (command == "edit" && ["trigger", "action"].includes(args[0]) && parseInt(args[1])) {
         const slot = parseInt(args[1])
         if (args[0] == "trigger") {
-          if (slot > limitTriggers) messagesToDelete.push(await channel.send(`❌ You can not blabla`)) // todo
+          if (slot > limitTriggers) messagesToDelete.push(await channel.send(`❌ You can only have ${limitTriggers == 1 ? `1 trigger` : `${limitTriggers} triggers`} and ${limitActions == 1 ? `1 action` : `${limitActions} actions`} per flow.`))
           else {
-            if (slot > limitTriggers) messagesToDelete.push(await channel.send(`❌ You can not blabla`)) // todo
+            if (slot > limitTriggers) messagesToDelete.push(await channel.send(`❌ You can only have ${limitTriggers == 1 ? `1 trigger` : `${limitTriggers} triggers`} and ${limitActions == 1 ? `1 action` : `${limitActions} actions`} per flow.`))
             messagesToDelete.push(await channel.send({
               embed: {
                 title: `📝 Select Trigger for Slot ${slot}`,
