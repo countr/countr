@@ -175,7 +175,7 @@ module.exports.flowWalkthrough = async (guild, author, flowID, channel, newFlow,
             messagesToDelete.push(await channel.send({
               embed: {
                 title: `📝 Select Trigger for Slot ${slot}`,
-                description: allTriggers.map((trigger, index) => `${index + 1} - **${trigger.short}**${trigger.long ? `\n${trigger.long}` : ''}`).join("\n\n"),
+                description: "0 - **Clear/Empty**\n\n" + allTriggers.map((trigger, index) => `${index + 1} - **${trigger.short}**${trigger.long ? `\n${trigger.long}` : ''}`).join("\n\n"),
                 color: config.color,
                 timestamp: Date.now()
               }
@@ -183,7 +183,14 @@ module.exports.flowWalkthrough = async (guild, author, flowID, channel, newFlow,
             const selections = await channel.awaitMessages(m => m.author.id == author.id, { max: 1, time: 1800000, errors: [ 'time' ]}), selection = selections.first(), newTriggerIndex = parseInt(selection.content);
             messagesToDelete.push(selection);
             if (newTriggerIndex == 0) {
-              // todo  
+              newFlow.triggers[slot - 1] = null;
+              messagesToDelete.push(await channel.send({
+                embed: {
+                  title: `✅ Trigger ${slot} is now cleared!`,
+                  color: config.color,
+                  timestamp: Date.now()
+                }
+              }))
             }
             else if (!newTriggerIndex || newTriggerIndex > allTriggerTypes.length) messagesToDelete.push(await channel.send(`✴️ Invalid trigger. Cancelled.`));
             else {
@@ -252,14 +259,24 @@ module.exports.flowWalkthrough = async (guild, author, flowID, channel, newFlow,
             messagesToDelete.push(await channel.send({
               embed: {
                 title: `📝 Select Action for Slot ${slot}`,
-                description: allActions.map((action, index) => `${index + 1} - **${action.short}**${action.long ? `\n${action.long}` : ''}`).join("\n\n"),
+                description: "0 - **Clear/Empty**\n\n" + allActions.map((action, index) => `${index + 1} - **${action.short}**${action.long ? `\n${action.long}` : ''}`).join("\n\n"),
                 color: config.color,
                 timestamp: Date.now()
               }
             }));
             const selections = await channel.awaitMessages(m => m.author.id == author.id, { max: 1, time: 1800000, errors: [ 'time' ]}), selection = selections.first(), newActionIndex = parseInt(selection.content);
             messagesToDelete.push(selection);
-            if (!newActionIndex || newActionIndex > allActionTypes.length) messagesToDelete.push(await channel.send(`✴️ Invalid action. Cancelled.`));
+            if (newActionIndex == 0) {
+              newFlow.actions[slot - 1] = null;
+              messagesToDelete.push(await channel.send({
+                embed: {
+                  title: `✅ Action ${slot} is now cleared!`,
+                  color: config.color,
+                  timestamp: Date.now()
+                }
+              }))
+            }
+            else if (!newActionIndex || newActionIndex > allActionTypes.length) messagesToDelete.push(await channel.send(`✴️ Invalid action. Cancelled.`));
             else {
               let action = allActions[newActionIndex - 1], newAction = {
                 "type": allActionTypes[newActionIndex - 1],
