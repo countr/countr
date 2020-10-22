@@ -25,7 +25,7 @@ module.exports = {
 
 const { limitTriggers, limitActions, limitFlows, generateID, flow } = require("../constants/index.js"), config = require("../../config.json"), allActionTypes = Object.keys(flow.actions), allActions = Object.values(flow.actions), allTriggerTypes = Object.keys(flow.triggers), allTriggers = Object.values(flow.triggers);
 
-module.exports.run = async (message, args, gdb) => {
+module.exports.run = async (message, [], gdb) => {
   let { flows } = gdb.get();
   if (Object.keys(flows).length >= limitFlows) return message.channel.send(`❌ You can only have ${limitFlows} flows configured.`)
 

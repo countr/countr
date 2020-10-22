@@ -7,7 +7,7 @@ module.exports = {
   checkArgs: (args) => !args.length
 }
 
-module.exports.run = async (message, args, gdb) => {
+module.exports.run = async (message, [], gdb) => {
   const { channel } = gdb.get();
   if (channel) {
     const overwrite = await new Promise(resolve => {

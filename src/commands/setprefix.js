@@ -14,7 +14,7 @@ module.exports = {
 
 const config = require("../../config.json")
 
-module.exports.run = async (message, args, gdb, { content }) => {
+module.exports.run = async (message, [], gdb, { content }) => {
   gdb.set("prefix", content)
   if (!content) return message.channel.send(`✅ The prefix has been reset to the usual: \`${config.prefix}\``)
   else return message.channel.send(`✅ The prefix has been set to \`${content}\``)

@@ -13,7 +13,7 @@ module.exports = {
 
 const fs = require("fs"), config = require("../../config.json");
 
-module.exports.run = async (message, args, gdb, { prefix, permissionLevel, content: searchQuery }) => {
+module.exports.run = async (message, [], gdb, { prefix, permissionLevel, content: searchQuery }) => {
   if (!searchQuery) return message.channel.send({
     embed: {
       title: `${message.client.user.username} Help`,
