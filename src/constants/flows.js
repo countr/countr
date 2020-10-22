@@ -182,7 +182,10 @@ module.exports.flowWalkthrough = async (guild, author, flowID, channel, newFlow,
             }));
             const selections = await channel.awaitMessages(m => m.author.id == author.id, { max: 1, time: 1800000, errors: [ 'time' ]}), selection = selections.first(), newTriggerIndex = parseInt(selection.content);
             messagesToDelete.push(selection);
-            if (!newTriggerIndex || newTriggerIndex > allTriggerTypes.length) messagesToDelete.push(await channel.send(`✴️ Invalid trigger. Cancelled.`));
+            if (newTriggerIndex == 0) {
+              // todo  
+            }
+            else if (!newTriggerIndex || newTriggerIndex > allTriggerTypes.length) messagesToDelete.push(await channel.send(`✴️ Invalid trigger. Cancelled.`));
             else {
               let trigger = allTriggers[newTriggerIndex - 1], newTrigger = {
                 "type": allTriggerTypes[newTriggerIndex - 1],
