@@ -10,13 +10,13 @@ module.exports = {
   }
 }
 
-module.exports.run = async function(client, message, args, gdb, strings, { db }) {
-  const id = permissionLevel >= 4 ? args[0] || message.channel.id : message.channel.id, guilddb = db.guild(id);
+module.exports.run = async (message, [ id = message.guild.id ], gdb, { db }) => {
+  const guilddb = await db.guild(id);
 
   return message.author.send(`Database information for guild ${id}`, {
     files: [
       {
-        attachment: Buffer.from(JSON.stringify(await guilddb.get(), null, 2)),
+        attachment: Buffer.from(JSON.stringify(guilddb.get(), null, 2)),
         name: `${id}.${Date.now()}.json`
       }
     ]
