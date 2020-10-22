@@ -59,7 +59,8 @@ client.on("message", async message => {
     !message.guild || // dms
     !disabledGuilds ||
     disabledGuilds.has(message.guild.id) ||
-    message.channel.name == "countr-flow-editor" // ignore flow channels
+    message.channel.name == "countr-flow-editor" || // ignore flow channels
+    message.author.bot
   ) return;
 
   const gdb = await db.guild(message.guild.id);
