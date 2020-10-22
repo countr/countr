@@ -158,7 +158,7 @@ const
   allTriggers = Object.values(module.exports.flow.triggers),
   config = require("../../config.json")
 
-module.exports.flowWalkthrough = async (guild, author, flowID, channel, newFlow, generateEmbed, pinned) => {
+module.exports.flowWalkthrough = async (guild, author, channel, newFlow, generateEmbed, pinned) => {
   let editing = true, successStatus = false;
   while (editing) {
     try {

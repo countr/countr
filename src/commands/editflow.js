@@ -85,7 +85,7 @@ module.exports.run = async (message, [ flowID ], gdb) => {
     pinned = await channel.send("Loading ...")
 
   await pinned.pin();
-  const success = await flowWalkthrough(message.guild, message.author, flowID, channel, newFlow, generateEmbed, pinned)
+  const success = await flowWalkthrough(message.guild, message.author, channel, newFlow, generateEmbed, pinned)
 
   channel.delete();
   gdb.editFlow(flowID, newFlow);
