@@ -10,7 +10,7 @@ module.exports.propertyTypes = {
   "numberX": {
     "short": "Number (X)",
     "help": "This can be any positive number.",
-    "convert": async num => parseInt(num)
+    "convert": async num => parseInt(num) || null
   },
   "regex": {
     "short": "Regex",
