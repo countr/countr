@@ -23,7 +23,7 @@ module.exports = {
   checkArgs: (args) => !args.length
 }
 
-const { limitTriggers, limitActions, limitFlows, generateID, propertyTypes, flow } = require("../constants/index.js"), config = require("../../config.json"), allActionTypes = Object.keys(flow.actions), allActions = Object.values(flow.actions), allTriggerTypes = Object.keys(flow.triggers), allTriggers = Object.values(flow.triggers);
+const { limitTriggers, limitActions, limitFlows, generateID, flow } = require("../constants/index.js"), config = require("../../config.json"), allActionTypes = Object.keys(flow.actions), allActions = Object.values(flow.actions), allTriggerTypes = Object.keys(flow.triggers), allTriggers = Object.values(flow.triggers);
 
 module.exports.run = async (message, args, gdb) => {
   let { flows } = gdb.get();

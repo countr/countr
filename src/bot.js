@@ -62,12 +62,6 @@ client.on("message", async message => {
     message.channel.name == "countr-flow-editor" // ignore flow channels
   ) return;
 
-  // since we opt in for partials, we need to add these checks. It shouldn't need this in v12 anymore, but it's always good to be sure.
-  if (message.partial && (!message.author || !message.channel || !message.content)) message = await message.fetch();
-  if (message.author.partial && !message.author.bot) message.author = await message.author.fetch();
-  if (message.author.bot) return; // we don't allow bots
-  if (message.channel.partial && !message.channel.id) message.channel = await message.channel.fetch();
-
   const gdb = await db.guild(message.guild.id);
   let { channel, prefix } = gdb.get();
   if (!prefix.length) prefix = config.prefix;
