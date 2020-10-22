@@ -23,7 +23,7 @@ module.exports = {
   checkArgs: (args) => !args.length
 }
 
-const { flowWalkthrough, formatExplanation, limitTriggers, limitActions, limitFlows, generateID, flow } = require("../constants/index.js"), config = require("../../config.json");
+const { flowWalkthrough, formatExplanation, limitTriggers, limitActions, limitFlows, generateID } = require("../constants/index.js"), config = require("../../config.json");
 
 module.exports.run = async (message, [], gdb) => {
   let { flows } = gdb.get();
