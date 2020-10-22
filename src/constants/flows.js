@@ -185,6 +185,10 @@ const
   config = require("../../config.json")
 
 module.exports.flowWalkthrough = async (guild, author, channel, newFlow, generateEmbed, pinned) => {
+  // add slots to fill it up when editing
+  while (newFlow.triggers.length < module.exports.limitTriggers) newFlow.triggers.push(null);
+  while (newFlow.actions.length < module.exports.limitActions) newFlow.actions.push(null);
+
   let editing = true, successStatus = false;
   while (editing) {
     try {
