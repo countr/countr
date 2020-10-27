@@ -4,7 +4,7 @@ const
   config = require("../config.json"),
   commandHandler = require("./handlers/commands.js"),
   countingHandler = require("./handlers/counting.js"),
-  prepareGuildHandler = require("./handlers/prepareGuilds.js"),
+  prepareGuild = require("./handlers/prepareGuilds.js"),
   client = new Discord.Client({
     messageCacheLifetime: 30,
     messageSweepInterval: 60,
@@ -30,9 +30,22 @@ client.once("shardReady", async (shardid, unavailable = new Set()) => {
   console.log(shard, `Ready as ${client.user.tag}!`)
 
   // process guilds
-  disabledGuilds = new Set([...client.guilds.cache.map(guild => guild.id), ...unavailable]);
-  await prepareGuildHandler(disabledGuilds, client, db, shard);
-  disabledGuilds = new Set();
+  disabledGuilds = new Set([...Array.from(unavailable), ...client.guilds.cache.map(guild => guild.id)]);
+  let startTimestamp = Date.now(), completed = 0, presenceInterval = setInterval(() => client.user.setPresence({
+    status: "idle",
+    activity: {
+      type: "WATCHING",
+      name: `the loading screen (${Math.round((completed / client.guilds.cache.size) * 100)}%)`
+    }
+  }), 1000)
+  await Promise.all(client.guilds.cache.map(async guild => {
+    await prepareGuild(guild, db);
+    disabledGuilds.delete(guild.id)
+    completed++;
+  }));
+  clearInterval(presenceInterval)
+  console.log(shard, `All ${client.guilds.cache.size} available guilds have been processed and is now ready! [${Date.now() - startTimestamp}ms]`)
+  disabledGuilds = false
 
   // update presence
   updatePresence();
@@ -40,7 +53,7 @@ client.once("shardReady", async (shardid, unavailable = new Set()) => {
 })
 
 async function updatePresence() {
-  let name = `${config.prefix}help • ${await db.global.getCount()} counts this week!`, guild = client.guilds.cache.get(config.mainGuild);
+  let name = `${config.prefix}help • ${(await db.global.getCount()).toLocaleString('en-US')} counts this week!`, guild = client.guilds.cache.get(config.mainGuild);
   if (guild) {
     const gdb = await db.guild(guild.id), { channel, count } = gdb.get();
     name = `#${guild.channels.cache.get(channel).name} • ${count}`
@@ -57,8 +70,11 @@ async function updatePresence() {
 client.on("message", async message => {
   if (
     !message.guild || // dms
-    !disabledGuilds ||
-    disabledGuilds.has(message.guild.id) ||
+    disabledGuilds == null ||
+    (
+      disabledGuilds &&
+      disabledGuilds.has(message.guild.id)
+    ) ||
     message.channel.name == "countr-flow-editor" || // ignore flow channels
     message.author.bot
   ) return;
