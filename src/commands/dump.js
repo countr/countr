@@ -17,10 +17,10 @@ module.exports.run = async (message, [ id = message.guild.id ], gdb, { db }) => 
     files: [
       {
         attachment: Buffer.from(JSON.stringify(guilddb.get(), null, 2)),
-        name: `${id}.${Date.now()}.json`
+        name: `Countr.${id}.json`
       }
     ]
   })
     .then(m => message.channel.send(`✅ Sent to DMs! [<${m.url}>]`))
-    .catch(() => message.channel.send(`❌ ${strings.privateMessageError}`))
+    .catch(() => message.channel.send("❌ I couldn't send you the file in DMs. Have you enabled DMs in this server?"))
 }
