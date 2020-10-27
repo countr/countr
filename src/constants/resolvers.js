@@ -6,7 +6,6 @@ module.exports.getRole = async (search, guild) =>
   await guild.roles.fetch((search.match(idResolver) || [null])[0]).catch(() => null)
 
 module.exports.getMember = async (search, guild) =>
-  guild.members.cache.find(m => search == m.user.tag) ||
   guild.members.cache.find(m => search.toLowerCase() == m.user.tag.toLowerCase()) ||
   guild.members.cache.find(m => search == m.displayName) ||
   guild.members.cache.find(m => search.toLowerCase() == m.displayName.toLowerCase()) ||
