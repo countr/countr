@@ -16,5 +16,8 @@
     "node-fetch": "^2.6.1",
     "utf-8-validate": "^5.0.2",
     "zlib-sync": "^0.1.7"
+  },
+  "devDependencies": {
+    "eslint": "^7.12.1"
   }
 }
