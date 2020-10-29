@@ -1,4 +1,4 @@
-const { getPermissionLevel, limitFlows, flow: { triggers: allTriggers, actions: allActions }, limitTriggers, limitActions } = require("../constants/index.js");
+const { getPermissionLevel, limitFlows, flow: { triggers: allTriggers, actions: allActions }, limitTriggers, limitActions } = require("../constants/index.js"), config = require("../../config.json");
 
 module.exports = async (message, gdb) => {
   const permissionLevel = getPermissionLevel(message.member);
@@ -8,7 +8,7 @@ module.exports = async (message, gdb) => {
   let { count, user, modules, regex, notifications, flows, users: scores } = gdb.get(), regexMatches = false;
   if (regex.length && permissionLevel == 0)
     for (let r of regex)
-      if ((new RegExp(r, 'g')).test(message.content)) {
+      if ((new RegExp(r, "g")).test(message.content)) {
         regexMatches = true;
         break;
       }
@@ -35,13 +35,13 @@ module.exports = async (message, gdb) => {
       });
       message.delete();
     }
-  } catch(e) {}
+  } catch(e) { /* something went wrong */ }
   else if (modules.includes("reposting")) try {
-    countingMessage = await message.channel.send(`${message.author}: ${message.content}`)
+    countingMessage = await message.channel.send(`${message.author}: ${message.content}`);
     message.delete();
-  } catch(e) {}
+  } catch(e) { /* something went wrong */ }
 
-  gdb.set("message", countingMessage.id)
+  gdb.set("message", countingMessage.id);
 
   for (const notifID in notifications) {
     const notif = notifications[notifID];
@@ -55,34 +55,34 @@ module.exports = async (message, gdb) => {
           embed: {
             description: [
               `🎉 **${message.guild} reached ${count} total counts!**`,
-              `The user who sent it was ${member}.`,
+              `The user who sent it was ${message.author}.`,
               "",
-              `[**→ Click here to jump to the message!**](${countMessage.url})`,
+              `[**→ Click here to jump to the message!**](${countingMessage.url})`,
             ].join("\n"),
             color: config.color,
             timestamp: Date.now(),
             thumbnail: {
-              url: member.user.displayAvatarURL({ dynamic: true, size: 512 })
+              url: message.author.displayAvatarURL({ dynamic: true, size: 512 })
             },
             footer: {
-              text: `Notification ID ${nid}`
+              text: `Notification ID ${notifID}`
             }
           }
-        })
-      } catch(e) {}
+        });
+      } catch(e) { /* something went wrong */ }
       if (notif.mode == "only") {
         delete notifications[notifID];
-        gdb.set("notifications", notifications)
+        gdb.set("notifications", notifications);
       }
     }
   }
 
   // check flows
   const countData = {
-    count,
-    score: (scores[message.author.id] || 0) + 1,
-    message
-  }, flowIDs = Object.keys(flows).slice(0, limitFlows)
+      count,
+      score: (scores[message.author.id] || 0) + 1,
+      message
+    }, flowIDs = Object.keys(flows).slice(0, limitFlows);
   for (const flowID of flowIDs) {
     const flow = flows[flowID]; let success;
     for (const trigger of flow.triggers.slice(0, limitTriggers).filter(t => t)) {
@@ -91,6 +91,6 @@ module.exports = async (message, gdb) => {
     }
     if (success)
       for (const action of flow.actions.slice(0, limitActions).filter(a => a))
-        await allActions[action.type].run(countData, action.data)
+        await allActions[action.type].run(countData, action.data);
   }
-}
+};

@@ -29,23 +29,23 @@ const get = (guildid) => new Promise((resolve, reject) => Guild.findOne({ guildi
     guild = new Guild(Object.assign({}, guildObject));
     guild.guildid = guildid;
   }
-  return resolve(guild)
-}))
+  return resolve(guild);
+}));
 
-const load = (guildid) => new Promise(async (resolve, reject) => {
-  let guild = await get(guildid), guildCache = {}
+const load = async (guildid) => {
+  let guild = await get(guildid), guildCache = {};
   for (const key in guildObject) guildCache[key] = guild[key] || guildObject[key]; // if there's no value stored in the guild database then we use the default value
-  return resolve(dbCache.set(guildid, guildCache))
-});
+  return dbCache.set(guildid, guildCache);
+};
 
 const save = async (guildid, changes) => {
   if (!dbSaveQueue.has(guildid)) {
     dbSaveQueue.set(guildid, changes);
     let guild = await get(guildid), guildCache = dbCache.get(guildid), guildSaveQueue = dbSaveQueue.get(guildid);
     for (const key of guildSaveQueue) guild[key] = guildCache[key];
-    return guild.save().then(() => dbSaveQueue.delete(guildid)).catch(console.log)
-  } else dbSaveQueue.get(guildid).push(...changes)
-}
+    return guild.save().then(() => dbSaveQueue.delete(guildid)).catch(console.log);
+  } else dbSaveQueue.get(guildid).push(...changes);
+};
 
 module.exports = (client) => (async guildid => {
   if (!dbCache.has(guildid)) await load(guildid); // if the guild is unloaded for some reason, we load it
@@ -59,36 +59,36 @@ module.exports = (client) => (async guildid => {
     get: () => Object.assign({}, dbCache.get(guildid)),
     set: (key, value) => {
       dbCache.get(guildid)[key] = value;
-      save(guildid, [ key ])
+      save(guildid, [ key ]);
     },
     setMultiple: (changes) => {
       let guildCache = dbCache.get(guildid);
       Object.assign(guildCache, changes);
 
-      save(guildid, Object.keys(changes))
+      save(guildid, Object.keys(changes));
     },
     addToArray: (array, value) => {
-      dbCache.get(guildid)[array].push(value)
-      save(guildid, [ array ])
+      dbCache.get(guildid)[array].push(value);
+      save(guildid, [ array ]);
     },
     removeFromArray: (array, value) => {
-      dbCache.get(guildid)[array] = dbCache.get(guildid)[array].filter(aValue => aValue !== value)
-      save(guildid, [ array ])
+      dbCache.get(guildid)[array] = dbCache.get(guildid)[array].filter(aValue => aValue !== value);
+      save(guildid, [ array ]);
     },
     setOnObject: (object, key, value) => {
-      dbCache.get(guildid)[object][key] = value
-      save(guildid, [ object ])
+      dbCache.get(guildid)[object][key] = value;
+      save(guildid, [ object ]);
     },
     removeFromObject: (object, key) => {
-      delete dbCache.get(guildid)[object][key]
-      save(guildid, [ object ])
+      delete dbCache.get(guildid)[object][key];
+      save(guildid, [ object ]);
     },
     reset: () => {
       let guildCache = dbCache.get(guildid);
       Object.assign(guildCache, guildObject);
       guildCache.guildid = guildid;
 
-      save(guildid, Object.keys(guildObject))
+      save(guildid, Object.keys(guildObject));
     },
 
     // counting
@@ -103,11 +103,11 @@ module.exports = (client) => (async guildid => {
       let dateFormat = getDateFormatted(new Date());
       if (!guildCache.log[dateFormat]) {
         guildCache.log[dateFormat] = 0;
-        while (Object.keys(guildCache.log).length > 7) delete guildCache.log[Object.keys(guildCache.log)[0]] // delete the oldest log
+        while (Object.keys(guildCache.log).length > 7) delete guildCache.log[Object.keys(guildCache.log)[0]]; // delete the oldest log
       }
       guildCache.log[dateFormat] += 1;
 
-      save(guildid, ["count", "user", "users", "log"])
+      save(guildid, ["count", "user", "users", "log"]);
 
       // checking rolerewards
       for (const rid in guildCache.roles) try {
@@ -120,9 +120,9 @@ module.exports = (client) => (async guildid => {
           if (role.duration == "temporary") guildRole.members.filter(m => m.id !== member.id).forEach(m => m.roles.remove(guildRole, `Role Reward ${rid}`));
           member.addRole(guildRole, `Role Reward ${rid}`);
         }
-      } catch(e) {}
+      } catch(e) { /* something went wrong */ }
 
-      global.addCount()
+      global.addCount();
     },
     afterCount: async (count, member, message) => {
       let guildCache = dbCache.get(guildid), guild = client.guilds.resolve(guildid);
@@ -134,19 +134,19 @@ module.exports = (client) => (async guildid => {
       let pin = Object.values(guildCache.pins).find(pin => (
         pin.mode == "only" && pin.count == count ||
         pin.mode == "each" && pin.count % count == 0
-      ))
+      ));
       if (pin) try {
         let pinned = await message.channel.fetchPinnedMessages().catch(() => ({ size: 0 }));
         if (pinned.size == 50) await pinned.last().unpin().catch();
 
         if (message.author.bot) message.pin(); // already reposted
         else if (pin.action == "repost") {
-          countMessage = await message.channel.send(/*todo*/)
+          countMessage = await message.channel.send(/*todo*/);
           if (guildCache.message == message.id) guildCache.message = countMessage.id;
-          countMessage.pin()
-          message.delete()
+          countMessage.pin();
+          message.delete();
         } else message.pin();
-      } catch(e) {}
+      } catch(e) { /* something went wrong */ }
 
       // checking notifications
       for (const nid in guildCache.notifications) {
@@ -156,7 +156,7 @@ module.exports = (client) => (async guildid => {
           notification.mode == "each" && notification.count % count == 0
         )) {
           try {
-            let notifier = await guild.members.fetch(notification.user)
+            let notifier = await guild.members.fetch(notification.user);
             if (notifier) notifier.send({
               embed: {
                 description: `🎉 ${guild} reached ${count} total counts!\nThe user who sent it was ${member}.\n\n[**→ Click here to jump to the message!**](${countMessage.url})`,
@@ -168,23 +168,23 @@ module.exports = (client) => (async guildid => {
                   text: `Notification ID ${nid}`
                 }
               }
-            }).catch()
-          } catch(e) {}
+            }).catch();
+          } catch(e) { /* something went wrong */ }
           if (notification.mode == "only") delete guildObject.notifications[nid];
         }
       }
 
-      save(guildid, ["message", "notifications"])
+      save(guildid, ["message", "notifications"]);
     },
     
     // flows
     editFlow: async (flowID, newFlow) => {
       dbCache.get(guildid).flows[flowID] = newFlow;
-      await save(guildid, [ "flows" ])
+      await save(guildid, [ "flows" ]);
     },
     deleteFlow: async flowID => {
       delete dbCache.get(guildid).flows[flowID];
-      await save(guildid, [ "flows" ])
+      await save(guildid, [ "flows" ]);
     }
-  }
-})
+  };
+});

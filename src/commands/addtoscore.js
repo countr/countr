@@ -12,7 +12,7 @@ module.exports = {
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: (args) => args.length >= 2,
   allowInCountingChannel: true
-}
+};
 
 const { getMember } = require("../constants/index.js");
 
@@ -33,5 +33,5 @@ module.exports.run = async (message, args, gdb) => {
   gdb.set("users", users);
 
   if (members.length == 1) return message.channel.send(`✅ Score of user \`${members[0].user.tag}\` has been changed.`);
-  else return message.channel.send(`✅ Scores of ${members.map(m => `\`${m.user.tag}\``).join(", ")} (${members.length} total) has been changed.`)
-}
+  else return message.channel.send(`✅ Scores of ${members.map(m => `\`${m.user.tag}\``).join(", ")} (${members.length} total) has been changed.`);
+};

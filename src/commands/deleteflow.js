@@ -8,13 +8,13 @@ module.exports = {
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: (args) => args.length == 1,
   allowInCountingChannel: true
-}
+};
 
 module.exports.run = async (message, [ flowID ], gdb) => {
   const { flows } = gdb.get();
-  if (!flows[flowID]) return message.channel.send(`❌ This flow does not exist.`)
+  if (!flows[flowID]) return message.channel.send("❌ This flow does not exist.");
 
-  gdb.deleteFlow(flowID)
+  gdb.deleteFlow(flowID);
 
-  return message.channel.send(`✅ Flow \`${flowID}\` has been deleted.`)
-}
+  return message.channel.send(`✅ Flow \`${flowID}\` has been deleted.`);
+};

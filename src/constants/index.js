@@ -1,10 +1,10 @@
-const config = require("../../config.json")
+const config = require("../../config.json");
 
 // load other files, and also general information
 module.exports = Object.assign({
   embedColor: 0xBD4632,
   hexColor: "BD4632"
-}, require("./flows.js"), require("./resolvers.js"), require("./time.js"))
+}, require("./flows.js"), require("./resolvers.js"), require("./time.js"));
 
 // permission calculator
 module.exports.getPermissionLevel = member => {
@@ -14,7 +14,7 @@ module.exports.getPermissionLevel = member => {
   if (member.hasPermission("MANAGE_GUILD")) return 2; // server admin
   if (member.hasPermission("MANAGE_MESSAGES")) return 1; // server mod
   return 0; // server member
-}
+};
 
 // filter duplicates
 module.exports.onlyUnique = (value, index, self) => self.indexOf(value) == index;
@@ -28,4 +28,4 @@ module.exports.generateID = (alreadyGenerated) => {
     for (let i = 0; i < 6; i++) id = id + chars[Math.floor(Math.random() * chars.length)];
   }
   return id;
-}
+};

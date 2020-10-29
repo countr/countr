@@ -2,14 +2,14 @@ const mongoose = require("mongoose"), integration = require("./integration.js");
 
 let pendingCounts = 0;
 
-const globalSchema = mongoose.Schema({ counts: 0, week: 0 }, { minimize: false }) 
-const Global = mongoose.model("Global", globalSchema)
+const globalSchema = mongoose.Schema({ counts: 0, week: 0 }, { minimize: false }); 
+const Global = mongoose.model("Global", globalSchema);
 
 setInterval(() => Global.findOne({}, (err, stats) => {
-  if (err) return reject(err);
-  const thisWeek = getWeek(new Date())
+  if (err) return console.warn(err);
+  const thisWeek = getWeek(new Date());
 
-  if (!stats) stats = new Global({ counts: 0, week: thisWeek })
+  if (!stats) stats = new Global({ counts: 0, week: thisWeek });
 
   stats.counts += pendingCounts;
   pendingCounts = 0;
@@ -21,15 +21,15 @@ setInterval(() => Global.findOne({}, (err, stats) => {
   }
 
   stats.save();
-}), 120000)
+}), 120000);
 
 module.exports = {
   addCount: () => pendingCounts++,
   getCount: () => new Promise((resolve, reject) => Global.findOne({}, (err, stats) => {
     if (err) return reject(err);
-    return resolve((stats ? stats.counts : 0) + pendingCounts)
+    return resolve((stats ? stats.counts : 0) + pendingCounts);
   }))
-}
+};
 
 function getWeek(d) { // https://stackoverflow.com/a/6117889
   d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));

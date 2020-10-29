@@ -8,7 +8,7 @@ module.exports = {
     if (permissionLevel < 4 && args.length) return false;
     else return true;
   }
-}
+};
 
 module.exports.run = async (message, [ id = message.guild.id ], gdb, { db }) => {
   const guilddb = await db.guild(id);
@@ -22,5 +22,5 @@ module.exports.run = async (message, [ id = message.guild.id ], gdb, { db }) => 
     ]
   })
     .then(m => message.channel.send(`✅ Sent to DMs! [<${m.url}>]`))
-    .catch(() => message.channel.send("❌ I couldn't send you the file in DMs. Have you enabled DMs in this server?"))
-}
+    .catch(() => message.channel.send("❌ I couldn't send you the file in DMs. Have you enabled DMs in this server?"));
+};

@@ -5,7 +5,7 @@ module.exports = {
   aliases: [ "stats", "botinfo", "botstats" ],
   permissionRequired: 0, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: (args) => !args.length
-}
+};
 
 const os = require("os"), platform = `${os.type()} (${os.release()})`, djsversion = require("../../package.json").dependencies["discord.js"], config = require("../../config.json");
 
@@ -13,24 +13,24 @@ let guilds = 0, users = 0, shardCount = 0, memory = 0, memoryUsage = "0MB", memo
 
 module.exports.run = async message => {
   if (nextUpdate < Date.now()) {
-    nextUpdate = Date.now() 
+    nextUpdate = Date.now(); 
     if (message.client.shard) {
-      guilds = await message.client.shard.broadcastEval('this.guilds.cache.size').then(res => res.reduce((prev, val) => prev + val, 0))
-      users = await message.client.shard.broadcastEval('this.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b)').then(res => res.reduce((prev, val) => prev + val, 0))
-      shardCount = message.client.shard.count
+      guilds = await message.client.shard.broadcastEval("this.guilds.cache.size").then(res => res.reduce((prev, val) => prev + val, 0));
+      users = await message.client.shard.broadcastEval("this.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b)").then(res => res.reduce((prev, val) => prev + val, 0));
+      shardCount = message.client.shard.count;
     } else {
-      guilds = message.client.guilds.size
-      users = message.client.users.size
-      shardCount = 0
+      guilds = message.client.guilds.size;
+      users = message.client.users.size;
+      shardCount = 0;
     }
 
-    memory = process.memoryUsage().heapUsed / (1048576) // 1024*1024
-    if (memory >= 1024) memoryUsage = (memory / 1024).toFixed(2) + "GB"
-    else memoryUsage = memory.toFixed(2) + "MB"
+    memory = process.memoryUsage().heapUsed / (1048576); // 1024*1024
+    if (memory >= 1024) memoryUsage = (memory / 1024).toFixed(2) + "GB";
+    else memoryUsage = memory.toFixed(2) + "MB";
 
-    memoryGlobal = (os.totalmem() - os.freemem()) / (1048576) // 1024*1024
-    if (memoryGlobal >= 1024) memoryUsageGlobal = (memoryGlobal / 1024).toFixed(2) + "GB"
-    else memoryUsageGlobal = memoryGlobal.toFixed(2) + "MB"
+    memoryGlobal = (os.totalmem() - os.freemem()) / (1048576); // 1024*1024
+    if (memoryGlobal >= 1024) memoryUsageGlobal = (memoryGlobal / 1024).toFixed(2) + "GB";
+    else memoryUsageGlobal = memoryGlobal.toFixed(2) + "MB";
   }
 
   message.channel.send({
@@ -83,4 +83,4 @@ module.exports.run = async message => {
       ].filter(f => f.name) // filters out shard field if sharding is disabled
     }
   }).catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
-}
+};

@@ -22,15 +22,15 @@ module.exports = {
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: (args) => !args.length,
   allowInCountingChannel: true
-}
+};
 
 const { flowWalkthrough, formatExplanation, limitTriggers, limitActions, limitFlows, generateID } = require("../constants/index.js"), config = require("../../config.json");
 
-module.exports.run = async (message, [], gdb) => {
+module.exports.run = async (message, _, gdb) => {
   let { flows } = gdb.get();
-  if (Object.keys(flows).length >= limitFlows) return message.channel.send(`❌ You can only have ${limitFlows} flows configured.`)
+  if (Object.keys(flows).length >= limitFlows) return message.channel.send(`❌ You can only have ${limitFlows} flows configured.`);
 
-  if (!message.guild.me.hasPermission("MANAGE_CHANNELS")) return message.channel.send("❌ The bot is missing the `Manage Channels`-permission. When creating a flow, the bot will create a new channel so you can configure your flow.")
+  if (!message.guild.me.hasPermission("MANAGE_CHANNELS")) return message.channel.send("❌ The bot is missing the `Manage Channels`-permission. When creating a flow, the bot will create a new channel so you can configure your flow.");
 
   const
     flowID = generateID(Object.keys(flows)),
@@ -72,7 +72,7 @@ module.exports.run = async (message, [], gdb) => {
       description: [
         "Welcome to the flow creator! I will guide you through the process of creating a new flow. This can be tedious sometimes, but you can customize it completely. Basically, a trigger is something that will activate and run this flow. An action is something the flow will do once it's triggered.",
         "Get started by creating a trigger with the command `edit trigger 1`, and also create an action with `edit action 1`.",
-        `You can have ${limitTriggers == 1 ? `1 trigger` : `${limitTriggers} triggers`} and ${limitActions == 1 ? `1 action` : `${limitActions} actions`} per flow.`
+        `You can have ${limitTriggers == 1 ? "1 trigger" : `${limitTriggers} triggers`} and ${limitActions == 1 ? "1 action" : `${limitActions} actions`} per flow.`
       ].join("\n\n"),
       color: config.color,
       timestamp: Date.now(),
@@ -102,13 +102,13 @@ module.exports.run = async (message, [], gdb) => {
         }
       ]
     }),
-    pinned = await channel.send("Loading ...")
+    pinned = await channel.send("Loading ...");
 
   await pinned.pin();
-  const success = await flowWalkthrough(message.guild, message.author, channel, newFlow, generateEmbed, pinned)
+  const success = await flowWalkthrough(message.guild, message.author, channel, newFlow, generateEmbed, pinned);
 
   channel.delete();
   if (success) gdb.editFlow(flowID, newFlow) && status.edit(`✅ Flow \`${flowID}\` has been created.`);
-  else status.edit(`✴️ Flow creation has been cancelled.`);
+  else status.edit("✴️ Flow creation has been cancelled.");
   return message;
-}
+};

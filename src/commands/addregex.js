@@ -12,15 +12,15 @@ module.exports = {
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: (args) => !!args.length,
   allowInCountingChannel: true
-}
+};
 
-module.exports.run = async (message, [], gdb, { prefix, content: regex }) => {
-  if (!testRegex(regex)) return message.channel.send(`❌ Invalid regex. For help, type \`${prefix}help addregex\`.`)
+module.exports.run = async (message, _, gdb, { prefix, content: regex }) => {
+  if (!testRegex(regex)) return message.channel.send(`❌ Invalid regex. For help, type \`${prefix}help addregex\`.`);
 
-  gdb.addToArray("regex", regex)
+  gdb.addToArray("regex", regex);
 
-  return message.channel.send(`✅ Regex \`${regex}\` has been added.`)
-}
+  return message.channel.send(`✅ Regex \`${regex}\` has been added.`);
+};
 
 function testRegex(regex) {
   try {

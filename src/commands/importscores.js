@@ -10,7 +10,7 @@ module.exports = {
   aliases: [],
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: (args) => args.length == 1 && ["set", "add"].includes(args[0])
-}
+};
 
 const fetch = require("node-fetch");
 
@@ -39,5 +39,5 @@ module.exports.run = async (message, [ method ], gdb, { prefix }) => {
   
   gdb.set("users", users);
 
-  return message.channel.send(`✅ ${amount == 1 ? `Score of 1 user has` : `Scores of ${amount} users have`} been changed.`)
-}
+  return message.channel.send(`✅ ${amount == 1 ? "Score of 1 user has" : `Scores of ${amount} users have`} been changed.`);
+};

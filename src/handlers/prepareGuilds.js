@@ -19,31 +19,31 @@ module.exports = async (guild, db) => {
 
         let processing = true, fail = false;
         while (processing) {
-          messages = messages.filter(m => m.id !== alert.id)
+          messages = messages.filter(m => m.id !== alert.id);
           if (messages.size == 0) processing = false;
           else {
             await channel.bulkDelete(messages).catch(() => {
               processing = false;
               fail = true;
-            })
+            });
           }
           // check if we're gonna run it again
           if (processing) messages = await channel.messages.fetch({ limit: 100, after: messageid });
         }
 
-        if (oldPermission !== false) await channel.updateOverwrite(guild.roles.everyone, { SEND_MESSAGES: oldPermission })
-        if (fail) alert.edit(`❌ Something went wrong when making the channel ready for counting. Do I have permissions? (Manage Channels)`);
-        else alert.edit(`🔰 The channel is ready! Happy counting!`).then(m => m.delete(5000))
+        if (oldPermission !== false) await channel.updateOverwrite(guild.roles.everyone, { SEND_MESSAGES: oldPermission });
+        if (fail) alert.edit("❌ Something went wrong when making the channel ready for counting. Do I have permissions? (Manage Channels)");
+        else alert.edit("🔰 The channel is ready! Happy counting!").then(m => m.delete(5000));
       }
     }
-  } catch(e) {}
+  } catch(e) { /* something went wrong */ }
 
   // timeouts
   for (let userid in timeouts) try {
     let member = await guild.members.fetch(userid);
     if (member && member.roles.cache.get(timeoutrole.role)) {
-      if (Date.now() >= timeouts[userid]) member.roles.remove(timeoutrole.role, "User no longer timed out (offline)").catch()
-      else setTimeout(() => member.roles.remove(timeoutrole.role, "User no longer timed out").catch(), timeouts[userid] - Date.now())
+      if (Date.now() >= timeouts[userid]) member.roles.remove(timeoutrole.role, "User no longer timed out (offline)").catch();
+      else setTimeout(() => member.roles.remove(timeoutrole.role, "User no longer timed out").catch(), timeouts[userid] - Date.now());
     }
-  } catch(e) {}
-}
+  } catch(e) { /* something went wrong */ }
+};

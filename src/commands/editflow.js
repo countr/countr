@@ -8,15 +8,15 @@ module.exports = {
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: (args) => args.length == 1,
   allowInCountingChannel: true
-}
+};
 
-const { flowWalkthrough, formatExplanation, limitTriggers, limitActions } = require("../constants/index.js"), config = require("../../config.json")
+const { flowWalkthrough, formatExplanation, limitTriggers, limitActions } = require("../constants/index.js"), config = require("../../config.json");
 
 module.exports.run = async (message, [ flowID ], gdb) => {
   const { flows } = gdb.get();
-  if (!flows[flowID]) return message.channel.send(`❌ This flow does not exist.`)
+  if (!flows[flowID]) return message.channel.send("❌ This flow does not exist.");
 
-  if (!message.guild.me.hasPermission("MANAGE_CHANNELS")) return message.channel.send("❌ The bot is missing the `Manage Channels`-permission. When editing a flow, the bot will create a new channel so you can reconfigure your flow.")
+  if (!message.guild.me.hasPermission("MANAGE_CHANNELS")) return message.channel.send("❌ The bot is missing the `Manage Channels`-permission. When editing a flow, the bot will create a new channel so you can reconfigure your flow.");
 
   const
     channel = await message.guild.channels.create("countr-flow-editor", {
@@ -53,7 +53,7 @@ module.exports.run = async (message, [ flowID ], gdb) => {
       title: `🌀 Editing flow ${flowID}`,
       description: [
         "This is sort of the same as the flow creator. You can use the same commands to configure your flow as you did when creating the flow.",
-        `You can have ${limitTriggers == 1 ? `1 trigger` : `${limitTriggers} triggers`} and ${limitActions == 1 ? `1 action` : `${limitActions} actions`} per flow.`
+        `You can have ${limitTriggers == 1 ? "1 trigger" : `${limitTriggers} triggers`} and ${limitActions == 1 ? "1 action" : `${limitActions} actions`} per flow.`
       ].join("\n\n"),
       color: config.color,
       timestamp: Date.now(),
@@ -83,14 +83,14 @@ module.exports.run = async (message, [ flowID ], gdb) => {
         }
       ]
     }),
-    pinned = await channel.send("Loading ...")
+    pinned = await channel.send("Loading ...");
 
   await pinned.pin();
-  const success = await flowWalkthrough(message.guild, message.author, channel, newFlow, generateEmbed, pinned)
+  const success = await flowWalkthrough(message.guild, message.author, channel, newFlow, generateEmbed, pinned);
 
   channel.delete();
   gdb.editFlow(flowID, newFlow);
   if (success) status.edit(`✅ Flow \`${flowID}\` has been edited.`);
-  else status.edit(`✴️ Flow edit has been cancelled.`);
+  else status.edit("✴️ Flow edit has been cancelled.");
   return message;
-}
+};

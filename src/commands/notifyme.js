@@ -12,7 +12,7 @@ module.exports = {
   permissionRequired: 0, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: (args) => args.length == 1 || (args.length == 2 && args[0] == "each"),
   allowInCountingChannel: true
-}
+};
 
 const { generateID } = require("../constants/index.js");
 
@@ -27,7 +27,7 @@ module.exports.run = async (message, [ mode, count ], gdb) => {
 
   gdb.setOnObject("notifications", id, {
     user: message.author.id, mode, count
-  })
+  });
 
-  message.channel.send(`✅ Notification with ID \`${id}\` has been saved!`)
-}
+  message.channel.send(`✅ Notification with ID \`${id}\` has been saved!`);
+};
