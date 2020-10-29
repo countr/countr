@@ -385,7 +385,7 @@ module.exports.flowWalkthrough = async (guild, author, channel, newFlow, generat
           }
         }
       }
-      else if (command == "finish") {
+      else if (command == "save") {
         if (newFlow.triggers.find(t => t) && newFlow.actions.find(a => a)) {
           editing = false;
           successStatus = true;

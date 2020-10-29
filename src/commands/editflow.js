@@ -60,14 +60,14 @@ module.exports.run = async (message, [ flowID ], gdb) => {
       timestamp: Date.now(),
       footer: {
         icon_url: message.author.displayAvatarURL(),
-        text: `Serving ${message.author.tag}`
+        text: `Serving ${message.author.tag} • Make sure to save the flow!`
       },
       fields: [
         {
           name: "Flow Commands",
           value: [
             "• `edit <trigger or action> <slot>`: Edit a trigger or action's slot.",
-            "• `finish`: Finish the flow and save it.",
+            "• `save`: Save the flow.",
             "• `cancel`: Cancel the creation without saving.",
             "**__The commands does not require the bot prefix, just simply write it in the channel.__** Also notice that normal bot commands have been disabled in this channel."
           ].join("\n")
