@@ -6,7 +6,8 @@ module.exports = {
   examples: {},
   aliases: [ "delflow", "removeflow", "-flow" ],
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
-  checkArgs: (args) => args.length == 1
+  checkArgs: (args) => args.length == 1,
+  allowInCountingChannel: true
 }
 
 module.exports.run = async (message, [ flowID ], gdb) => {

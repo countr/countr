@@ -6,7 +6,8 @@ module.exports = {
   examples: {},
   aliases: [ "modifyflow", "=flow" ],
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
-  checkArgs: (args) => args.length == 1
+  checkArgs: (args) => args.length == 1,
+  allowInCountingChannel: true
 }
 
 const { flowWalkthrough, formatExplanation, limitTriggers, limitActions } = require("../constants/index.js"), config = require("../../config.json")
@@ -91,4 +92,5 @@ module.exports.run = async (message, [ flowID ], gdb) => {
   gdb.editFlow(flowID, newFlow);
   if (success) status.edit(`✅ Flow \`${flowID}\` has been edited.`);
   else status.edit(`✴️ Flow edit has been cancelled.`);
+  return message;
 }

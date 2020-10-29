@@ -20,7 +20,8 @@ module.exports = {
   examples: {},
   aliases: [ "addflow", "+flow" ],
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
-  checkArgs: (args) => !args.length
+  checkArgs: (args) => !args.length,
+  allowInCountingChannel: true
 }
 
 const { flowWalkthrough, formatExplanation, limitTriggers, limitActions, limitFlows, generateID } = require("../constants/index.js"), config = require("../../config.json");
@@ -109,4 +110,5 @@ module.exports.run = async (message, [], gdb) => {
   channel.delete();
   if (success) gdb.editFlow(flowID, newFlow) && status.edit(`✅ Flow \`${flowID}\` has been created.`);
   else status.edit(`✴️ Flow creation has been cancelled.`);
+  return message;
 }
