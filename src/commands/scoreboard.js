@@ -47,7 +47,7 @@ const medals = {
 function formatScore(id, index, users, userid = "") {
   let suffix = formatNumberSuffix(index + 1);
   suffix = medals[suffix] || `**${suffix}**:`;
-  if (userid == id) return `${suffix} *__<@${id}>, **score:** ${users[id] || 0}__*`;
+  if (userid == id) return `${suffix} *__<@${id}>, **score:** ${(users[id] || 0).toLocaleString("en-US")}__*`;
   else return `${suffix} <@${id}>, **score:** ${users[id] || 0}`;
 }
 
