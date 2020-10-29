@@ -1,7 +1,7 @@
 module.exports = {
   description: "Edit a flow.",
   usage: {
-    "<flow ID>": "The flow ID of the flow you want to edit. This can be found in the 'listflows'-command."
+    "<flow ID>": "The ID of the flow you want to edit. This can be found in the 'listflows'-command."
   },
   examples: {},
   aliases: [ "modifyflow", "=flow" ],

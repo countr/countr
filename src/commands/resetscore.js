@@ -1,14 +1,12 @@
 module.exports = {
-  description: "Reset a member's or multiple members' score.",
+  description: "Reset a member's score (or multiple members' scores)",
   usage: {
-    "<member(s ...) and/or role(s ...)>|all": "The member(s) and/or role(s') member(s) you want to reset the score of, or all. If you use role names, they have to use underscores instead of spaces."
+    "<member(s ...)>|all": "The member(s) you want to add the score of, or all."
   },
   examples: {
-    "110090225929191424": "Remove the score of user with ID 110090225929191424.",
-    "@Promise#0001": "Remove the score of user Promise#0001.",
-    "110090225929191424 @Promise#0001": "Remove the scores of user with ID 110090225929191424 and user Promise#0001.",
-    "@Staff Server_Moderators": "Remove the scores of all members of roles Staff and Server Moderators.",
-    "110090225929191424 @Promise#0001 @Staff Server_Moderators": "Mix members and roles if you want to.",
+    "110090225929191424": "Reset score of user with ID 110090225929191424.",
+    "@Promise#0001": "Reset score of Promise#0001.",
+    "110090225929191424 @Promise#0001": "Reset score of user with ID 110090225929191424 and Promise#0001.",
     "all": "Reset all scores."
   },
   aliases: [ "re=score" ],

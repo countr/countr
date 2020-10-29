@@ -55,7 +55,7 @@ module.exports.run = async (message, _, gdb, { prefix, permissionLevel, content:
         fields: [
           {
             name: "Usage",
-            value: Object.keys(commandFile.usage).length ? `\`${prefix}${commandFile.command}${Object.keys(commandFile.usage).map(a => ` ${a}`).join("")}\`${Object.keys(commandFile.usage).map(a => `\n• \`${a}\`: ${commandFile.usage[a]}`)}` : null
+            value: Object.keys(commandFile.usage).length ? `\`${prefix}${commandFile.command}${Object.keys(commandFile.usage).map(a => ` ${a}`).join("")}\`${Object.keys(commandFile.usage).map(a => `\n• \`${a}\`: ${commandFile.usage[a]}`).join("")}` : null
           },
           {
             name: "Examples",

@@ -1,14 +1,14 @@
 module.exports = {
-  description: "Manage moduleNames you can enable or disable in your server.",
+  description: "Manage modules you can enable or disable in your server.",
   usage: {
-    "[<moduleName>]": "The moduleName you want more information on, or turn on/off.",
-    "[on|off]": "Whether you want to turn the moduleName on or off."
+    "[<module>]": "The module you want more information on, or turn on/off.",
+    "[on|off]": "Whether you want to turn the module on or off."
   },
   examples: {
-    "allow-spam on": "Toggle the moduleName allow-spam.",
-    "webhook": "Get more help on the webhook-moduleName."
+    "allow-spam on": "Toggle the module allow-spam.",
+    "webhook": "Get more help on the webhook-module."
   },
-  aliases: [ "moduleNames" ],
+  aliases: [ "modules" ],
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: (args) => (
     !args.length ||

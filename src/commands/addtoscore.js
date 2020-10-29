@@ -1,12 +1,13 @@
 module.exports = {
-  description: "Set a member's score",
+  description: "Add to a member's score (or multiple members' scores)",
   usage: {
-    "<member(s ...)>": "The member(s) you want to set the score of",
+    "<member(s ...)>": "The member(s) you want to add the score of",
     "<number>": "The number you want to add to the scores"
   },
   examples: {
-    "110090225929191424 9999999": "Will set member with ID 110090225929191424's score to 9999999.",
-    "@Promise#0001 @CountingGods 1337": "Will set Promise#0001's and all members in role Counting Gods' score to 1337."
+    "110090225929191424 9999999": "Add 9999999 to user with ID 110090225929191424.",
+    "@Promise#0001 1337": "Add 1337 to Promise#0001's score.",
+    "110090225929191424 @Promise#0001 1000": "Add 1000 to user with ID 110090225929191424 and to Promise#0001."
   },
   aliases: [ "+score" ],
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner

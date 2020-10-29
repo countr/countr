@@ -1,7 +1,7 @@
 module.exports = {
   description: "Delete a flow.",
   usage: {
-    "<flow ID>": "The flow ID of the flow you want to delete. This can be found in the 'listflows'-command."
+    "<flow ID>": "The ID of the flow you want to delete. This can be found in the 'listflows'-command."
   },
   examples: {},
   aliases: [ "delflow", "removeflow", "-flow" ],
