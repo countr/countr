@@ -17,8 +17,8 @@ const fetch = require("node-fetch");
 module.exports.run = async (message, [ method ], gdb, { prefix }) => {
   const file = message.attachments.first();
   if (!file) return message.channel.send(`❌ No file is attached to your command. For help, type \`${prefix}help importscores\`.`);
-  if (!file.filename.endsWith(".json")) return message.channel.send(`❌ Invalid file attached. For help, type \`${prefix}help importscores\`.`);
-  if (file.filesize > 50000) return message.channel.send(`❌ File exceeds filesize limit of 50kB. For help, type \`${prefix}help importscores\`.`);
+  if (!file.name.endsWith(".json")) return message.channel.send(`❌ Invalid file attached. For help, type \`${prefix}help importscores\`.`);
+  if (file.size > 50000) return message.channel.send(`❌ File exceeds filesize limit of 50kB. For help, type \`${prefix}help importscores\`.`);
 
   const contents = await fetch(file.url).then(res => res.json()).catch(() => false);
   if (

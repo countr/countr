@@ -35,7 +35,7 @@ module.exports = async (message, gdb, db, countingChannel, prefix) => {
     if (permissionLevel < commandFile.permissionRequired) return message.channel.send("❌ You don't have permission to do this.");
 
     const args = (content.match(/"[^"]+"|[^ ]+/g) || []).map(arg => arg.startsWith("\"") && arg.endsWith("\"") ? arg.slice(1).slice(0, -1) : arg);
-    if (!commandFile.checkArgs(args, permissionLevel)) return message.channel.send(`❌ Invalid arguments. For help, type \`${prefix}help\`.`);
+    if (!commandFile.checkArgs(args, permissionLevel)) return message.channel.send(`❌ Invalid arguments. For help, type \`${prefix}help ${commandName}\`.`);
 
     return commandFile.run(message, args, gdb, { prefix, permissionLevel, db, content });
   }
