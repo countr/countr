@@ -10,5 +10,9 @@
   {
     "triggers": [ "source", "sourcecode", "code", "git" ],
     "message": "🔗 Source code: https://github.com/countr/countr"
+  },
+  {
+    "triggers": [ "toggle" ],
+    "message": "💢 This command no longer exists. Checkout the module-command instead!",
   }
 ]
