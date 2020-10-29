@@ -148,7 +148,9 @@ module.exports.flow = {
           .replace(/{nickname}/gi, member.displayName)
           .replace(/{everyone}/gi, guild.roles.everyone.toString())
           .replace(/{score}/gi, score)
-        ).catch();
+        , {
+          disableMentions: "none"
+        }).catch();
       }
     }
   }

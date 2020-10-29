@@ -80,13 +80,13 @@ module.exports = async (message, gdb) => {
   // check flows
   const countData = {
       count,
-      score: (scores[message.author.id] || 0) + 1,
+      score: scores[message.author.id] || 0,
       message
     }, flowIDs = Object.keys(flows).slice(0, limitFlows);
   for (const flowID of flowIDs) {
     const flow = flows[flowID]; let success;
     for (const trigger of flow.triggers.slice(0, limitTriggers).filter(t => t)) {
-      success = allTriggers[trigger.type].check(countData, trigger.data);
+      success = await allTriggers[trigger.type].check(countData, trigger.data);
       if (success) break;
     }
     if (success)
