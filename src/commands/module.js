@@ -63,10 +63,10 @@ module.exports.run = async (message, [ moduleName, state ], gdb, { prefix }) => 
   }); else {
     if (state == "on") {
       gdb.addToArray("modules", moduleName);
-      return message.channel.send(`✅ Module ${moduleName} has been enabled.`);
+      return message.channel.send(`✅ Module \`${moduleName}\` has been enabled.`);
     } else {
       gdb.removeFromArray("modules", moduleName);
-      return message.channel.send(`✅ Module ${moduleName} has been disabled.`);
+      return message.channel.send(`✅ Module \`${moduleName}\` has been disabled.`);
     }
   }
 };
