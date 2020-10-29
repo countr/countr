@@ -34,5 +34,5 @@ module.exports.run = async (message, args, gdb) => {
   gdb.set("users", users);
 
   if (members.length == 1) return message.channel.send(`✅ Score of user \`${members[0].user.tag}\` has been changed.`);
-  else return message.channel.send(`✅ Scores of ${members.map(m => `\`${m.user.tag}\``).join(", ")} (${members.length} total) has been changed.`);
+  else return message.channel.send(`✅ Scores of ${members.map(m => `\`${m.user.tag}\``).join(", ")} (${members.length} total) have been changed.`);
 };
