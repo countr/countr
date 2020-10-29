@@ -17,7 +17,7 @@ module.exports.run = async (message, [ id = message.guild.id ], gdb, { db }) => 
     files: [
       {
         attachment: Buffer.from(JSON.stringify(guilddb.get(), null, 2)),
-        name: `Countr.${id}.json`
+        name: `Countr Dump for ${id}.json`
       }
     ]
   })
