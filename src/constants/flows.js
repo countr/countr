@@ -161,6 +161,12 @@ module.exports.flow = {
           disableMentions: "none"
         }).catch();
       }
+    },
+    "lock": {
+      "short": "Lock the counting channel",
+      "long": "This will lock the counting channel for the everyone-role, and will be read-only.",
+      "explanation": "Lock the counting channel",
+      "run": async ({ message: { channel, guild } }) => await channel.updateOverwrite(guild.roles.everyone, { SEND_MESSAGES: false }).catch()
     }
   }
 };
