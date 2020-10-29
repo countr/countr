@@ -8,11 +8,11 @@
   "dependencies": {
     "blapi": "^2.0.1",
     "bufferutil": "^4.0.1",
-    "discord.js": "^12.4.0",
+    "discord.js": "^12.4.1",
     "erlpack": "github:discord/erlpack",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
-    "mongoose": "^5.10.9",
+    "mongoose": "^5.10.11",
     "node-fetch": "^2.6.1",
     "utf-8-validate": "^5.0.2",
     "zlib-sync": "^0.1.7"
