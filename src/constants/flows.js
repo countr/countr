@@ -146,8 +146,8 @@ module.exports.flow = {
           .replace(/{tag}/gi, author.tag)
           .replace(/{username}/gi, author.username)
           .replace(/{nickname}/gi, member.displayName)
-          .replace(/{everyone}/gi, guild.roles.everyone)
-          .replace(/{here}/gi, guild.roles.here)
+          .replace(/{everyone}/gi, guild.roles.everyone.toString())
+          .replace(/{here}/gi, guild.roles.here.toString())
           .replace(/{score}/gi, score)
         ).catch()
       }
