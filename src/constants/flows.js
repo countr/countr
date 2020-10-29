@@ -14,7 +14,7 @@ module.exports.propertyTypes = {
   },
   "regex": {
     "short": "Regex",
-    "help": "Get help on how to create a regex here: oogabooga.com", // todo
+    "help": "Get help on how to create a regex here: https://flaviocopes.com/javascript-regular-expressions/#regular-expressions-choices",
     "convert": async regex => {
       try {
         new RegExp(regex);
