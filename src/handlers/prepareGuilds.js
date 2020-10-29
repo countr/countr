@@ -10,8 +10,8 @@ module.exports = async (guild, db) => {
       if (messages.size) {
         const
           alert = await channel.send("💢 Making channel ready for counting."),
-          defaultPermissions = channel.permissionOverwrites.get(guild.roles.everyone),
-          oldPermission = null;
+          defaultPermissions = channel.permissionOverwrites.get(guild.roles.everyone);
+        let oldPermission = null;
         if (defaultPermissions.allow.has("SEND_MESSAGES")) oldPermission = true;
         else if (defaultPermissions.deny.has("SEND_MESSAGES")) oldPermission = false;
 
