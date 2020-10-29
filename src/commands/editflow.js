@@ -50,9 +50,10 @@ module.exports.run = async (message, [ flowID ], gdb) => {
     status = await message.channel.send(`🌀 Head over to ${channel} to edit your flow!`),
     newFlow = flows[flowID],
     generateEmbed = async () => ({
-      title: `🌀 Editing flow ${flowID}`,
+      title: `📝 Editing flow ${flowID}`,
       description: [
         "This is sort of the same as the flow creator. You can use the same commands to configure your flow as you did when creating the flow.",
+        "Edit a trigger with the command `edit trigger 1`. Edit an action with `edit action 1`.",
         `You can have ${limitTriggers == 1 ? "1 trigger" : `${limitTriggers} triggers`} and ${limitActions == 1 ? "1 action" : `${limitActions} actions`} per flow.`
       ].join("\n\n"),
       color: config.color,
@@ -68,7 +69,7 @@ module.exports.run = async (message, [ flowID ], gdb) => {
             "• `edit <trigger or action> <slot>`: Edit a trigger or action's slot.",
             "• `finish`: Finish the flow and save it.",
             "• `cancel`: Cancel the creation without saving.",
-            "**The commands does not require the bot prefix, just simply write it in the channel.** Also notice that normal bot commands have been disabled in this channel."
+            "**__The commands does not require the bot prefix, just simply write it in the channel.__** Also notice that normal bot commands have been disabled in this channel."
           ].join("\n")
         },
         {

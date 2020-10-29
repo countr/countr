@@ -29,7 +29,7 @@ module.exports.propertyTypes = {
     "help": "Any role. Make sure the role is below Countr's highest role.",
     "convert": async (search, { guild }) => {
       const result = await getRole(search, guild);
-      if (result) return result.id; else return null;
+      if (result && result.id !== guild.id) return result.id; else return null;
     },
     "format": async roleid => `<@&${roleid}>`
   },
@@ -147,7 +147,6 @@ module.exports.flow = {
           .replace(/{username}/gi, author.username)
           .replace(/{nickname}/gi, member.displayName)
           .replace(/{everyone}/gi, guild.roles.everyone.toString())
-          .replace(/{here}/gi, guild.roles.here.toString())
           .replace(/{score}/gi, score)
         ).catch();
       }
@@ -377,9 +376,9 @@ module.exports.flowWalkthrough = async (guild, author, channel, newFlow, generat
       }
       else if (command == "cancel") editing = false;
       else if (command == "help") messagesToDelete.push(await channel.send(`🔗 Check the pinned message for help! ${pinned.url}`));
-      else messagesToDelete.push(await channel.send("❌ Invalid request. See the pinned message for more information!"));
+      else if (!command == "#") messagesToDelete.push(await channel.send("❌ Invalid request. See the pinned message for more information!"));
 
-      if (editing) setTimeout(() => channel.bulkDelete(messagesToDelete), 5000);
+      if (!command == "#" && editing) setTimeout(() => channel.bulkDelete(messagesToDelete), 5000);
     } catch(e) {
       editing = false;
       console.log(e);
