@@ -31,11 +31,7 @@ module.exports.run = async (message, _, gdb, { prefix, permissionLevel, content:
       fields: [
         {
           name: "Available commands",
-          value: commands.map(commandFile => {
-            if (commandFile.permissionRequired >= 4) return null;
-            if (commandFile.permissionRequired > permissionLevel) return `~~*\`${commandFile.command}\`*~~`;
-            return `\`${commandFile.command}\``;
-          }).filter(c => c).join(", "),
+          value: commands.filter(({ permissionRequired }) => permissionRequired <= permissionLevel).map(({ command }) => `\`${command}\``).filter(c => c).join(", "),
           inline: true
         }
       ]
@@ -89,7 +85,7 @@ let commands = [], defaultCommand = {
   aliases: [], // all except the first trigger
   permissionRequired: 0
 };
-for (const static of require("./_static.json")) commands.push(Object.assign({}, defaultCommand, {
+for (const static of require("./_static.json")) if (!static.hideFromHelp) commands.push(Object.assign({}, defaultCommand, {
   description: "Static command.",
   aliases: static.triggers.slice(1), // all except the first trigger
   command: static.triggers[0] // the first trigger

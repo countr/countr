@@ -14,5 +14,6 @@
   {
     "triggers": [ "toggle" ],
     "message": "💢 This command no longer exists. Checkout the module-command instead!",
+    "hideFromHelp": true
   }
 ]
