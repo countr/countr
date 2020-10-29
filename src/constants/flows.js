@@ -44,7 +44,16 @@ module.exports.propertyTypes = {
   },
   "text": {
     "short": "Text",
-    "help": "Any text. Get creative with these placeholders: " // todo
+    "help": [
+      "Any text. Get creative with these placeholders:",
+      "• `{count}` The count that triggered this flow",
+      "• `{mention}` Mentions the user who triggered this flow",
+      "• `{tag}` The tag of the user who triggered this flow",
+      "• `{username}` The username of the user who triggered this flow",
+      "• `{nickname}` The nickname of the user who triggered this flow",
+      "• `{everyone}` Mentions the everyone-role",
+      "• `{score}` The new score of the user who triggered this flow"
+    ].join("\n")
   }
 };
 
