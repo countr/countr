@@ -20,11 +20,11 @@ module.exports.modules = {
       "reposting"
     ]
   }
-}
+};
 
 for (const i in module.exports.modules) module.exports.modules[i] = Object.assign({
   "short": "N/A",
   "long": null,
   "image": null,
   "incompatible": []
-}, module.exports.modules[i])
+}, module.exports.modules[i]);

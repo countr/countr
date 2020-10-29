@@ -18,9 +18,9 @@ module.exports = {
       ["on", "off"].includes(args[1])
     )
   )
-}
+};
 
-const { modules } = require("../constants/index.js"), config = require("../../config.json")
+const { modules } = require("../constants/index.js"), config = require("../../config.json");
 
 module.exports.run = async (message, [ moduleName, state ], gdb, { prefix }) => {
   if (!moduleName) {
@@ -41,10 +41,10 @@ module.exports.run = async (message, [ moduleName, state ], gdb, { prefix }) => 
           text: `Requested by ${message.author.tag}`
         }
       }
-    })
+    });
   }
 
-  if (!modules[moduleName]) return message.channel.send("❌ No module exists with this name.")
+  if (!modules[moduleName]) return message.channel.send("❌ No module exists with this name.");
 
   if (!state) return message.channel.send({
     embed: {
@@ -62,11 +62,11 @@ module.exports.run = async (message, [ moduleName, state ], gdb, { prefix }) => 
     }
   }); else {
     if (state == "on") {
-      gdb.addToArray("modules", moduleName)
-      return message.channel.send(`✅ Module ${moduleName} has been enabled.`)
+      gdb.addToArray("modules", moduleName);
+      return message.channel.send(`✅ Module ${moduleName} has been enabled.`);
     } else {
-      gdb.removeFromArray("modules", moduleName)
-      return message.channel.send(`✅ Module ${moduleName} has been disabled.`)
+      gdb.removeFromArray("modules", moduleName);
+      return message.channel.send(`✅ Module ${moduleName} has been disabled.`);
     }
   }
-}
+};
