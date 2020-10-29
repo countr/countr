@@ -1,8 +1,8 @@
 module.exports = {
   description: "Set a member's score",
   usage: {
-    "<member(s ...)>": "The member(s) or members of role(s) you want to set the score of",
-    "<score>": "The new score"
+    "<member(s ...)>": "The member(s) you want to set the score of",
+    "<number>": "The number you want to add to the scores"
   },
   examples: {
     "110090225929191424 9999999": "Will set member with ID 110090225929191424's score to 9999999.",
@@ -10,27 +10,28 @@ module.exports = {
   },
   aliases: [ "+score" ],
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
-  checkArgs: (args) => args.length >= 2
+  checkArgs: (args) => args.length >= 2,
+  allowInCountingChannel: true
 }
 
-const { getMember } = require("../constants/resolvers.js")
+const { getMember } = require("../constants/index.js");
 
-module.exports.run = async function(client, message, args, gdb, strings) {
+module.exports.run = async (message, args, gdb) => {
   const addition = parseInt(args.pop());
-  if (!addition) return message.channel.send(`❌ ${strings.invalidScore} ${strings.commandHelp}`)
+  if (!addition) return message.channel.send("❌ Invalid number.");
 
-  message.channel.startTyping().catch(); // we indicate that we are working on it. We do this because we might need to fetch members and/or roles in the process.
+  let members = [];
+  for (const arg of args) members.push(await getMember(arg, message.guild));
+  members = members.filter(m => m);
+  if (!members.length) return message.channel.send("❌ No members were found with your search.");
 
-  const members = [];
-  for (const search of args) {
-    const member = await getMember(search, message.guild);
-    if (member) members.push(member);
+  const { users } = gdb.get();
+  for (const member of members) {
+    if (!users[member.id]) users[member.id] = addition;
+    else users[member.id] += addition;
   }
+  gdb.set("users", users);
 
-  const additions = {}
-  for (const member of members) additions[member.id] = addition;
-
-  return gdb.importScores(additions, "add")
-    .then(() => message.channel.send(`✅ ${members.length == 1 ? strings.savedScoresSingular : strings.savedScoresPlural.replace(/{{MEMBERS}}/g, members.length)}`) && message.channel.stopTyping())
-    .catch(e => console.log(e) && message.channel.send(`🆘 ${strings.databaseError}`) && message.channel.stopTyping())
+  if (members.length == 1) return message.channel.send(`✅ Score of user \`${members[0].user.tag}\` has been changed.`);
+  else return message.channel.send(`✅ Scores of ${members.map(m => `\`${m.user.tag}\``).join(", ")} (${members.length} total) has been changed.`)
 }

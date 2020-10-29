@@ -67,6 +67,14 @@ module.exports = (client) => (async guildid => {
 
       save(guildid, Object.keys(changes))
     },
+    addToArray: (array, value) => {
+      dbCache.get(guildid)[array].push(value)
+      save(guildid, [ array ])
+    },
+    removeFromArray: (array, value) => {
+      dbCache.get(guildid)[array] = dbCache.get(guildid)[array].filter(aValue => aValue !== value)
+      save(guildid, [ array ])
+    },
     reset: () => {
       let guildCache = dbCache.get(guildid);
       Object.assign(guildCache, guildObject);
