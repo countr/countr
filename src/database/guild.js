@@ -63,7 +63,7 @@ module.exports = (client) => (async guildid => {
     },
     setMultiple: (changes) => {
       let guildCache = dbCache.get(guildid);
-      for (const key in changes) guildCache[key] = changes[key];
+      Object.assign(guildCache, changes);
 
       save(guildid, Object.keys(changes))
     },
