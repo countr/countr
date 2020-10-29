@@ -376,9 +376,9 @@ module.exports.flowWalkthrough = async (guild, author, channel, newFlow, generat
       }
       else if (command == "cancel") editing = false;
       else if (command == "help") messagesToDelete.push(await channel.send(`🔗 Check the pinned message for help! ${pinned.url}`));
-      else if (!command == "#") messagesToDelete.push(await channel.send("❌ Invalid request. See the pinned message for more information!"));
+      else if (command !== "#") messagesToDelete.push(await channel.send("❌ Invalid request. See the pinned message for more information!"));
 
-      if (!command == "#" && editing) setTimeout(() => channel.bulkDelete(messagesToDelete), 5000);
+      if (command !== "#" && editing) setTimeout(() => channel.bulkDelete(messagesToDelete), 5000);
     } catch(e) {
       editing = false;
       console.log(e);
