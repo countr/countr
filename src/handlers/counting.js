@@ -105,7 +105,10 @@ async function deleteMessage(message) {
     if (!bulks.get(message.channel.id)) bulks.set(message.channel.id, []);
     const bulk = bulks.get(message.channel.id);
 
-    if (!bulk.length) setTimeout(() => {
+    if (bulk.length == 100) {
+      message.channel.bulkDelete(bulk);
+      bulks.set(message.channel.id, []);
+    } else if (!bulk.length) setTimeout(() => {
       if (bulk.length == 1) bulk[0].delete();
       else message.channel.bulkDelete(bulk);
       bulks.set(message.channel.id, []);
