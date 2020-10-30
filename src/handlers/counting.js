@@ -97,10 +97,10 @@ module.exports = async (message, gdb) => {
 
 const bulks = new Map(), timestamps = new Map();
 
-async function deleteMessage(message) {
+async function deleteMessage(message, skipImmediateDeletion = false) {
   const timestamp = timestamps.get(message.channel.id) || 0;
   timestamps.set(message.channel.id, Date.now() + 2500);
-  if (timestamp < new Date()) return message.delete();
+  if (timestamp < new Date() && !skipImmediateDeletion) return message.delete();
   else {
     if (!bulks.get(message.channel.id)) bulks.set(message.channel.id, []);
     const bulk = bulks.get(message.channel.id);
@@ -116,3 +116,5 @@ async function deleteMessage(message) {
     bulk.push(message);
   }
 }
+
+module.exports.deleteCommand = messages => Promise.all(messages.map(m => deleteMessage(m, true)));

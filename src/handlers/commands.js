@@ -1,4 +1,4 @@
-const { getPermissionLevel } = require("../constants/index.js"), fs = require("fs");
+const { getPermissionLevel } = require("../constants/index.js"), { deleteCommand } = require("./counting.js"), fs = require("fs");
 
 // loading commands
 const commands = new Map(), aliases = new Map(), statics = require("../commands/_static.json");
@@ -41,5 +41,5 @@ module.exports = async (message, gdb, db, countingChannel, prefix) => {
   }
 
   const response = await processCommand();
-  if (message.channel.id == countingChannel) setTimeout(() => message.channel.id == gdb.get().channel ? message.channel.bulkDelete([response, message]) : null, 10000);
+  if (message.channel.id == countingChannel) setTimeout(() => message.channel.id == gdb.get().channel ? deleteCommand([ message, response ]) : null, 10000);
 };
