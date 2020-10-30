@@ -18,7 +18,7 @@ module.exports = async (message, gdb) => {
     (!modules.includes("allow-spam") && message.author.id == user) ||
     (!modules.includes("talking") && message.content !== (count + 1).toString()) ||
     message.content.split(" ")[0] !== (count + 1).toString()
-  ) return message.delete();
+  ) return deleteMessage(message);
 
   count++;
   gdb.addToCount(message.member);
@@ -33,12 +33,12 @@ module.exports = async (message, gdb) => {
         username: message.author.username,
         avatarURL: message.author.displayAvatarURL({ dynamic: true }),
       });
-      message.delete();
+      deleteMessage(message);
     }
   } catch(e) { /* something went wrong */ }
   else if (modules.includes("reposting")) try {
     countingMessage = await message.channel.send(`${message.author}: ${message.content}`);
-    message.delete();
+    deleteMessage(message);
   } catch(e) { /* something went wrong */ }
 
   gdb.set("message", countingMessage.id);
@@ -94,3 +94,22 @@ module.exports = async (message, gdb) => {
         await allActions[action.type].run(countData, action.data);
   }
 };
+
+const bulks = new Map(), timestamps = new Map();
+
+async function deleteMessage(message) {
+  const timestamp = timestamps.get(message.channel.id) || 0;
+  timestamps.set(message.channel.id, Date.now() + 2500);
+  if (timestamp < new Date()) return message.delete();
+  else {
+    if (!bulks.get(message.channel.id)) bulks.set(message.channel.id, []);
+    const bulk = bulks.get(message.channel.id);
+
+    if (!bulk.length) setTimeout(() => {
+      if (bulk.length == 1) bulk[0].delete();
+      else message.channel.bulkDelete(bulk);
+      bulks.set(message.channel.id, []);
+    }, 5000);
+    bulk.push(message);
+  }
+}
