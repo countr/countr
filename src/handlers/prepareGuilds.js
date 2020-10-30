@@ -10,7 +10,7 @@ module.exports = async (guild, db) => {
       if (messages.size) {
         const
           alert = await channel.send("💢 Making channel ready for counting."),
-          defaultPermissions = channel.permissionOverwrites.get(guild.roles.everyone);
+          defaultPermissions = channel.permissionOverwrites.get(guild.roles.everyone) || { allow: new Set(), deny: new Set() };
         let oldPermission = null;
         if (defaultPermissions.allow.has("SEND_MESSAGES")) oldPermission = true;
         else if (defaultPermissions.deny.has("SEND_MESSAGES")) oldPermission = false;
@@ -33,7 +33,7 @@ module.exports = async (guild, db) => {
 
         if (oldPermission !== false) await channel.updateOverwrite(guild.roles.everyone, { SEND_MESSAGES: oldPermission });
         if (fail) alert.edit("❌ Something went wrong when making the channel ready for counting. Do I have permissions? (Manage Channels)");
-        else alert.edit("🔰 The channel is ready! Happy counting!").then(m => m.delete(5000));
+        else alert.edit("🔰 The channel is ready! Happy counting!") && setTimeout(() => alert.delete(), 5000);
       }
     }
   } catch(e) { /* something went wrong */ }
