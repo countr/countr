@@ -14,7 +14,7 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
 
   const flowIDs = Object.keys(flows).slice(0, limitFlows);
 
-  if (Object.keys(flows).length) return message.channel.send(generateTip(prefix), {
+  if (flowIDs.length) return message.channel.send(generateTip(prefix), {
     embed: {
       title: "List of Flows",
       description: `You have ${flowIDs.length}/${limitFlows} flows.`,
