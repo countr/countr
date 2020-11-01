@@ -1,11 +1,11 @@
-const { getPermissionLevel, limitFlows, flow: { triggers: allTriggers, actions: allActions }, limitTriggers, limitActions } = require("../constants/index.js"), config = require("../../config.json");
+const { getPermissionLevel, limitFlows, flow: { triggers: allTriggers, actions: allActions }, limitTriggers, limitActions } = require("../constants/index.js"), config = require("../../config.json"), countingFails = new Map();
 
 module.exports = async (message, gdb) => {
   const permissionLevel = getPermissionLevel(message.member);
 
   if (message.content.startsWith("!") && permissionLevel >= 1) return;
 
-  let { count, user, modules, regex, notifications, flows, users: scores } = gdb.get(), regexMatches = false;
+  let { count, user, modules, regex, notifications, flows, users: scores, timeoutrole } = gdb.get(), regexMatches = false;
   if (regex.length && permissionLevel == 0)
     for (let r of regex)
       if ((new RegExp(r, "g")).test(message.content)) {
@@ -18,7 +18,25 @@ module.exports = async (message, gdb) => {
     (!modules.includes("allow-spam") && message.author.id == user) ||
     (!modules.includes("talking") && message.content !== (count + 1).toString()) ||
     message.content.split(" ")[0] !== (count + 1).toString()
-  ) return deleteMessage(message);
+  ) {
+    deleteMessage(message);
+    if (timeoutrole.role) {
+      const failID = `${message.guild.id}/${message.author.id}`;
+      if (!countingFails.has(failID)) countingFails.set(failID, 1);
+      else countingFails.set(failID, countingFails.get(failID) + 1);
+      setTimeout(() => countingFails.set(failID, countingFails.get(failID) - 1), timeoutrole.time * 1000);
+
+      const fails = countingFails.get(failID);
+      if (fails >= timeoutrole.fails) {
+        if (timeoutrole.duration) gdb.setOnObject("timeouts", message.author.id, Date.now() + timeoutrole.duration * 1000);
+        try {
+          await message.member.roles.add(timeoutrole.role);
+          if (timeoutrole.duration) setTimeout(() => message.member.roles.remove(timeoutrole.role), timeoutrole.duration * 1000);
+        } catch(e) { /* something went wrong */ }
+      }
+    }
+    return;
+  }
 
   count++;
   gdb.addToCount(message.member);

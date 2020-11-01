@@ -13,7 +13,7 @@ const guildObject = {
   message: "", // the current count's ID
   prefix: "", // the prefix
   users: {}, // the users' amount of counts
-  timeoutrole: {}, // a role given when the user fails X amount of times within Y seconds (role, time, fails, duration "permanent" or seconds) (premium)
+  timeoutrole: {}, // a role given when the user fails X amount of times within Y seconds (role, time, fails, duration "permanent" or seconds)
   timeouts: {}, // log how long the users will have the role
   regex: [], // regex filters, for the talking module
   liveboard: {}, // the guild's live leaderboard location (premium)

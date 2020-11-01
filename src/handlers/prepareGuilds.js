@@ -44,6 +44,6 @@ module.exports = async (guild, db) => {
     if (member && member.roles.cache.get(timeoutrole.role)) {
       if (Date.now() >= timeouts[userid]) member.roles.remove(timeoutrole.role, "User no longer timed out (offline)").catch();
       else setTimeout(() => member.roles.remove(timeoutrole.role, "User no longer timed out").catch(), timeouts[userid] - Date.now());
-    }
+    } else if (member && !member.roles.cache.get(timeoutrole.role)) gdb.removeFromObject("timeouts", userid);
   } catch(e) { /* something went wrong */ }
 };
