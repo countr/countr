@@ -12,19 +12,11 @@ module.exports = {
   allowInCountingChannel: true
 };
 
-module.exports.run = async (message, _, gdb, { prefix, content: regex }) => {
+module.exports.run = async (message, _, gdb, { content: regex }) => {
   const { regex: regexList } = gdb.get();
-  if (!regexList.includes(regex)) return message.channel.send("❌ This regex filter does not exist.")
+  if (!regexList.includes(regex)) return message.channel.send("❌ This regex filter does not exist.");
 
   gdb.removeFromArray("regex", regex);
 
   return message.channel.send(`✅ Regex \`${regex}\` has been removed.`);
 };
-
-function testRegex(regex) {
-  try {
-    return new RegExp(regex, "g");
-  } catch(e) {
-    return false;
-  }
-}
