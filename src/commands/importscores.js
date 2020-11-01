@@ -32,7 +32,7 @@ module.exports.run = async (message, [ method ], gdb, { prefix }) => {
 
   const { users } = gdb.get(), amount = Object.keys(contents).length;
   if (method == "set") Object.assign(users, contents);
-  else for (const id of contents) {
+  else for (const id in contents) {
     if (!users[id]) users[id] = contents[id];
     else users[id] += contents[id];
   }
