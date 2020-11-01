@@ -90,7 +90,7 @@ module.exports.run = async (message, [ flowID ], gdb) => {
   const success = await flowWalkthrough(message.guild, message.author, channel, newFlow, generateEmbed, pinned);
 
   channel.delete();
-  gdb.editFlow(flowID, newFlow);
+  gdb.setOnObject("flows", flowID, newFlow);
   if (success) status.edit(`✅ Flow \`${flowID}\` has been edited.`);
   else status.edit("✴️ Flow edit has been cancelled.");
   return message;

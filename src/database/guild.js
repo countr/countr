@@ -175,16 +175,6 @@ module.exports = (client) => (async guildid => {
       }
 
       save(guildid, ["message", "notifications"]);
-    },
-    
-    // flows
-    editFlow: async (flowID, newFlow) => {
-      dbCache.get(guildid).flows[flowID] = newFlow;
-      await save(guildid, [ "flows" ]);
-    },
-    deleteFlow: async flowID => {
-      delete dbCache.get(guildid).flows[flowID];
-      await save(guildid, [ "flows" ]);
     }
   };
 });

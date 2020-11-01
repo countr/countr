@@ -108,7 +108,7 @@ module.exports.run = async (message, _, gdb) => {
   const success = await flowWalkthrough(message.guild, message.author, channel, newFlow, generateEmbed, pinned);
 
   channel.delete();
-  if (success) gdb.editFlow(flowID, newFlow) && status.edit(`✅ Flow \`${flowID}\` has been created.`);
+  if (success) gdb.setOnObject("flows", flowID, newFlow) && status.edit(`✅ Flow \`${flowID}\` has been created.`);
   else status.edit("✴️ Flow creation has been cancelled.");
   return message;
 };

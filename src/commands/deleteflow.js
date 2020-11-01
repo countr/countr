@@ -14,7 +14,7 @@ module.exports.run = async (message, [ flowID ], gdb) => {
   const { flows } = gdb.get();
   if (!flows[flowID]) return message.channel.send("❌ This flow does not exist.");
 
-  gdb.deleteFlow(flowID);
+  gdb.removeFromObject("flows", flowID);
 
   return message.channel.send(`✅ Flow \`${flowID}\` has been deleted.`);
 };
