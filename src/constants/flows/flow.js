@@ -60,7 +60,7 @@ module.exports.flow = {
     },
     "prunerole": {
       "short": "Remove everyone from a role",
-      "long": "This will remove everyone from this role.",
+      "long": "This will remove everyone from this role.\nNote: This might not remove everyone from the role due to caching. Some inactive users might not lose their role.",
       "properties": [
         propertyTypes.role
       ],
