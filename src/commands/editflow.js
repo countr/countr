@@ -48,7 +48,7 @@ module.exports.run = async (message, [ flowID ], gdb) => {
       ]
     }),
     status = await message.channel.send(`🌀 Head over to ${channel} to edit your flow!`),
-    newFlow = flows[flowID],
+    newFlow = regenerateFlow(flows[flowID]),
     generateEmbed = async () => ({
       title: `📝 Editing flow ${flowID}`,
       description: [
@@ -95,3 +95,9 @@ module.exports.run = async (message, [ flowID ], gdb) => {
   else status.edit("✴️ Flow edit has been cancelled.");
   return message;
 };
+
+function regenerateFlow(flow) {
+  while (flow.triggers.length < limitTriggers) flow.triggers.push(null);
+  while (flow.actions.length < limitActions) flow.actions.push(null);
+  return flow;
+}
