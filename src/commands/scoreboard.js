@@ -7,7 +7,7 @@ module.exports = {
   checkArgs: (args) => !args.length
 };
 
-const config = require("../../config.json"), { generateTip } = require("../constants/index.js");
+const config = require("../../config.json"), { generateTip, formatScore } = require("../constants/index.js");
 
 module.exports.run = async (message, _, gdb, { prefix }) => {
   const
@@ -37,27 +37,3 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
     }
   }).catch(() => message.channel.send("🆘 I don't have permissions to use embeds in this channel."));
 };
-
-const medals = {
-  "1st": "🥇",
-  "2nd": "🥈",
-  "3rd": "🥉"
-};
-
-function formatScore(id, index, users, userid = "") {
-  let suffix = formatNumberSuffix(index + 1);
-  suffix = medals[suffix] || `**${suffix}**:`;
-  if (userid == id) return `${suffix} *__<@${id}>, **score:** ${(users[id] || 0).toLocaleString("en-US")}__*`;
-  else return `${suffix} <@${id}>, **score:** ${(users[id] || 0).toLocaleString("en-US")}`;
-}
-
-function formatNumberSuffix(number) {
-  let str = number.toString();
-
-  if (str == "0") return "N/A";
-  if (str.endsWith("11") || str.endsWith("12") || str.endsWith("13")) return str + "th"; // ex. eleventh instead of elevenst
-  if (str.endsWith("1")) return str + "st"; // ends on first
-  if (str.endsWith("2")) return str + "nd"; // ends on second
-  if (str.endsWith("3")) return str + "rd"; // ends on third
-  return str + "th"; // ends on fourth, fifth, sixth etc.
-}

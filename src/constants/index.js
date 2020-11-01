@@ -29,3 +29,26 @@ module.exports.generateID = (alreadyGenerated) => {
   }
   return id;
 };
+
+const
+  medals = {
+    "1st": "🥇",
+    "2nd": "🥈",
+    "3rd": "🥉"
+  }, formatNumberSuffix = number => {
+    let str = number.toString();
+
+    if (str == "0") return "N/A";
+    if (str.endsWith("11") || str.endsWith("12") || str.endsWith("13")) return str + "th"; // ex. eleventh instead of elevenst
+    if (str.endsWith("1")) return str + "st"; // ends on first
+    if (str.endsWith("2")) return str + "nd"; // ends on second
+    if (str.endsWith("3")) return str + "rd"; // ends on third
+    return str + "th"; // ends on fourth, fifth, sixth etc.
+  };
+
+module.exports.formatScore = (id, index, users, userid = "") => {
+  let suffix = formatNumberSuffix(index + 1);
+  suffix = medals[suffix] || `**${suffix}**:`;
+  if (userid == id) return `${suffix} *__<@${id}>, **score:** ${(users[id] || 0).toLocaleString("en-US")}__*`;
+  else return `${suffix} <@${id}>, **score:** ${(users[id] || 0).toLocaleString("en-US")}`;
+};
