@@ -7,9 +7,9 @@ module.exports = {
   checkArgs: (args) => !args.length
 };
 
-const config = require("../../config.json");
+const config = require("../../config.json"), { generateTip } = require("../constants/index.js");
 
-module.exports.run = async (message, _, gdb) => {
+module.exports.run = async (message, _, gdb, { prefix }) => {
   const
     { users } = gdb.get(),
     sorted = Object.keys(users).sort((a, b) => users[b] - users[a]),
@@ -21,7 +21,7 @@ module.exports.run = async (message, _, gdb) => {
     description = description + formatScore(message.author.id, sorted.indexOf(message.author.id), users);
   }
 
-  return message.channel.send({
+  return message.channel.send(generateTip(prefix), {
     embed: {
       author: {
         name: `${message.guild.name} Scoreboard`,

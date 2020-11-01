@@ -7,14 +7,14 @@ module.exports = {
   checkArgs: (args) => !args.length
 };
 
-const { limitFlows, formatExplanation } = require("../constants/index.js"), config = require("../../config.json");
+const { limitFlows, formatExplanation, generateTip } = require("../constants/index.js"), config = require("../../config.json");
 
-module.exports.run = async (message, _, gdb) => {
+module.exports.run = async (message, _, gdb, { prefix }) => {
   const { flows } = gdb.get();
 
   const flowIDs = Object.keys(flows).slice(0, limitFlows);
 
-  if (Object.keys(flows).length) return message.channel.send({
+  if (Object.keys(flows).length) return message.channel.send(generateTip(prefix), {
     embed: {
       title: "List of Flows",
       description: `You have ${flowIDs.length}/${limitFlows} flows.`,

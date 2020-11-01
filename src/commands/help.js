@@ -11,10 +11,10 @@ module.exports = {
   checkArgs: (args) => args.length <= 1
 };
 
-const fs = require("fs"), config = require("../../config.json");
+const fs = require("fs"), config = require("../../config.json"), { generateTip } = require("../constants/index.js");
 
 module.exports.run = async (message, _, gdb, { prefix, permissionLevel, content: searchQuery }) => {
-  if (!searchQuery) return message.channel.send({
+  if (!searchQuery) return message.channel.send(generateTip(prefix), {
     embed: {
       title: `${message.client.user.username} Help`,
       description: [
@@ -42,7 +42,7 @@ module.exports.run = async (message, _, gdb, { prefix, permissionLevel, content:
     if (!commandFile) commandFile = commands.find(({ description }) => description.toLowerCase().includes(searchQuery));
     if (!commandFile) return message.channel.send("❌ No command was found with your search.");
 
-    return message.channel.send({
+    return message.channel.send(generateTip(prefix), {
       embed: {
         title: `Help: ${commandFile.command}`,
         description: commandFile.description,

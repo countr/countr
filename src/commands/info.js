@@ -7,11 +7,11 @@ module.exports = {
   checkArgs: (args) => !args.length
 };
 
-const os = require("os"), platform = `${os.type()} (${os.release()})`, djsversion = require("../../package.json").dependencies["discord.js"], config = require("../../config.json");
+const os = require("os"), platform = `${os.type()} (${os.release()})`, djsversion = require("../../package.json").dependencies["discord.js"], config = require("../../config.json"), { generateTip } = require("../constants/index.js");
 
 let guilds = 0, users = 0, shardCount = 0, memory = 0, memoryUsage = "0MB", memoryGlobal = 0, memoryUsageGlobal = "0MB", nextUpdate = Date.now();
 
-module.exports.run = async message => {
+module.exports.run = async (message, _, gdb, { prefix }) => {
   if (nextUpdate < Date.now()) {
     nextUpdate = Date.now(); 
     if (message.client.shard) {
@@ -33,7 +33,7 @@ module.exports.run = async message => {
     else memoryUsageGlobal = memoryGlobal.toFixed(2) + "MB";
   }
 
-  message.channel.send({
+  message.channel.send(generateTip(prefix), {
     embed: {
       title: `Bot Information - ${message.client.user.tag}`,
       description: "Countr is an advanced counting bot which can manage a counting channel in your guild. With a simple setup, your channel is ready.",

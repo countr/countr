@@ -20,11 +20,11 @@ module.exports = {
   )
 };
 
-const { modules } = require("../constants/index.js"), config = require("../../config.json");
+const { modules, generateTip } = require("../constants/index.js"), config = require("../../config.json");
 
 module.exports.run = async (message, [ moduleName, state ], gdb, { prefix }) => {
   const { modules: enabledModules } = gdb.get();
-  if (!moduleName) return message.channel.send({
+  if (!moduleName) return message.channel.send(generateTip(prefix), {
     embed: {
       title: "📋 Available modules",
       description: [
@@ -44,7 +44,7 @@ module.exports.run = async (message, [ moduleName, state ], gdb, { prefix }) => 
 
   if (!modules[moduleName]) return message.channel.send("❌ No module exists with this name.");
 
-  if (!state) return message.channel.send({
+  if (!state) return message.channel.send(generateTip(prefix), {
     embed: {
       title: `${enabledModules.includes(moduleName) ? "🔘" : "⚫"} Module \`${moduleName}\``,
       description: modules[moduleName].long || modules[moduleName].short,
