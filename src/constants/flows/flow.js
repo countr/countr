@@ -47,10 +47,7 @@ module.exports.flow = {
         propertyTypes.role
       ],
       "explanation": "Add the user to {0}",
-      "run": async ({ message: { guild } }, [ roleID ]) => {
-        const role = guild.roles.resolve(roleID);
-        if (role) await Promise.all(role.members.map(async member => await member.roles.remove(roleID).catch()));
-      }
+      "run": async ({ message: { member } }, [ roleID ]) => await member.roles.add(roleID).catch()
     },
     "takerole": {
       "short": "Take a role away from the user",
@@ -68,7 +65,10 @@ module.exports.flow = {
         propertyTypes.role
       ],
       "explanation": "Remove everyone from {0}",
-      "run": async ({ message: { member } }, [ roleID ]) => await member.roles.add(roleID).catch()
+      "run": async ({ message: { guild } }, [ roleID ]) => {
+        const role = guild.roles.resolve(roleID);
+        if (role) await Promise.all(role.members.map(async member => await member.roles.remove(roleID).catch()));
+      }
     },
     "pin": {
       "short": "Pin the count message",
