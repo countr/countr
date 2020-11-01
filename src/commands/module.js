@@ -23,32 +23,30 @@ module.exports = {
 const { modules } = require("../constants/index.js"), config = require("../../config.json");
 
 module.exports.run = async (message, [ moduleName, state ], gdb, { prefix }) => {
-  if (!moduleName) {
-    const { modules: enabledModules } = gdb.get();
-    return message.channel.send({
-      embed: {
-        title: "Available modules",
-        description: [
-          `**Get more information with \`${prefix}module <module>\`.`,
-          `Turn a module on with \`${prefix}module <module> on\`.**`,
-          "",
-          Object.keys(modules).map(mName => `${enabledModules.includes(mName) ? "🔘" : "⚫"} \`${mName}\` ${modules[mName].short}`).join("\n")
-        ].join("\n"),
-        color: config.color,
-        timestamp: Date.now(),
-        footer: {
-          icon_url: message.author.displayAvatarURL(),
-          text: `Requested by ${message.author.tag}`
-        }
+  const { modules: enabledModules } = gdb.get();
+  if (!moduleName) return message.channel.send({
+    embed: {
+      title: "📋 Available modules",
+      description: [
+        `**Get more information with \`${prefix}module <module>\`.`,
+        `Turn a module on with \`${prefix}module <module> on\`.**`,
+        "",
+        Object.keys(modules).map(mName => `${enabledModules.includes(mName) ? "🔘" : "⚫"} \`${mName}\` ${modules[mName].short}`).join("\n")
+      ].join("\n"),
+      color: config.color,
+      timestamp: Date.now(),
+      footer: {
+        icon_url: message.author.displayAvatarURL(),
+        text: `Requested by ${message.author.tag}`
       }
-    });
-  }
+    }
+  });
 
   if (!modules[moduleName]) return message.channel.send("❌ No module exists with this name.");
 
   if (!state) return message.channel.send({
     embed: {
-      title: `Module Information for module \`${moduleName}\``,
+      title: `${enabledModules.includes(moduleName) ? "🔘" : "⚫"} Module \`${moduleName}\``,
       description: modules[moduleName].long || modules[moduleName].short,
       color: config.color,
       timestamp: Date.now(),
