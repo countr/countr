@@ -23,7 +23,7 @@ module.exports.run = async (message, args, gdb) => {
 
   let members = [];
   for (const arg of args) members.push(await getMember(arg, message.guild));
-  members = members.filter(m => m);
+  members = members.filter((m, i) => m && members.indexOf(m) == i);
   if (!members.length) return message.channel.send("❌ No members were found with your search.");
 
   const { users } = gdb.get();
