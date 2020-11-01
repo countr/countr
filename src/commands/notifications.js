@@ -2,7 +2,7 @@ module.exports = {
   description: "Get a list of your notifications in the server.",
   usage: {},
   examples: {},
-  aliases: [ "notiflist", "notifs", "alert", "listnotifs", "listnotifications" ],
+  aliases: [ "notiflist", "notifs", "alerts", "listalerts", "listnotifs", "listnotifications" ],
   permissionRequired: 0, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
   checkArgs: (args) => !args.length
 };
