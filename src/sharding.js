@@ -20,7 +20,7 @@ if (config.port) {
       lastUpdate: Date.now()
     };
 
-    await Promise.all(manager.shards.map(shard => async resolve => {
+    await Promise.all(manager.shards.map(shard => new Promise(async resolve => {
       const newShardInfo = {
         status: await shard.fetchClientValue("ws.status").catch(() => 6),
         guilds: await shard.fetchClientValue("guilds.cache.size").catch(() => null),
@@ -34,7 +34,7 @@ if (config.port) {
 
       newBotInfo.shards[`${shard.id}`] = newShardInfo;
       resolve();
-    }));
+    })));
 
     botInfo = newBotInfo;
   }, 30000);
