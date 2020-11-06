@@ -49,7 +49,7 @@ module.exports.run = async (message, [ moduleName, state ], gdb, { prefix }) => 
   if (!state) return message.channel.send({
     embed: {
       title: `${enabledModules.includes(moduleName) ? "🔘" : "⚫"} Module \`${moduleName}\``,
-      description: modules[moduleName].long || modules[moduleName].short,
+      description: (modules[moduleName].long || modules[moduleName].short) + (modules[moduleName].incompatible.length ? `\n**Incompatible with:** ${modules[moduleName].incompatible.map(mName => `\`${mName}\``).join(", ")}.` : ""),
       color: config.color,
       timestamp: Date.now(),
       footer: {
@@ -65,6 +65,11 @@ module.exports.run = async (message, [ moduleName, state ], gdb, { prefix }) => 
     .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
   else {
     if (state == "on") {
+      let incompatibleModules = enabledModules.filter(mName => modules[mName].incompatible ? modules[mName].incompatible.includes(moduleName) : false);
+      if (incompatibleModules.length) {
+        if (incompatibleModules.length == 1) return message.channel.send(`❌ This module is incompatible with the module \`${incompatibleModules[0]}\`.`);
+        else return message.channel.send(`❌ This module is incompatible with the modules ${incompatibleModules.map(mName => `\`${mName}\``).join(", ")}.`);
+      }
       gdb.addToArray("modules", moduleName);
       return message.channel.send(`✅ Module \`${moduleName}\` has been enabled.`);
     } else {
