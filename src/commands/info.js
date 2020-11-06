@@ -33,7 +33,7 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
     else memoryUsageGlobal = memoryGlobal.toFixed(2) + "MB";
   }
 
-  message.channel.send(generateTip(prefix), {
+  message.channel.send({
     embed: {
       title: `Bot Information - ${message.client.user.tag}`,
       description: "Countr is an advanced counting bot which can manage a counting channel in your guild. With a simple setup, your channel is ready.",
@@ -82,5 +82,7 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
         }
       ].filter(f => f.name) // filters out shard field if sharding is disabled
     }
-  }).catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
+  })
+    .then(m => m.edit(generateTip(prefix)))
+    .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
 };

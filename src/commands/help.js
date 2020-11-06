@@ -14,7 +14,7 @@ module.exports = {
 const fs = require("fs"), config = require("../../config.json"), { generateTip } = require("../constants/index.js");
 
 module.exports.run = async (message, _, gdb, { prefix, permissionLevel, content: searchQuery }) => {
-  if (!searchQuery) return message.channel.send(generateTip(prefix), {
+  if (!searchQuery) return message.channel.send({
     embed: {
       title: `${message.client.user.username} Help`,
       description: [
@@ -36,13 +36,16 @@ module.exports.run = async (message, _, gdb, { prefix, permissionLevel, content:
         }
       ]
     }
-  }); else {
+  })
+    .then(m => m.edit(generateTip(prefix)))
+    .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
+  else {
     searchQuery = searchQuery.toLowerCase();
     let commandFile = commands.find(({ command, aliases }) => searchQuery == command || aliases.includes(searchQuery));
     if (!commandFile) commandFile = commands.find(({ description }) => description.toLowerCase().includes(searchQuery));
     if (!commandFile) return message.channel.send("❌ No command was found with your search.");
 
-    return message.channel.send(generateTip(prefix), {
+    return message.channel.send({
       embed: {
         title: `Help: ${commandFile.command}`,
         description: commandFile.description,
@@ -73,7 +76,9 @@ module.exports.run = async (message, _, gdb, { prefix, permissionLevel, content:
           }
         ].filter(f => f.value)
       }
-    });
+    })
+      .then(m => m.edit(generateTip(prefix)))
+      .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
   }
 };
 

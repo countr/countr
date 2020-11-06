@@ -24,7 +24,7 @@ const { modules, generateTip } = require("../constants/index.js"), config = requ
 
 module.exports.run = async (message, [ moduleName, state ], gdb, { prefix }) => {
   const { modules: enabledModules } = gdb.get();
-  if (!moduleName) return message.channel.send(generateTip(prefix), {
+  if (!moduleName) return message.channel.send({
     embed: {
       title: "📋 Available modules",
       description: [
@@ -40,11 +40,13 @@ module.exports.run = async (message, [ moduleName, state ], gdb, { prefix }) => 
         text: `Requested by ${message.author.tag}`
       }
     }
-  });
+  })
+    .then(m => m.edit(generateTip(prefix)))
+    .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
 
   if (!modules[moduleName]) return message.channel.send("❌ No module exists with this name.");
 
-  if (!state) return message.channel.send(generateTip(prefix), {
+  if (!state) return message.channel.send({
     embed: {
       title: `${enabledModules.includes(moduleName) ? "🔘" : "⚫"} Module \`${moduleName}\``,
       description: modules[moduleName].long || modules[moduleName].short,
@@ -58,7 +60,10 @@ module.exports.run = async (message, [ moduleName, state ], gdb, { prefix }) => 
         url: modules[moduleName].image
       }
     }
-  }); else {
+  })
+    .then(m => m.edit(generateTip(prefix)))
+    .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
+  else {
     if (state == "on") {
       gdb.addToArray("modules", moduleName);
       return message.channel.send(`✅ Module \`${moduleName}\` has been enabled.`);

@@ -14,7 +14,7 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
 
   const flowIDs = Object.keys(flows).slice(0, limitFlows);
 
-  if (flowIDs.length) return message.channel.send(generateTip(prefix), {
+  if (flowIDs.length) return message.channel.send({
     embed: {
       title: "List of Flows",
       description: `You have ${flowIDs.length}/${limitFlows} flows.`,
@@ -35,7 +35,10 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
         inline: true
       })))
     }
-  }); else return message.channel.send("❌ This server doesn't have any flows configured.");
+  })
+    .then(m => m.edit(generateTip(prefix)))
+    .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
+  else return message.channel.send("❌ This server doesn't have any flows configured.");
 };
 
 async function formatTriggers(flow) {

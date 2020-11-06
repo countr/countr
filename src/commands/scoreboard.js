@@ -21,7 +21,7 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
     description = description + formatScore(message.author.id, sorted.indexOf(message.author.id), users);
   }
 
-  return message.channel.send(generateTip(prefix), {
+  return message.channel.send({
     embed: {
       author: {
         name: `${message.guild.name} Scoreboard`,
@@ -35,5 +35,7 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
         text: `Requested by ${message.author.tag}`
       }
     }
-  }).catch(() => message.channel.send("🆘 I don't have permissions to use embeds in this channel."));
+  })
+    .then(m => m.edit(generateTip(prefix)))
+    .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
 };
