@@ -1,12 +1,12 @@
 module.exports = {
-  description: "Set a member's score",
+  description: "Remove from a member's score",
   usage: {
-    "<member(s ...)>": "The member(s) or members of role(s) you want to set the score of",
-    "<score>": "The new score"
+    "<member(s ...)>": "The member(s) you want to remove from the score(s) of",
+    "<number>": "The number of counts to remove"
   },
   examples: {
-    "110090225929191424 9999999": "Will set member with ID 110090225929191424's score to 9999999.",
-    "@Promise#0001 @CountingGods 1337": "Will set Promise#0001's and all members in role Counting Gods' score to 1337."
+    "110090225929191424 5": "Will remove 5 counts from the score of the member with ID 110090225929191424.",
+    "@Promise#0001 462870395314241537 100": "Will remove 100 counts from the scores of Promise#0001 and the member with ID 462870395314241537."
   },
   aliases: [ "-fromscore", "-score" ],
   permissionRequired: 2, // 0 All, 1 Mods, 2 Admins, 3 Server Owner, 4 Bot Admin, 5 Bot Owner
