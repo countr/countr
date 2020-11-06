@@ -20,7 +20,7 @@ module.exports = async (message, gdb, db, countingChannel, prefix) => {
 
   const static = statics.find(s => s.triggers.includes(commandName));
   if (!static && !commands.has(commandName)) { // this is not a command
-    if (message.channel.id == countingChannel) return message.delete();
+    if (message.channel.id == countingChannel) return deleteCommand([ message ]);
     else return;
   }
 

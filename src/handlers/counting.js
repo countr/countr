@@ -135,4 +135,4 @@ async function deleteMessage(message, skipImmediateDeletion = false) {
   }
 }
 
-module.exports.deleteCommand = messages => Promise.all(messages.map(m => deleteMessage(m, true)));
+module.exports.deleteCommand = messages => Promise.all(messages.map(m => deleteMessage(m, messages.length > 1 ? true : false)));
