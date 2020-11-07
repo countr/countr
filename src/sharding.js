@@ -27,23 +27,20 @@ async function updateBotInfo() {
     lastUpdate: Date.now()
   };
 
-  await Promise.all(manager.shards.map(shard => new Promise(resolve => {
+  for (const shard in Array.from(manager.shards)) {
     const newShardInfo = {
-      status: shard.fetchClientValue("ws.status").then(res => newShardInfo.status = res).catch(() => 6),
-      guilds: shard.fetchClientValue("guilds.cache.size").then(res => newShardInfo.guilds = res).catch(() => null),
-      cachedUsers: shard.fetchClientValue("users.cache.size").then(res => newShardInfo.cachedUsers = res).catch(() => null),
-      users: shard.fetchClientValue("guilds.cache").then(guilds => newShardInfo.users = guilds.map(g => g.memberCount).reduce((a, b) => a + b)).catch(() => null)
+      status: await shard.fetchClientValue("ws.status").catch(() => 6),
+      guilds: await shard.fetchClientValue("guilds.cache.size").catch(() => null),
+      cachedUsers: await shard.fetchClientValue("users.cache.size").catch(() => null),
+      users: await shard.fetchClientValue("guilds.cache").then(guilds => guilds.map(g => g.memberCount).reduce((a, b) => a + b)).catch(() => null)
     };
 
-    Promise.all(Object.values(newShardInfo)).then(() => {
-      if (newShardInfo.guilds) newBotInfo.guilds += newShardInfo.guilds;
-      if (newShardInfo.users) newBotInfo.users += newShardInfo.users;
-      if (newShardInfo.cachedUsers) newBotInfo.cachedUsers += newShardInfo.cachedUsers;
-  
-      newBotInfo.shards[`${shard.id}`] = newShardInfo;
-      resolve();
-    });
-  })));
+    if (newShardInfo.guilds) newBotInfo.guilds += newShardInfo.guilds;
+    if (newShardInfo.users) newBotInfo.users += newShardInfo.users;
+    if (newShardInfo.cachedUsers) newBotInfo.cachedUsers += newShardInfo.cachedUsers;
+
+    newBotInfo.shards[`${shard.id}`] = newShardInfo;
+  }
 
   botInfo = newBotInfo;
 }
