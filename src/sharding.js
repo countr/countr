@@ -27,7 +27,7 @@ async function updateBotInfo() {
     lastUpdate: Date.now()
   };
 
-  for (const shard in Array.from(manager.shards)) {
+  for (const shard of Array.from(manager.shards.values())) {
     const newShardInfo = {
       status: await shard.fetchClientValue("ws.status").catch(() => 6),
       guilds: await shard.fetchClientValue("guilds.cache.size").catch(() => null),
