@@ -31,7 +31,10 @@ module.exports = async (message, gdb) => {
         if (timeoutrole.duration) gdb.setOnObject("timeouts", message.author.id, Date.now() + timeoutrole.duration * 1000);
         try {
           await message.member.roles.add(timeoutrole.role);
-          if (timeoutrole.duration) setTimeout(() => message.member.roles.remove(timeoutrole.role), timeoutrole.duration * 1000);
+          if (timeoutrole.duration) setTimeout(() => {
+            message.member.roles.remove(timeoutrole.role);
+            gdb.removeFromObject("timeouts", message.author.id);
+          }, timeoutrole.duration * 1000);
         } catch(e) { /* something went wrong */ }
       }
     }
