@@ -1,9 +1,0 @@
-{
-  "token": "discord.bot.token.here",
-  "database_uri": "mongodb://",
-  "admins": [ "your user id here" ],
-  "prefix": "c!",
-  "mainGuild": "your guild id here",
-  "color": 12404274,
-  "postToWebhookEveryWeek": null
-}

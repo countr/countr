@@ -1,0 +1,24 @@
+[
+  {
+    "triggers": [ "invite", "inviteme", "addme" ],
+    "message": "🔗 Invite me: <https://discordapp.com/api/oauth2/authorize?client_id={{BOT_ID}}&permissions=805317648&scope=bot>"
+  },
+  {
+    "triggers": [ "support" ],
+    "message": "🔗 Support server: <https://promise.solutions/support>"
+  },
+  {
+    "triggers": [ "source", "sourcecode", "code", "git" ],
+    "message": "🔗 Source code: https://github.com/countr/countr"
+  },
+  {
+    "triggers": [ "toggle" ],
+    "message": "💢 This command no longer exists. Checkout the module-command instead!",
+    "hideFromHelp": true
+  },
+  {
+    "triggers": [ "addrole", "+role", "editrole", "=role", "listroles", "rolelist", "roles", "rolerewards", "removerole", "-role", "addpin", "+pin", "editpin", "=pin", "listpins", "pinlist", "pins", "pintriggers", "removepin", "-pin" ],
+    "message": "💢 This command no longer exists. Rolerewards and pintriggers have moved over to flows. Read more here: <https://docs.countr.xyz/#/flows?id=what-is-the-purpose-of-a-flow>",
+    "hideFromHelp": true
+  }
+]

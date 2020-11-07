@@ -1,29 +1,23 @@
 {
-  "name": "countr",
-  "description": "A bot that can manage a counting channel in your Discord guild!",
-  "main": "app.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/promise/countr.git"
-  },
+  "main": "src/sharding.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node .",
     "autodoc": "node ../countr-docs/autodoc.js"
   },
-  "author": "Promise <me@promise.solutions> (https://promise.solutions/)",
   "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/promise/countr/issues"
-  },
-  "homepage": "https://github.com/promise/countr#readme",
   "dependencies": {
-    "blapi": "^1.2.6",
+    "blapi": "^2.0.1",
     "bufferutil": "^4.0.1",
-    "discord.js": "^11.5.1",
-    "erlpack": "github:discordapp/erlpack",
+    "discord.js": "^12.4.1",
+    "erlpack": "github:discord/erlpack",
     "express": "^4.17.1",
-    "fs": "0.0.2",
-    "mongoose": "^5.8.2",
-    "node-fetch": "^2.6.0"
+    "fs": "0.0.1-security",
+    "mongoose": "^5.10.11",
+    "node-fetch": "^2.6.1",
+    "utf-8-validate": "^5.0.2",
+    "zlib-sync": "^0.1.7"
+  },
+  "devDependencies": {
+    "eslint": "^7.12.1"
   }
 }
