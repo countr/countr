@@ -67,8 +67,8 @@ module.exports = async (message, gdb) => {
   for (const notifID in notifications) {
     const notif = notifications[notifID];
     if (notif && (
-      notif.mode == "only" && notif.count == count ||
-      notif.mode == "each" && notif.count % count == 0
+      notif.mode == "only" && count == notif.count ||
+      notif.mode == "each" && count % notif.count == 0
     )) {
       try {
         const receiver = await message.guild.members.fetch(notif.user);
