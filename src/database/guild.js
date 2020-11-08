@@ -44,9 +44,10 @@ const save = async (guildid, changes) => {
     let guild = await get(guildid), guildCache = dbCache.get(guildid), guildSaveQueue = JSON.parse(JSON.stringify(dbSaveQueue.get(guildid)));
     for (const key of guildSaveQueue) guild[key] = guildCache[key];
     return guild.save().then(() => {
-      if (dbSaveQueue.get(guildid).length > guildSaveQueue.length) {
+      let newSaveQueue = dbSaveQueue.get(guildid);
+      if (newSaveQueue.length > guildSaveQueue.length) {
         dbSaveQueue.delete(guildid);
-        save(guildid, dbSaveQueue.get(guildid).filter(key => !guildSaveQueue.includes(key)));
+        save(guildid, newSaveQueue.filter(key => !guildSaveQueue.includes(key)));
       } else dbSaveQueue.delete(guildid);
     }).catch(console.log);
   } else dbSaveQueue.get(guildid).push(...changes);
