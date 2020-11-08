@@ -19,12 +19,12 @@ module.exports.run = async (message, _, gdb) => {
 
 function formatNotifications(notifications) {
   const all = [];
-  for (const id of notifications) {
+  for (const id in notifications) {
     const notif = notifications[id];
     let explanation;
 
-    if (notif.mode == "each") explanation = flow.triggers.each.explanation.replace("{{0}}", notif.count);
-    else if (notif.mode == "only") explanation = flow.triggers.only.explanation.replace("{{0}}", notif.count);
+    if (notif.mode == "each") explanation = flow.triggers.each.explanation.replace("{0}", notif.count);
+    else if (notif.mode == "only") explanation = flow.triggers.only.explanation.replace("{0}", notif.count);
 
     all.push(`• \`${id}\` ${explanation}`);
   }
