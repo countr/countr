@@ -20,30 +20,35 @@ const guildObject = {
   log: {} // the guild's confirmed counts the last week, ex { "YYYY-MM-DD": 1234 }
 };
 
-const guildSchema = mongoose.Schema(Object.assign({}, guildObject), { minimize: true }); // make a copy of guildObject
+const guildSchema = mongoose.Schema(JSON.parse(JSON.stringify(guildObject)), { minimize: true }); // make a copy of guildObject
 const Guild = mongoose.model("Guild", guildSchema);
 
 const get = (guildid) => new Promise((resolve, reject) => Guild.findOne({ guildid }, (err, guild) => {
   if (err) return reject(err);
   if (!guild) {
-    guild = new Guild(Object.assign({}, guildObject));
+    guild = new Guild(JSON.parse(JSON.stringify(guildObject)));
     guild.guildid = guildid;
   }
   return resolve(guild);
 }));
 
 const load = async (guildid) => {
-  let guild = await get(guildid), guildCache = {};
-  for (const key in guildObject) guildCache[key] = guild[key] || guildObject[key]; // if there's no value stored in the guild database then we use the default value
+  let guild = await get(guildid), guildCache = {}, freshGuildObject = JSON.parse(JSON.stringify(guildObject)); // make a fresh one, to not make duplicates across guilds (for example on arrays and objects)
+  for (const key in freshGuildObject) guildCache[key] = guild[key] || freshGuildObject[key]; // if there's no value stored in the guild database then we use the default value
   return dbCache.set(guildid, guildCache);
 };
 
 const save = async (guildid, changes) => {
   if (!dbSaveQueue.has(guildid)) {
     dbSaveQueue.set(guildid, changes);
-    let guild = await get(guildid), guildCache = dbCache.get(guildid), guildSaveQueue = dbSaveQueue.get(guildid);
+    let guild = await get(guildid), guildCache = dbCache.get(guildid), guildSaveQueue = JSON.parse(JSON.stringify(dbSaveQueue.get(guildid)));
     for (const key of guildSaveQueue) guild[key] = guildCache[key];
-    return guild.save().then(() => dbSaveQueue.delete(guildid)).catch(console.log);
+    return guild.save().then(() => {
+      if (dbSaveQueue.get(guildid).length > guildSaveQueue.length) {
+        dbSaveQueue.delete(guildid);
+        save(guildid, dbSaveQueue.get(guildid).filter(key => !guildSaveQueue.includes(key)));
+      } else dbSaveQueue.delete(guildid);
+    }).catch(console.log);
   } else dbSaveQueue.get(guildid).push(...changes);
 };
 
