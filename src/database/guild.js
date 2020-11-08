@@ -129,58 +129,6 @@ module.exports = (client) => (async guildid => {
       } catch(e) { /* something went wrong */ }
 
       global.addCount();
-    },
-    afterCount: async (count, member, message) => {
-      let guildCache = dbCache.get(guildid), guild = client.guilds.resolve(guildid);
-      guildCache.message = message.id;
-
-      let countMessage = message;
-
-      // checking pintriggers
-      let pin = Object.values(guildCache.pins).find(pin => (
-        pin.mode == "only" && pin.count == count ||
-        pin.mode == "each" && pin.count % count == 0
-      ));
-      if (pin) try {
-        let pinned = await message.channel.fetchPinnedMessages().catch(() => ({ size: 0 }));
-        if (pinned.size == 50) await pinned.last().unpin().catch();
-
-        if (message.author.bot) message.pin(); // already reposted
-        else if (pin.action == "repost") {
-          countMessage = await message.channel.send(/*todo*/);
-          if (guildCache.message == message.id) guildCache.message = countMessage.id;
-          countMessage.pin();
-          message.delete();
-        } else message.pin();
-      } catch(e) { /* something went wrong */ }
-
-      // checking notifications
-      for (const nid in guildCache.notifications) {
-        const notification = guildCache.notifications[nid];
-        if (notification && (
-          notification.mode == "only" && notification.count == count ||
-          notification.mode == "each" && notification.count % count == 0
-        )) {
-          try {
-            let notifier = await guild.members.fetch(notification.user);
-            if (notifier) notifier.send({
-              embed: {
-                description: `🎉 ${guild} reached ${count} total counts!\nThe user who sent it was ${member}.\n\n[**→ Click here to jump to the message!**](${countMessage.url})`,
-                color: config.color,
-                thumbnail: {
-                  url: member.user.displayAvatarURL({ dynamic: true, size: 512 })
-                },
-                footer: {
-                  text: `Notification ID ${nid}`
-                }
-              }
-            }).catch();
-          } catch(e) { /* something went wrong */ }
-          if (notification.mode == "only") delete guildObject.notifications[nid];
-        }
-      }
-
-      save(guildid, ["message", "notifications"]);
     }
   };
 });
