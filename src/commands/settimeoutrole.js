@@ -1,5 +1,5 @@
 module.exports = {
-  description: "Set a member's score (or multiple members' scores)",
+  description: "Set up a timeout role.",
   usage: {
     "<role>": "The role you want the timeout role to be. If you plan on using the role name, surround it with quotation marks.",
     "<fails>": "The amount of fails within <time> seconds to get the role.",
