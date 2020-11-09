@@ -74,12 +74,12 @@ module.exports.run = async (message, [ flowID ], gdb) => {
         },
         {
           name: "Current Flow Actions",
-          value: await Promise.all(newFlow.actions.slice(0, limitActions).map(async (action, index) => `${index + 1} - ${action ? `${await formatExplanation(action)}` : "**Empty**"}`)),
+          value: cutFieldValue(await Promise.all(newFlow.actions.slice(0, limitActions).map(async (action, index) => `${index + 1} - ${action ? `${await formatExplanation(action)}` : "**Empty**"}`))),
           inline: true
         },
         {
           name: "Current Flow Triggers",
-          value: await Promise.all(newFlow.triggers.slice(0, limitTriggers).map(async (trigger, index) => `${index + 1} - ${trigger ? `${await formatExplanation(trigger)}` : "**Empty**"}`)),
+          value: cutFieldValue(await Promise.all(newFlow.triggers.slice(0, limitTriggers).map(async (trigger, index) => `${index + 1} - ${trigger ? `${await formatExplanation(trigger)}` : "**Empty**"}`))),
           inline: true
         }
       ]
@@ -100,4 +100,10 @@ function regenerateFlow(flow) {
   while (flow.triggers.length < limitTriggers) flow.triggers.push(null);
   while (flow.actions.length < limitActions) flow.actions.push(null);
   return flow;
+}
+
+function cutFieldValue(value) {
+  value = value.join("\n");
+  if (value.length > 1024) return value.slice(0, 1002) + " [Too long to show...]";
+  else return value;
 }
