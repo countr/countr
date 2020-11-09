@@ -1,4 +1,4 @@
-const config = require("../../config.json"), mongoose = require("mongoose"), global = require("./global.js"), { getDateFormatted } = require("../constants/time.js");
+const mongoose = require("mongoose"), global = require("./global.js"), { getDateFormatted } = require("../constants/time.js");
 
 const dbCache = new Map(), dbSaveQueue = new Map();
 
