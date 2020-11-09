@@ -32,11 +32,11 @@ module.exports.run = async (message, [ query ], gdb, { prefix }) => {
         },
         fields: [
           {
-            name: "**Triggers:**",
+            name: "Triggers:",
             value: triggers.length > 1024 ? triggers.slice(0, 1002) + " [Too long to show...]" : triggers,
           },
           {
-            name: "**Actions:**",
+            name: "Actions:",
             value: actions.length > 1024 ? actions.slice(0, 1002) + " [Too long to show...]" : actions,
           }
         ]
