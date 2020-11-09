@@ -45,7 +45,8 @@ After all this, start the bot with `npm run start`.
 | `prefix`       | `"c!"`     | The prefix you want the bot to use for commands. |
 | `mainGuild`    |            | The main guild the bot will be in. |
 | `color`        | `12404274` | The brand color in decimal number. |
-| `webhookUrl`      | `null`     | A webhook URL to post to at the end of every week. Response is `{ "value1": *counts this week*, "value2": *week number* }`. Maybe hook it up to a Twitter handle via IFTTT? |
+| `webhookUrl`   | `null`     | A webhook URL to post to at the end of every week. Response is `{ "value1": *counts this week*, "value2": *week number* }`. Maybe hook it up to a Twitter handle via IFTTT? |
+| `port`         | `1001`       | Creates an express server on `localhost:port` to show information about shards. |
 
 ## License
 
