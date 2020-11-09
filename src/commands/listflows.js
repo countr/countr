@@ -13,8 +13,7 @@ module.exports = {
 
 const { limitFlows, formatExplanation, generateTip } = require("../constants/index.js"), config = require("../../config.json");
 
-module.exports.run = async (message, _, gdb, { prefix, content: query }) => {
-  query;
+module.exports.run = async (message, [ query ], gdb, { prefix }) => {
   const { flows } = gdb.get();
 
   const flowIDs = Object.keys(flows).slice(0, limitFlows);
