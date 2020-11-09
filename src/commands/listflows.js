@@ -7,7 +7,7 @@ module.exports = {
   checkArgs: (args) => !args.length
 };
 
-const { limitFlows, formatExplanation, generateTip } = require("../constants/index.js"), config = require("../../config.json");
+const { limitFlows, formatExplanation, generateTip, limitTriggers, limitActions } = require("../constants/index.js"), config = require("../../config.json");
 
 module.exports.run = async (message, _, gdb, { prefix }) => {
   const { flows } = gdb.get();
@@ -42,11 +42,11 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
 };
 
 async function formatTriggers(flow) {
-  const formatted = await Promise.all(flow.triggers.filter(t => t).map(async trigger => `• ${await formatExplanation(trigger)}`));
+  const formatted = await Promise.all(flow.triggers.slice(0, limitTriggers).filter(t => t).map(async trigger => `• ${await formatExplanation(trigger)}`));
   return formatted.join("\n");
 }
 
 async function formatActions(flow) {
-  const formatted = await Promise.all(flow.actions.filter(t => t).map(async trigger => `• ${await formatExplanation(trigger)}`));
+  const formatted = await Promise.all(flow.actions.slice(0, limitActions).filter(t => t).map(async trigger => `• ${await formatExplanation(trigger)}`));
   return formatted.join("\n");
 }
