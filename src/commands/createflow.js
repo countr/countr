@@ -92,12 +92,12 @@ module.exports.run = async (message, _, gdb) => {
         },
         {
           name: "Current Flow Actions",
-          value: await Promise.all(newFlow.actions.map(async (action, index) => `${index + 1} - ${action ? `${await formatExplanation(action)}` : "**Empty**"}`)),
+          value: cutFieldValue(await Promise.all(newFlow.actions.map(async (action, index) => `${index + 1} - ${action ? `${await formatExplanation(action)}` : "**Empty**"}`))),
           inline: true
         },
         {
           name: "Current Flow Triggers",
-          value: await Promise.all(newFlow.triggers.map(async (trigger, index) => `${index + 1} - ${trigger ? `${await formatExplanation(trigger)}` : "**Empty**"}`)),
+          value: cutFieldValue(await Promise.all(newFlow.triggers.map(async (trigger, index) => `${index + 1} - ${trigger ? `${await formatExplanation(trigger)}` : "**Empty**"}`))),
           inline: true
         }
       ]
@@ -112,3 +112,9 @@ module.exports.run = async (message, _, gdb) => {
   else status.edit("✴️ Flow creation has been cancelled.");
   return message;
 };
+
+function cutFieldValue(value) {
+  value = value.join("\n");
+  if (value.length > 1024) return value.slice(0, 1002) + " [Too long to show...]";
+  else return value;
+}
