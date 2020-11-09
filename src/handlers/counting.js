@@ -104,16 +104,17 @@ module.exports = async (message, gdb) => {
       score: scores[message.author.id] || 0,
       message
     }, flowIDs = Object.keys(flows).slice(0, limitFlows);
-  for (const flowID of flowIDs) {
+  for (const flowID of flowIDs) try {
     const flow = flows[flowID]; let success;
     for (const trigger of flow.triggers.slice(0, limitTriggers).filter(t => t)) {
       success = await allTriggers[trigger.type].check(countData, trigger.data);
       if (success) break;
     }
     if (success)
-      for (const action of flow.actions.slice(0, limitActions).filter(a => a))
+      for (const action of flow.actions.slice(0, limitActions).filter(a => a)) try {
         await allActions[action.type].run(countData, action.data);
-  }
+      } catch(e) { /* something went wrong */ }
+  } catch(e) { /* something went wrong */ }
 };
 
 const bulks = new Map(), timestamps = new Map();
