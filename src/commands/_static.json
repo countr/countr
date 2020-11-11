@@ -12,6 +12,18 @@
     "message": "🔗 Source code: https://github.com/countr/countr"
   },
   {
+    "triggers": [ "docs", "documentation" ],
+    "message": "🔗 Documentation: https://docs.countr.xyz"
+  },
+  {
+    "triggers": [ "uptime", "status" ],
+    "message": "🔗 Uptime: https://uptime.countr.xyz"
+  },
+  {
+    "triggers": [ "premium", "buy" ],
+    "message": "🔗 Learn about Premium here: https://docs.countr.xyz/#/premium"
+  },
+  {
     "triggers": [ "toggle" ],
     "message": "💢 This command no longer exists. Checkout the module-command instead!",
     "hideFromHelp": true
