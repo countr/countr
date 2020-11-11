@@ -19,7 +19,6 @@ You can see all contributors and their GitHub-profiles [here](https://github.com
 
 ## Self-hosting
 We do not recommend self-hosting the bot, but it's always an option. To selfhost the bot yourself, you need to have:
-We do not recommend self-hosting the bot, but it's always an option. To selfhost the bot yourself, you need to have:
 * Node - confirmed working on v12.16.1
 * npm - comes with Node, the version shouldn't really matter
 * A Discord bot token, and having the bot in your server
