@@ -29,7 +29,7 @@ module.exports.run = async (message, _, gdb) => {
         id: message.client.user.id,
         allow: [
           "MANAGE_CHANNELS",
-          "MANAGE_PERMISSIONS",
+          "MANAGE_ROLES", // manage permissions
           "VIEW_CHANNEL",
           "SEND_MESSAGES",
           "MANAGE_MESSAGES",
