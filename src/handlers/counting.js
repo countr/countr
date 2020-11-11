@@ -61,6 +61,15 @@ module.exports = async (message, gdb) => {
     countingMessage = await message.channel.send(`${message.author}: ${message.content}`);
     deleteMessage(message);
   } catch(e) { /* something went wrong */ }
+  else if (modules.includes("embed")) try {
+    countingMessage = await message.channel.send({
+      embed: {
+        description: `${message.author}: ${message.content}`,
+        color: message.member.displayColor || 3553598
+      }
+    });
+    deleteMessage(message);
+  } catch(e) { /* something went wrong */ }
 
   gdb.set("message", countingMessage.id);
 
