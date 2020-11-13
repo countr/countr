@@ -14,35 +14,33 @@ if (config.port) {
   setInterval(updateBotInfo, 30000);
 
   api.get("/", (_, response) => response.json(botInfo));
-  api.get("/newest", (_, response) => updateBotInfo().then(() => response.json(botInfo)));
+  api.get("/newest", async (_, response) => {
+    const newInfo = await updateBotInfo();
+    return response.json(newInfo);
+  });
   api.listen(config.port);
 }
 
+// https://github.com/discordjs/discord.js/pull/4020
+const broadcastEval = fn => manager.broadcastEval(
+  `(${fn})(this)`
+);
+
 async function updateBotInfo() {
-  const newBotInfo = {
-    guilds: 0,
-    cachedUsers: 0,
-    users: 0,
-    shards: {},
-    lastUpdate: Date.now()
-  };
-
-  for (const shard of Array.from(manager.shards.values())) {
-    const newShardInfo = {
-      status: await shard.fetchClientValue("ws.status").catch(() => 6),
-      guilds: await shard.fetchClientValue("guilds.cache.size").catch(() => null),
-      cachedUsers: await shard.fetchClientValue("users.cache.size").catch(() => null),
-      users: await shard.fetchClientValue("guilds.cache").then(guilds => guilds.map(g => g.memberCount).reduce((a, b) => a + b)).catch(() => null)
-    };
-
-    if (newShardInfo.guilds) newBotInfo.guilds += newShardInfo.guilds;
-    if (newShardInfo.users) newBotInfo.users += newShardInfo.users;
-    if (newShardInfo.cachedUsers) newBotInfo.cachedUsers += newShardInfo.cachedUsers;
-
-    newBotInfo.shards[`${shard.id}`] = newShardInfo;
-  }
-
-  botInfo = newBotInfo;
+  const newBotInfo = await broadcastEval(client => ({
+    status: client.ws.status,
+    guilds: client.guilds.cache.size,
+    cachedUsers: client.users.size,
+    users: client.guilds.cache.reduce((total, guild) => total + guild.memberCount, 0)
+  })).then(results => results.reduce((info, next) => {
+    for (const [key, value] of Object.entries(next)) {
+      info[key] = (info[key] || 0) + value; 
+    }
+    info.shards.push(next);
+    return info;
+  }, { shards: [] }));
+  newBotInfo.lastUpdate = Date.now();
+  return botInfo = newBotInfo;
 }
 
 manager.spawn();
