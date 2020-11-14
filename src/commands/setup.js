@@ -13,7 +13,7 @@ module.exports.run = async (message, _, gdb) => {
     const overwrite = await new Promise(resolve => {
       message.channel.send("⚠️ This server has been set up before. If you continue, your old setup would no longer work. Are you sure you want to continue?\nType `yes` or `no` in chat.");
       message.channel.awaitMessages(m => m.author.id == message.author.id && ["yes", "no"].includes(m.content.toLowerCase()), { max: 1, time: 30000, errors: [ "time" ]})
-        .then(collection => collection.first().content == "yes" ? resolve(true) : resolve(false))
+        .then(collection => collection.first().content.toLowerCase() == "yes" ? resolve(true) : resolve(false))
         .catch(() => resolve(false));
     });
     if (!overwrite) return message.channel.send("✴️ New configuration canceled.");
