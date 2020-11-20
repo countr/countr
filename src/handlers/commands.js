@@ -1,4 +1,4 @@
-const { getPermissionLevel } = require("../constants/index.js"), { deleteCommand } = require("./counting.js"), fs = require("fs");
+const { getPermissionLevel } = require("../constants/index.js"), { deleteMessages } = require("./counting.js"), fs = require("fs");
 
 // loading commands
 const commands = new Map(), aliases = new Map(), statics = require("../commands/_static.json");
@@ -20,7 +20,7 @@ module.exports = async (message, gdb, db, countingChannel, prefix) => {
 
   const static = statics.find(s => s.triggers.includes(commandName));
   if (!static && !commands.has(commandName)) { // this is not a command
-    if (message.channel.id == countingChannel) return deleteCommand([ message ]);
+    if (message.channel.id == countingChannel) return deleteMessages([ message ]);
     else return;
   }
 
@@ -41,5 +41,5 @@ module.exports = async (message, gdb, db, countingChannel, prefix) => {
   }
 
   const response = await processCommand();
-  if (message.channel.id == countingChannel) setTimeout(() => message.channel.id == gdb.get().channel ? deleteCommand([ message, response ]) : null, 10000);
+  if (message.channel.id == countingChannel) setTimeout(() => message.channel.id == gdb.get().channel ? deleteMessages([ message, response ]) : null, 5000);
 };

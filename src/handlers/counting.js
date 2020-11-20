@@ -126,26 +126,43 @@ module.exports = async (message, gdb) => {
   } catch(e) { /* something went wrong */ }
 };
 
-const bulks = new Map(), timestamps = new Map();
+const bulks = new Map(), rates = new Map();
 
-async function deleteMessage(message, skipImmediateDeletion = false) {
-  const timestamp = timestamps.get(message.channel.id) || 0;
-  timestamps.set(message.channel.id, Date.now() + 2500);
-  if (timestamp < new Date() && !skipImmediateDeletion) return message.delete();
+async function deleteMessage(message) {
+  const rate = rates.get(message.channel.id) || 0;
+  rates.set(message.channel.id, rate + 1);
+
+  setTimeout(() => rates.set(message.channel.id, rates.get(message.channel.id) - 1), 10000);
+
+  const bulk = bulks.get(message.channel.id) || [];
+  if (bulk.length) bulk.push(message);
+  else if (rate < 5) message.delete();
   else {
-    if (!bulks.get(message.channel.id)) bulks.set(message.channel.id, []);
-    const bulk = bulks.get(message.channel.id);
-
-    if (bulk.length == 100) {
-      message.channel.bulkDelete(bulk);
-      bulks.set(message.channel.id, []);
-    } else if (!bulk.length) setTimeout(() => {
-      if (bulk.length == 1) bulk[0].delete();
-      else message.channel.bulkDelete(bulk);
-      bulks.set(message.channel.id, []);
+    bulks.set(message.channel.id, [ message ]);
+    setTimeout(() => {
+      message.channel.bulkDelete(bulks.get(message.channel.id));
+      bulks.delete(message.channel.id);
     }, 5000);
-    bulk.push(message);
   }
 }
 
-module.exports.deleteCommand = messages => Promise.all(messages.map(m => deleteMessage(m, messages.length > 1 ? true : false)));
+module.exports.deleteMessages = messages => {
+  const channel = messages[0].channel;
+  if (messages.length == 1) deleteMessage(messages[0]);
+  else {
+    const rate = rates.get(channel.id) || 0;
+    rates.set(channel.id, rate + messages.length);
+  
+    setTimeout(() => rates.set(channel.id, rates.get(channel.id) - messages.length), 10000);
+  
+    const bulk = bulks.get(channel.id) || [];
+    if (bulk.length) bulk.push(...messages);
+    else {
+      bulks.set(channel.id, messages);
+      setTimeout(() => {
+        channel.bulkDelete(bulks.get(channel.id));
+        bulks.delete(channel.id);
+      }, 5000);
+    }
+  }
+};
