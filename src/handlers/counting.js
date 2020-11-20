@@ -20,7 +20,7 @@ module.exports = async (message, gdb) => {
     message.content.split(" ")[0] !== (count + 1).toString()
   ) {
     deleteMessage(message);
-    if (timeoutrole.role) {
+    if (timeoutrole.role && !message.member.roles.cache.get(timeoutrole.role)) {
       const failID = `${message.guild.id}/${message.author.id}`;
       if (!countingFails.has(failID)) countingFails.set(failID, 1);
       else countingFails.set(failID, countingFails.get(failID) + 1);
