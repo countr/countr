@@ -32,13 +32,13 @@ async function updateBotInfo() {
     guilds: client.guilds.cache.size,
     cachedUsers: client.users.size,
     users: client.guilds.cache.reduce((total, guild) => total + guild.memberCount, 0)
-  })).then(results => results.reduce((info, next) => {
+  })).then(results => results.reduce((info, next, index) => {
     for (const [key, value] of Object.entries(next)) {
       info[key] = (info[key] || 0) + value; 
     }
-    info.shards.push(next);
+    info.shards[`${index}`] = next;
     return info;
-  }, { shards: [] }));
+  }, { shards: {} }));
   newBotInfo.lastUpdate = Date.now();
   return botInfo = newBotInfo;
 }
