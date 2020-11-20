@@ -125,7 +125,7 @@ client.on("messageUpdate", async (original, updated) => {
 
 client
   .on("error", err => console.log(shard, "Client error.", err))
-  .on("rateLimit", rateLimitInfo => console.log(shard, "Rate limited.", rateLimitInfo))
+  .on("rateLimit", rateLimitInfo => console.log(shard, "Rate limited.", JSON.stringify(rateLimitInfo)))
   .on("shardDisconnected", closeEvent => console.log(shard, "Disconnected.", closeEvent))
   .on("shardError", err => console.log(shard, "Error.", err))
   .on("shardReconnecting", () => console.log(shard, "Reconnecting."))
