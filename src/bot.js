@@ -88,6 +88,41 @@ client.on("message", async message => {
   else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send(`My prefix is \`${prefix}\`, for help type \`${prefix}help\`.`);
 });
 
+client.on("messageDelete", async deleted => {
+  const gdb = await db.guild(deleted.guild.id);
+  let { modules, channel, message, user, count } = gdb.get();
+  if (
+    !modules.includes("embed") &&
+    !modules.includes("reposting") &&
+    !modules.includes("webhook") &&
+    channel == deleted.channel.id &&
+    message == deleted.id
+  ) {
+    let newMessage = await deleted.channel.send(`${deleted.author || `<@${user}>`}: ${message.content || count}`);
+    gdb.set("message", newMessage.id);
+  }
+});
+
+client.on("messageUpdate", async (original, updated) => {
+  const gdb = await db.guild(original.guild.id);
+  let { modules, channel, message, count } = gdb.get();
+  if (
+    !modules.includes("embed") &&
+    !modules.includes("reposting") &&
+    !modules.includes("webhook") &&
+    channel == original.channel.id &&
+    message == original.id &&
+    (
+      (original.content || `${count}`).split(" ")[0] !== updated.content.split(" ")[0] || // check if the count changed at all
+      !modules.includes("talking")
+    )
+  ) {
+    let newMessage = await original.channel.send(`${updated.author}: ${original.content || count}`);
+    gdb.set("message", newMessage.id);
+    original.delete();
+  }
+});
+
 client
   .on("error", err => console.log(shard, "Client error.", err))
   .on("rateLimit", rateLimitInfo => console.log(shard, "Rate limited.", rateLimitInfo))
