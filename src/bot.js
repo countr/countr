@@ -92,7 +92,6 @@ client.on("messageDelete", async deleted => {
   const gdb = await db.guild(deleted.guild.id);
   let { modules, channel, message, user, count } = gdb.get();
   if (
-    !deleted.author.bot &&
     channel == deleted.channel.id &&
     message == deleted.id &&
     !modules.includes("embed") &&
@@ -108,9 +107,8 @@ client.on("messageUpdate", async (original, updated) => {
   const gdb = await db.guild(original.guild.id);
   let { modules, channel, message, count } = gdb.get();
   if (
-    !original.author.bot &&
-    channel == original.channel.id &&
-    message == original.id &&
+    channel == updated.channel.id &&
+    message == updated.id &&
     !modules.includes("embed") &&
     !modules.includes("reposting") &&
     !modules.includes("webhook") &&
@@ -120,7 +118,7 @@ client.on("messageUpdate", async (original, updated) => {
         (original.content || `${count}`) !== updated.content
     )
   ) {
-    let newMessage = await original.channel.send(`${updated.author}: ${original.content || count}`);
+    let newMessage = await updated.channel.send(`${updated.author}: ${original.content || count}`);
     gdb.set("message", newMessage.id);
     original.delete();
   }
