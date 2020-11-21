@@ -92,11 +92,12 @@ client.on("messageDelete", async deleted => {
   const gdb = await db.guild(deleted.guild.id);
   let { modules, channel, message, user, count } = gdb.get();
   if (
+    !deleted.author.bot &&
+    channel == deleted.channel.id &&
+    message == deleted.id &&
     !modules.includes("embed") &&
     !modules.includes("reposting") &&
-    !modules.includes("webhook") &&
-    channel == deleted.channel.id &&
-    message == deleted.id
+    !modules.includes("webhook")
   ) {
     let newMessage = await deleted.channel.send(`${deleted.author || `<@${user}>`}: ${message.content || count}`);
     gdb.set("message", newMessage.id);
@@ -107,14 +108,16 @@ client.on("messageUpdate", async (original, updated) => {
   const gdb = await db.guild(original.guild.id);
   let { modules, channel, message, count } = gdb.get();
   if (
+    !original.author.bot &&
+    channel == original.channel.id &&
+    message == original.id &&
     !modules.includes("embed") &&
     !modules.includes("reposting") &&
     !modules.includes("webhook") &&
-    channel == original.channel.id &&
-    message == original.id &&
     (
-      (original.content || `${count}`).split(" ")[0] !== updated.content.split(" ")[0] || // check if the count changed at all
-      !modules.includes("talking")
+      modules.includes("talking") ? 
+        (original.content || `${count}`).split(" ")[0] !== updated.content.split(" ")[0] : // check if the count changed at all 
+        (original.content || `${count}`) !== updated.content
     )
   ) {
     let newMessage = await original.channel.send(`${updated.author}: ${original.content || count}`);
