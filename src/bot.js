@@ -98,8 +98,26 @@ client.on("messageDelete", async deleted => {
     !modules.includes("reposting") &&
     !modules.includes("webhook")
   ) {
-    let newMessage = await deleted.channel.send(`${deleted.author || `<@${user}>`}: ${message.content || count}`);
-    gdb.set("message", newMessage.id);
+    let newMessage;
+    try {
+      let author = deleted.author;
+      if(!author) author = (await deleted.guild.members.fetch(user)).user;
+
+      let webhooks = await deleted.channel.fetchWebhooks(), webhook = webhooks.find(wh => wh.name == "Countr");
+      if (!webhook) webhook = await deleted.channel.createWebhook("Countr").catch(() => null);
+
+      if (webhook) {
+        newMessage = await webhook.send(message.content || count, {
+          username: author.username,
+          avatarURL: author.displayAvatarURL({ dynamic: true }),
+        });
+      }
+      return gdb.set("message", newMessage.id);
+
+    } catch (e) { // didn't have perms or something else went wrong
+      newMessage = await deleted.channel.send(`${deleted.author || `<@${user}>`}: ${message.content || count}`);
+      return gdb.set("message", newMessage.id);
+    }
   }
 });
 
