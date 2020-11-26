@@ -76,7 +76,8 @@ client.on("message", async message => {
       disabledGuilds.has(message.guild.id)
     ) ||
     message.channel.name == "countr-flow-editor" || // ignore flow channels
-    message.author.bot
+    message.author.bot ||
+    message.type !== "DEFAULT"
   ) return;
 
   const gdb = await db.guild(message.guild.id);
@@ -84,7 +85,7 @@ client.on("message", async message => {
   if (!prefix.length) prefix = config.prefix;
 
   if (message.content.startsWith(prefix) || message.content.match(`^<@!?${client.user.id}> `)) return commandHandler(message, gdb, db, channel, prefix);
-  else if (channel == message.channel.id && message.type === "DEFAULT") return countingHandler(message, gdb); // TODO add args
+  else if (channel == message.channel.id) return countingHandler(message, gdb); // TODO add args
   else if (message.content.match(`^<@!?${client.user.id}>`)) return message.channel.send(`My prefix is \`${prefix}\`, for help type \`${prefix}help\`.`);
 });
 
