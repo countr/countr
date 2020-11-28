@@ -111,7 +111,8 @@ module.exports = async (message, gdb) => {
   const countData = {
       count,
       score: scores[message.author.id] || 0,
-      message
+      message,
+      countingMessage
     }, flowIDs = Object.keys(flows).slice(0, limitFlows);
   for (const flowID of flowIDs) try {
     const flow = flows[flowID]; let success;
