@@ -73,7 +73,7 @@ module.exports.flow = {
     "pin": {
       "short": "Pin the count message",
       "explanation": "Pin the count",
-      "run": async ({ message }) => await message.pin()
+      "run": async ({ countingMessage }) => await countingMessage.pin()
     },
     "sendmessage": {
       "short": "Send a message",
