@@ -26,12 +26,15 @@ let shard = "Shard N/A:", disabledGuilds = null;
 
 client.once("shardReady", async (shardid, unavailable = new Set()) => {
   shard = `Shard ${shardid}:`;
-  console.log(shard, `Ready as ${client.user.tag}!`);
+  console.log(shard, `Ready as ${client.user.tag}! Caching guilds.`);
 
   // process guilds
   client.loading = true;
   disabledGuilds = new Set([...Array.from(unavailable), ...client.guilds.cache.map(guild => guild.id)]);
-  let startTimestamp = Date.now(), completed = 0, presenceInterval = setInterval(() => client.user.setPresence({
+  let cachingStartTimestamp = Date.now();
+  await db.cacheGuilds(disabledGuilds);
+  console.log(shard, `All ${disabledGuilds.size} guilds have been cached. Processing available guilds. [${Date.now() - cachingStartTimestamp}ms]`);
+  let processingStartTimestamp = Date.now(), completed = 0, presenceInterval = setInterval(() => client.user.setPresence({
     status: "idle",
     activity: {
       type: "WATCHING",
@@ -44,7 +47,7 @@ client.once("shardReady", async (shardid, unavailable = new Set()) => {
     completed++;
   }));
   clearInterval(presenceInterval);
-  console.log(shard, `All ${client.guilds.cache.size} available guilds have been processed and is now ready! [${Date.now() - startTimestamp}ms]`);
+  console.log(shard, `All ${client.guilds.cache.size} available guilds have been processed and is now ready! [${Date.now() - processingStartTimestamp}ms]`);
   disabledGuilds = false;
   client.loading = false;
 
