@@ -1,6 +1,5 @@
 const
   Discord = require("discord.js"),
-  BLAPI = require("blapi"),
   config = require("../config.json"),
   commandHandler = require("./handlers/commands.js"),
   countingHandler = require("./handlers/counting.js"),
@@ -134,5 +133,3 @@ client
   .on("shardResume", (_, replayedEvents) => console.log(shard, `Resumed. ${replayedEvents} replayed events.`))
   .on("warn", info => console.log(shard, "Warning.", info))
   .login(config.token);
-
-if (config.listKeys && Object.values(config.listKeys).length) BLAPI.handle(client, config.listKeys);

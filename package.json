@@ -6,7 +6,6 @@
   },
   "license": "GPL-3.0",
   "dependencies": {
-    "blapi": "^2.0.1",
     "bufferutil": "^4.0.1",
     "discord.js": "^12.4.1",
     "erlpack": "github:discord/erlpack",
