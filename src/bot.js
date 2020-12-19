@@ -29,6 +29,7 @@ client.once("shardReady", async (shardid, unavailable = new Set()) => {
   console.log(shard, `Ready as ${client.user.tag}!`);
 
   // process guilds
+  client.loading = true;
   disabledGuilds = new Set([...Array.from(unavailable), ...client.guilds.cache.map(guild => guild.id)]);
   let startTimestamp = Date.now(), completed = 0, presenceInterval = setInterval(() => client.user.setPresence({
     status: "idle",
@@ -45,6 +46,7 @@ client.once("shardReady", async (shardid, unavailable = new Set()) => {
   clearInterval(presenceInterval);
   console.log(shard, `All ${client.guilds.cache.size} available guilds have been processed and is now ready! [${Date.now() - startTimestamp}ms]`);
   disabledGuilds = false;
+  client.loading = false;
 
   // update presence
   updatePresence();
