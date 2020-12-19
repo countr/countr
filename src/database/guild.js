@@ -33,6 +33,7 @@ const get = (guildid) => new Promise((resolve, reject) => Guild.findOne({ guildi
 }));
 
 const load = async (guildid) => {
+  console.log("loading", guildid)
   let guild = await get(guildid), guildCache = {}, freshGuildObject = JSON.parse(JSON.stringify(guildObject)); // make a fresh one, to not make duplicates across guilds (for example on arrays and objects)
   for (const key in freshGuildObject) guildCache[key] = guild[key] || freshGuildObject[key]; // if there's no value stored in the guild database then we use the default value
   return dbCache.set(guildid, guildCache);
@@ -135,12 +136,12 @@ module.exports = (client) => (async guildid => {
 
 module.exports.cacheAll = async (guilds = new Set()) => {
   let gdbs = await Guild.find({ $or: [...guilds].map(guildid => ({ guildid })) });
-  guilds.forEach(guildid => {
+  return await Promise.all(guilds.forEach(async guildid => {
     let
       guild = gdbs.find(db => db.guildid == guildid) || { guildid },
       guildCache = {},
       freshGuildObject = JSON.parse(JSON.stringify(guildObject)); // make a fresh one, to not make duplicates across guilds (for example on arrays and objects)
     for (const key in freshGuildObject) guildCache[key] = guild[key] || freshGuildObject[key]; // if there's no value stored in the guild database then we use the default value
     return dbCache.set(guildid, guildCache)
-  })
+  }))
 }
