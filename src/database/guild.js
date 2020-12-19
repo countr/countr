@@ -136,7 +136,7 @@ module.exports = (client) => (async guildid => {
 
 module.exports.cacheAll = async (guilds = new Set()) => {
   let gdbs = await Guild.find({ $or: [...guilds].map(guildid => ({ guildid })) });
-  return await Promise.all(guilds.forEach(async guildid => {
+  return await Promise.all([...guilds].map(async guildid => {
     let
       guild = gdbs.find(db => db.guildid == guildid) || { guildid },
       guildCache = {},
