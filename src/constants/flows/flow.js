@@ -74,8 +74,8 @@ module.exports.flow = {
       "short": "Pin the count message",
       "explanation": "Pin the count",
       "run": async ({ countingMessage }) => await countingMessage.pin().catch(async () => {
-        let pinned = await message.channel.messages.fetchPinned(false).catch(() => ({ size: 0 }))
-        if (pinned.size == 50) await pinned.last().unpin().then(() => message.pin().catch()).catch();
+        let pinned = await countingMessage.channel.messages.fetchPinned(false).catch(() => ({ size: 0 }));
+        if (pinned.size == 50) await pinned.last().unpin().then(() => countingMessage.pin().catch()).catch();
       })
     },
     "sendmessage": {
