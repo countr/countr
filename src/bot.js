@@ -94,6 +94,13 @@ client.on("message", async message => {
 });
 
 client.on("messageDelete", async deleted => {
+  if (
+    disabledGuilds == null ||
+    (
+      disabledGuilds &&
+      disabledGuilds.has(message.guild.id)
+    )
+  ) return;
   const gdb = await db.guild(deleted.guild.id);
   let { modules, channel, message, user, count } = gdb.get();
   if (
@@ -109,6 +116,13 @@ client.on("messageDelete", async deleted => {
 });
 
 client.on("messageUpdate", async (original, updated) => {
+  if (
+    disabledGuilds == null ||
+    (
+      disabledGuilds &&
+      disabledGuilds.has(message.guild.id)
+    )
+  ) return;
   const gdb = await db.guild(original.guild.id);
   let { modules, channel, message, count } = gdb.get();
   if (
