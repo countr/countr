@@ -8,5 +8,6 @@ mongoose.connect(config.database_uri, {
 
 module.exports = (client) => ({
   guild: require("./guild.js")(client), // guild(guildid)
+  cacheGuilds: require("./guild.js").cacheAll,
   global: require("./global.js")
 });
