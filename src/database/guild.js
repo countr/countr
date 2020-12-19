@@ -144,5 +144,3 @@ module.exports.cacheAll = async (guilds = new Set()) => {
     return dbCache.set(guildid, guildCache)
   })
 }
-
-console.log(module.exports)
