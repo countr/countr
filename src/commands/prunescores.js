@@ -24,10 +24,8 @@ module.exports.run = async (message, _, gdb) => {
     progress = 0,
     progressInterval = setInterval(() => m.edit(`⏳ Pruning ... (${Math.round((progress / userIDs.length) * 100)}% done, ETA: ${msToTime((userIDs.length - progress) * (sleepTime + message.client.ws.ping + 50))}, found ${list.length}, processed ${progress}, remaining ${userIDs.length - progress})`), 5000);
   for (const id of userIDs) {
-    if (!message.guild.members.resolve(id)) {
-      if (!(await message.guild.members.fetch(id).catch(() => null))) list.push(id);
-      await sleep(sleepTime); // avoid rate limiting
-    }
+    if (!(await message.guild.members.fetch({ user: id, cache: false, force: true }).catch(() => null))) list.push(id);
+    await sleep(sleepTime); // avoid rate limiting
     progress++;
   }
   clearInterval(progressInterval);
