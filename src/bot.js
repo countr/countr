@@ -59,8 +59,12 @@ client.once("shardReady", async (shardid, unavailable = new Set()) => {
 async function updatePresence() {
   let name = `${config.prefix}help • ${(await db.global.getCount()).toLocaleString("en-US")} counts this week!`, guild = client.guilds.cache.get(config.mainGuild);
   if (guild) {
-    const gdb = await db.guild(guild.id), { channel, count } = gdb.get();
-    name = `#${guild.channels.cache.get(channel).name} • ${count}`;
+    const gdb = await db.guild(guild.id),
+      { channel, count } = gdb.get(),
+      chnl = guild.channels.cache.get(channel);
+    
+    if(!chnl) return;
+    name = `#${chnl.name} • ${count}`;
   }
   return client.user.setPresence({
     status: "online",
