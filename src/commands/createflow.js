@@ -87,7 +87,7 @@ module.exports.run = async (message, _, gdb) => {
             "• `edit <trigger or action> <slot>`: Edit a trigger or action's slot.",
             "• `save`: Save the flow.",
             "• `cancel`: Cancel the creation without saving.",
-            "**__The commands does not require the bot prefix, just simply write it in the channel.__** Also notice that normal bot commands have been disabled in this channel."
+            "**__The commands do not require the bot prefix, just simply write it in the channel.__** Also notice that normal bot commands have been disabled in this channel."
           ].join("\n")
         },
         {
