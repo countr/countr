@@ -40,10 +40,8 @@ module.exports.run = async (message, _, gdb) => {
       }
     ]
   }).catch(e => {
-    if(e) message.channel.send(`❌ The bot is missing permissions to make a channel. Make sure it has the following permissions:\n\`\`\`css\n${perms.join("\n").replace(/_/g, " ")}\`\`\``);
+    if(e) return message.channel.send(`❌ The bot is missing permissions to make a channel. Make sure it has the following permissions:\n\`\`\`css\n${perms.join("\n").replace(/_/g, " ")}\`\`\``);
   });
-
-  console.log(newChannel);
 
   gdb.setMultiple({
     channel: newChannel.id,
