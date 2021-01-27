@@ -22,7 +22,7 @@ We do not recommend self-hosting the bot, but it's always an option. To selfhost
 * Node - confirmed working on v12.16.1
 * npm - comes with Node, the version shouldn't really matter
 * A Discord bot token, and having the bot in your server
-* An mlab.com-database set up, as well as a user to it (with write access)
+* An mongodb.com-database set up, as well as a user to it (with write access)
 * A clone of the source code, this can be found [here](https://github.com/countr/countr) and needs to be extracted to a folder.
 
 We will have to do this once:
@@ -39,7 +39,7 @@ After all this, start the bot with `npm run start`.
 | Property       | Default    | Description |
 |:---------------|:-----------|:------------|
 | `token`        |            | The Discord bot token | 
-| `database_uri` |            | The mlab.com-user and password-URI. | N/A |
+| `database_uri` |            | The mongodb.com-user and password-URI. | N/A |
 | `admins`       | `[]`       | An array of admins, the first one being the owner. | 
 | `prefix`       | `"c!"`     | The prefix you want the bot to use for commands. |
 | `mainGuild`    |            | The main guild the bot will be in. |
