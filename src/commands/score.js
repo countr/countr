@@ -1,7 +1,7 @@
 module.exports = {
   description: "Get your current score and rank in the server",
   usage: {
-    "[member]": "Another member whose score you want to check"
+    "[member]": "The member you want to check the score of"
   },
   examples: {},
   aliases: [ "rank", "#" ],
