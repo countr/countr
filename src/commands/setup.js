@@ -30,29 +30,25 @@ module.exports.run = async (message, _, gdb) => {
     "MANAGE_WEBHOOKS"
   ];
 
-  let newChannel;
-
-  try {
-    await message.guild.channels.create("counting", {
-      parent: message.channel.parent,
-      rateLimitPerUser: 2,
-      permissionOverwrites: [
-        {
-          id: message.client.user.id,
-          allow: perms
-        }
-      ]
-    }).then(c => newChannel = c);
-  } catch (e) {
-    if(e) return message.channel.send(`❌ The bot is missing permissions to make a channel. Make sure it has the following permissions:\n\`\`\`css\n${perms.join("\n").replace(/_/g, " ")}\`\`\``);
-  }
-  
-  gdb.setMultiple({
-    channel: newChannel.id,
-    count: 0,
-    user: "",
-    message: message.id
-  });
-
-  return message.channel.send(`✅ ${newChannel} channel created! Happy counting!`);
+  return await message.guild.channels.create("counting", {
+    parent: message.channel.parent,
+    rateLimitPerUser: 2,
+    permissionOverwrites: [
+      {
+        id: message.client.user.id,
+        allow: perms
+      }
+    ]
+  })
+    .then(newChannel => {
+      gdb.setMultiple({
+        channel: newChannel.id,
+        count: 0,
+        user: "",
+        message: message.id
+      });
+    
+      return message.channel.send(`✅ ${newChannel} channel created! Happy counting!`);
+    })
+    .catch(() => message.channel.send(`❌ The bot is missing permissions to make a channel. Make sure it has the following permissions:\n\`\`\`css\n${perms.join("\n").replace(/_/g, " ")}\`\`\``));
 };
