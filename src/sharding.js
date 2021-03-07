@@ -5,7 +5,15 @@ const manager = new Discord.ShardingManager("./src/bot.js", {
   mode: "worker"
 });
 
-manager.on("shardCreate", shard => console.log(`Manager: Shard ${shard.id} is starting.`));
+manager.on("shardCreate", shard => {
+  shard.on("message", m => {
+    if (m == "respawn") {
+      console.log(`Manager: Shard ${shard.id} has requested a restart.`);
+      shard.respawn()
+    }
+  })
+  console.log(`Manager: Shard ${shard.id} is starting.`)
+});
 
 let botInfo = {};
 
