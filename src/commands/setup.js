@@ -21,6 +21,7 @@ module.exports.run = async (message, _, gdb) => {
 
   const perms = [
     "MANAGE_CHANNELS",
+    "MANAGE_ROLES", // manage permissions
     "VIEW_CHANNEL",
     "SEND_MESSAGES",
     "MANAGE_MESSAGES",

@@ -1,7 +1,7 @@
 [
   {
     "triggers": [ "invite", "inviteme", "addme" ],
-    "message": "🔗 Invite me: <https://discordapp.com/api/oauth2/authorize?client_id={{BOT_ID}}&permissions=805317648&scope=bot>"
+    "message": "🔗 Invite me: <https://discordapp.com/api/oauth2/authorize?client_id={{BOT_ID}}&permissions=805432336&scope=bot>"
   },
   {
     "triggers": [ "support" ],
