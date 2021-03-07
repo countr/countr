@@ -1,4 +1,4 @@
-const config = require("../../config.json"), { formatScore } = require("../constants/index.js")
+const config = require("../../config.json"), { formatScore } = require("../constants/index.js");
 
 module.exports = (client, db) => {
   return () => Promise.all(client.guilds.cache.map(async guild => {
@@ -35,7 +35,7 @@ module.exports = (client, db) => {
           color: config.color,
           timestamp: Date.now()
         }
-      }).catch(() => null)
+      }).catch(() => null);
     }
-  }))
-}
+  }));
+};

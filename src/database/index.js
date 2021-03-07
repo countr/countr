@@ -8,7 +8,7 @@ module.exports = (client) => {
     useUnifiedTopology: true
   }).catch(e => {
     console.log(e);
-    client.shard.send("respawn")
+    client.shard.send("respawn");
   });
   // Sometimes the connection to the database fails, so we instead try to restart the entire shard.
 
@@ -16,5 +16,5 @@ module.exports = (client) => {
     guild: require("./guild.js")(client), // guild(guildid)
     cacheGuilds: require("./guild.js").cacheAll,
     global: require("./global.js")
-  }
-}
+  };
+};
