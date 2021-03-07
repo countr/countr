@@ -6,17 +6,17 @@
   },
   "license": "GPL-3.0",
   "dependencies": {
-    "bufferutil": "^4.0.2",
+    "bufferutil": "^4.0.3",
     "discord.js": "^12.5.1",
     "erlpack": "github:discord/erlpack",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
-    "mongoose": "^5.11.8",
+    "mongoose": "^5.11.19",
     "node-fetch": "^2.6.1",
-    "utf-8-validate": "^5.0.3",
+    "utf-8-validate": "^5.0.4",
     "zlib-sync": "^0.1.7"
   },
   "devDependencies": {
-    "eslint": "^7.12.1"
+    "eslint": "^7.21.0"
   }
 }
