@@ -20,7 +20,7 @@ module.exports.run = async (message, _, gdb, { prefix, permissionLevel, content:
       description: [
         `• To get started with the bot, do \`${prefix}setup\`.`,
         `• If you need help with a command, do \`${prefix}help <command>\`.`,
-        "• If you need further help, check out the documentation: https:/docs.countr.xyz/"
+        "• If you need further help, check out the documentation: https://docs.countr.xyz/"
       ].join("\n"),
       color: config.color,
       timestamp: Date.now(),
