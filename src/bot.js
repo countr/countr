@@ -20,7 +20,8 @@ const
       intents: [ "GUILDS", "GUILD_MESSAGES" ]
     }
   }),
-  db = require("./database/index.js")(client);
+  db = require("./database/index.js")(client),
+  updateLiveboards = require("./handlers/liveboard.js")(client, db);
 
 let shard = "Shard N/A:", disabledGuilds = null;
 
@@ -54,6 +55,11 @@ client.once("shardReady", async (shardid, unavailable = new Set()) => {
   // update presence
   updatePresence();
   client.setInterval(updatePresence, 60000);
+
+  if (config.isPremium) {
+    updateLiveboards();
+    client.setInterval(updateLiveboards, 60000);
+  }
 });
 
 async function updatePresence() {

@@ -100,7 +100,7 @@ fs.readdir("./src/commands/", (err, files) => {
   for (const file of files) if (file.endsWith(".js")) {
     const commandFile = Object.assign({}, require(`../commands/${file}`)), fileName = file.replace(".js", "");
     commandFile.command = fileName;
-    commands.push(Object.assign({}, defaultCommand, commandFile));
+    if (config.isPremium || !commandFile.premiumOnly) commands.push(Object.assign({}, defaultCommand, commandFile));
   }
   // sort the commands list by name once all commands have been loaded in
   commands = commands.sort((a, b) => a.command.localeCompare(b.command));

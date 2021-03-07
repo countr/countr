@@ -1,4 +1,4 @@
-const { getPermissionLevel } = require("../constants/index.js"), { deleteMessages } = require("./counting.js"), fs = require("fs");
+const { getPermissionLevel } = require("../constants/index.js"), { deleteMessages } = require("./counting.js"), fs = require("fs"), config = require("../../config.json");
 
 // loading commands
 const commands = new Map(), aliases = new Map(), statics = require("../commands/_static.json");
@@ -6,8 +6,10 @@ fs.readdir("./src/commands/", (err, files) => {
   if (err) return console.log(err);
   for (const file of files) if (file.endsWith(".js")) {
     const commandFile = require(`../commands/${file}`), fileName = file.replace(".js", "");
-    commands.set(fileName, commandFile);
-    if (commandFile.aliases) for (const alias of commandFile.aliases) aliases.set(alias, fileName);
+    if (config.isPremium || !commandFile.premiumOnly) {
+      commands.set(fileName, commandFile);
+      if (commandFile.aliases) for (const alias of commandFile.aliases) aliases.set(alias, fileName);
+    }
   }
 });
 

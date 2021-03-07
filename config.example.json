@@ -6,5 +6,6 @@
   "mainGuild": "your guild id here",
   "color": 12404274,
   "webhookUrl": null,
-  "port": 1001
+  "port": 1001,
+  "isPremium": true
 }
