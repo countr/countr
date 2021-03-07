@@ -1,7 +1,7 @@
 module.exports = {
   description: "Set up a liveboard in your server.",
   usage: {
-    "<channel>|disable": "Soecify what channel you want the liveboard to be in. "
+    "<channel>|disable": "Specify what channel you want the liveboard to be in."
   },
   examples: {},
   aliases: [],
