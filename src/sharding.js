@@ -1,6 +1,7 @@
 const Discord = require("discord.js"), express = require("express"), config = require("../config.json");
 
 const manager = new Discord.ShardingManager("./src/bot.js", {
+  totalShards: config.shards || "auto",
   token: config.token,
   mode: "worker"
 });
@@ -54,4 +55,4 @@ async function updateBotInfo() {
   return botInfo = newBotInfo;
 }
 
-manager.spawn();
+manager.spawn(config.shards || "auto", 5500, -1);
