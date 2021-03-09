@@ -8,6 +8,10 @@
     "message": "🔗 Support server: <https://promise.solutions/support>"
   },
   {
+    "triggers": [ "privacy ","privacypolicy" ],
+    "message": "We store the necessary data that Countr needs, no unnecessary user information is getting stored. You can do c!dump to dump the server information to your DMs. We do not store anything else. You have to be the server owner to use this command. To read the full privacy policy click [here](https://countr.xyz/privacy)"
+  },
+  {
     "triggers": [ "source", "sourcecode", "code", "git" ],
     "message": "🔗 Source code: https://github.com/countr/countr"
   },
