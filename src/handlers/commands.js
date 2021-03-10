@@ -1,17 +1,21 @@
 const { getPermissionLevel } = require("../constants/index.js"), { deleteMessages } = require("./counting.js"), fs = require("fs"), config = require("../../config.json");
 
 // loading commands
-const commands = new Map(), aliases = new Map(), statics = require("../commands/_static.json");
-fs.readdir("./src/commands/", (err, files) => {
-  if (err) return console.log(err);
-  for (const file of files) if (file.endsWith(".js")) {
-    const commandFile = require(`../commands/${file}`), fileName = file.replace(".js", "");
-    if (config.isPremium || !commandFile.premiumOnly) {
-      commands.set(fileName, commandFile);
-      if (commandFile.aliases) for (const alias of commandFile.aliases) aliases.set(alias, fileName);
+const
+  commands = new Map(),
+  aliases = new Map(),
+  statics = require("../commands/_static.json"),
+  commandLoader = new Promise(resolve => fs.readdir("./src/commands/", (err, files) => {
+    if (err) return console.log(err);
+    for (const file of files) if (file.endsWith(".js")) {
+      const commandFile = require(`../commands/${file}`), fileName = file.replace(".js", "");
+      if (config.isPremium || !commandFile.premiumOnly) {
+        commands.set(fileName, commandFile);
+        if (commandFile.aliases) for (const alias of commandFile.aliases) aliases.set(alias, fileName);
+      }
     }
-  }
-});
+    resolve();
+  }));
 
 module.exports = async (message, gdb, db, countingChannel, prefix) => {
   let content;
@@ -45,3 +49,39 @@ module.exports = async (message, gdb, db, countingChannel, prefix) => {
   const response = await processCommand();
   if (message.channel.id == countingChannel) setTimeout(() => message.channel.id == gdb.get().channel ? deleteMessages([ message, response ]) : null, 5000);
 };
+
+module.exports.setupSlashCommands = async client => {
+  client.ws.on("INTERACTION_CREATE", async interaction => {
+    const commandFile = commands.get(interaciton.data.name);
+    if (!commandFile) return respondWithError(interaction, `❌ The command \`${interaction.data.name}\` does not exist.`)
+
+    const guild = client.guilds.cache.get(interaction_guild_id);
+    if (!guild) return respondWithError(interaction, `❌ This guild is currently unavailable.`)
+    const channel = guild.channels.cache.get(interaction.channel_id);
+    if (!channel) return respondWithError(interaction, `❌ I don't have access to view this channel.`)
+    const member = guild.members.fetch(interaction.member.user.id);
+
+    
+  })
+}
+
+const respondWithError = ({ id, token }, content) => client.api.interactions(id, token).callback.post({ data: { type: 3, data: { flags: 64, content }}})
+
+module.exports.registerSlashCommands = async () => {
+  await commandLoader;
+
+  // remove old commands
+  const slashCommands = await client.api.applications(config.id).commands.get();
+  await Promise.all(slashCommands
+    .filter(c => !commands.get(slashCommand.name))
+    .map(({ id }) => 
+      client.api.applications(config.id).commands.delete(id)
+    )
+  )
+
+  // register commands
+  await Promise.all(commands.map(async ({ description, options, permissionRequired }, name) => {
+    if (permissionRequired <= 3) return await client.api.applications(config.id).commands.post({ data: { name, description, options } });
+    else return;
+  }))
+}
