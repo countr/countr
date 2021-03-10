@@ -74,7 +74,7 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
         {
           name: "🌐 Links",
           value: [
-            `**Invite me:** [https://discordapp.com/api/oauth2/authorize?...](https://discordapp.com/api/oauth2/authorize?client_id=${message.client.user.id}&permissions=2952801296&scope=bot)`,
+            `**Invite me:** [https://discordapp.com/api/oauth2/authorize?...](https://discord.com/api/oauth2/authorize?client_id=${message.client.user.id}&permissions=805334032&scope=bot%20applications.commands)`,
             "**Source Code**: https://github.com/countr/countr",
             "**Support Server**: https://promise.solutions/support"
           ].join("\n"),
