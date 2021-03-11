@@ -11,7 +11,6 @@ fs.readdir("./src/commands/", (err, files) => {
       if (commandFile.aliases) for (const alias of commandFile.aliases) aliases.set(alias, fileName);
     }
   }
-  resolve();
 })
 
 module.exports = async (message, gdb, db, countingChannel, prefix) => {
@@ -68,14 +67,14 @@ module.exports.registerSlashCommands = async client => {
   // remove old commands
   const slashCommands = await client.api.applications(client.user.id).commands.get();
   await Promise.all(slashCommands
-    .filter(c => !commands.get(slashCommand.name))
+    .filter(c => !commands.get(c.name))
     .map(({ id }) => 
       client.api.applications(client.user.id).commands.delete(id)
     )
   )
 
   // register commands
-  await Promise.all(commands.map(async ({ description, options, permissionRequired }, name) => {
+  await Promise.all(commands.forEach(async ({ description, options, permissionRequired }, name) => {
     if (permissionRequired <= 3) return await client.api.applications(client.user.id).commands.post({ data: { name, description, options } });
     else return;
   }))
