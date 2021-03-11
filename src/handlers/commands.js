@@ -46,7 +46,7 @@ module.exports = async (message, gdb, db, countingChannel, prefix) => {
   if (message.channel.id == countingChannel) setTimeout(() => message.channel.id == gdb.get().channel ? deleteMessages([ message, response ]) : null, 5000);
 };
 
-module.exports.setupSlashCommands = async client => {
+module.exports.setupSlashCommands = async (client, db) => {
   client.ws.on("INTERACTION_CREATE", async interaction => {
     const commandFile = commands.get(interaciton.data.name);
     if (!commandFile) return respondWithError(interaction, `❌ The command \`${interaction.data.name}\` does not exist.`)
@@ -54,10 +54,44 @@ module.exports.setupSlashCommands = async client => {
     const guild = client.guilds.cache.get(interaction_guild_id);
     if (!guild) return respondWithError(interaction, `❌ This guild is currently unavailable.`)
     const channel = guild.channels.cache.get(interaction.channel_id);
-    if (!channel) return respondWithError(interaction, `❌ I don't have access to view this channel.`)
+    if (!channel || !(commandFile.needAccessToChannel && !channel.viewable)) return respondWithError(interaction, `❌ I don't have access to view this channel.`)
+
+    const gdb = await db.guild(guild.id), { channel: countingChannel } = gdb.get();
+    if (channel.id == countingChannel && !commandFile.allowInCountingChannel) return respondWithError(interaction, "❌ This command is disabled inside the counting channel.")
+
     const member = guild.members.fetch(interaction.member.user.id);
 
-    
+    const permissionLevel = getPermissionLevel(member);
+    if (permissionLevel < commandFile.permissionRequired) return respondWithError(interaction, "❌ You don't have permission to do this.")
+
+    const args = {};
+    if (interaction.data.options) for (const slashArg of interaction.data.options) {
+      const { type, choices } = commandFile.options.find(o => o.name == slashArg.name);
+      args[slashArg.name] = convertArg(type, slashArg.value, choices, guild);
+    }
+
+    return commandFile.run(
+      {
+        send: async content => {
+          await client.api.interactions(interaction.id, interaction.token).callback.post({ data: { type: 4, data: { content } } });
+          return {
+            edit: content => client.api.webhooks(client.user.id, interaction.token).messages('@original').patch({ data: { content } }),
+            delete: () => client.api.webhooks(client.user.id, interaction.token).messages('@original').delete()
+          }
+        },
+        followup: async content => {
+          const m = await client.api.webhooks(client.user.id, interaction.token).post({ data: { content } });
+          return {
+            edit: content => client.api.webhooks(client.user.id, interaction.token).messages(m.id).patch({ data: { content } }),
+            delete: () => client.api.webhooks(client.user.id, interaction.token).messages(m.id).delete()
+          }
+        },
+        acknowledge: () => client.api.interactions(interaction.id, interaction.token).callback.post({ data: { type: 5 } }),
+      },
+      { client, guild, channel, member },
+      args, gdb,
+      { permissionLevel, db }
+    )
   })
 }
 
@@ -65,17 +99,48 @@ const respondWithError = ({ id, token }, content) => client.api.interactions(id,
 
 module.exports.registerSlashCommands = async client => {
   // remove old commands
-  const slashCommands = await client.api.applications(client.user.id).commands.get();
+  const slashCommands = await client.api.applications(client.user.id).guilds('793877712254009464').commands.get();
   await Promise.all(slashCommands
-    .filter(c => !commands.get(c.name))
+    .filter(c => !commands.get(c.name) && !statics.find(s => s.triggers[0] == c.name))
     .map(({ id }) => 
-      client.api.applications(client.user.id).commands.delete(id)
+      client.api.applications(client.user.id).guilds('793877712254009464').commands[id].delete()
     )
   )
 
   // register commands
-  await Promise.all(commands.forEach(async ({ description, options, permissionRequired }, name) => {
-    if (permissionRequired <= 3) return await client.api.applications(client.user.id).commands.post({ data: { name, description, options } });
-    else return;
-  }))
+  await Promise.all([...commands.keys(), ...statics.map(s => s.triggers[0])]
+    .filter(name => {
+      const
+        c1 = commands.get(name) || {},
+        c2 = slashCommands.find(s => s.name == name);
+      if (
+        !c2 ||
+        c1.description !== c2.description ||
+        JSON.stringify(c1.options || []) !== JSON.stringify(c2.options || [])
+      ) return true; else return false;
+    })
+    .map(async name => {
+      const { description, options, permissionRequired } = commands.get(name) || {
+        description: "Static command.",
+        options: [],
+        permissionRequired: 0
+      };
+      if (permissionRequired <= 3) return await client.api.applications(client.user.id).guilds("793877712254009464").commands.post({ data: { name, description, options } });
+      else return;
+    })
+  )
+}
+
+function convertArg(type, arg, choices, guild) {
+  let converted = arg;
+  if (type == 4) converted = parseInt(arg);
+  if (type == 5) converted = ["true", "yes", "y", "t", true, "false", "no", "n", "f", false].includes(typeof arg == "string" ? arg.toLowerCase() : arg) ? ["true", "yes", "y", "t", true].includes(typeof arg == "string" ? arg.toLowerCase() : arg) : null;
+  if (type == 6) converted = getMember(arg, guild);
+  if (type == 7) converted = getChannel(arg, guild);
+  if (type == 8) converted = getRole(arg, guild);
+  
+  if (choices && choices.length) {
+    if (choices.map(ch => ch.value).includes(converted)) return converted;
+    else return null;
+  } else return converted; 
 }

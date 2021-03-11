@@ -64,7 +64,7 @@ client.once("shardReady", async (shardid, unavailable = new Set()) => {
     client.setInterval(updateLiveboards, 60000);
   }
 
-  if (shardid == 0) registerSlashCommands(client).then(() => console.log(shard, "Slash Commands have been registered."))
+  if (shardid == 0) registerSlashCommands(client, db).then(() => console.log(shard, "Slash Commands have been registered."))
 });
 
 async function updatePresence() {
