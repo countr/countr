@@ -1,21 +1,18 @@
 const { getPermissionLevel } = require("../constants/index.js"), { deleteMessages } = require("./counting.js"), fs = require("fs"), config = require("../../config.json");
 
 // loading commands
-const
-  commands = new Map(),
-  aliases = new Map(),
-  statics = require("../commands/_static.json"),
-  commandLoader = new Promise(resolve => fs.readdir("./src/commands/", (err, files) => {
-    if (err) return console.log(err);
-    for (const file of files) if (file.endsWith(".js")) {
-      const commandFile = require(`../commands/${file}`), fileName = file.replace(".js", "");
-      if (config.isPremium || !commandFile.premiumOnly) {
-        commands.set(fileName, commandFile);
-        if (commandFile.aliases) for (const alias of commandFile.aliases) aliases.set(alias, fileName);
-      }
+const commands = new Map(), aliases = new Map(), statics = require("../commands/_static.json");
+fs.readdir("./src/commands/", (err, files) => {
+  if (err) return console.log(err);
+  for (const file of files) if (file.endsWith(".js")) {
+    const commandFile = require(`../commands/${file}`), fileName = file.replace(".js", "");
+    if (config.isPremium || !commandFile.premiumOnly) {
+      commands.set(fileName, commandFile);
+      if (commandFile.aliases) for (const alias of commandFile.aliases) aliases.set(alias, fileName);
     }
-    resolve();
-  }));
+  }
+  resolve();
+})
 
 module.exports = async (message, gdb, db, countingChannel, prefix) => {
   let content;
@@ -67,21 +64,19 @@ module.exports.setupSlashCommands = async client => {
 
 const respondWithError = ({ id, token }, content) => client.api.interactions(id, token).callback.post({ data: { type: 3, data: { flags: 64, content }}})
 
-module.exports.registerSlashCommands = async () => {
-  await commandLoader;
-
+module.exports.registerSlashCommands = async client => {
   // remove old commands
-  const slashCommands = await client.api.applications(config.id).commands.get();
+  const slashCommands = await client.api.applications(client.user.id).commands.get();
   await Promise.all(slashCommands
     .filter(c => !commands.get(slashCommand.name))
     .map(({ id }) => 
-      client.api.applications(config.id).commands.delete(id)
+      client.api.applications(client.user.id).commands.delete(id)
     )
   )
 
   // register commands
   await Promise.all(commands.map(async ({ description, options, permissionRequired }, name) => {
-    if (permissionRequired <= 3) return await client.api.applications(config.id).commands.post({ data: { name, description, options } });
+    if (permissionRequired <= 3) return await client.api.applications(client.user.id).commands.post({ data: { name, description, options } });
     else return;
   }))
 }

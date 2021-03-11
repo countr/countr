@@ -1,7 +1,10 @@
 const
   Discord = require("discord.js"),
   config = require("../config.json"),
-  commandHandler = require("./handlers/commands.js"),
+  {
+    commandHandler,
+    registerSlashCommands
+  } = require("./handlers/commands.js"),
   countingHandler = require("./handlers/counting.js"),
   prepareGuild = require("./handlers/prepareGuilds.js"),
   client = new Discord.Client({
@@ -60,6 +63,8 @@ client.once("shardReady", async (shardid, unavailable = new Set()) => {
     updateLiveboards();
     client.setInterval(updateLiveboards, 60000);
   }
+
+  if (shardid == 0) registerSlashCommands(client).then(() => console.log(shard, "Slash Commands have been registered."))
 });
 
 async function updatePresence() {

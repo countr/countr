@@ -56,6 +56,3 @@ async function updateBotInfo() {
 }
 
 manager.spawn(config.shards || "auto", 5500, -1);
-
-console.log("Manager: Sharding Manager is starting.")
-require("./handlers/commands.js").registerSlashCommands().then(() => console.log("Manager: Slash Commands have been registered."))
