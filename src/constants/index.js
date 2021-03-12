@@ -65,4 +65,4 @@ module.exports.formatNotifications = notifications => {
     all.push(`• \`${id}\` ${explanation}`);
   }
   return all;
-}
+};
