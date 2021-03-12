@@ -1,10 +1,8 @@
 const
   Discord = require("discord.js"),
   config = require("../config.json"),
-  {
-    commandHandler,
-    setupSlashCommands
-  } = require("./handlers/commands.js"),
+  commandHandler = require("./handlers/commands.js"),
+  slashCommandHandler = require("./handlers/slashCommands.js"),
   countingHandler = require("./handlers/counting.js"),
   prepareGuild = require("./handlers/prepareGuilds.js"),
   client = new Discord.Client({
@@ -64,7 +62,7 @@ client.once("shardReady", async (shardid, unavailable = new Set()) => {
     client.setInterval(updateLiveboards, 60000);
   }
 
-  setupSlashCommands(client, db, shardid).then(() => console.log(shard, "Slash Commands have been set up."));
+  slashCommandHandler(client, db, shardid).then(() => console.log(shard, "Slash Commands have been set up."));
 });
 
 async function updatePresence() {
@@ -157,8 +155,6 @@ client.on("messageUpdate", async (original, updated) => {
     original.delete();
   }
 });
-
-setupSlashCommands(client, db);
 
 client
   .on("error", err => console.log(shard, "Client error.", err))
