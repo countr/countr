@@ -4,7 +4,7 @@ module.exports = async (client, db, shardid) => {
   if (shardid == 0) registerCommands(client).then(() => console.log("Manager: Slash Commands have been registered."));
 
   client.ws.on("INTERACTION_CREATE", async interaction => {
-    if (!interaction.guild_id) return client.api.interactions(interaction.id, interaction.token).callback.post({ data: { type: 4, data: { content: "❌ Countr's commands only works in guilds." } } })
+    if (!interaction.guild_id) return client.api.interactions(interaction.id, interaction.token).callback.post({ data: { type: 4, data: { content: "❌ Countr's commands only works in guilds." } } });
     const
       commandFile = require(`../commands/slash/${interaction.data.name}.js`),
       gdb = await db.guild(interaction.guild_id),
