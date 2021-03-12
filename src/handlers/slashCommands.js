@@ -71,3 +71,5 @@ module.exports.reloadCommand = command => {
   delete require.cache[require.resolve(`../commands/slash/${command}.js`)];
   loadCommand(command);
 };
+
+module.exports.registerCommands = registerCommands;
