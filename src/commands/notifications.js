@@ -7,7 +7,7 @@ module.exports = {
   checkArgs: (args) => !args.length
 };
 
-const { flow } = require("../constants/index.js");
+const { formatNotifications } = require("../constants/index.js");
 
 module.exports.run = async (message, _, gdb) => {
   let { notifications: rawList } = gdb.get(), notifications = {};
@@ -16,17 +16,3 @@ module.exports.run = async (message, _, gdb) => {
   if (!Object.keys(notifications).length) return message.channel.send("❌ You don't have any notifications for this server.");
   else return message.channel.send(`📋 Notifications for user ${message.author}:\n${formatNotifications(notifications).join("\n")}`);
 };
-
-function formatNotifications(notifications) {
-  const all = [];
-  for (const id in notifications) {
-    const notif = notifications[id];
-    let explanation;
-
-    if (notif.mode == "each") explanation = flow.triggers.each.explanation.replace("{0}", notif.count);
-    else if (notif.mode == "only") explanation = flow.triggers.only.explanation.replace("{0}", notif.count);
-
-    all.push(`• \`${id}\` ${explanation}`);
-  }
-  return all;
-}
