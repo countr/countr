@@ -4,8 +4,6 @@ module.exports = async (client, db, shardid) => {
   if (shardid == 0) registerCommands(client).then(() => console.log("Manager: Slash Commands have been registered."));
 
   client.ws.on("INTERACTION_CREATE", async interaction => {
-    console.log(JSON.stringify(interaction, null, 2));
-
     const
       commandFile = require(`../commands/slash/${interaction.data.name}.js`),
       gdb = await db.guild(interaction.guild_id),
@@ -14,13 +12,13 @@ module.exports = async (client, db, shardid) => {
         interaction.channel_id == countingChannel ?
           data => client.api.interactions(interaction.id, interaction.token).callback.post({ data: { type: 4, data: Object.assign({ flags: 64 }, data) } }) : // hidden response
           data => client.api.interactions(interaction.id, interaction.token).callback.post({ data: { type: 4, data } }); // response public to everyone
-    return commandFile.run(sendFunction, { gdb, member: interaction.member, client, db, guild: interaction.guild_id }, getSlashArgs(interaction.data.options));
+    return commandFile.run(sendFunction, { gdb, member: interaction.member, client, db, guild: interaction.guild_id }, getSlashArgs(interaction.data.options || []));
   });
 };
 
 function getSlashArgs(options) {
   const args = {};
-  for (const o in options) {
+  for (const o of options) {
     if (o.type == 1) args[o.name] = getSlashArgs(o.options);
     else args[o.name] = o.value;
   }
@@ -36,8 +34,6 @@ async function registerCommands(client) {
       client.api.applications(client.user.id).commands[id].delete()
     )
   );
-
-  console.log(registered);
 
   // register commands
   await Promise.all([...commands.keys()]
