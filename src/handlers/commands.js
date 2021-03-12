@@ -1,17 +1,4 @@
-const { getPermissionLevel } = require("../constants/index.js"), { deleteMessages } = require("./counting.js"), fs = require("fs"), config = require("../../config.json");
-
-// loading commands
-const commands = new Map(), aliases = new Map(), statics = require("../commands/_static.json");
-fs.readdir("./src/commands/", (err, files) => {
-  if (err) return console.log(err);
-  for (const file of files) if (file.endsWith(".js")) {
-    const commandFile = require(`../commands/${file}`), fileName = file.replace(".js", "");
-    if (config.isPremium || !commandFile.premiumOnly) {
-      commands.set(fileName, commandFile);
-      if (commandFile.aliases) for (const alias of commandFile.aliases) aliases.set(alias, fileName);
-    }
-  }
-})
+const { getPermissionLevel } = require("../constants/index.js"), { deleteMessages } = require("./counting.js"), { loadCommandDescriptions } = require("../commands/help.js"), fs = require("fs"), config = require("../../config.json");
 
 module.exports = async (message, gdb, db, countingChannel, prefix) => {
   let content;
@@ -143,4 +130,33 @@ function convertArg(type, arg, choices, guild) {
     if (choices.map(ch => ch.value).includes(converted)) return converted;
     else return null;
   } else return converted; 
+}
+
+// loading commands
+const commands = new Map(), aliases = new Map(), statics = require("../commands/_static.json");
+fs.readdir("./src/commands/", (err, files) => {
+  if (err) return console.log(err);
+  for (const file of files) if (file.endsWith(".js")) loadCommand(file.replace(".js", ""));
+});
+
+const loadCommand = fileName => {
+  const commandFile = require(`../commands/${fileName}.js`);
+  if (!commandFile.premiumOnly || config.isPremium) {
+    commands.set(fileName, commandFile);
+    if (commandFile.aliases) for (const alias of commandFile.aliases) aliases.set(alias, fileName);
+  }
+}
+
+module.exports.reloadCommand = fileName => {
+  delete require.cache[require.resolve(`../commands/${fileName}.js`)];
+  loadCommand(fileName);
+  loadCommandDescriptions();
+}
+
+module.exports.reloadStaticCommands = () => {
+  delete require.cache[require.resolve("../commands/_static.json")];
+  const newStatics = require("../commands/_static.json");
+  statics.length = 0; // remove everything from the variable
+  statics.push(...newStatics) // add new data to same variable
+  loadCommandDescriptions();
 }

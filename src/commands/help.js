@@ -90,18 +90,30 @@ let commands = [], defaultCommand = {
   aliases: [], // all except the first trigger
   permissionRequired: 0
 };
-for (const static of require("./_static.json")) if (!static.hideFromHelp) commands.push(Object.assign({}, defaultCommand, {
-  description: "Static command.",
-  aliases: static.triggers.slice(1), // all except the first trigger
-  command: static.triggers[0] // the first trigger
-}));
-fs.readdir("./src/commands/", (err, files) => {
-  if (err) return console.log(err);
-  for (const file of files) if (file.endsWith(".js")) {
-    const commandFile = Object.assign({}, require(`../commands/${file}`)), fileName = file.replace(".js", "");
-    commandFile.command = fileName;
-    if (config.isPremium || !commandFile.premiumOnly) commands.push(Object.assign({}, defaultCommand, commandFile));
-  }
-  // sort the commands list by name once all commands have been loaded in
-  commands = commands.sort((a, b) => a.command.localeCompare(b.command));
-});
+
+const loadCommandDescriptions = () => {
+  commands = [];
+
+  // delete cache, if it exists
+  for (const m of Object.keys(require.cache).filter(m => m.includes("src/commands/"))) delete require.cache[m];
+
+  for (const static of require("./_static.json")) if (!static.hideFromHelp) commands.push(Object.assign({}, defaultCommand, {
+    description: "Static command.",
+    aliases: static.triggers.slice(1), // all except the first trigger
+    command: static.triggers[0] // the first trigger
+  }));
+  
+  fs.readdir("./src/commands/", (err, files) => {
+    if (err) return console.log(err);
+    for (const file of files) if (file.endsWith(".js")) {
+      const commandFile = Object.assign({}, require(`../commands/${file}`)), fileName = file.replace(".js", "");
+      commandFile.command = fileName;
+      if (config.isPremium || !commandFile.premiumOnly) commands.push(Object.assign({}, defaultCommand, commandFile));
+    }
+    // sort the commands list by name once all commands have been loaded in
+    commands = commands.sort((a, b) => a.command.localeCompare(b.command));
+  });
+};
+
+loadCommandDescriptions();
+module.exports.loadCommandDescriptions = loadCommandDescriptions;

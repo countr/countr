@@ -8,6 +8,14 @@
     "message": "🔗 Support server: <https://promise.solutions/support>"
   },
   {
+    "triggers": [ "privacy", "privacypolicy" ],
+    "message": "🔗 Privacy Policy: <https://countr.xyz/privacy>"
+  },
+  {
+    "triggers": [ "terms", "termsofservice", "tos" ],
+    "message": "🔗 Terms of Service: <https://countr.xyz/terms>"
+  },
+  {
     "triggers": [ "source", "sourcecode", "code", "git" ],
     "message": "🔗 Source code: https://github.com/countr/countr"
   },
