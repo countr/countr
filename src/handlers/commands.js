@@ -1,4 +1,4 @@
-const { getPermissionLevel } = require("../constants/index.js"), { deleteMessages } = require("./counting.js"), { loadCommandDescriptions } = require("../commands/help.js"), fs = require("fs"), config = require("../../config.json");
+const { getPermissionLevel, getMember, getChannel, getRole } = require("../constants/index.js"), { deleteMessages } = require("./counting.js"), { loadCommandDescriptions } = require("../commands/help.js"), fs = require("fs"), config = require("../../config.json");
 
 module.exports = async (message, gdb, db, countingChannel, prefix) => {
   let content;
@@ -35,21 +35,21 @@ module.exports = async (message, gdb, db, countingChannel, prefix) => {
 
 module.exports.setupSlashCommands = async (client, db) => {
   client.ws.on("INTERACTION_CREATE", async interaction => {
-    const commandFile = commands.get(interaciton.data.name);
-    if (!commandFile) return respondWithError(interaction, `❌ The command \`${interaction.data.name}\` does not exist.`)
+    const commandFile = commands.get(interaction.data.name);
+    if (!commandFile) return respondWithError(client, interaction, `❌ The command \`${interaction.data.name}\` does not exist.`);
 
-    const guild = client.guilds.cache.get(interaction_guild_id);
-    if (!guild) return respondWithError(interaction, `❌ This guild is currently unavailable.`)
+    const guild = client.guilds.cache.get(interaction.guild_id);
+    if (!guild) return respondWithError(client, interaction, "❌ This guild is currently unavailable.");
     const channel = guild.channels.cache.get(interaction.channel_id);
-    if (!channel || !(commandFile.needAccessToChannel && !channel.viewable)) return respondWithError(interaction, `❌ I don't have access to view this channel.`)
+    if (!channel || (commandFile.needAccessToChannel && !channel.viewable)) return respondWithError(client, interaction, "❌ I don't have access to view this channel.");
 
     const gdb = await db.guild(guild.id), { channel: countingChannel } = gdb.get();
-    if (channel.id == countingChannel && !commandFile.allowInCountingChannel) return respondWithError(interaction, "❌ This command is disabled inside the counting channel.")
+    if (channel.id == countingChannel && !commandFile.allowInCountingChannel) return respondWithError(client, interaction, "❌ This command is disabled inside the counting channel.");
 
-    const member = guild.members.fetch(interaction.member.user.id);
+    const member = await guild.members.fetch(interaction.member.user.id);
 
     const permissionLevel = getPermissionLevel(member);
-    if (permissionLevel < commandFile.permissionRequired) return respondWithError(interaction, "❌ You don't have permission to do this.")
+    if (permissionLevel < commandFile.permissionRequired) return respondWithError(client, interaction, "❌ You don't have permission to do this.");
 
     const args = {};
     if (interaction.data.options) for (const slashArg of interaction.data.options) {
@@ -62,37 +62,37 @@ module.exports.setupSlashCommands = async (client, db) => {
         send: async content => {
           await client.api.interactions(interaction.id, interaction.token).callback.post({ data: { type: 4, data: { content } } });
           return {
-            edit: content => client.api.webhooks(client.user.id, interaction.token).messages('@original').patch({ data: { content } }),
-            delete: () => client.api.webhooks(client.user.id, interaction.token).messages('@original').delete()
-          }
+            edit: content => client.api.webhooks(client.user.id, interaction.token).messages("@original").patch({ data: { content } }),
+            delete: () => client.api.webhooks(client.user.id, interaction.token).messages("@original").delete()
+          };
         },
         followup: async content => {
           const m = await client.api.webhooks(client.user.id, interaction.token).post({ data: { content } });
           return {
             edit: content => client.api.webhooks(client.user.id, interaction.token).messages(m.id).patch({ data: { content } }),
             delete: () => client.api.webhooks(client.user.id, interaction.token).messages(m.id).delete()
-          }
+          };
         },
         acknowledge: () => client.api.interactions(interaction.id, interaction.token).callback.post({ data: { type: 5 } }),
       },
       { client, guild, channel, member },
       args, gdb,
       { permissionLevel, db }
-    )
-  })
-}
+    );
+  });
+};
 
-const respondWithError = ({ id, token }, content) => client.api.interactions(id, token).callback.post({ data: { type: 3, data: { flags: 64, content }}})
+const respondWithError = (client, { id, token }, content) => client.api.interactions(id, token).callback.post({ data: { type: 3, data: { flags: 64, content }}});
 
 module.exports.registerSlashCommands = async client => {
   // remove old commands
-  const slashCommands = await client.api.applications(client.user.id).guilds('793877712254009464').commands.get();
+  const slashCommands = await client.api.applications(client.user.id).guilds("793877712254009464").commands.get();
   await Promise.all(slashCommands
     .filter(c => !commands.get(c.name) && !statics.find(s => s.triggers[0] == c.name))
     .map(({ id }) => 
-      client.api.applications(client.user.id).guilds('793877712254009464').commands[id].delete()
+      client.api.applications(client.user.id).guilds("793877712254009464").commands[id].delete()
     )
-  )
+  );
 
   // register commands
   await Promise.all([...commands.keys(), ...statics.map(s => s.triggers[0])]
@@ -115,8 +115,8 @@ module.exports.registerSlashCommands = async client => {
       if (permissionRequired <= 3) return await client.api.applications(client.user.id).guilds("793877712254009464").commands.post({ data: { name, description, options } });
       else return;
     })
-  )
-}
+  );
+};
 
 function convertArg(type, arg, choices, guild) {
   let converted = arg;
@@ -145,18 +145,18 @@ const loadCommand = fileName => {
     commands.set(fileName, commandFile);
     if (commandFile.aliases) for (const alias of commandFile.aliases) aliases.set(alias, fileName);
   }
-}
+};
 
 module.exports.reloadCommand = fileName => {
   delete require.cache[require.resolve(`../commands/${fileName}.js`)];
   loadCommand(fileName);
   loadCommandDescriptions();
-}
+};
 
 module.exports.reloadStaticCommands = () => {
   delete require.cache[require.resolve("../commands/_static.json")];
   const newStatics = require("../commands/_static.json");
   statics.length = 0; // remove everything from the variable
-  statics.push(...newStatics) // add new data to same variable
+  statics.push(...newStatics); // add new data to same variable
   loadCommandDescriptions();
-}
+};
