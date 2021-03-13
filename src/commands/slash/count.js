@@ -1,5 +1,5 @@
 module.exports = {
-  description: "asss",
+  description: "Get the current count.",
   options: []
 };
 
