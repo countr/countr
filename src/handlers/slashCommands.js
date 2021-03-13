@@ -9,11 +9,12 @@ module.exports = async (client, db, shardid) => {
       commandFile = require(`../commands/slash/${interaction.data.name}.js`),
       gdb = await db.guild(interaction.guild_id),
       { channel: countingChannel } = gdb.get(),
+      hidden = interaction.channel_id == countingChannel,
       sendFunction =
-        interaction.channel_id == countingChannel ?
+        hidden ?
           data => client.api.interactions(interaction.id, interaction.token).callback.post({ data: { type: 4, data: Object.assign({ flags: 64 }, data) } }) : // hidden response
           data => client.api.interactions(interaction.id, interaction.token).callback.post({ data: { type: 4, data } }); // response public to everyone
-    return commandFile.run(sendFunction, { gdb, member: interaction.member, client, db, guild: interaction.guild_id }, getSlashArgs(interaction.data.options || []));
+    return commandFile.run(sendFunction, { gdb, member: interaction.member, client, db, guild: interaction.guild_id, hidden }, getSlashArgs(interaction.data.options || []));
   });
 };
 
