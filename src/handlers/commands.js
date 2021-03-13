@@ -46,18 +46,18 @@ const loadCommand = fileName => {
     commands.set(fileName, commandFile);
     if (commandFile.aliases) for (const alias of commandFile.aliases) aliases.set(alias, fileName);
   }
-}
+};
 
-module.exports.reloadCommand = fileName => {
-  delete require.cache[require.resolve(`../commands/${fileName}.js`)];
-  loadCommand(fileName);
+module.exports.reloadCommand = command => {
+  delete require.cache[require.resolve(`../commands/${command}.js`)];
+  loadCommand(command);
   loadCommandDescriptions();
-}
+};
 
 module.exports.reloadStaticCommands = () => {
   delete require.cache[require.resolve("../commands/_static.json")];
   const newStatics = require("../commands/_static.json");
   statics.length = 0; // remove everything from the variable
-  statics.push(...newStatics) // add new data to same variable
+  statics.push(...newStatics); // add new data to same variable
   loadCommandDescriptions();
-}
+};

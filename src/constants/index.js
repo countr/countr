@@ -52,3 +52,17 @@ module.exports.formatScore = (id, index, users, userid = "") => {
   if (userid == id) return `${suffix} *__<@${id}>, **score:** ${(users[id] || 0).toLocaleString("en-US")}__*`;
   else return `${suffix} <@${id}>, **score:** ${(users[id] || 0).toLocaleString("en-US")}`;
 };
+
+module.exports.formatNotifications = notifications => {
+  const all = [];
+  for (const id in notifications) {
+    const notif = notifications[id];
+    let explanation;
+
+    if (notif.mode == "each") explanation = module.exports.flow.triggers.each.explanation.replace("{0}", notif.count);
+    else if (notif.mode == "only") explanation = module.exports.flow.triggers.only.explanation.replace("{0}", notif.count);
+
+    all.push(`• \`${id}\` ${explanation}`);
+  }
+  return all;
+};
