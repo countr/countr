@@ -94,9 +94,6 @@ let commands = [], defaultCommand = {
 const loadCommandDescriptions = () => {
   commands = [];
 
-  // delete cache, if it exists
-  for (const m of Object.keys(require.cache).filter(m => m.includes("src/commands/"))) delete require.cache[m];
-
   for (const static of require("./_static.json")) if (!static.hideFromHelp) commands.push(Object.assign({}, defaultCommand, {
     description: "Static command.",
     aliases: static.triggers.slice(1), // all except the first trigger
