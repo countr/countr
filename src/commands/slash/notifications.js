@@ -45,7 +45,7 @@ module.exports = {
 module.exports.run = async (send, { gdb, member }, { list, create, remove }) => {
   if (list) {
     let { notifications: rawList } = gdb.get(), notifications = {};
-    for (const id in rawList) if (rawList[id].user == member.user.id) notifications[id] = rawList[id];
+    for (const id in rawList) if (rawList[id] && rawList[id].user == member.user.id) notifications[id] = rawList[id];
 
     if (!Object.keys(notifications).length) send({ content: "❌ You don't have any notifications for this server." });
     else send({ content: `📋 Notifications for user <@${member.user.id}>:\n${formatNotifications(notifications).join("\n")}` });
