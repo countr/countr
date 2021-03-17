@@ -49,8 +49,8 @@ const
 module.exports.formatScore = (id, index, users, userid = "") => {
   let suffix = formatNumberSuffix(index + 1);
   suffix = medals[suffix] || `**${suffix}**:`;
-  if (userid == id) return `${suffix} *__<@${id}>, **score:** ${(users[id] || 0).toLocaleString("en-US")}__*`;
-  else return `${suffix} <@${id}>, **score:** ${(users[id] || 0).toLocaleString("en-US")}`;
+  if (userid == id) return `${suffix} *__<@!${id}>, **score:** ${(users[id] || 0).toLocaleString("en-US")}__*`;
+  else return `${suffix} <@!${id}>, **score:** ${(users[id] || 0).toLocaleString("en-US")}`;
 };
 
 module.exports.formatNotifications = notifications => {
