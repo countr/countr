@@ -118,6 +118,11 @@ module.exports.flow = {
       "long": "This will lock the counting channel for the everyone-role, and will be read-only.",
       "explanation": "Lock the counting channel",
       "run": async ({ message: { channel, guild } }) => await channel.updateOverwrite(guild.roles.everyone, { SEND_MESSAGES: false }).catch()
+    },
+    "reset": {
+      "short": "Reset the current count",
+      "explanation": "Reset the count to 0",
+      "run": async ({ gdb }) => gdb.set("count", 0)
     }
   }
 };

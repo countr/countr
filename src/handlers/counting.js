@@ -128,10 +128,11 @@ module.exports = async (message, gdb) => {
 
   // check flows
   const countData = {
-      count,
-      score: scores[message.author.id] || 0,
-      message,
-      countingMessage
+    count,
+    score: scores[message.author.id] || 0,
+    message,
+    countingMessage,
+    gdb
   };
   for (const flowID of flowIDs) try {
     const flow = flows[flowID]; let success;
