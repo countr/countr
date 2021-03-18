@@ -35,6 +35,15 @@ module.exports = async (message, gdb) => {
             message.member.roles.remove(timeoutrole.role);
             gdb.removeFromObject("timeouts", message.author.id);
           }, timeoutrole.duration * 1000);
+
+          // trigger timeout flows
+          for (const flowID of flowIDs) try {
+            const flow = flows[flowID];
+            if (flow.triggers.slice(0, limitTriggers).find(t => t.type == "timeout"))
+              for (const action of flow.actions.slice(0, limitActions).filter(a => a)) try {
+                await allActions[action.type].run(countData, action.data);
+              } catch(e) { /* something went wrong */ }
+          } catch(e) { /* something went wrong */ }
         } catch(e) { /* something went wrong */ }
       }
     }

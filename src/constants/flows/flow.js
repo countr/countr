@@ -43,6 +43,12 @@ module.exports.flow = {
       "long": "This will get triggered whenever someone fails to count",
       "explanation": "When someone fails to count the next number",
       "check": async () => {} // custom
+    },
+    "timeout": {
+      "short": "Timeout role triggered",
+      "long": "This will get triggered whenever someone gets the timeout role.",
+      "explanation": "When someone gets the timeout role",
+      "check": async () => {} // custom
     }
   },
   actions: {
