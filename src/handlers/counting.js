@@ -5,7 +5,7 @@ module.exports = async (message, gdb) => {
 
   if (message.content.startsWith("!") && permissionLevel >= 1) return;
 
-  let { count, user, modules, regex, notifications, flows, users: scores, timeoutrole } = gdb.get(), regexMatches = false;
+  let { count, user, modules, regex, notifications, flows, users: scores, timeoutrole } = gdb.get(), regexMatches = false, flowIDs = Object.keys(flows).slice(0, limitFlows);
   if (regex.length && permissionLevel == 0)
     for (let r of regex)
       if ((new RegExp(r, "g")).test(message.content)) {
@@ -38,6 +38,16 @@ module.exports = async (message, gdb) => {
         } catch(e) { /* something went wrong */ }
       }
     }
+
+    // trigger countfail flows
+    for (const flowID of flowIDs) try {
+      const flow = flows[flowID];
+      if (flow.triggers.slice(0, limitTriggers).find(t => t.type == "countfail"))
+        for (const action of flow.actions.slice(0, limitActions).filter(a => a)) try {
+          await allActions[action.type].run(countData, action.data);
+        } catch(e) { /* something went wrong */ }
+    } catch(e) { /* something went wrong */ }
+
     return;
   }
 
@@ -113,7 +123,7 @@ module.exports = async (message, gdb) => {
       score: scores[message.author.id] || 0,
       message,
       countingMessage
-    }, flowIDs = Object.keys(flows).slice(0, limitFlows);
+  };
   for (const flowID of flowIDs) try {
     const flow = flows[flowID]; let success;
     for (const trigger of flow.triggers.slice(0, limitTriggers).filter(t => t)) {

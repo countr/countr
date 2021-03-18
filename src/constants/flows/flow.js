@@ -37,6 +37,12 @@ module.exports.flow = {
       ],
       "explanation": "When a message matches the regex `{0}`",
       "check": async ({ message: { content } }, [ regex ]) => (new RegExp(regex)).test(content)
+    },
+    "countfail": {
+      "short": "Count fail",
+      "long": "This will get triggered whenever someone fails to count",
+      "explanation": "When someone fails to count the next number",
+      "check": async () => {} // custom
     }
   },
   actions: {
