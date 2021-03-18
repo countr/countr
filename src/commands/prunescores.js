@@ -15,14 +15,14 @@ module.exports.run = async (message, _, gdb) => {
   serversPruning.add(message.guild.id);
 
   const
-    m = await message.channel.send("⏳ Pruning ..."),
+    m = await message.channel.send("⏳ Loading...\n‼ We recommend locking the counting channel while this is running."),
     start = Date.now(),
     list = [];
   let
     { users } = gdb.get(),
     userIDs = Object.keys(users),
     progress = 0,
-    progressInterval = setInterval(() => m.edit(`⏳ Pruning ... (${Math.round((progress / userIDs.length) * 100)}% done, ETA: ${msToTime((userIDs.length - progress) * (sleepTime + message.client.ws.ping + 50))}, found ${list.length}, processed ${progress}, remaining ${userIDs.length - progress})`), 5000);
+    progressInterval = setInterval(() => m.edit(`⏳ Pruning ... (${Math.round((progress / userIDs.length) * 100)}% done, ETA: ${msToTime((userIDs.length - progress) * (sleepTime + message.client.ws.ping + 50))}, found ${list.length}, processed ${progress}, remaining ${userIDs.length - progress})\n‼ We recommend locking the counting channel while this is running.`), 5000);
   for (const id of userIDs) {
     if (!(await message.guild.members.fetch({ user: id, cache: false, force: true }).catch(() => null))) list.push(id);
     await sleep(sleepTime); // avoid rate limiting
