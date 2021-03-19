@@ -40,8 +40,8 @@ module.exports.flow = {
     },
     "countfail": {
       "short": "Count fail",
-      "long": "This will get triggered whenever someone fails to count",
-      "explanation": "When someone fails to count the next number",
+      "long": "This will get triggered whenever someone fails a count",
+      "explanation": "When someone fails to count the correct number",
       "check": async () => {} // custom
     },
     "timeout": {
