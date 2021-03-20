@@ -1,7 +1,7 @@
 module.exports = {
-  description: "Respawn a shard.",
+  description: "Respawn shards.",
   usage: {
-    "<shard(s...)>": "The shard you want to respawn."
+    "<shard(s...)>": "The shard(s) you want to respawn."
   },
   examples: {},
   aliases: [ "respawn" ],
@@ -14,17 +14,19 @@ module.exports.run = async (message, _, gdb, { content }) => {
   let shards = content.split(" ").map(s => parseInt(s));
   if (shards.includes(message.client.shard.ids[0])) { // restart this shard last
     shards = shards.filter(s => s !== message.client.shard.ids[0]);
-    shards.push(message.client.shard.ids[0])
+    shards.push(message.client.shard.ids[0]);
   }
 
   if (shards.length > 1) {
     await message.channel.send(`✅ Restarting shards ${shards.map(s => `\`${s}\``).join(", ")} with a 10-second delay between each one.`);
     for (const shard of shards) {
-      message.client.shard.broadcastEval(client => client.shard.send("respawn"), shard);
-      await new Promise(resolve => setTimeout(resolve, 10000))
+      message.client.shard.broadcastEval(client => client.shard.send("respawn"), shard)
+        .catch(e => message.channel.send(`❌ Error while restarting shard \`${shard}\`:\`\`\`js\n${e}\`\`\``));
+      await new Promise(resolve => setTimeout(resolve, 10000));
     }
   } else {
-    await message.channel.send(`Restarting shard \`${shards[0]}\`.`);
-    message.client.shard.broadcastEval(client => client.shard.send("respawn"), shards[0]);
+    await message.channel.send(`✅ Restarting shard \`${shards[0]}\`.`);
+    message.client.shard.broadcastEval(client => client.shard.send("respawn"), shards[0])
+      .catch(e => message.channel.send(`❌ Error while restarting shard \`${shards[0]}\`:\`\`\`js\n${e}\`\`\``));
   }
 };
