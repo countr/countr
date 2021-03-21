@@ -37,6 +37,18 @@ module.exports.flow = {
       ],
       "explanation": "When a message matches the regex `{0}`",
       "check": async ({ message: { content } }, [ regex ]) => (new RegExp(regex)).test(content)
+    },
+    "countfail": {
+      "short": "Count fail",
+      "long": "This will get triggered whenever someone fails a count",
+      "explanation": "When someone fails to count the correct number",
+      "check": async () => {} // custom
+    },
+    "timeout": {
+      "short": "Timeout role triggered",
+      "long": "This will get triggered whenever someone gets the timeout role.",
+      "explanation": "When someone gets the timeout role",
+      "check": async () => {} // custom
     }
   },
   actions: {
@@ -106,6 +118,11 @@ module.exports.flow = {
       "long": "This will lock the counting channel for the everyone-role, and will be read-only.",
       "explanation": "Lock the counting channel",
       "run": async ({ message: { channel, guild } }) => await channel.updateOverwrite(guild.roles.everyone, { SEND_MESSAGES: false }).catch()
+    },
+    "reset": {
+      "short": "Reset the current count",
+      "explanation": "Reset the count to 0",
+      "run": async ({ gdb }) => gdb.set("count", 0)
     }
   }
 };

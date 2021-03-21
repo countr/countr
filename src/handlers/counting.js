@@ -5,7 +5,7 @@ module.exports = async (message, gdb) => {
 
   if (message.content.startsWith("!") && permissionLevel >= 1) return;
 
-  let { count, user, modules, regex, notifications, flows, users: scores, timeoutrole } = gdb.get(), regexMatches = false;
+  let { count, user, modules, regex, notifications, flows, users: scores, timeoutrole } = gdb.get(), regexMatches = false, flowIDs = Object.keys(flows).slice(0, limitFlows);
   if (regex.length && permissionLevel == 0)
     for (let r of regex)
       if ((new RegExp(r, "g")).test(message.content)) {
@@ -19,7 +19,17 @@ module.exports = async (message, gdb) => {
     (!modules.includes("talking") && message.content !== (count + 1).toString()) ||
     message.content.split(" ")[0] !== (count + 1).toString()
   ) {
+    // set up countdata for flows
+    const countData = {
+      count,
+      score: scores[message.author.id] || 0,
+      message,
+      countingMessage: message,
+      gdb
+    };
+
     deleteMessage(message);
+
     if (timeoutrole.role && !message.member.roles.cache.get(timeoutrole.role)) {
       const failID = `${message.guild.id}/${message.author.id}`;
       if (!countingFails.has(failID)) countingFails.set(failID, 1);
@@ -35,9 +45,28 @@ module.exports = async (message, gdb) => {
             message.member.roles.remove(timeoutrole.role);
             gdb.removeFromObject("timeouts", message.author.id);
           }, timeoutrole.duration * 1000);
+
+          // trigger timeout flows
+          for (const flowID of flowIDs) try {
+            const flow = flows[flowID];
+            if (flow.triggers.slice(0, limitTriggers).find(t => t.type == "timeout"))
+              for (const action of flow.actions.slice(0, limitActions).filter(a => a)) try {
+                await allActions[action.type].run(countData, action.data);
+              } catch(e) { /* something went wrong */ }
+          } catch(e) { /* something went wrong */ }
         } catch(e) { /* something went wrong */ }
       }
     }
+
+    // trigger countfail flows
+    for (const flowID of flowIDs) try {
+      const flow = flows[flowID];
+      if (flow.triggers.slice(0, limitTriggers).find(t => t.type == "countfail"))
+        for (const action of flow.actions.slice(0, limitActions).filter(a => a)) try {
+          await allActions[action.type].run(countData, action.data);
+        } catch(e) { /* something went wrong */ }
+    } catch(e) { /* something went wrong */ }
+
     return;
   }
 
@@ -109,11 +138,12 @@ module.exports = async (message, gdb) => {
 
   // check flows
   const countData = {
-      count,
-      score: scores[message.author.id] || 0,
-      message,
-      countingMessage
-    }, flowIDs = Object.keys(flows).slice(0, limitFlows);
+    count,
+    score: scores[message.author.id] || 0,
+    message,
+    countingMessage,
+    gdb
+  };
   for (const flowID of flowIDs) try {
     const flow = flows[flowID]; let success;
     for (const trigger of flow.triggers.slice(0, limitTriggers).filter(t => t)) {
