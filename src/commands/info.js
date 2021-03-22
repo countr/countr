@@ -24,11 +24,13 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
       shardCount = 0;
     }
 
-    memory = process.memoryUsage().heapUsed / (1048576); // 1024*1024
+    const { heapUsed, rss } = process.memoryUsage();
+
+    memory = heapUsed / (1048576); // 1024*1024
     if (memory >= 1024) memoryUsage = (memory / 1024).toFixed(2) + "GB";
     else memoryUsage = memory.toFixed(2) + "MB";
 
-    memoryGlobal = (os.totalmem() - os.freemem()) / (1048576); // 1024*1024
+    memoryGlobal = rss / (1048576); // 1024*1024
     if (memoryGlobal >= 1024) memoryUsageGlobal = (memoryGlobal / 1024).toFixed(2) + "GB";
     else memoryUsageGlobal = memoryGlobal.toFixed(2) + "MB";
   }
