@@ -9,7 +9,12 @@ module.exports = {
 
 const os = require("os"), platform = `${os.type()} (${os.release()})`, djsversion = require("../../package.json").dependencies["discord.js"], config = require("../../config.json"), { generateTip } = require("../constants/index.js");
 
-let guilds = 0, users = 0, shardCount = 0, memory = 0, memoryUsage = "0MB", memoryGlobal = 0, memoryUsageGlobal = "0MB", nextUpdate = Date.now();
+//used for uptime of the shard
+const { msToTime } = require("../constants/index.js");
+
+
+
+let guilds = 0, users = 0, shardCount = 0, memory = 0, memoryUsage = "0MB", memoryGlobal = 0, memoryUsageGlobal = "0MB", nextUpdate = Date.now(), uptime = 0;
 
 module.exports.run = async (message, _, gdb, { prefix }) => {
   if (nextUpdate < Date.now()) {
@@ -23,6 +28,7 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
       users = message.client.users.size;
       shardCount = 0;
     }
+    uptime = msToTime(message.client.uptime);
 
     const { heapUsed, rss } = process.memoryUsage();
 
@@ -70,6 +76,7 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
             `**Guilds**: \`${message.client.guilds.cache.size}\``,
             `**Users**: \`${message.client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b)}\``,
             `**Memory Usage**: \`${memoryUsage}\``
+            `**Uptime**: \`${uptime}\``
           ].join("\n"),
           inline: true
         },
