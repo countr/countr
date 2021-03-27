@@ -69,7 +69,7 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
           value: [
             `**Guilds**: \`${message.client.guilds.cache.size}\``,
             `**Users**: \`${message.client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b)}\``,
-            `**Memory Usage**: \`${memoryUsage}\``
+            `**Memory Usage**: \`${memoryUsage}\``,
             `**Uptime**: \`${msToTime(message.client.uptime)}}\``
           ].join("\n"),
           inline: true
