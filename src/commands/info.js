@@ -7,12 +7,7 @@ module.exports = {
   checkArgs: (args) => !args.length
 };
 
-const os = require("os"), platform = `${os.type()} (${os.release()})`, djsversion = require("../../package.json").dependencies["discord.js"], config = require("../../config.json"), { generateTip } = require("../constants/index.js");
-
-//used for uptime of the shard
-const { msToTime } = require("../constants/index.js");
-
-
+const os = require("os"), platform = `${os.type()} (${os.release()})`, djsversion = require("../../package.json").dependencies["discord.js"], config = require("../../config.json"), { generateTip, msToTime} = require("../constants/index.js");
 
 let guilds = 0, users = 0, shardCount = 0, memory = 0, memoryUsage = "0MB", memoryGlobal = 0, memoryUsageGlobal = "0MB", nextUpdate = Date.now(), uptime = 0;
 
