@@ -47,7 +47,7 @@ module.exports.run = async (message, _, gdb) => {
         message: message.id
       });
     
-      return message.channel.send(`✅ ${newChannel} channel created! Please also give the bot \`Manage Roles\`-permission in the channel before starting. Happy counting!`);
+      return message.channel.send(`✅ ${newChannel} channel created! Please also give the bot \`Manage Permissions\`-permission in the channel before starting. Happy counting!`);
     })
     .catch(() => message.channel.send(`❌ The bot is missing permissions to make a channel. Make sure it has the following permissions:\n\`\`\`css\n${perms.join("\n").replace(/_/g, " ")}\`\`\``));
 };
