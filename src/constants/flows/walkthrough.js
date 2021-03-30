@@ -24,7 +24,7 @@ module.exports.flowWalkthrough = async (guild, author, channel, newFlow, generat
       pinned.edit("", { embed: await generateEmbed() });
       const inputs = await channel.awaitMessages(m => m.author.id == author.id, { max: 1, time: 1800000, errors: [ "time" ]}), input = inputs.first(), messagesToDelete = [ input ];
 
-      const args = input.content.split(" "), command = args.shift();
+      const args = input.content.split(" "), command = args.shift().toLowerCase();
 
       if (command == "edit" && ["trigger", "action"].includes(args[0]) && parseInt(args[1])) {
         const slot = parseInt(args[1]);
