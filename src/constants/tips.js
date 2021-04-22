@@ -6,7 +6,8 @@ module.exports.tips = [
   "Do `{prefix}module webhook` to avoid self-deleting.",
   "Don't know how to set up? Do `{prefix}setup`.",
   "Want people to be able to send a message after the count? Do `{prefix}module talking on`.",
-  "Check the documentation out for more ways to customize your server. <https://docs.countr.xyz/>"
+  "Check the documentation out for more ways to customize your server. <https://docs.countr.xyz/>",
+  "Curious about how your data is stored and handeled? Check out our Privacy Policy! <https://countr.xyz/privacy>"
 ];
 
 module.exports.generateTip = prefix => `**Tip:** ${this.tips[Math.floor(Math.random() * this.tips.length)].replace(/{prefix}/g, prefix)}`;
