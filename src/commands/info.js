@@ -19,8 +19,8 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
       users = await message.client.shard.broadcastEval("this.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b)").then(res => res.reduce((prev, val) => prev + val, 0));
       shardCount = message.client.shard.count;
     } else {
-      guilds = message.client.guilds.size;
-      users = message.client.users.size;
+      guilds = message.client.guilds.cache.size;
+      users = message.client.users.cache.size;
       shardCount = 0;
     }
 
