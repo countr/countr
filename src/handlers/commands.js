@@ -14,7 +14,7 @@ module.exports = async (message, gdb, db, countingChannel, prefix) => {
   }
 
   function processCommand() {
-    if (static) return message.channel.send(static.message.replace(/{{BOT_ID}}/g, message.client.user.id));
+    if (static) return message.channel.send(static.message.replace(/{{BOT_ID}}/g, message.client.user.id).replace(/{{PREFIX}}/g, prefix));
 
     const commandFile = commands.get(commandName);
 

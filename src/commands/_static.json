@@ -33,7 +33,7 @@
   },
   {
     "triggers": [ "toggle" ],
-    "message": "💢 This command no longer exists. Checkout the module-command instead!",
+    "message": "💢 This command no longer exists. Run `{{PREFIX}}module` for more info.",
     "hideFromHelp": true
   },
   {
