@@ -1,6 +1,7 @@
 const { getPermissionLevel } = require("../constants/index.js"), { deleteMessages } = require("./counting.js"), { loadCommandDescriptions } = require("../commands/help.js"), fs = require("fs"), config = require("../../config.json");
 
 module.exports = async (message, gdb, db, countingChannel, prefix) => {
+  let replacers = {'{{BOT_ID}}': message.client.user.id, '{{PREFIX}}': prefix};
   let content;
   if (message.content.match(`^<@!?${message.client.user.id}> `)) content = message.content.split(" ").slice(1);
   else content = message.content.slice(prefix.length).split(" ");
@@ -14,7 +15,7 @@ module.exports = async (message, gdb, db, countingChannel, prefix) => {
   }
 
   function processCommand() {
-    if (static) return message.channel.send(static.message.replace(/{{BOT_ID}}/g, message.client.user.id));
+    if (static) return message.channel.send(static.message.replace(/{{BOT_ID}}|{{PREFIX}}/g, m => replacers[m]));
 
     const commandFile = commands.get(commandName);
 
