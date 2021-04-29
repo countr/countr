@@ -5,7 +5,7 @@ module.exports = {
   options: []
 };
 
-module.exports.run = async (send, { member, gdb, guild, client, hidden }) => {
+module.exports.run = async (send, { member, gdb, guild, client }) => {
   const
     { users } = gdb.get(),
     sorted = Object.keys(users).sort((a, b) => users[b] - users[a]),
@@ -19,8 +19,7 @@ module.exports.run = async (send, { member, gdb, guild, client, hidden }) => {
 
   const g = client.guilds.resolve(guild), u = await client.users.fetch(member.user.id, false);
 
-  if (hidden) send({ content: description });
-  else send({
+  send({
     embeds: [{
       author: {
         name: `${g.name} Scoreboard`,
