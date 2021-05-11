@@ -10,7 +10,6 @@
     "discord.js": "^12.5.1",
     "erlpack": "github:discord/erlpack",
     "express": "^4.17.1",
-    "fs": "0.0.1-security",
     "mongoose": "^5.11.19",
     "node-fetch": "^2.6.1",
     "utf-8-validate": "^5.0.4",
