@@ -175,7 +175,7 @@ module.exports.flowWalkthrough = async (guild, author, channel, newFlow, generat
                     timestamp: Date.now()
                   }
                 }));
-                const confirmations = await channel.awaitMessages(m => m.author.id == author.id, { max: 1, time: 1800000, errors: [ "time" ]}), confirmation = confirmations.first(), confirmed = confirmation.content == "yes";
+                const confirmations = await channel.awaitMessages(m => m.author.id == author.id, { max: 1, time: 1800000, errors: [ "time" ]}), confirmation = confirmations.first(), confirmed = confirmation.content.toLowerCase() == "yes";
                 messagesToDelete.push(confirmation);
                 if (confirmed) {
                   newFlow.actions[slot - 1] = newAction;
