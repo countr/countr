@@ -8,7 +8,7 @@ module.exports.flow = {
       "properties": [
         propertyTypes.numberX
       ],
-      "explanation": "When someone counts a multiplication of {0}",
+      "explanation": "When someone counts a multiple of {0}",
       "check": async ({ count }, [ number ]) => count % number == 0
     },
     "only": {

@@ -22,7 +22,7 @@ module.exports = {
         {
           type: 5,
           name: "each",
-          description: "Get notified of a multiplication of the count instead of just once. Default is false."
+          description: "Get notified of a multiple of the count instead of just once. Default is false."
         }
       ]
     },

@@ -1,7 +1,7 @@
 module.exports = {
   description: "Get a notification whenever the server reach whatever count you want.",
   usage: {
-    "[each]": "If you include this, it will notify you of a multiplication of <count>.",
+    "[each]": "If you include this, it will notify you of a multiple of <count>.",
     "<count>": "The count you want to get notified of."
   },
   examples: {
