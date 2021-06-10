@@ -20,7 +20,7 @@ module.exports = {
   )
 };
 
-const { modules, generateTip } = require("../constants/index.js"), config = require("../../config.json");
+const { modules/*, generateTip*/ } = require("../constants/index.js"), config = require("../../config.json");
 
 module.exports.run = async (message, [ moduleName, state ], gdb, { prefix }) => {
   const { modules: enabledModules } = gdb.get();
@@ -41,7 +41,7 @@ module.exports.run = async (message, [ moduleName, state ], gdb, { prefix }) => 
       }
     }
   })
-    .then(m => m.edit(generateTip(prefix)))
+  //.then(m => m.edit(generateTip(prefix)))
     .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
 
   if (!modules[moduleName]) return message.channel.send("❌ No module exists with this name.");
@@ -61,7 +61,7 @@ module.exports.run = async (message, [ moduleName, state ], gdb, { prefix }) => 
       }
     }
   })
-    .then(m => m.edit(generateTip(prefix)))
+  //.then(m => m.edit(generateTip(prefix)))
     .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
   else {
     if (state == "on") {

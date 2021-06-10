@@ -11,7 +11,7 @@ module.exports = {
   checkArgs: (args) => args.length <= 1
 };
 
-const fs = require("fs"), config = require("../../config.json"), { generateTip } = require("../constants/index.js");
+const fs = require("fs"), config = require("../../config.json");//, { generateTip } = require("../constants/index.js");
 
 module.exports.run = async (message, _, gdb, { prefix, permissionLevel, content: searchQuery }) => {
   if (!searchQuery) return message.channel.send({
@@ -37,7 +37,7 @@ module.exports.run = async (message, _, gdb, { prefix, permissionLevel, content:
       ]
     }
   })
-    .then(m => m.edit(generateTip(prefix)))
+  //.then(m => m.edit(generateTip(prefix)))
     .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
   else {
     searchQuery = searchQuery.toLowerCase();
@@ -77,7 +77,7 @@ module.exports.run = async (message, _, gdb, { prefix, permissionLevel, content:
         ].filter(f => f.value)
       }
     })
-      .then(m => m.edit(generateTip(prefix)))
+    //.then(m => m.edit(generateTip(prefix)))
       .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
   }
 };

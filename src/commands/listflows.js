@@ -11,7 +11,7 @@ module.exports = {
   checkArgs: (args) => args.length <= 1
 };
 
-const { limitFlows, formatExplanation, generateTip, limitTriggers, limitActions } = require("../constants/index.js"), config = require("../../config.json");
+const { limitFlows, formatExplanation, /*generateTip, */limitTriggers, limitActions } = require("../constants/index.js"), config = require("../../config.json");
 
 module.exports.run = async (message, [ query ], gdb, { prefix }) => {
   const { flows } = gdb.get();
@@ -67,7 +67,7 @@ module.exports.run = async (message, [ query ], gdb, { prefix }) => {
         }))
       }
     })
-      .then(m => m.edit(generateTip(prefix)))
+    //.then(m => m.edit(generateTip(prefix)))
       .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
   }
   else return message.channel.send("❌ This server doesn't have any flows configured.");

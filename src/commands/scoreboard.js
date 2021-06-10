@@ -7,7 +7,7 @@ module.exports = {
   checkArgs: (args) => !args.length
 };
 
-const config = require("../../config.json"), { generateTip, formatScore } = require("../constants/index.js");
+const config = require("../../config.json"), { /*generateTip, */formatScore } = require("../constants/index.js");
 
 module.exports.run = async (message, _, gdb, { prefix }) => {
   const
@@ -36,6 +36,6 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
       }
     }
   })
-    .then(m => m.edit(generateTip(prefix)))
+  //.then(m => m.edit(generateTip(prefix)))
     .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
 };
