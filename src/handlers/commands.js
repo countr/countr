@@ -10,7 +10,26 @@ module.exports = async (message, gdb, db, countingChannel, prefix) => {
   const static = statics.find(s => s.triggers.includes(commandName));
   if (!static && !commands.has(commandName)) { // this is not a command
     if (message.channel.id == countingChannel) return deleteMessages([ message ]);
-    else return message.channel.send(`❌ Invalid command. For the list of commands, type \`${prefix}help\`.`);
+
+    // lines for a choice in invalid response, once a decision has been made, delete the needed lines 
+
+    // sends an invalid command message
+    // else return message.channel.send(`❌ Invalid command. For the list of commands, type \`${prefix}help\`.`);
+
+    // sends a message that times out after a few seconds, note: time will need adjusting
+    /*
+    else {
+      message.channel.send(`❌ Invalid command. For the list of commands, type \`${prefix}help\`.`)
+        .then(newMessage => newMessage.delete(5000));
+      return;
+    }
+    */
+
+    // reacts with a ❌ to the invalid message
+    // else return message.react('❌');
+
+    // no response 
+    else return;
   }
 
   function processCommand() {
