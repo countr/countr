@@ -12,7 +12,7 @@ module.exports = {
 
 module.exports.run = async (message, [ count ], gdb) => {
   count = parseInt(count);
-  if (!count) return message.channel.send("❌ Invalid number.");
+  if (isNaN(count) || count < 0) return message.channel.send("❌ Invalid number.");
 
   gdb.set("count", count);
   
