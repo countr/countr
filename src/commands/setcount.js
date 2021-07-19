@@ -11,7 +11,8 @@ module.exports = {
 };
 
 module.exports.run = async (message, [ count ], gdb) => {
-  if (count != "0" || !parseInt(count)) return message.channel.send("❌ Invalid number.");
+  count = parseInt(count);
+  if (count == null || count < 0) return message.channel.send("❌ Invalid number.");
 
   gdb.set("count", count);
   
