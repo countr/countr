@@ -98,7 +98,7 @@ module.exports.flow = {
         propertyTypes.text
       ],
       "explanation": "Send a message in {0}: ```{1}```",
-      "run": async ({ count, score, message: { guild, member, author } }, [ channelID, text ]) => {
+      "run": async ({ count, score, message: { guild, member, author, content } }, [ channelID, text ]) => {
         const channel = guild.channels.resolve(channelID);
         if (channel) await channel.send(text
           .replace(/{count}/gi, count)
@@ -108,6 +108,7 @@ module.exports.flow = {
           .replace(/{nickname}/gi, member.displayName)
           .replace(/{everyone}/gi, guild.roles.everyone.toString())
           .replace(/{score}/gi, score)
+          .replace(/{content}/gi, content)
         , {
           disableMentions: "none"
         }).catch();

@@ -46,7 +46,8 @@ module.exports.propertyTypes = {
       "• `{username}` The username of the user who triggered this flow",
       "• `{nickname}` The nickname of the user who triggered this flow",
       "• `{everyone}` Mentions the everyone-role",
-      "• `{score}` The new score of the user who triggered this flow"
+      "• `{score}` The new score of the user who triggered this flow",
+      "• `{content}` The content of the message that triggered this flow"
     ].join("\n")
   }
 };
