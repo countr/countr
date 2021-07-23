@@ -32,7 +32,7 @@ module.exports.propertyTypes = {
     "help": "Any channel. Make sure Countr has access to the channel, and that it is a text based channel. (news channels also work)",
     "convert": async (search, { guild }) => {
       const result = await getChannel(search, guild);
-      if (result) return result.id; else return null;
+      if (result && result.name !== "countr-flow-editor") return result.id; else return null;
     },
     "format": async channelid => `<#${channelid}>`
   },
