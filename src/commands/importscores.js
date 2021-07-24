@@ -1,5 +1,5 @@
 module.exports = {
-  description: "Import scores from a JSON-file. Upload the JSON-file with the command itself.\n JSON structure of { "user1": score, "user2", score }",
+  description: "Import scores from a JSON-file. Upload the JSON-file with the command itself.\n JSON structure of { \"user1\": score, \"user2\", score }",
   usage: {
     "set|add": "Decide if you want to overwrite the scores or add to the existing scores."
   },
