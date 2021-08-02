@@ -1,5 +1,20 @@
 {
   "name": "countr",
   "main": "src/sharding.js",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "dependencies": {
+    "bufferutil": "^4.0.3",
+    "discord.js": "^13.0.0-dev.2675b08.1627646567",
+    "erlpack": "github:discord/erlpack",
+    "express": "^4.17.1",
+    "mathjs": "^9.4.4",
+    "mongoose": "^5.13.5",
+    "node-fetch": "^2.6.1",
+    "roman-numerals": "^0.3.2",
+    "utf-8-validate": "^5.0.5",
+    "zlib-sync": "^0.1.7"
+  },
+  "devDependencies": {
+    "eslint": "^7.31.0"
+  }
 }
