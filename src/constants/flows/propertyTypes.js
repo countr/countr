@@ -1,4 +1,4 @@
-const { getRole, getChannel } = require("../resolvers.js");
+const { getRole, getChannel } = require("../resolvers.js"), RE2 = require("re2");
 
 module.exports.propertyTypes = {
   "numberX": {
@@ -11,7 +11,7 @@ module.exports.propertyTypes = {
     "help": "Get help on how to create a regex here: https://flaviocopes.com/javascript-regular-expressions/#regular-expressions-choices",
     "convert": async regex => {
       try {
-        new RegExp(regex);
+        new RE2(regex);
         return regex;
       } catch(e) {
         return false;

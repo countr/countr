@@ -1,4 +1,4 @@
-const { propertyTypes } = require("./propertyTypes.js");
+const { propertyTypes } = require("./propertyTypes.js"), RE2 = require("re2");
 
 module.exports.flow = {
   triggers: {
@@ -36,7 +36,7 @@ module.exports.flow = {
         propertyTypes.regex
       ],
       "explanation": "When a message matches the regex `{0}`",
-      "check": async ({ message: { content } }, [ regex ]) => (new RegExp(regex)).test(content)
+      "check": async ({ message: { content } }, [ regex ]) => (new RE2(regex)).test(content)
     },
     "countfail": {
       "short": "Count fail",

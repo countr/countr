@@ -12,6 +12,7 @@
     "express": "^4.17.1",
     "mongoose": "^5.11.19",
     "node-fetch": "^2.6.1",
+    "re2": "^1.16.0",
     "utf-8-validate": "^5.0.4",
     "zlib-sync": "^0.1.7"
   },

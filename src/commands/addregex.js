@@ -14,6 +14,8 @@ module.exports = {
   allowInCountingChannel: true
 };
 
+const RE2 = require("re2");
+
 module.exports.run = async (message, _, gdb, { prefix, content: regex }) => {
   if (!testRegex(regex)) return message.channel.send(`❌ Invalid regex. For help, type \`${prefix}help addregex\`.`);
 
@@ -24,7 +26,7 @@ module.exports.run = async (message, _, gdb, { prefix, content: regex }) => {
 
 function testRegex(regex) {
   try {
-    return new RegExp(regex, "g");
+    return new RE2(regex, "g");
   } catch(e) {
     return false;
   }
