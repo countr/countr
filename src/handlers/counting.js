@@ -1,4 +1,4 @@
-const { getPermissionLevel, limitFlows, flow: { triggers: allTriggers, actions: allActions }, limitTriggers, limitActions } = require("../constants/index.js"), config = require("../../config.json"), countingFails = new Map();
+const { getPermissionLevel, limitFlows, flow: { triggers: allTriggers, actions: allActions }, limitTriggers, limitActions } = require("../constants/index.js"), config = require("../../config.json"), countingFails = new Map(), RE2 = require("re2");
 
 module.exports = async (message, gdb) => {
   const permissionLevel = getPermissionLevel(message.member);
@@ -8,7 +8,7 @@ module.exports = async (message, gdb) => {
   let { count, user, modules, regex, notifications, flows, users: scores, timeoutrole } = gdb.get(), regexMatches = false, flowIDs = Object.keys(flows).slice(0, limitFlows);
   if (regex.length && permissionLevel == 0)
     for (let r of regex)
-      if ((new RegExp(r, "g")).test(message.content)) {
+      if ((new RE2(r, "g")).test(message.content)) {
         regexMatches = true;
         break;
       }
