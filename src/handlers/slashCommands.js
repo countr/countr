@@ -22,6 +22,7 @@ function getSlashArgs(options) {
   const args = {};
   for (const o of options) {
     if (o.type == 1) args[o.name] = getSlashArgs(o.options || []);
+    if (o.type == 3) args[o.name] = o.value.trim();
     else args[o.name] = o.value;
   }
   return args;
