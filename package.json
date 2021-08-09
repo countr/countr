@@ -4,7 +4,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "bufferutil": "^4.0.3",
-    "discord.js": "^13.0.0-dev.2675b08.1627646567",
+    "discord.js": "^13.0.1",
     "erlpack": "github:GingkathFox/erlpack",
     "express": "^4.17.1",
     "mathjs": "^9.4.4",
