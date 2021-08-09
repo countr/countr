@@ -5,7 +5,7 @@
   "dependencies": {
     "bufferutil": "^4.0.3",
     "discord.js": "^13.0.0-dev.2675b08.1627646567",
-    "erlpack": "github:discord/erlpack",
+    "erlpack": "github:GingkathFox/erlpack",
     "express": "^4.17.1",
     "mathjs": "^9.4.4",
     "mongoose": "^5.13.5",
