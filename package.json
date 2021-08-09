@@ -5,16 +5,14 @@
   "dependencies": {
     "bufferutil": "^4.0.3",
     "discord.js": "^13.0.1",
-    "erlpack": "github:GingkathFox/erlpack",
     "express": "^4.17.1",
     "mathjs": "^9.4.4",
     "mongoose": "^5.13.5",
     "node-fetch": "^2.6.1",
     "roman-numerals": "^0.3.2",
-    "utf-8-validate": "^5.0.5",
-    "zlib-sync": "^0.1.7"
+    "utf-8-validate": "^5.0.5"
   },
   "devDependencies": {
-    "eslint": "^7.31.0"
+    "eslint": "^7.32.0"
   }
 }
