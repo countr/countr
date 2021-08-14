@@ -1,6 +1,7 @@
 const { Guild } = require("discord.js");
 
 module.exports = async (guild = new Guild, timeoutRole, timeouts = new Map(), save) => {
+  if (!timeouts.size) return;
   let needSave = false;
   
   await guild.members.fetch({ user: Array.from(timeouts.keys()) }); // fetch the members having a timeout
