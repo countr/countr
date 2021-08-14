@@ -11,6 +11,7 @@
     "mongoose": "^5.13.7",
     "node-fetch": "^2.6.1",
     "roman-numerals": "^0.3.2",
+    "time-limited-regular-expressions": "^1.0.0",
     "utf-8-validate": "^5.0.5",
     "zlib-sync": "^0.1.7"
   },
