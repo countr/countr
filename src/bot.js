@@ -6,6 +6,7 @@ const
   interactionsHandler = require("./handlers/interactions"),
   countingHandler = require("./handlers/counting"),
   messageCommandHandler = require("./handlers/messageCommands"),
+  accessHandler = require("./handlers/access"),
   client = new Client({
     messageCacheLifetime: 30,
     messageSweepInterval: 60,
@@ -65,6 +66,8 @@ client.once("ready", async () => {
   }
 
   interactionsHandler(client).then(() => console.log(shard, "Now listening to interactions."));
+
+  if (config.access.enabled) accessHandler(client);
 });
 
 const updatePresence = async () => client.user.setPresence({
