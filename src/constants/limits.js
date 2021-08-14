@@ -20,7 +20,7 @@ module.exports = config.isPremium ? {
   },
   filters: {
     amount: 25,
-    timeout: 1000 // ms
+    timeout: 500 // ms
   },
   flows: {
     amount: 25,
@@ -38,10 +38,10 @@ module.exports = config.isPremium ? {
   },
   filters: {
     amount: 10,
-    timeout: 500 // ms
+    timeout: 100 // ms
   },
   flows: {
-    amount: 10,
+    amount: 15,
     triggers: 3,
     actions: 10
   },
