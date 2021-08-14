@@ -5,7 +5,7 @@ module.exports = async (guild = new Guild, timeoutRole, timeouts = new Map(), sa
   let needSave = false;
   
   await guild.members.fetch({ user: Array.from(timeouts.keys()) }); // fetch the members having a timeout
-  for (const [ userId, timestamp ] in Array.from(timeouts)) {
+  for (const [ userId, timestamp ] of Array.from(timeouts)) {
     const member = guild.members.cache.get(userId);
     if (member && member.roles.cache.has(timeoutRole.roleId)) {
       if (Date.now() >= timestamp) {
