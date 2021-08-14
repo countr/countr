@@ -1,4 +1,4 @@
-const { Client, WebhookClient, Guild } = require("discord.js"), { find, findMultiple } = require("../database/access"), config = require("../../config");
+const { Client, WebhookClient, Guild } = require("discord.js"), { access: { find, findMultiple }} = require("../database"), config = require("../../config");
 
 const webhook = new WebhookClient({ url: config.access.webhook_log });
 

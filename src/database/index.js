@@ -10,4 +10,5 @@ module.exports = {
 
   guilds: require("./guilds"),
   global: require("./global"),
+  access: require("./access"),
 };
