@@ -15,7 +15,7 @@ const guildSchema = new mongoose.Schema({
       roleId: { type: String, required: true },
       fails: { type: Number, required: true },
       time: { type: Number, required: true },
-      duration: { type: Number, default: 0 }
+      duration: { type: Number, default: null }
     }, default: {} },
     flows: { type: Map, of: {
       triggers: [{
