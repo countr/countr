@@ -42,18 +42,23 @@ const guildSchema = new mongoose.Schema({
   log: { type: Map, of: Number, default: {} }
 });
 
-// we can't save in parallell, so we have to queue up the saves to avoid throwing errors
-// we can obviously do Guild.save() and then await that before saving again, but that's a bit of a pain to do across files and events
-guildSchema.methods.safeSave = async function() {
-  const queued = saveQueue.get(this.guildId);
-  if (queued) await queued;
+// we can't save in parallell, and although we can await the guild.save(), that would not work across files.
+guildSchema.methods.safeSave = safeSave;
 
-  const request = this.save();
-  saveQueue.set(this.guildId, request);
-  request.then(() => saveQueue.delete(this.guildId));
-
-  return await request;
-};
+// if saveQueue is undefined, set saveQueue to 1 and start saving
+// if saveQueue exists, set saveQueue to 2 (if this gets called again, it will still only set to 2 and the modified data will join in on the next save. we don't need a third save because of this.)
+// after saving, check if saveQueue is 2, if so then set it to 1 and start saving again, if not then set it to undefined
+function safeSave() {
+  if (!saveQueue.has(this.guildId)) {
+    saveQueue.set(this.guildId, 1);
+    this.save().then(() => {
+      if (saveQueue.get(this.guildId) == 2) {
+        saveQueue.delete(this.guildId);
+        safeSave.call(this);
+      } else saveQueue.delete(this.guildId);
+    });
+  } else saveQueue.set(this.guildId, 2);
+}
 
 const Guild = mongoose.model("Guild", guildSchema);
 
