@@ -35,7 +35,7 @@ client.once("ready", async () => {
 
   // process guilds
   let processingStart = Date.now(), completed = 0, presenceInterval = setInterval(() => {
-    const percentage = completed / client.guilds.cache.size;
+    const percentage = (completed / client.guilds.cache.size) * 100;
     client.user.setPresence({
       status: "idle",
       activities: [{
