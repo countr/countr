@@ -32,7 +32,7 @@ const guildSchema = new mongoose.Schema({
       mode: { type: String, default: "each" },
       count: { type: Number, required: true },
     }, default: {} },
-    timeouts: { type: Map, of: Number, default: {} },
+    timeouts: { type: Map, of: Date, default: {} },
     filters: { type: [String], default: [] },
     liveboard: { type: {
       channelId: { type: String, required: true },
