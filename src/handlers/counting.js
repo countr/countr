@@ -82,7 +82,7 @@ module.exports = async (message, gdb) => {
       countingMessage = await webhook.send(message.content, {
         username: message.author.username,
         avatarURL: message.author.displayAvatarURL({ dynamic: true }),
-        allowed_mentions: {
+        allowedMentions: {
           users: [],
           roles: [],
           parse: [],
