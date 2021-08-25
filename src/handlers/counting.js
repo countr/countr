@@ -1,14 +1,14 @@
 const { getPermissionLevel, limitFlows, flow: { triggers: allTriggers, actions: allActions }, limitTriggers, limitActions } = require("../constants/index.js"), config = require("../../config.json"), countingFails = new Map(), RE2 = require("re2");
 
 module.exports = async (message, gdb) => {
-  const permissionLevel = getPermissionLevel(message.member);
+  const permissionLevel = getPermissionLevel(message.member), content = message.content;
 
-  if (message.content.startsWith("!") && permissionLevel >= 1) return;
+  if (content.startsWith("!") && permissionLevel >= 1) return;
 
   let { count, user, modules, regex, notifications, flows, users: scores, timeoutrole } = gdb.get(), regexMatches = false, flowIDs = Object.keys(flows).slice(0, limitFlows);
   if (regex.length && permissionLevel == 0)
     for (let r of regex)
-      if ((new RE2(r, "g")).test(message.content)) {
+      if ((new RE2(r, "g")).test(content)) {
         regexMatches = true;
         break;
       }
@@ -16,8 +16,8 @@ module.exports = async (message, gdb) => {
   if (
     regexMatches ||
     (!modules.includes("allow-spam") && message.author.id == user) ||
-    (!modules.includes("talking") && message.content !== (count + 1).toString()) ||
-    message.content.split(" ")[0] !== (count + 1).toString()
+    (!modules.includes("talking") && content !== (count + 1).toString()) ||
+    content.split(" ")[0] !== (count + 1).toString()
   ) {
     // set up countdata for flows
     const countData = {
@@ -79,21 +79,26 @@ module.exports = async (message, gdb) => {
     if (!webhook) webhook = await message.channel.createWebhook("Countr").catch(() => null);
 
     if (webhook) {
-      countingMessage = await webhook.send(message.content, {
+      countingMessage = await webhook.send(content, {
         username: message.author.username,
         avatarURL: message.author.displayAvatarURL({ dynamic: true }),
+        allowedMentions: {
+          users: [],
+          roles: [],
+          parse: [],
+        }
       });
       deleteMessage(message);
     }
   } catch(e) { /* something went wrong */ }
   else if (modules.includes("reposting")) try {
-    countingMessage = await message.channel.send(`${message.author}: ${message.content}`);
+    countingMessage = await message.channel.send(`${message.author}: ${content}`);
     deleteMessage(message);
   } catch(e) { /* something went wrong */ }
   else if (modules.includes("embed")) try {
     countingMessage = await message.channel.send({
       embed: {
-        description: `${message.author}: ${message.content}`,
+        description: `${message.author}: ${content}`,
         color: message.member.displayColor || 3553598
       }
     });
