@@ -79,7 +79,7 @@ client.on("messageCreate", async message => {
     message.type !== "DEFAULT"
   ) return;
 
-  const guild = await db.guilds.get(message.guild.id), channel = (guild.channels as Map<string, never>).get(message.channel.id); // fix this
+  const guild = await db.guilds.get(message.guild.id), channel = guild.channels.get(message.channel.id);
   if (channel) return countingHandler(message, guild, channel);
 
   if (message.content.match(`^<@!?${client.user.id}> `)) return messageCommandHandler(message, guild);
