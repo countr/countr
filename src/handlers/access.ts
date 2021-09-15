@@ -16,7 +16,7 @@ export default async (client: Client): Promise<void> => {
 
 function leave(guild: Guild): Promise<Guild> {
   webhook.send({
-    content: `Server **${guild.name}** (\`${guild.id}\`) owned by <@${guild.ownerId}> does not have access to use \`${guild.client.user.tag}\` and has left the server`
+    content: `Server **${guild.name}** (\`${guild.id}\`) owned by <@${guild.ownerId}> does not have access to use \`${guild.client?.user?.tag}\` and has left the server`
   });
   return guild.leave();
 }
