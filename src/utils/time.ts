@@ -1,22 +1,21 @@
-module.exports = { getWeek, getDateFormatted, msToTime };
-
-function getWeek(d = new Date()) { // https://stackoverflow.com/a/6117889
+export const getWeek = (d = new Date()): number => { // https://stackoverflow.com/a/6117889
   d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
   d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-  let yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  let week = Math.ceil(( ( (d - yearStart) / 86400000) + 1) / 7);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const week = Math.ceil(( ( (d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
 
   return week;
-}
+};
 
-function getDateFormatted(d = new Date()) { // https://stackoverflow.com/a/23593099
-  let month = (d.getMonth() + 1).toString(), day = d.getDate().toString(), year = d.getFullYear();
+export const getDateFormatted = (d = new Date()): string => { // https://stackoverflow.com/a/23593099
+  let month = (d.getMonth() + 1).toString(), day = d.getDate().toString();
+  const year = d.getFullYear();
   if (month.length < 2) month = "0" + month;
   if (day.length < 2) day = "0" + day;
   return [year, month, day].join("-");
-}
+};
 
-function msToTime(ms) { // https://stackoverflow.com/a/19700358
+export const msToTime = (ms: number): string => { // https://stackoverflow.com/a/19700358
   const
     days = Math.floor(ms / 86400000), // 24*60*60*1000
     daysms = ms % 86400000, // 24*60*60*1000
@@ -33,4 +32,4 @@ function msToTime(ms) { // https://stackoverflow.com/a/19700358
   if (sec) str = str + sec + "s";
 
   return str || "0s";
-}
+};

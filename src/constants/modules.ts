@@ -1,4 +1,15 @@
-module.exports = {
+interface Module {
+  short: string;
+  long?: string;
+  image?: string;
+  incompatible?: Array<string>;
+}
+
+interface ModuleList {
+  [name: string]: Module;
+}
+
+const modules: ModuleList = {
   "allow-spam": {
     "short": "Allow people to count multiple times in a row.",
     "image": "https://i.promise.solutions/ISe9n5.gif"
@@ -37,9 +48,11 @@ module.exports = {
   }
 };
 
-for (const i in module.exports) module.exports[i] = Object.assign({
+for (const i in modules) modules[i] = Object.assign({
   "short": "N/A",
   "long": null,
   "image": null,
   "incompatible": []
-}, module.exports[i]);
+}, modules[i]);
+
+export default modules;

@@ -1,6 +1,6 @@
 {
   "name": "countr",
-  "main": "src/sharding.js",
+  "main": "src/sharding.ts",
   "license": "GPL-3.0",
   "dependencies": {
     "bufferutil": "^4.0.3",
@@ -16,6 +16,9 @@
     "zlib-sync": "^0.1.7"
   },
   "devDependencies": {
-    "eslint": "^7.32.0"
+    "@typescript-eslint/eslint-plugin": "^4.31.1",
+    "@typescript-eslint/parser": "^4.31.1",
+    "eslint": "^7.32.0",
+    "typescript": "^4.4.3"
   }
 }

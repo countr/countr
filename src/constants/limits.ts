@@ -1,4 +1,4 @@
-const config = require("../../config");
+import config from "../../config";
 
 /*
   For those reading this, we are not creating strict limits
@@ -12,27 +12,8 @@ const config = require("../../config");
   subscribe for $1/month. https://docs.countr.xyz/#/premium
 */
 
-module.exports = config.isPremium ? {
-  // Premium Limits
-  // -------------------------------------------------
-  channels: {
-    amount: 5
-  },
-  filters: {
-    amount: 25,
-    timeout: 500 // ms
-  },
-  flows: {
-    amount: 25,
-    triggers: 25,
-    actions: 25
-  },
-  notifications: {
-    amount: 10
-  }
-} : {
-  // Normal Limits
-  // -------------------------------------------------
+// Normal Limits
+const normalLimits = {
   channels: {
     amount: 2
   },
@@ -49,3 +30,26 @@ module.exports = config.isPremium ? {
     amount: 3
   }
 };
+
+// Premium Limits
+const premiumLimits = {
+  channels: {
+    amount: 5
+  },
+  filters: {
+    amount: 25,
+    timeout: 500 // ms
+  },
+  flows: {
+    amount: 25,
+    triggers: 25,
+    actions: 25
+  },
+  notifications: {
+    amount: 10
+  }
+};
+
+const limits = config.isPremium ? premiumLimits : normalLimits;
+
+export default limits;

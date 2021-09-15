@@ -1,22 +1,21 @@
-const { TextChannel, Permissions } = require("discord.js");
+import { TextChannel, ThreadChannel, Permissions, PermissionOverwrites, PermissionResolvable } from "discord.js";
 
-module.exports = async (channel = new TextChannel, lastMessageId) => {
-  if (channel.partial) channel = await channel.fetch();
-  if (channel.lastMessageId == lastMessageId) return;
-  
+export default async (channel: TextChannel | ThreadChannel, lastMessageId: string): Promise<boolean> => {
+  if (channel.partial) await channel.fetch();
   let messages = await channel.messages.fetch({ limit: 100, after: lastMessageId }).catch(() => null);
   if (messages.size) try {
-    const
-      alert = await channel.send("💢 Making channel ready for counting."),
-      defaultPermissions = channel.permissionOverwrites.cache.get(channel.guild.roles.everyone.id);
-    let oldPermission = null;
-    if (defaultPermissions.allow.has(Permissions.FLAGS.SEND_MESSAGES)) oldPermission = true;
-    else if (defaultPermissions.deny.has(Permissions.FLAGS.SEND_MESSAGES)) oldPermission = false;
+    const alert = await channel.send("💢 Making channel ready for counting.");
 
-    if (oldPermission !== false) await channel.permissionOverwrites.edit(channel.guild.roles.everyone, {
-      SEND_MESSAGES: false,
-      ADD_REACTIONS: false
-    });
+    let oldPermission: boolean = null, defaultPermissions: PermissionOverwrites = null;
+    if (channel instanceof TextChannel) {
+      defaultPermissions = channel.permissionOverwrites.cache.get(channel.guild.roles.everyone.id);
+      oldPermission = getPermissionStatus(defaultPermissions, Permissions.FLAGS.SEND_MESSAGES);
+
+      if (oldPermission !== false) await channel.permissionOverwrites.edit(channel.guild.roles.everyone, {
+        SEND_MESSAGES: false,
+        ADD_REACTIONS: false
+      });
+    }
 
     let processing = true, fail = false;
     while (processing) {
@@ -27,7 +26,7 @@ module.exports = async (channel = new TextChannel, lastMessageId) => {
       } else processing = false;
     }
 
-    if (oldPermission !== false) await channel.permissionOverwrites.edit(channel.guild.roles.everyone, {
+    if (channel instanceof TextChannel && oldPermission !== false) await channel.permissionOverwrites.edit(channel.guild.roles.everyone, {
       SEND_MESSAGES: getPermissionStatus(defaultPermissions, Permissions.FLAGS.SEND_MESSAGES),
       ADD_REACTIONS: getPermissionStatus(defaultPermissions, Permissions.FLAGS.ADD_REACTIONS)
     });
@@ -35,11 +34,11 @@ module.exports = async (channel = new TextChannel, lastMessageId) => {
     if (fail) alert.edit("❌ Failed to recover the counting channel. Please re-check permissions, and if you need help, please come to our support server and we will help you out.");
     else alert.edit("🔰 The channel is ready! Happy counting!").then(m => setTimeout(m.delete, 5000));
   } catch(e) {/* something went wrong */}
-  return;
+  return true;
 };
 
-function getPermissionStatus(permissions, node) {
-  if (permissions.allow.has(node)) return true;
-  if (permissions.deny.has(node)) return false;
+function getPermissionStatus(permissions: PermissionOverwrites, permission: PermissionResolvable): boolean | null {
+  if (permissions.allow.has(permission)) return true;
+  if (permissions.deny.has(permission)) return false;
   return null;
 }

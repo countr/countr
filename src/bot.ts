@@ -1,40 +1,34 @@
-const
-  { Client, Constants: { PartialTypes: { USER, CHANNEL, GUILD_MEMBER, MESSAGE, REACTION } }, Intents: { FLAGS: { GUILDS, GUILD_MESSAGES } } } = require("discord.js"),
-  config = require("../config"),
-  prepareGuild = require("./handlers/prepareGuild"),
-  updateLiveboards = require("./handlers/liveboards"),
-  interactionsHandler = require("./handlers/interactions"),
-  countingHandler = require("./handlers/counting"),
-  messageCommandHandler = require("./handlers/messageCommands"),
-  accessHandler = require("./handlers/access"),
-  client = new Client({
-    messageCacheLifetime: 30,
-    messageSweepInterval: 60,
-    partials: [ USER, CHANNEL, GUILD_MEMBER, MESSAGE, REACTION ],
-    userAgentSuffix: [ "https://countr.xyz", "https://promise.solutions" ],
-    presence: {
-      status: "dnd"
-    },
-    intents: [ GUILDS, GUILD_MESSAGES ]
-  }),
-  db = require("./database");
+import { Client, Options } from "discord.js";
+import config from "../config";
+import * as db from "./database";
+import prepareGuild from "./handlers/prepareGuild";
 
-let shard = "Shard N/A:", disabledGuilds = null;
+const client = new Client({
+  makeCache: Options.cacheWithLimits({
+    MessageManager: 50,
+    ...config.client.caches
+  }),
+  partials: [ "USER", "CHANNEL", "GUILD_MEMBER", "MESSAGE", "REACTION" ],
+  userAgentSuffix: [],
+  presence: { status: "dnd" },
+  intents: [ "GUILDS", "GUILD_MESSAGES" ]
+});
+
+let shard = "Shard N/A:", disabledGuilds: Set<string> | null = null;
 
 client.once("ready", async () => {
   shard = `Shard ${client.shard.ids.join(",")}:`;
   console.log(shard, `Ready as ${client.user.tag}! Caching guilds...`);
 
-  client.loading = true;
-  disabledGuilds = new Set(client.guilds.cache.map(g => g.id));
+  disabledGuilds = new Set(client.guilds.cache.map(g => g.id));  // cache guilds
 
-  // cache guilds
   const cacheStart = Date.now();
   await db.guilds.touch(client.guilds.cache.map(g => g.id));
   console.log(shard, `${client.guilds.cache.size} guilds cached in ${Math.ceil((Date.now() - cacheStart) / 1000)}s. Processing available guilds...`);
 
   // process guilds
-  let processingStart = Date.now(), completed = 0, presenceInterval = setInterval(() => {
+  let completed = 0;
+  const processingStart = Date.now(), presenceInterval = setInterval(() => {
     const percentage = (completed / client.guilds.cache.size) * 100;
     client.user.setPresence({
       status: "idle",
@@ -54,7 +48,6 @@ client.once("ready", async () => {
 
   // finish up
   disabledGuilds = null;
-  client.loading = false;
 
   // presence
   updatePresence();
@@ -86,7 +79,7 @@ client.on("messageCreate", async message => {
     message.type !== "DEFAULT"
   ) return;
 
-  const guild = await db.guilds.get(message.guild.id), channel = guild.channels.get(message.channel.id);
+  const guild = await db.guilds.get(message.guild.id), channel = (guild.channels as Map<string, never>).get(message.channel.id); // fix this
   if (channel) return countingHandler(message, guild, channel);
 
   if (message.content.match(`^<@!?${client.user.id}> `)) return messageCommandHandler(message, guild);
