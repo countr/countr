@@ -14,10 +14,10 @@ const client = new Client({
   intents: [ "GUILDS", "GUILD_MESSAGES" ]
 });
 
-let shard = "Shard N/A:", disabledGuilds: Set<string> | null = null;
+let shard = "Shard N/A:", disabledGuilds = new Set();
 
-client.once("ready", async () => {
-  shard = `Shard ${client.shard.ids.join(",")}:`;
+client.once("ready", async client => {
+  shard = `Shard ${client.shard?.ids.join(",")}:`;
   console.log(shard, `Ready as ${client.user.tag}! Caching guilds...`);
 
   disabledGuilds = new Set(client.guilds.cache.map(g => g.id));  // cache guilds
@@ -47,7 +47,7 @@ client.once("ready", async () => {
   console.log(shard, `${client.guilds.cache.size} guilds processed in ${Math.ceil((Date.now() - processingStart) / 1000)}s.`);
 
   // finish up
-  disabledGuilds = null;
+  disabledGuilds = new Set();
 
   // presence
   updatePresence();
@@ -63,7 +63,7 @@ client.once("ready", async () => {
   if (config.access.enabled) accessHandler(client);
 });
 
-const updatePresence = async () => client.user.setPresence({
+const updatePresence = async () => client?.user?.setPresence({
   status: "online",
   activities: [{
     type: "WATCHING",
@@ -73,6 +73,7 @@ const updatePresence = async () => client.user.setPresence({
 
 client.on("messageCreate", async message => {
   if (
+    !client?.user ||
     !message.guild ||
     disabledGuilds?.has(message.guild.id) ||
     message.author.bot ||
