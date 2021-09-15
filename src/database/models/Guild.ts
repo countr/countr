@@ -42,15 +42,15 @@ export class CountingChannel {
     userId: "",
     messageId: ""
   } as Count })                 public count!: Count;
-  @prop({ default: "decimal" }) public type?: string;
-  @prop({ default: [] })        public modules?: Array<string>;
-  @prop({ default: {} })        public scores?: Map<string, number>;
-  @prop({ default: {} })        public timeoutRole?: TimeoutRole | Record<string, never>; // empty object
-  @prop({ default: {} })        public flows?: Map<string, Flow>;
-  @prop({ default: {} })        public notifications?: Map<string, Notification>;
-  @prop({ default: {} })        public timeouts?: Map<string, Date>;
-  @prop({ default: [] })        public filters?: Array<string>;
-  @prop({ default: {} })        public liveboard?: Liveboard | Record<string, never>; // empty object
+  @prop({ default: "decimal" }) public type!: string;
+  @prop({ default: [] })        public modules!: Array<string>;
+  @prop({ default: {} })        public scores!: Map<string, number>;
+  @prop({ default: {} })        public timeoutRole!: TimeoutRole | Record<string, never>; // empty object
+  @prop({ default: {} })        public flows!: Map<string, Flow>;
+  @prop({ default: {} })        public notifications!: Map<string, Notification>;
+  @prop({ default: {} })        public timeouts!: Map<string, Date>;
+  @prop({ default: [] })        public filters!: Array<string>;
+  @prop({ default: {} })        public liveboard!: Liveboard | Record<string, never>; // empty object
 }
 
 export class Guild {
