@@ -3,12 +3,12 @@ import { TextChannel, ThreadChannel, Permissions, PermissionOverwrites, Permissi
 export default async (channel: TextChannel | ThreadChannel, lastMessageId: string): Promise<boolean> => {
   if (channel.partial) await channel.fetch();
   let messages = await channel.messages.fetch({ limit: 100, after: lastMessageId }).catch(() => null);
-  if (messages.size) try {
+  if (messages && messages.size) try {
     const alert = await channel.send("💢 Making channel ready for counting.");
 
-    let oldPermission: boolean = null, defaultPermissions: PermissionOverwrites = null;
+    let oldPermission: boolean | null = null, defaultPermissions: PermissionOverwrites | null = null;
     if (channel instanceof TextChannel) {
-      defaultPermissions = channel.permissionOverwrites.cache.get(channel.guild.roles.everyone.id);
+      defaultPermissions = channel.permissionOverwrites.cache.get(channel.guild.roles.everyone.id) || null;
       oldPermission = getPermissionStatus(defaultPermissions, Permissions.FLAGS.SEND_MESSAGES);
 
       if (oldPermission !== false) await channel.permissionOverwrites.edit(channel.guild.roles.everyone, {
@@ -37,7 +37,8 @@ export default async (channel: TextChannel | ThreadChannel, lastMessageId: strin
   return true;
 };
 
-function getPermissionStatus(permissions: PermissionOverwrites, permission: PermissionResolvable): boolean | null {
+function getPermissionStatus(permissions: PermissionOverwrites | null, permission: PermissionResolvable): boolean | null {
+  if (!permissions) return null;
   if (permissions.allow.has(permission)) return true;
   if (permissions.deny.has(permission)) return false;
   return null;
