@@ -7,6 +7,6 @@ export class Global {
   @prop({ default: getWeek }) public week!: number;
 }
 
-export type GuildDocument = DocumentType<Global, BeAnObject>;
+export type GlobalDocument = DocumentType<Global, BeAnObject>;
 
 export default getModelForClass(Global);

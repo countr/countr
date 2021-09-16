@@ -5,8 +5,8 @@ const saveQueue = new Map();
 
 export class Count {
   @prop({ default: 0 })  public number!: number;
-  @prop({ default: "" }) public userId!: string;
-  @prop({ default: "" }) public messageId!: string;
+  @prop({ default: null }) public userId?: string;
+  @prop({ default: null }) public messageId?: string;
 }
 
 export class TimeoutRole {
