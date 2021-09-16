@@ -2,6 +2,7 @@ import { Client, Options } from "discord.js";
 import config from "../config";
 import * as db from "./database";
 import prepareGuild from "./handlers/prepareGuild";
+import updateLiveboards from "./handlers/liveboard";
 
 const client = new Client({
   makeCache: Options.cacheWithLimits({
@@ -54,8 +55,8 @@ client.once("ready", async client => {
   setInterval(updatePresence, 1000 * 60);
 
   if (config.isPremium) {
-    updateLiveboards();
-    setInterval(updateLiveboards, 1000 * 60);
+    updateLiveboards(client);
+    setInterval(() => updateLiveboards(client), 1000 * 60);
   }
 
   interactionsHandler(client).then(() => console.log(shard, "Now listening to interactions."));
