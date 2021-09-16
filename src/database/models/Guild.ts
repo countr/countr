@@ -1,4 +1,5 @@
 import { prop, getModelForClass, DocumentType } from "@typegoose/typegoose";
+import { BeAnObject } from "@typegoose/typegoose/lib/types";
 
 const saveQueue = new Map();
 
@@ -45,12 +46,12 @@ export class CountingChannel {
   @prop({ default: "decimal" }) public type!: string;
   @prop({ default: [] })        public modules!: Array<string>;
   @prop({ default: {} })        public scores!: Map<string, number>;
-  @prop({ default: {} })        public timeoutRole!: TimeoutRole | Record<string, never>; // empty object
+  @prop({ default: null })      public timeoutRole?: TimeoutRole;
   @prop({ default: {} })        public flows!: Map<string, Flow>;
   @prop({ default: {} })        public notifications!: Map<string, Notification>;
   @prop({ default: {} })        public timeouts!: Map<string, Date>;
   @prop({ default: [] })        public filters!: Array<string>;
-  @prop({ default: {} })        public liveboard!: Liveboard | Record<string, never>; // empty object
+  @prop({ default: null })      public liveboard?: Liveboard;
 }
 
 export class Guild {
@@ -60,7 +61,7 @@ export class Guild {
 
   // we can't save in parallell, and although we can await the guild.save(), that would not work across files.
 
-  public safeSave(this: DocumentType<Guild>): void {
+  public safeSave(this: GuildDocument): void {
     if (!saveQueue.has(this.guildId)) {
       saveQueue.set(this.guildId, 1);
       this.save().then(() => {
@@ -72,5 +73,7 @@ export class Guild {
     } else saveQueue.set(this.guildId, 2);
   }
 }
+
+export type GuildDocument = DocumentType<Guild, BeAnObject>;
 
 export default getModelForClass(Guild);

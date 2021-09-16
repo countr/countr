@@ -1,23 +1,20 @@
-import Guild from "./models/Guild";
-import { Guild as GuildModel } from "./models/Guild";
+import Guild, { GuildDocument } from "./models/Guild";
 
 export const cache = new Map(), cacheQueue = new Map();
 
-export const get = async (guildId: string, fromCache = true): Promise<GuildModel> => {
+export const get = async (guildId: string, fromCache = true): Promise<GuildDocument> => {
   const guild = cache.get(guildId);
   if (fromCache && guild) return guild; else {
     const queued = cacheQueue.get(guildId);
     if (queued) return await queued;
 
-    const request: Promise<GuildModel> = new Promise((resolve, reject) => Guild.findOne({ guildId }, (err?: unknown, response?: GuildModel) => {
-      if (err) return reject(err);
-
-      const guild = response || new Guild({ guildId });
+    const request: Promise<GuildDocument> = new Promise((resolve, reject) => Guild.findOne({ guildId }).then(guildInDb => {
+      const guild = guildInDb || new Guild({ guildId });
 
       cache.set(guildId, guild);
       cacheQueue.delete(guildId);
-      return resolve(guild as GuildModel);
-    }));
+      return resolve(guild);
+    }).catch(reject));
     cacheQueue.set(guildId, request);
     return await request;
   }

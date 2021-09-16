@@ -1,11 +1,5 @@
 import { Guild } from "discord.js";
-
-type TimeoutRole = {
-  roleId: string;
-  fails: number;
-  time: number;
-  duration: number;
-}
+import { TimeoutRole } from "../../database/models/Guild";
 
 export default async (guild: Guild, timeoutRole: TimeoutRole, timeouts: Map<string, Date>, save: () => void): Promise<boolean> => {
   if (!timeouts.size) return false;

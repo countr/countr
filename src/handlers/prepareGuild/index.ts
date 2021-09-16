@@ -1,6 +1,6 @@
 import { Guild, TextChannel, ThreadChannel } from "discord.js";
 import { guilds } from "../../database";
-import { CountingChannel, TimeoutRole } from "../../database/guilds";
+import { CountingChannel } from "../../database/models/Guild";
 import recoverHandler from "./recover";
 import timeoutsHandler from "./timeouts";
 
@@ -12,7 +12,7 @@ export default async (guild: Guild): Promise<void> => {
     if (channel) {
       const promises: Array<Promise<boolean>> = [];
       if (modules.includes("recover")) promises.push(recoverHandler(channel, messageId));
-      if (timeoutRole) promises.push(timeoutsHandler(channel.guild, timeoutRole as TimeoutRole, timeouts, db.safeSave));
+      if (timeoutRole) promises.push(timeoutsHandler(channel.guild, timeoutRole, timeouts, db.safeSave));
 
       return await Promise.all(promises).then(responses => responses.find(Boolean) ? db.safeSave() : null); // if any of the promises return true, save the guild
     } else return;
