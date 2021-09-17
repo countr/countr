@@ -11,7 +11,7 @@ export default async (guild: Guild): Promise<void> => {
     const channel = guild.channels.cache.get(id) as TextChannel | ThreadChannel;
     if (channel) {
       const promises: Array<Promise<boolean>> = [];
-      if (modules.includes("recover")) promises.push(recoverHandler(channel, messageId));
+      if (modules.includes("recover") && messageId) promises.push(recoverHandler(channel, messageId));
       if (timeoutRole) promises.push(timeoutsHandler(channel.guild, timeoutRole, timeouts, db.safeSave));
 
       return await Promise.all(promises).then(responses => responses.find(Boolean) ? db.safeSave() : null); // if any of the promises return true, save the guild
