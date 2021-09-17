@@ -1,6 +1,6 @@
 import Guild, { GuildDocument } from "./models/Guild";
 
-export const cache = new Map(), cacheQueue = new Map();
+export const cache: Map<string, GuildDocument> = new Map(), cacheQueue = new Map();
 
 export const get = async (guildId: string, fromCache = true): Promise<GuildDocument> => {
   const guild = cache.get(guildId);
