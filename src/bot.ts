@@ -81,10 +81,10 @@ client.on("messageCreate", async message => {
     message.type !== "DEFAULT"
   ) return;
 
-  const guild = await db.guilds.get(message.guild.id), channel = guild.channels.get(message.channel.id);
-  if (channel) return countingHandler(message, guild, channel);
+  const document = await db.guilds.get(message.guild.id), channel = document.channels.get(message.channel.id);
+  if (channel) return countingHandler(message, document, channel);
 
-  if (message.content.match(`^<@!?${client.user.id}> `)) return messageCommandHandler(message, guild);
+  if (message.content.match(`^<@!?${client.user.id}> `)) return messageCommandHandler(message, document);
   else if (message.content.match(`^<@!?${client.user.id}>`)) return message.reply({
     content: "hello"
   });
