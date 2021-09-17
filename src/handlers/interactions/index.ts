@@ -6,6 +6,7 @@ import commandHandler from "./commands";
 import contextMenuHandler from "./contextMenus";
 import componentHandler from "./components";
 import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from "discord.js/typings/enums";
+import { get } from "../../database/guilds";
 
 export default async (client: Client): Promise<void> => {
   const commands = config.guild ? client.guilds.cache.get(config.guild)?.commands : client.application?.commands;
@@ -15,10 +16,11 @@ export default async (client: Client): Promise<void> => {
     ...(await nestCommands("../../commands/message", "MESSAGE") as Array<ApplicationCommandData>),
   ]);
 
-  client.on("interactionCreate", interaction => {
-    if (interaction.isCommand()) return commandHandler(interaction as CommandInteraction);
-    if (interaction.isContextMenu()) return contextMenuHandler(interaction as ContextMenuInteraction);
-    if (interaction.isMessageComponent()) return componentHandler(interaction as MessageComponentInteraction);
+  client.on("interactionCreate", async interaction => {
+    const document = interaction.guildId ? await get(interaction.guildId) : undefined;
+    if (interaction.isCommand()) return commandHandler(interaction as CommandInteraction, document);
+    if (interaction.isContextMenu()) return contextMenuHandler(interaction as ContextMenuInteraction, document);
+    if (interaction.isMessageComponent()) return componentHandler(interaction as MessageComponentInteraction, document);
   });
 };
 
