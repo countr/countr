@@ -1,7 +1,13 @@
 {
   "name": "countr",
-  "main": "src/sharding.ts",
+  "main": "build/src/sharding.js",
+  "type": "module",
   "license": "GPL-3.0",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "lint": "eslint ./src"
+  },
   "dependencies": {
     "@typegoose/typegoose": "^8.3.0",
     "bufferutil": "^4.0.3",
