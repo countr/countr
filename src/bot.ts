@@ -3,6 +3,10 @@ import config from "../config";
 import * as db from "./database";
 import prepareGuild from "./handlers/prepareGuild";
 import updateLiveboards from "./handlers/liveboard";
+import accessHandler from "./handlers/access";
+import interactionsHandler from "./handlers/interactions";
+import countingHandler from "./handlers/counting";
+import messageCommandHandler from "./handlers/messageCommands";
 
 const client = new Client({
   makeCache: Options.cacheWithLimits({
@@ -81,11 +85,11 @@ client.on("messageCreate", async message => {
     message.type !== "DEFAULT"
   ) return;
 
-  const document = await db.guilds.get(message.guild.id), channel = document.channels.get(message.channel.id);
-  if (channel) return countingHandler(message, document, channel);
+  const document = await db.guilds.get(message.guild.id);
+  if (document.channels.has(message.channel.id)) countingHandler(message, document);
 
-  if (message.content.match(`^<@!?${client.user.id}> `)) return messageCommandHandler(message, document);
-  else if (message.content.match(`^<@!?${client.user.id}>`)) return message.reply({
+  else if (message.content.match(`^<@!?${client.user.id}> `)) messageCommandHandler(message, document);
+  else if (message.content.match(`^<@!?${client.user.id}>`)) message.reply({
     content: "hello"
   });
 });
