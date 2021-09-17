@@ -1,7 +1,9 @@
 import { GuildMember, Permissions } from "discord.js";
 import config from "../../config";
 
-export const ladder = {
+export type CommandPermissionLevel = "DEVELOPER" | "SUPPORT" | "OWNER" | "ADMIN" | "MOD" | "ALL";
+
+export const ladder: Record<CommandPermissionLevel, number> = {
   "DEVELOPER": 5,
   "SUPPORT": 4,
   "OWNER": 3,
