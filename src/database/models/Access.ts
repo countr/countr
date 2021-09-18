@@ -1,10 +1,11 @@
 import { prop, getModelForClass, DocumentType } from "@typegoose/typegoose";
+import { WhatIsIt } from "@typegoose/typegoose/lib/internal/constants";
 import { BeAnObject } from "@typegoose/typegoose/lib/types";
 
 export class Access {
-  @prop({ required: true }) public user!: string;
-  @prop({ default: [] })    public servers!: Array<string>;
-  @prop({ required: true }) public expires!: Date;
+  @prop({ type: String,   required: true }                ) user!: string;
+  @prop({ type: [String], default: []    }, WhatIsIt.ARRAY) servers!: Array<string>;
+  @prop({ type: Date,     required: true }                ) expires!: Date;
 }
 
 export type AccessDocument = DocumentType<Access, BeAnObject>;

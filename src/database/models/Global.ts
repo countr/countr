@@ -3,8 +3,8 @@ import { BeAnObject } from "@typegoose/typegoose/lib/types";
 import { getWeek } from "../../utils/time";
 
 export class Global {
-  @prop({ default: 0 })       public counts!: number;
-  @prop({ default: getWeek }) public week!: number;
+  @prop({ type: Number, default: 0       }) counts!: number;
+  @prop({ type: Number, default: getWeek }) week!: number;
 }
 
 export type GlobalDocument = DocumentType<Global, BeAnObject>;
