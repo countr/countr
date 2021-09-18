@@ -7,6 +7,7 @@ export type SlashCommand = {
   options?: Array<ApplicationCommandOptionData>;
   execute(interaction: CommandInteraction, ephemeralPreference: boolean, args: SlashArgRecord, document?: GuildDocument): Promise<void>;
   workInPrivateMessage?: boolean;
+  disableInCountingChannel?: boolean;
 };
 
 export type ContextMenuCommand = {
