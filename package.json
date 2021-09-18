@@ -1,7 +1,6 @@
 {
   "name": "countr",
   "main": "build/src/sharding.js",
-  "type": "module",
   "license": "GPL-3.0",
   "scripts": {
     "build": "tsc",
@@ -27,7 +26,6 @@
     "@types/time-limited-regular-expressions": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
-    "eslint": "^7.32.0",
-    "typescript": "^4.4.3"
+    "eslint": "^7.32.0"
   }
 }

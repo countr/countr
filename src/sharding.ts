@@ -1,7 +1,7 @@
 import { ShardingManager } from "discord.js";
 import config from "../config";
 
-const manager = new ShardingManager("./src/bot.ts", {
+const manager = new ShardingManager(`${__dirname}/bot.js`, {
   totalShards: config.client.shards || "auto",
   token: config.client.token,
   mode: "worker"
