@@ -76,5 +76,3 @@ export type GuildDocument = DocumentType<Guild, BeAnObject>;
 
 const Guuild = getModelForClass(Guild);
 export default Guuild;
-
-console.log(new Guuild({ guildId: "123" }));
