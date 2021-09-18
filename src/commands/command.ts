@@ -5,8 +5,8 @@ import { SlashArgRecord } from "../handlers/interactions/commands";
 export type SlashCommand = {
   description: string;
   options?: Array<ApplicationCommandOptionData>;
-  workInDms?: boolean;
   execute(interaction: CommandInteraction, ephemeralPreference: boolean, args: SlashArgRecord, document?: GuildDocument): Promise<void>;
+  workInPrivateMessage?: boolean;
 };
 
 export type ContextMenuCommand = {

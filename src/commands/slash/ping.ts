@@ -11,5 +11,5 @@ export default {
       config.statusPage ? `🔗 Having issues? Please check our [status page](${config.statusPage}) for more information.` : ""
     ].filter(Boolean).join("\n") });
   },
-  workInDms: true
+  workInPrivateMessage: true
 } as SlashCommand;
