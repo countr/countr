@@ -7,8 +7,8 @@ export default {
     const start = Date.now();
     await interaction.deferReply({ ephemeral });
     interaction.editReply({ content: [
-      `🏓 Server latency is \`${Date.now() - start}ms\`, API latency is \`${interaction.client.ws.ping}\`.`,
-      config.statusPage ? `🔗 Having issues? Please check our [status page](${config.statusPage}) for more information.` : ""
+      `🏓 Server latency is \`${Date.now() - start}ms\` and API latency is \`${interaction.client.ws.ping}ms\`.`,
+      config.statusPage ? `🔗 Having issues? Check our [status page](<${config.statusPage}>)!` : ""
     ].filter(Boolean).join("\n") });
   },
   workInPrivateMessage: true
