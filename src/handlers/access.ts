@@ -2,7 +2,7 @@ import { Client, WebhookClient, Guild } from "discord.js";
 import { access } from "../database";
 import config from "../../config";
 
-const webhook = new WebhookClient({ url: config.access.webhook_log });
+const webhook = config.access.webhook_log ? new WebhookClient({ url: config.access.webhook_log }) : null;
 
 export default async (client: Client): Promise<void> => {
   setInterval(() => access.findMultiple(client.guilds.cache.map(guild => guild.id))
@@ -15,7 +15,7 @@ export default async (client: Client): Promise<void> => {
 };
 
 function leave(guild: Guild): Promise<Guild> {
-  webhook.send({
+  webhook?.send({
     content: `Server **${guild.name}** (\`${guild.id}\`) owned by <@${guild.ownerId}> does not have access to use \`${guild.client?.user?.tag}\` and has left the server`
   });
   return guild.leave();
