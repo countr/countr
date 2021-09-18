@@ -3,7 +3,10 @@
   "main": "build/src/sharding.js",
   "license": "GPL-3.0",
   "scripts": {
-    "build": "tsc",
+    "setup": "npm run setup:install && npm run setup:build",
+    "setup:install": "npm i --save-dev",
+    "setup:build": "tsc && echo Complete!",
+    "start": "node .",
     "watch": "tsc -w",
     "lint": "eslint ./src"
   },
