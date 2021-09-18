@@ -5,7 +5,6 @@ import config from "../../../config";
 import commandHandler from "./commands";
 import contextMenuHandler from "./contextMenus";
 import componentHandler from "./components";
-import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from "discord.js/typings/enums";
 import { get } from "../../database/guilds";
 
 export default async (client: Client): Promise<void> => {
@@ -38,24 +37,24 @@ function nestCommands(relativePath: string, type: string): Promise<Array<Applica
         } = await import(`${relativePath}/${file}`);
 
         if (type == "USER") arr.push({
-          type: ApplicationCommandTypes.USER,
+          type: "USER",
           name: file.replace(".js", "")
         } as UserApplicationCommandData);
 
         else if (type == "MESSAGE") arr.push({
-          type: ApplicationCommandTypes.MESSAGE,
+          type: "MESSAGE",
           name: file.replace(".js", "")
         } as MessageApplicationCommandData);
 
         else if (type == "CHAT_INPUT") arr.push({
-          type: ApplicationCommandTypes.CHAT_INPUT,
+          type: "CHAT_INPUT",
           name: file.replace(".js", ""),
           description: description || "No description",
           options: options || []
         } as ChatInputApplicationCommandData);
 
         else if (type == "SUB_COMMAND") arr.push(({
-          type: ApplicationCommandOptionTypes.SUB_COMMAND,
+          type: "SUB_COMMAND",
           name: file.replace(".js", ""),
           description: description || "No description",
           options: options || []
