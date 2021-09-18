@@ -25,7 +25,7 @@ export default async (interaction: CommandInteraction, document?: GuildDocument)
       if (subCommand) path.push(subCommand.name);
     }
 
-    const commandFile = await import(`../../commands/slash/${path.join("/")}`) as SlashCommand; // todo
+    const commandFile = (await import(`../../commands/slash/${path.join("/")}`)).default as SlashCommand; // todo
     if (!commandFile.workInDms && !interaction.guild) return; // todo reply with error
     commandFile.execute(interaction, document?.channels.has(interaction.channelId) || false, getSlashArgs(interaction.options.data), document);
   }

@@ -34,7 +34,7 @@ function nestCommands(relativePath: string, type: string): Promise<Array<Applica
         const { description, options }: {
           description?: string;
           options?: Array<ApplicationCommandOption>;
-        } = await import(`${relativePath}/${file}`);
+        } = (await import(`${relativePath}/${file}`)).default;
 
         if (type == "USER") arr.push({
           type: "USER",
