@@ -7,15 +7,15 @@ const saveQueue = new Map();
 
 export class Count {
   @prop({ type: Number, default: 0    }) number!: number;
-  @prop({ type: String, default: null }) userId?: string | null;
-  @prop({ type: String, default: null }) messageId?: string | null;
+  @prop({ type: String                }) userId?: string;
+  @prop({ type: String                }) messageId?: string;
 }
 
 export class TimeoutRole {
   @prop({ type: String, required: true }) roleId!: string;
   @prop({ type: Number, required: true }) fails!: number;
   @prop({ type: Number, required: true }) time!: number;
-  @prop({ type: Number, default: null  }) duration?: number | null;
+  @prop({ type: Number                 }) duration?: number;
 }
 
 export class FlowOptions {
@@ -24,8 +24,10 @@ export class FlowOptions {
 }
 
 export class Flow {
-  @prop({ type: [FlowOptions], default: [] }, WhatIsIt.ARRAY) triggers!: Array<FlowOptions>;
-  @prop({ type: [FlowOptions], default: [] }, WhatIsIt.ARRAY) actions!: Array<FlowOptions>;
+  @prop({ type: String                        }                ) name?: string;
+  @prop({ type: Boolean,       default: false }                ) disabled?: boolean;
+  @prop({ type: [FlowOptions], default: []    }, WhatIsIt.ARRAY) triggers!: Array<FlowOptions>;
+  @prop({ type: [FlowOptions], default: []    }, WhatIsIt.ARRAY) actions!: Array<FlowOptions>;
 }
 
 export class Notification {
