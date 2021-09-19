@@ -32,7 +32,7 @@ function nestCommands(relativePath: string, type: string): Promise<Array<Applica
 
     const arr = [];
     if (files) for (const file of files) {
-      if (file.endsWith(".js")) {
+      if (file.endsWith(".js") && !file.startsWith("_")) {
 
         const { description, options }: {
           description?: string;
