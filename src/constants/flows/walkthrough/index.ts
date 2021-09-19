@@ -121,7 +121,7 @@ export function designMessage(selected: number, flow: Flow, flowIdentifier: stri
         },
         {
           type: "BUTTON",
-          label: `${selected + 1}/${steps.length}`,
+          label: `Step ${selected + 1}/${steps.length}`,
           customId: `disabled:${randomIdentifier}`,
           style: "SECONDARY",
           disabled: true
