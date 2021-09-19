@@ -1,29 +1,116 @@
-import { CommandInteraction, InteractionReplyOptions, MessageButtonOptions, MessageEmbedOptions } from "discord.js";
+import { CommandInteraction, InteractionReplyOptions, MessageButtonOptions, MessageEmbedOptions, User } from "discord.js";
 import config from "../../../../config";
 import { Flow } from "../../../database/models/Guild";
-import steps, { ComponentCallback, Step } from "./steps";
+import { components } from "../../../handlers/interactions/components";
+import { generateId } from "../../../utils/crypto";
+import steps, { Step } from "./steps";
 
-export default async (interaction: CommandInteraction, flow?: Flow): Promise<void> => {
-  const exists = Boolean(flow);
-  flow = flow || new Flow();
+const inProgress: Map<string, {
+  guildId: string;
+  userId: string;
+  flow: Flow;
+  abortCurrentEditor: (user: User) => Promise<unknown>;
+}> = new Map();
 
-  const step = steps.find(step => exists ? !step.skipIfExists : true) || steps[0], selected = steps.indexOf(step);
+export default async (interaction: CommandInteraction, existingFlow?: Flow, existingFlowIdentifier?: string): Promise<void> => {
+  const exists = Boolean(existingFlow);
+  const flow = JSON.parse(JSON.stringify(existingFlow || { triggers: [], actions: [] })) as Flow; // clone so we don't modify the live flow, if it exists
+  const flowIdentifier = existingFlowIdentifier || generateId();
 
-  interaction.followUp(designMessage(selected, flow));
+  const step = exists ? steps.indexOf(steps.find(step => !step.skipIfExists) || steps[0]) : 0;
+
+  const flowInProgress = inProgress.get(flowIdentifier);
+  if (flowInProgress) {
+    components.set(`${interaction.id}:no`, i => i.update({ content: "", components: [] }));
+    components.set(`${interaction.id}:yes`, i => {
+      flowInProgress.abortCurrentEditor(i.user);
+      inProgress.set(flowIdentifier, Object.assign({}, flowInProgress, {
+        userId: interaction.user.id,
+        abortCurrentEditor: (user: User) => i.editReply({ content: `💢 This flow has been re-opened by ${user}.`, embeds: [], components: [] })
+      }));
+      return i.update(designMessage(step, flow, flowIdentifier));
+    });
+
+    interaction.reply({
+      content: "🚫 This flow is already in the flow editor, would you like to re-open the editor?",
+      components: [{
+        type: "ACTION_ROW",
+        components: [
+          {
+            type: "BUTTON",
+            label: "No",
+            customId: `${interaction.id}:no`,
+            style: "DANGER"
+          },
+          {
+            type: "BUTTON",
+            label: "Yes",
+            customId: `${interaction.id}:yes`,
+            style: "SUCCESS"
+          }
+        ]
+      }]
+    });
+  } else {
+    inProgress.set(flowIdentifier, {
+      guildId: interaction.guild?.id || "unknown",
+      userId: interaction.user.id,
+      flow,
+      abortCurrentEditor: (user: User) => interaction.editReply({ content: `💢 This flow has been re-opened by ${user}.`, embeds: [], components: [] })
+    });
+    interaction.reply(designMessage(step, flow, flowIdentifier));
+  }
 };
 
-export function designMessage(selected: number, flow: Flow): InteractionReplyOptions {
-  const step = steps[selected];
+export function designMessage(selected: number, flow: Flow, flowIdentifier: string): InteractionReplyOptions {
+  const selectedStep = steps[selected];
 
   const randomIdentifier = Math.random().toString(36).substring(2);
 
-  // todo set component callbacks in "../../../handlers/interactions/components"
+  components.set(`previous:${randomIdentifier}`, i => i.update(designMessage(selected - 1, flow, flowIdentifier)));
+  components.set(`next:${randomIdentifier}`, i => i.update(designMessage(selected + 1, flow, flowIdentifier)));
+  components.set(`save:${randomIdentifier}`, i => i.update(saveFlow(flow, flowIdentifier)));
+  components.set(`cancel:${randomIdentifier}`, async i => {
+    components.set(`cancel:${randomIdentifier}:yes`, async i => {
+      inProgress.delete(flowIdentifier);
+      i.update({ content: "🕳 Flow editing has been cancelled.", components: [] });
+    });
+    components.set(`cancel:${randomIdentifier}:no`, i => i.update(designMessage(selected, flow, flowIdentifier)));
+    i.update({
+      content: "💢 Are you sure you want to cancel? You will lose all your progress!",
+      embeds: [],
+      components: [{
+        type: "ACTION_ROW",
+        components: [
+          {
+            type: "BUTTON",
+            label: "Yes, I'm sure",
+            customId: `cancel:${randomIdentifier}:yes`,
+            style: "DANGER"
+          },
+          {
+            type: "BUTTON",
+            label: "No, go back",
+            customId: `cancel:${randomIdentifier}:no`,
+            style: "SECONDARY"
+          }
+        ]
+      }]
+    });
+  });
 
   const message = {
-    content: "",
-    embeds: steps.map((step, index) => designEmbed(step, index, flow, selected)),
+    content: null,
+    embeds: [ { title: `Flow editor for flow \`${flowIdentifier}\``, color: parseInt(flowIdentifier, 16) }, ...steps.map((step, index) => designStepEmbed(step, index, flow, selected)), designEmbed(selectedStep, flow) ],
     components: [
-      ...(step.components ? step.components(flow).map(group => ({ type: "ACTION_ROW", components: group.map(component => ({ ...component.data, customId: `${randomIdentifier}:${component.data.customId}` })) })) : []),
+      ...(selectedStep.components ? selectedStep.components(flow).map(group => ({
+        type: "ACTION_ROW",
+        components: group.map(component => {
+          const customId = `${randomIdentifier}:${component.data.customId}`;
+          components.set(customId, i => component.callback(i as never, flow, () => designMessage(selected, flow, flowIdentifier)));
+          return { ...component.data, customId };
+        })
+      })) : []),
       { type: "ACTION_ROW", components: [
         {
           type: "BUTTON",
@@ -39,39 +126,64 @@ export function designMessage(selected: number, flow: Flow): InteractionReplyOpt
           style: "SECONDARY",
           disabled: true
         },
-        {
+        selected !== steps.length - 1 ? {
           type: "BUTTON",
           label: "Next >",
           customId: `next:${randomIdentifier}`,
           style: "PRIMARY",
-          disabled: selected == steps.length - 1
+          disabled: selectedStep.getStatus(flow) == "incomplete"
+        } : null,
+        !steps.find(step => step.getStatus(flow) == "incomplete") ? {
+          type: "BUTTON",
+          label: "Save flow",
+          customId: `save:${randomIdentifier}`,
+          style: "SUCCESS"
+        } : null,
+        {
+          type: "BUTTON",
+          label: "Cancel",
+          customId: `cancel:${randomIdentifier}`,
+          style: "DANGER"
         }
-      ] as Array<MessageButtonOptions> }
-    ],
-    ephemeral: true
+      ].filter(Boolean) as Array<MessageButtonOptions> }
+    ]
   };
-
-  if (step.components) {
-    const allCallbacks: Array<ComponentCallback> = [];
-    step.components(flow).forEach(group => group.forEach(component => allCallbacks.push(component.callback)));
-
-    // todo set component callbacks in "../../../handlers/interactions/components"
-  }
 
   return message as InteractionReplyOptions;
 }
 
-function designEmbed(step: Step, index: number, flow: Flow, selected: number): MessageEmbedOptions {
-  const status = selected < index ? "complete" : selected == index ? "selected" : "incomplete";
+function designStepEmbed(step: Step, index: number, flow: Flow, selected: number): MessageEmbedOptions {
+  const status = selected == index ? "selected" : step.getStatus(flow);
 
-  const embed = selected ? {
-    title: "tt"
+  const embed = status == "selected" ? {
+    author: {
+      name: `Step ${index + 1}: ${step.title}`,
+      icon_url: config.progressIcons[status]
+    }
   } : {
     footer: {
-      text: `Step ${index + 1}: ${step.title}`,
-      iconUrl: config.progressIcons[status]
+      text: `Step ${index + 1}: ${step.title} ${status == "complete" ? "(Complete)" : ""}`,
+      icon_url: config.progressIcons[status]
     }
-  };
+  } as MessageEmbedOptions;
+  return embed;
+}
 
-  return embed as MessageEmbedOptions;
+function designEmbed(step: Step, flow: Flow): MessageEmbedOptions {
+  const embed = {
+    title: step.title,
+    description: step.description(flow),
+    fields: step.fields ? step.fields(flow) : undefined,
+    color: config.colors.info
+  } as MessageEmbedOptions;
+  return embed;
+}
+
+function saveFlow(flow: Flow, flowIdentifier: string): InteractionReplyOptions {
+  // save flow
+  return {
+    content: `✅ Flow \`${flowIdentifier}\` has been saved successfully!`,
+    embeds: [],
+    components: []
+  };
 }
