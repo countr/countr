@@ -1,4 +1,4 @@
-import { ApplicationCommandData, ApplicationCommandOption, ApplicationCommandOptionData, ApplicationCommandSubCommandData, ChatInputApplicationCommandData, Client, CommandInteraction, ContextMenuInteraction, MessageApplicationCommandData, MessageComponentInteraction, UserApplicationCommandData } from "discord.js";
+import { ApplicationCommandData, ApplicationCommandOption, ApplicationCommandOptionData, ApplicationCommandSubCommandData, ButtonInteraction, ChatInputApplicationCommandData, Client, CommandInteraction, ContextMenuInteraction, MessageApplicationCommandData, MessageComponentInteraction, SelectMenuInteraction, UserApplicationCommandData } from "discord.js";
 import fs from "fs";
 import { join } from "path";
 import config from "../../../config";
@@ -16,10 +16,13 @@ export default async (client: Client): Promise<void> => {
   ]);
 
   client.on("interactionCreate", async interaction => {
+    if (interaction.isMessageComponent()) {
+      if (interaction.isButton()) return componentHandler(interaction as ButtonInteraction);
+      if (interaction.isSelectMenu()) return componentHandler(interaction as SelectMenuInteraction);
+    }
     const document = interaction.guildId ? await get(interaction.guildId) : undefined;
     if (interaction.isCommand()) return commandHandler(interaction as CommandInteraction, document);
     if (interaction.isContextMenu()) return contextMenuHandler(interaction as ContextMenuInteraction, document);
-    if (interaction.isMessageComponent()) return componentHandler(interaction as MessageComponentInteraction, document);
   });
 };
 
