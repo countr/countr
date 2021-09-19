@@ -58,6 +58,7 @@ export const propertyTypes: Record<string, Property> = {
       "• `{everyone}` Mentions the everyone-role",
       "• `{score}` The new score of the user who triggered this flow",
       "• `{content}` The content of the message that triggered this flow"
-    ].join("\n")
+    ].join("\n"),
+    format: async (content: string) => `\`\`\`\n${content}\`\`\``,
   }
 };

@@ -60,7 +60,7 @@ const actions: Record<string, Action> = {
     short: "Send a message",
     long: "This will sned a message in any channel you'd like",
     properties: [ propertyTypes.channel, propertyTypes.text ],
-    explanation: ([ channel, text ]: [ string, string ]) => `Send a message in ${channel}: \`\`\`${text}\`\`\``,
+    explanation: ([ channel, text ]: [ string, string ]) => `Send a message in ${channel}: ${text}`,
     run: async ({ count, score, message: { guild, member, author, content } }, [ channelId, text ]: [ string, string ]) => {
       const channel = guild?.channels.resolve(channelId);
       if (channel && channel.isText()) await channel.send({
