@@ -95,3 +95,5 @@ client.on("messageCreate", async message => {
 });
 
 db.connection.then(() => client.login(config.client.token));
+
+process.on("unhandledRejection", console.log);
