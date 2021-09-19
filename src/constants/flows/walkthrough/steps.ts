@@ -2,8 +2,9 @@ import { ButtonInteraction, EmbedFieldData, InteractionButtonOptions, Interactio
 import config from "../../../../config";
 import { Flow, FlowOptions } from "../../../database/models/Guild";
 import { components } from "../../../handlers/interactions/components";
-import { trim } from "../../../utils/text";
+import { capitalizeFirst, trim } from "../../../utils/text";
 import limits from "../../limits";
+import actions from "../actions";
 import { Property } from "../properties";
 import triggers from "../triggers";
 
@@ -132,96 +133,23 @@ const steps: Array<Step> = [
   },
   {
     title: "Triggers",
-    description: () => "create triggers",
+    description: () => "create triggers", // todo
     fields: flow => flow.triggers.map(({ type, data }, i) => {
       const trigger = triggers[type];
-      return { name: `• ${i}: ${trigger.short}`, value: trigger.explanation(data) };
+      return { name: `• ${i + 1}: ${trigger.short}`, value: trigger.explanation(data) };
     }),
-    components: flow => [[{
-      data: {
-        type: "SELECT_MENU",
-        placeholder: "Create or edit a trigger",
-        customId: "create_or_edit",
-        minValues: 1, maxValues: 1,
-        options: [
-          ...flow.triggers.map(({ type }, i) => ({
-            label: `Edit trigger ${i + 1}: ${triggers[type].short}`, value: `edit_${i}`
-          })),
-          {
-            label: "Create a new trigger",
-            description: flow.triggers.length >= limits.flows.triggers ? "You have reached the maximum amount of triggers for this flow" : `You can create up to ${limits.flows.triggers - flow.triggers.length} more triggers for this flow`,
-            value: "create_new",
-            disabled: flow.triggers.length >= limits.flows.triggers }
-        ]
-      },
-      callback: (async (interaction, flow, designNewMessage) => {
-        const command = interaction.values[0];
-        if (command.startsWith("edit_")) {
-          const triggerIndex = parseInt(command.split("_")[1]);
-          const i = await editTrigger(interaction, flow.triggers[triggerIndex], triggerIndex, flow);
-          i.update(designNewMessage());
-        } else if (command == "create_new") {
-          components.set(`${interaction.id}:selected`, async i => {
-            i = i as SelectMenuInteraction;
-            const type = i.values[0];
-            const trigger = triggers[type];
-            const newTrigger = { type, data: [] } as FlowOptions;
-
-            let currentInteraction: MessageComponentInteraction = i;
-            if (trigger.properties) for (const property of trigger.properties) {
-              const response = await propertyHandler(currentInteraction, property, newTrigger, null).then(ii => [ii, true]).catch(ii => [ii, false]);
-              const ii = response[0] as MessageComponentInteraction;
-              if (response[1]) currentInteraction = response[0];
-              else return ii.update(designNewMessage());
-            }
-
-            flow.triggers.push(newTrigger);
-            const iii = await editTrigger(currentInteraction, newTrigger, flow.triggers.length - 1, flow);
-            iii.update(designNewMessage());
-          });
-          components.set(`${interaction.id}:cancel`, i => i.update(designNewMessage()));
-          interaction.update({
-            embeds: [],
-            content: "🔻 What trigger type would you like to create?",
-            components: [
-              {
-                type: "ACTION_ROW",
-                components: [
-                  {
-                    type: "SELECT_MENU",
-                    placeholder: "Select trigger type",
-                    customId: `${interaction.id}:selected`,
-                    minValues: 1, maxValues: 1,
-                    options: Object.entries(triggers).map(([ type, trigger ]) => ({
-                      label: trigger.short,
-                      value: type,
-                      description: trigger.long ? trim(trigger.long, 100) : undefined
-                    }))
-                  }
-                ]
-              },
-              {
-                type: "ACTION_ROW",
-                components: [
-                  {
-                    type: "BUTTON",
-                    label: "Cancel trigger creation",
-                    customId: `${interaction.id}:cancel`,
-                    style: "DANGER"
-                  }
-                ]
-              }
-            ]
-          });
-        }
-      }) as SelectMenuComponentCallback
-    }]],
+    components: flow => getTriggerOrActionComponents("trigger", flow),
     getStatus: flow => flow.triggers.length ? "complete" : "incomplete",
   },
   {
     title: "Actions",
-    description: () => "description here",
-    getStatus: () => "incomplete",
+    description: () => "create actions", // todo
+    fields: flow => flow.actions.map(({ type, data }, i) => {
+      const action = actions[type];
+      return { name: `Action ${i + 1}: ${action.short}`, value: action.explanation(data) };
+    }),
+    components: flow => getTriggerOrActionComponents("action", flow),
+    getStatus: flow => flow.actions.length ? "complete" : "incomplete",
   }, // todo
   {
     title: "Finish up!",
@@ -232,30 +160,122 @@ const steps: Array<Step> = [
 
 export default steps;
 
-function editTrigger(interaction: MessageComponentInteraction, trigger: FlowOptions, triggerIndex: number, flow: Flow): Promise<MessageComponentInteraction> {
+function getTriggerOrActionComponents(triggerOrAction: "trigger" | "action", flow: Flow): Array<Array<Component>> {
+  const aTriggerOrAnAction = triggerOrAction == "trigger" ? "a trigger" : "an action";
+  const flowOptions = flow[`${triggerOrAction}s`];
+  const allOptions = triggerOrAction == "trigger" ? triggers : actions;
+  const limit = limits.flows[`${triggerOrAction}s`];
+
+  return [[{
+    data: {
+      type: "SELECT_MENU",
+      placeholder: `Create or edit ${aTriggerOrAnAction}`,
+      customId: "create_or_edit",
+      minValues: 1, maxValues: 1,
+      options: [
+        ...flowOptions.map(({ type }, i) => ({
+          label: `Edit ${triggerOrAction} ${i + 1}: ${allOptions[type].short}`, value: `edit_${i}`
+        })),
+        {
+          label: `Create a new ${triggerOrAction}`,
+          description: flowOptions.length >= limit ? `You have reached the maximum amount of ${triggerOrAction}s for this flow` : `You can create up to ${limit - flowOptions.length} more ${triggerOrAction}s for this flow`,
+          value: "create_new",
+          disabled: flow[`${triggerOrAction}s`].length >= limit
+        }
+      ]
+    } as MessageSelectMenuOptions,
+    callback: (async (interaction, flow, designNewMessage) => {
+      const command = interaction.values[0];
+      if (command.startsWith("edit_")) {
+        const optionIndex = parseInt(command.split("_")[1]);
+        const i = await editTriggerOrAction(triggerOrAction, interaction, flowOptions[optionIndex], optionIndex, flow);
+        i.update(designNewMessage());
+      } else if (command == "create_new") {
+        components.set(`${interaction.id}:selected`, async i => {
+          i = i as SelectMenuInteraction;
+          const type = i.values[0];
+          const option = allOptions[type];
+          const newOption = { type, data: [] } as FlowOptions;
+
+          let currentInteraction: MessageComponentInteraction = i;
+          if (option.properties) for (const property of option.properties) {
+            const response = await propertyHandler(currentInteraction, property, newOption, null).then(ii => [ii, true]).catch(ii => [ii, false]);
+            const ii = response[0] as MessageComponentInteraction;
+            if (response[1]) currentInteraction = response[0];
+            else return ii.update(designNewMessage());
+          }
+
+          flowOptions.push(newOption);
+          const iii = await editTriggerOrAction(triggerOrAction, currentInteraction, newOption, flowOptions.length - 1, flow);
+          iii.update(designNewMessage());
+        });
+        components.set(`${interaction.id}:cancel`, i => i.update(designNewMessage()));
+        interaction.update({
+          embeds: [],
+          content: `🔻 What ${triggerOrAction} type would you like to create?`,
+          components: [
+            {
+              type: "ACTION_ROW",
+              components: [
+                {
+                  type: "SELECT_MENU",
+                  placeholder: `Select ${triggerOrAction} type`,
+                  customId: `${interaction.id}:selected`,
+                  minValues: 1, maxValues: 1,
+                  options: Object.entries(allOptions).map(([ type, { short, long } ]) => ({
+                    label: short,
+                    value: type,
+                    description: long ? trim(long, 100) : undefined
+                  }))
+                }
+              ]
+            },
+            {
+              type: "ACTION_ROW",
+              components: [
+                {
+                  type: "BUTTON",
+                  label: `Cancel ${triggerOrAction} creation`,
+                  customId: `${interaction.id}:cancel`,
+                  style: "DANGER"
+                }
+              ]
+            }
+          ]
+        });
+      }
+    }) as SelectMenuComponentCallback
+  }]];
+}
+
+function editTriggerOrAction(triggerOrAction: "trigger" | "action", interaction: MessageComponentInteraction, flowOptions: FlowOptions, index: number, flow: Flow): Promise<MessageComponentInteraction> {
+  const aTriggerOrAnAction = triggerOrAction == "trigger" ? "a trigger" : "an action";
+  const allOptions = triggerOrAction == "trigger" ? triggers : actions;
+  const limit = limits.flows[`${triggerOrAction}s`];
+
   return new Promise(resolve => {
-    const { short, long, properties } = triggers[trigger.type];
+    const { short, long, properties } = allOptions[flowOptions.type];
     components.set(`${interaction.id}:edit_property`, async i => {
       i = i as SelectMenuInteraction;
-      const properties = triggers[trigger.type].properties || [];
+      const properties = allOptions[flowOptions.type].properties || [];
       const propertyIndex = parseInt(i.values[0]);
-      propertyHandler(i, properties[propertyIndex], trigger, propertyIndex)
-        .then(ii => editTrigger(ii, trigger, triggerIndex, flow).then(resolve))
-        .catch((ii: MessageComponentInteraction) => editTrigger(ii, trigger, triggerIndex, flow).then(resolve)); // if they cancel, just send them back to the trigger details
+      propertyHandler(i, properties[propertyIndex], flowOptions, propertyIndex)
+        .then(ii => editTriggerOrAction(triggerOrAction, ii, flowOptions, index, flow).then(resolve))
+        .catch((ii: MessageComponentInteraction) => editTriggerOrAction(triggerOrAction, ii, flowOptions, index, flow).then(resolve)); // if they cancel, just send them back to the details of the trigger or action
     });
-    components.set(`${interaction.id}:back`, async i => resolve(i as MessageComponentInteraction));
+    components.set(`${interaction.id}:done`, async i => resolve(i as MessageComponentInteraction));
     components.set(`${interaction.id}:delete`, async i => {
-      flow.triggers = flow.triggers.filter((t, i) => i !== triggerIndex);
+      flow[`${triggerOrAction}s`] = flow[`${triggerOrAction}s`].filter((t, i) => i !== index);
       resolve(i as MessageComponentInteraction);
     });
 
     // get fields, this is async so we need this long line of code
-    Promise.all(properties?.map(async (property, i) => ({ name: `Edit property ${i + 1}: ${property.short}`, value: String(property.format && interaction.guild ? await property.format(trigger.data[i], interaction.guild) : trigger.data[i]) })) || []).then(fields =>
+    Promise.all(properties?.map(async (property, i) => ({ name: `Edit property ${i + 1}: ${property.short}`, value: String(property.format && interaction.guild ? await property.format(flowOptions.data[i], interaction.guild) : flowOptions.data[i]) })) || []).then(fields =>
       interaction.update({
         content: null,
         embeds: [{
-          title: `Trigger details • ${short}`,
-          description: long,
+          title: `${capitalizeFirst(triggerOrAction)} details • ${short}`,
+          description: long || (fields.length ? undefined : `*There are no more details for this type of ${triggerOrAction}.*`),
           fields,
           color: config.colors.info
         }],
@@ -272,7 +292,7 @@ function editTrigger(interaction: MessageComponentInteraction, trigger: FlowOpti
                 value: i.toString(),
                 description: help
               })) : [{
-                label: "No properties are available on this trigger",
+                label: `No properties are available on this ${triggerOrAction}`,
                 value: "disabled"
               }],
               disabled: properties && properties.length ? false : true
@@ -283,15 +303,15 @@ function editTrigger(interaction: MessageComponentInteraction, trigger: FlowOpti
             components: [
               {
                 type: "BUTTON",
-                label: "< Go back",
-                customId: `${interaction.id}:back`,
-                style: "PRIMARY"
-              },
-              {
-                type: "BUTTON",
                 label: "Delete this trigger",
                 customId: `${interaction.id}:delete`,
                 style: "DANGER"
+              },
+              {
+                type: "BUTTON",
+                label: "Done",
+                customId: `${interaction.id}:done`,
+                style: "SUCCESS"
               }
             ]
           }
@@ -306,7 +326,7 @@ function propertyHandler(interaction: MessageComponentInteraction, property: Pro
       const value = property.convert && i.guild ? await property.convert("123", i.guild) : "123";
       if (value == null) {
         components.set(`${i.id}:try_again`, async ii => propertyHandler(ii, property, trigger, propertyIndex).then(resolve).catch(reject));
-        components.set(`${i.id}:cancel`, async i => reject(i));
+        components.set(`${i.id}:cancel`, async ii => reject(ii));
         i.update({
           embeds: [
             {
