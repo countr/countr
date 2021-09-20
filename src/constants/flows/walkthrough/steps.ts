@@ -249,9 +249,7 @@ function getTriggerOrActionComponents(triggerOrAction: "trigger" | "action", flo
 }
 
 function editTriggerOrAction(triggerOrAction: "trigger" | "action", interaction: MessageComponentInteraction, flowOptions: FlowOptions, index: number, flow: Flow): Promise<MessageComponentInteraction> {
-  const aTriggerOrAnAction = triggerOrAction == "trigger" ? "a trigger" : "an action";
   const allOptions = triggerOrAction == "trigger" ? triggers : actions;
-  const limit = limits.flows[`${triggerOrAction}s`];
 
   return new Promise(resolve => {
     const { short, long, properties } = allOptions[flowOptions.type];
