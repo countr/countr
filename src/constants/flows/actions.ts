@@ -17,7 +17,7 @@ const actions: Record<string, Action> = {
     short: "Give a role (or list of roles) to the user",
     long: "This will add a role, or a list of roles, to the user who triggered this flow.",
     properties: [ propertyTypes.role ],
-    explanation: ([ roles ]: [ Array<string> ]) => `Add the user to ${roles.length == 1 ? "role" : "roles"} ${joinListWithAnd(roles.map(role => `<@&${role}`))}`,
+    explanation: ([ roles ]: [ Array<string> ]) => `Add the user to ${roles.length == 1 ? "role" : "roles"} ${joinListWithAnd(roles.map(role => `<@&${role}>`))}`,
     run: async ({ message: { member }}, [ roleId ]: [ string ]) => {
       await member?.roles.add(roleId).catch(() => null);
       return false;
