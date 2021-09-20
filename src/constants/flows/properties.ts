@@ -15,7 +15,7 @@ export const propertyTypes: Record<string, Property> = {
   "numberX": {
     short: "Number (X)",
     help: "This can be any positive number.",
-    convert: async (userInput): Promise<number | null> => parseInt(userInput) || null
+    convert: async (userInput): Promise<number | null> => parseInt(userInput) || null,
   },
   "regex": {
     short: "Regex",
@@ -27,7 +27,7 @@ export const propertyTypes: Record<string, Property> = {
       } catch(e) {
         return null;
       }
-    }
+    },
   },
   "role": {
     short: "Role(s)",
