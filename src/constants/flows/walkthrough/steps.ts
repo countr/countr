@@ -303,15 +303,15 @@ function editTriggerOrAction(triggerOrAction: "trigger" | "action", interaction:
             components: [
               {
                 type: "BUTTON",
-                label: "Delete this trigger",
-                customId: `${interaction.id}:delete`,
-                style: "DANGER"
-              },
-              {
-                type: "BUTTON",
                 label: "Done",
                 customId: `${interaction.id}:done`,
                 style: "SUCCESS"
+              },
+              {
+                type: "BUTTON",
+                label: "Delete this trigger",
+                customId: `${interaction.id}:delete`,
+                style: "DANGER"
               }
             ]
           }

@@ -84,15 +84,15 @@ export function designMessage(selected: number, flow: Flow, flowIdentifier: stri
         components: [
           {
             type: "BUTTON",
-            label: "Yes, I'm sure",
-            customId: `cancel:${randomIdentifier}:yes`,
-            style: "DANGER"
-          },
-          {
-            type: "BUTTON",
             label: "No, go back",
             customId: `cancel:${randomIdentifier}:no`,
             style: "SECONDARY"
+          },
+          {
+            type: "BUTTON",
+            label: "Yes, I'm sure",
+            customId: `cancel:${randomIdentifier}:yes`,
+            style: "DANGER"
           }
         ]
       }]
