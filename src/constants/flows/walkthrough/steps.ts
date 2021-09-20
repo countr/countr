@@ -222,7 +222,7 @@ function getTriggerOrActionComponents(triggerOrAction: "trigger" | "action", flo
                   placeholder: `Select ${triggerOrAction} type`,
                   customId: `${interaction.id}:selected`,
                   minValues: 1, maxValues: 1,
-                  options: Object.entries(allOptions).map(([ type, { short, long } ]) => ({
+                  options: Object.entries(allOptions).filter(([ type, { limit } ]) => limit ? flowOptions.filter(flowOption => flowOption.type == type).length < limit : true).map(([ type, { short, long } ]) => ({
                     label: short,
                     value: type,
                     description: long ? trim(long, 100) : undefined

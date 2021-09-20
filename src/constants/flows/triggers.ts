@@ -7,7 +7,8 @@ interface Trigger {
   long?: string;
   properties?: Array<Property>;
   explanation(properties: Array<PropertyValue>): string;
-  check(data: CountingData, properties: Array<PropertyValue>): Promise<boolean>
+  check(data: CountingData, properties: Array<PropertyValue>): Promise<boolean>;
+  limit?: number;
 }
 
 const triggers: Record<string, Trigger> = {
@@ -44,13 +45,15 @@ const triggers: Record<string, Trigger> = {
     long: "This will get triggered whenever someone fails a count",
     properties: [],
     explanation: () => "When someone fails to count the correct number",
-    check: async () => false // custom trigger
+    check: async () => false, // custom trigger
+    limit: 1,
   },
   "timeout": {
     short: "Timeout role triggered",
     long: "This will get triggered whenever someone gets the timeout role.",
     explanation: () => "When someone gets the timeout role",
-    check: async () => false // custom trigger
+    check: async () => false, // custom trigger
+    limit: 1,
   }
 };
 

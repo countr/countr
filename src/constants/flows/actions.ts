@@ -7,7 +7,8 @@ interface Action {
   long?: string;
   properties?: Array<Property>;
   explanation(properties: Array<PropertyValue>): string;
-  run(data: CountingData, properties: Array<PropertyValue>): Promise<boolean>
+  run(data: CountingData, properties: Array<PropertyValue>): Promise<boolean>,
+  limit?: number;
 }
 
 const actions: Record<string, Action> = {
@@ -19,7 +20,8 @@ const actions: Record<string, Action> = {
     run: async ({ message: { member }}, [ roleId ]: [ string ]) => {
       await member?.roles.add(roleId).catch(() => null);
       return false;
-    }
+    },
+    limit: 1,
   },
   "takerole": {
     short: "Remove a role from the user",
@@ -29,7 +31,8 @@ const actions: Record<string, Action> = {
     run: async ({ message: { member }}, [ roleId ]: [ string ]) => {
       await member?.roles.remove(roleId).catch(() => null);
       return false;
-    }
+    },
+    limit: 1,
   },
   "prunerole": {
     short: "Remove everyone from a role",
@@ -43,7 +46,8 @@ const actions: Record<string, Action> = {
       const role = guild?.roles.resolve(roleId);
       if (role) await Promise.all(role.members.map(async member => await member.roles.remove(roleId).catch()));
       return false;
-    }
+    },
+    limit: 1,
   },
   "pin": {
     short: "Pin the count message",
@@ -54,7 +58,8 @@ const actions: Record<string, Action> = {
         if (pinned?.size == 50) await pinned.last()?.unpin().then(() => countingMessage.pin().catch()).catch();
       });
       return false;
-    }
+    },
+    limit: 1,
   },
   "sendmessage": {
     short: "Send a message",
@@ -85,7 +90,8 @@ const actions: Record<string, Action> = {
     run: async ({ message: { channel, guild } }) => {
       if (guild && (channel instanceof TextChannel || channel instanceof NewsChannel)) await channel.permissionOverwrites.edit(guild.roles.everyone, { SEND_MESSAGES: false });
       return false;
-    }
+    },
+    limit: 1,
   },
   "reset": {
     short: "Reset the count",
@@ -96,7 +102,8 @@ const actions: Record<string, Action> = {
         dbChannel.count = { number: 0 };
         return true;
       } else return false;
-    }
+    },
+    limit: 1,
   }
 };
 
