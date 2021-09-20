@@ -1,4 +1,5 @@
 import { NewsChannel, TextChannel } from "discord.js";
+import { joinListWithAnd } from "../../utils/text";
 import { CountingData } from "./countingData";
 import { propertyTypes, Property, PropertyValue } from "./properties";
 
@@ -13,10 +14,10 @@ interface Action {
 
 const actions: Record<string, Action> = {
   "giverole": {
-    short: "Give a role to the user",
-    long: "This will add a role to the user who triggered this flow.",
+    short: "Give a role (or list of roles) to the user",
+    long: "This will add a role, or a list of roles, to the user who triggered this flow.",
     properties: [ propertyTypes.role ],
-    explanation: ([ role ]: [ string ]) => `Add the user to ${role}`,
+    explanation: ([ roles ]: [ Array<string> ]) => `Add the user to ${roles.length == 1 ? "role" : "roles"} ${joinListWithAnd(roles)}`,
     run: async ({ message: { member }}, [ roleId ]: [ string ]) => {
       await member?.roles.add(roleId).catch(() => null);
       return false;
@@ -24,10 +25,10 @@ const actions: Record<string, Action> = {
     limit: 1,
   },
   "takerole": {
-    short: "Remove a role from the user",
-    long: "This will remove a role from the user who triggered this flow.",
+    short: "Remove a role (or list of roles) from the user",
+    long: "This will remove a role, or a list of roles, from the user who triggered this flow.",
     properties: [ propertyTypes.role ],
-    explanation: ([ role ]: [ string ]) => `Remove the user from ${role}`,
+    explanation: ([ roles ]: [ Array<string> ]) => `Remove the user from ${roles.length == 1 ? "role" : "roles"} ${joinListWithAnd(roles)}`,
     run: async ({ message: { member }}, [ roleId ]: [ string ]) => {
       await member?.roles.remove(roleId).catch(() => null);
       return false;
@@ -35,13 +36,13 @@ const actions: Record<string, Action> = {
     limit: 1,
   },
   "prunerole": {
-    short: "Remove everyone from a role",
+    short: "Remove everyone from a role (or list of roles)",
     long: [
-      "This will remove everyone from this role.",
-      "Note: This might not remove everyone from the role due to caching. Some inactive users might not lose their role."
+      "This will remove everyone from a role, or a list of roles.",
+      "Note: This might not remove everyone from the role(s). This is due to caching. [Read more](https://docs.countr.xyz/#/caching)" // todo
     ].join("\n"),
     properties: [ propertyTypes.role ],
-    explanation: ([ role ]: [ string ]) => `Remove everyone from ${role}`,
+    explanation: ([ roles ]: [ Array<string> ]) => `Remove everyone from ${roles.length == 1 ? "role" : "roles"} ${joinListWithAnd(roles)}`,
     run: async ({ message: { guild }}, [ roleId ]: [ string ]) => {
       const role = guild?.roles.resolve(roleId);
       if (role) await Promise.all(role.members.map(async member => await member.roles.remove(roleId).catch()));

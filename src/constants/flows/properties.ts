@@ -1,7 +1,8 @@
 import { Guild } from "discord.js";
+import { joinListWithAnd } from "../../utils/text";
 import { getChannel, getRole } from "../resolvers";
 
-export type PropertyValue = string | number;
+export type PropertyValue = string | number | Array<PropertyValue>;
 
 export interface Property {
   short: string;
@@ -29,13 +30,18 @@ export const propertyTypes: Record<string, Property> = {
     }
   },
   "role": {
-    short: "Role",
-    help: "This can be any role. Make the role is below Countr's highest role.",
-    convert: async (userInput, guild: Guild): Promise<string | null> => {
-      const result = await getRole(userInput, guild);
-      if (result && result.id !== guild.roles.everyone.id) return result.id; else return null;
+    short: "Role(s)",
+    help: "This can be any role, or a list of roles. Make sure the roles are below Countr's highest role.",
+    convert: async (userInputList, guild: Guild): Promise<Array<string> | null> => {
+      const userInputs = userInputList.split("\n");
+      const roles = [];
+      for (const userInput of userInputs) {
+        const result = await getRole(userInput, guild);
+        if (result && result.id !== guild.roles.everyone.id) roles.push(result.id);
+      }
+      if (roles.length) return roles; else return null;
     },
-    format: async (roleId: string) => `<@&${roleId}>`,
+    format: async (roleIds: Array<string>) => joinListWithAnd(roleIds.map(roleId => `<@&${roleId}>`)),
   },
   "channel": {
     short: "Channel",
