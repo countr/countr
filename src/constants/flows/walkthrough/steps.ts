@@ -318,12 +318,12 @@ function editTriggerOrAction(triggerOrAction: "trigger" | "action", interaction:
   });
 }
 
-function propertyHandler(interaction: MessageComponentInteraction, property: Property, trigger: FlowOptions, propertyIndex: number | null): Promise<MessageComponentInteraction> {
+function propertyHandler(interaction: MessageComponentInteraction, property: Property, flowOptions: FlowOptions, propertyIndex: number | null): Promise<MessageComponentInteraction> {
   return new Promise((resolve, reject) => {
     components.set(`${interaction.id}:input_123`, async i => {
       const value = property.convert && i.guild ? await property.convert("123", i.guild) : "123";
       if (value == null) {
-        components.set(`${i.id}:try_again`, async ii => propertyHandler(ii, property, trigger, propertyIndex).then(resolve).catch(reject));
+        components.set(`${i.id}:try_again`, async ii => propertyHandler(ii, property, flowOptions, propertyIndex).then(resolve).catch(reject));
         components.set(`${i.id}:cancel`, async ii => reject(ii));
         i.update({
           embeds: [
@@ -347,7 +347,7 @@ function propertyHandler(interaction: MessageComponentInteraction, property: Pro
               },
               {
                 type: "BUTTON",
-                label: "Cancel trigger edit",
+                label: "Cancel property edit",
                 customId: `${i.id}:cancel`,
                 style: "DANGER"
               }
@@ -356,11 +356,11 @@ function propertyHandler(interaction: MessageComponentInteraction, property: Pro
         });
       } else {
         components.set(`${i.id}:yes`, async ii => {
-          if (propertyIndex) trigger.data[propertyIndex] = value;
-          else trigger.data.push(value);
+          if (propertyIndex) flowOptions.data[propertyIndex] = value;
+          else flowOptions.data.push(value);
           resolve(ii);
         });
-        components.set(`${i.id}:no`, async ii => propertyHandler(ii, property, trigger, propertyIndex).then(resolve).catch(reject));
+        components.set(`${i.id}:no`, async ii => propertyHandler(ii, property, flowOptions, propertyIndex).then(resolve).catch(reject));
         i.update({
           embeds: [
             {
@@ -412,7 +412,7 @@ function propertyHandler(interaction: MessageComponentInteraction, property: Pro
           },
           {
             type: "BUTTON",
-            label: "Cancel trigger edit",
+            label: "Cancel property edit",
             customId: `${interaction.id}:cancel`,
             style: "DANGER"
           }
