@@ -368,8 +368,8 @@ function propertyHandler(interaction: MessageComponentInteraction, property: Pro
               description: property.help,
               color: config.colors.info
             }, {
-              title: "Does this value look right to you?",
-              description: `> **${property.format && i.guild ? property.format(value, i.guild) : value}**`,
+              title: "Is this correct?",
+              description: `> **${property.format && i.guild ? await property.format(value, i.guild) : value}**`,
               color: config.colors.warning
             }
           ],
