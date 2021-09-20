@@ -162,7 +162,7 @@ function designStepEmbed(step: Step, index: number, flow: Flow, selected: number
     }
   } : {
     footer: {
-      text: `Step ${index + 1}: ${step.title} ${status == "complete" ? "(Complete)" : ""}`,
+      text: `Step ${index + 1}: ${step.title} ${status == "complete" && selected > index ? "(Complete)" : ""}`,
       icon_url: config.progressIcons[status]
     }
   } as MessageEmbedOptions;
