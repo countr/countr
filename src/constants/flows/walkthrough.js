@@ -84,7 +84,7 @@ module.exports.flowWalkthrough = async (guild, author, channel, newFlow, generat
                   embed: {
                     title: `💨 Confirm trigger ${slot}`,
                     description: [
-                      "**Does this seem correct to you? Type yes or no in chat.**",
+                      "**Does this seem correct to you?** Type `yes` or `no` in chat.",
                       `${(await module.exports.formatExplanation(newTrigger)).split("\n").map(l => `> ${l}`).join("\n")}`
                     ].join("\n"),
                     color: config.color,
@@ -168,7 +168,7 @@ module.exports.flowWalkthrough = async (guild, author, channel, newFlow, generat
                   embed: {
                     title: `💨 Confirm action ${slot}`,
                     description: [
-                      "**Does this seem correct to you? Type yes or no in chat.**",
+                      "**Does this seem correct to you?** Type `yes` or `no` in chat.",
                       `${(await module.exports.formatExplanation(newAction)).split("\n").map(l => `> ${l}`).join("\n")}`
                     ].join("\n"),
                     color: config.color,
