@@ -41,8 +41,28 @@ const steps: Array<Step> = [
     skipIfExists: true
   },
   {
-    title: "Flow details",
-    description: () => "Here's some general information about the flow. You can set a custom name of the flow here, and you can also disable it temporarily if you'd like.",
+    title: "Triggers",
+    description: () => "create triggers", // todo
+    fields: flow => flow.triggers.map(({ type, data }, i) => {
+      const trigger = triggers[type];
+      return { name: `• ${i + 1}: ${trigger.short}`, value: trigger.explanation(data) };
+    }),
+    components: flow => getTriggerOrActionComponents("trigger", flow),
+    getStatus: flow => flow.triggers.length ? "complete" : "incomplete",
+  },
+  {
+    title: "Actions",
+    description: () => "create actions", // todo
+    fields: flow => flow.actions.map(({ type, data }, i) => {
+      const action = actions[type];
+      return { name: `Action ${i + 1}: ${action.short}`, value: action.explanation(data) };
+    }),
+    components: flow => getTriggerOrActionComponents("action", flow),
+    getStatus: flow => flow.actions.length ? "complete" : "incomplete",
+  }, // todo
+  {
+    title: "Flow details (Optional)",
+    description: () => "Here's some optional settings you can set, like a custom name. You can also disable it if you'd like.",
     fields: flow => [
       { name: "Name (optional)", value: flow.name || "*No name is set*", inline: true },
       { name: "Status", value: flow.disabled ? "❌ Disabled" : "✅ Enabled", inline: true }
@@ -131,31 +151,6 @@ const steps: Array<Step> = [
     ]],
     getStatus: () => "complete"
   },
-  {
-    title: "Triggers",
-    description: () => "create triggers", // todo
-    fields: flow => flow.triggers.map(({ type, data }, i) => {
-      const trigger = triggers[type];
-      return { name: `• ${i + 1}: ${trigger.short}`, value: trigger.explanation(data) };
-    }),
-    components: flow => getTriggerOrActionComponents("trigger", flow),
-    getStatus: flow => flow.triggers.length ? "complete" : "incomplete",
-  },
-  {
-    title: "Actions",
-    description: () => "create actions", // todo
-    fields: flow => flow.actions.map(({ type, data }, i) => {
-      const action = actions[type];
-      return { name: `Action ${i + 1}: ${action.short}`, value: action.explanation(data) };
-    }),
-    components: flow => getTriggerOrActionComponents("action", flow),
-    getStatus: flow => flow.actions.length ? "complete" : "incomplete",
-  }, // todo
-  {
-    title: "Finish up!",
-    description: () => "description here",
-    getStatus: () => "incomplete",
-  }, // todo
 ];
 
 export default steps;
