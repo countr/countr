@@ -1,4 +1,4 @@
-import { ApplicationCommandData, ApplicationCommandOption, ApplicationCommandOptionData, ApplicationCommandSubCommandData, ButtonInteraction, ChatInputApplicationCommandData, Client, CommandInteraction, ContextMenuInteraction, MessageApplicationCommandData, MessageComponentInteraction, SelectMenuInteraction, UserApplicationCommandData } from "discord.js";
+import { ApplicationCommandData, ApplicationCommandOption, ApplicationCommandOptionData, ApplicationCommandSubCommandData, ButtonInteraction, ChatInputApplicationCommandData, Client, CommandInteraction, ContextMenuInteraction, MessageApplicationCommandData, SelectMenuInteraction, UserApplicationCommandData } from "discord.js";
 import fs from "fs";
 import { join } from "path";
 import config from "../../../config";
