@@ -1,19 +1,13 @@
 import { toArabic, toRoman } from "roman-numerals";
 import { evaluate } from "mathjs";
 
-type Nullable<Type> = Type | null;
-
-interface NumberSystem {
-  name: string;
-  convert(string: string): Nullable<number>;
-  format(number: number): string;
-}
-
-interface NumberSystemList {
-  [identifier: string]: NumberSystem;
-}
-
-const numberSystems: NumberSystemList = {
+const numberSystems: {
+  [identifier: string]: {
+    name: string;
+    convert(string: string): number | null;
+    format(number: number): string;
+  }
+} = {
   "decimal": {
     name: "Decimal (10-number system) (Default)",
     convert: (string) => parseInt(string) || null,

@@ -1,15 +1,11 @@
-interface Module {
-  short: string;
-  long?: string;
-  image?: string;
-  incompatible?: Array<string>;
-}
-
-interface ModuleList {
-  [name: string]: Module;
-}
-
-const modules: ModuleList = {
+const modules: {
+  [name: string]: {
+    short: string;
+    long?: string;
+    image?: string;
+    incompatible?: Array<string>;
+  }
+} = {
   "allow-spam": {
     "short": "Allow people to count multiple times in a row.",
     "image": "https://i.promise.solutions/ISe9n5.gif"
