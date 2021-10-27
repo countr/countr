@@ -101,7 +101,18 @@ export function designMessage(selected: number, flow: Flow, flowIdentifier: stri
 
   const message = {
     content: null,
-    embeds: [ { title: `Flow editor for flow \`${flowIdentifier}\``, color: parseInt(flowIdentifier, 16) }, ...steps.map((step, index) => designStepEmbed(step, index, flow, selected)), designEmbed(selectedStep, flow) ],
+    embeds: [
+      {
+        title: flow.name ? `Editing flow "${flow.name}" (\`${flowIdentifier}\`)` : `Editing flow \`${flowIdentifier}\``,
+        color: parseInt(flowIdentifier, 16),
+        description: steps.map((step, index) =>
+          selected == index ? `🌀 **Step ${index + 1}: ${step.title}**` :
+            selected > index ? `✅ ~~Step ${index + 1}: ${step.title}~~` :
+              `✴️ Step ${index + 1}: ${step.title}`).join("\n")
+      },
+      //...steps.map((step, index) => designStepEmbed(step, index, flow, selected)),
+      designEmbed(selectedStep, flow)
+    ],
     components: [
       ...(selectedStep.components ? selectedStep.components(flow).map(group => ({
         type: "ACTION_ROW",
@@ -152,23 +163,6 @@ export function designMessage(selected: number, flow: Flow, flowIdentifier: stri
   };
 
   return message as InteractionReplyOptions;
-}
-
-function designStepEmbed(step: Step, index: number, flow: Flow, selected: number): MessageEmbedOptions {
-  const status = selected == index ? "selected" : step.getStatus(flow);
-
-  const embed = status == "selected" ? {
-    author: {
-      name: `Step ${index + 1}: ${step.title}`,
-      icon_url: config.progressIcons[status]
-    }
-  } : {
-    footer: {
-      text: `Step ${index + 1}: ${step.title} ${status == "complete" && selected > index ? "(Complete)" : ""}`,
-      icon_url: config.progressIcons[status]
-    }
-  } as MessageEmbedOptions;
-  return embed;
 }
 
 function designEmbed(step: Step, flow: Flow): MessageEmbedOptions {
