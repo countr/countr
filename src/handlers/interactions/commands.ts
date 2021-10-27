@@ -1,4 +1,4 @@
-import { CommandInteraction, CommandInteractionOption, CommandInteractionOptionResolver, GuildMember } from "discord.js";
+import { ApplicationCommandSubCommand, ApplicationCommandSubGroup, CommandInteraction, CommandInteractionOption, CommandInteractionOptionResolver, GuildMember } from "discord.js";
 import config from "../../../config";
 import { getPermissionLevel, ladder } from "../../constants/permissions";
 import commandPermissions from "../../commands/slash/_permissions";
@@ -18,11 +18,13 @@ export default async (interaction: CommandInteraction, document?: GuildDocument)
 
     const path = [ command.name ];
 
-    const subCommandOrGroup = command.options.find(o => o.type == "SUB_COMMAND" || o.type == "SUB_COMMAND_GROUP");
+    const subCommandOrGroup = command.options.find(o => o.type == "SUB_COMMAND" || o.type == "SUB_COMMAND_GROUP") as ApplicationCommandSubCommand | ApplicationCommandSubGroup;
     if (subCommandOrGroup) {
       path.push(subCommandOrGroup.name);
-      const subCommand = subCommandOrGroup.options?.find(o => o.type == "SUB_COMMAND");
-      if (subCommand) path.push(subCommand.name);
+      if (subCommandOrGroup) {
+        const subCommand = (subCommandOrGroup.options as Array<ApplicationCommandSubCommand>)?.find(o => o.type == "SUB_COMMAND");
+        if (subCommand) path.push(subCommand.name);
+      }
     }
 
     const commandFile = (await import(`../../commands/slash/${path.join("/")}`)).default as SlashCommand; // todo

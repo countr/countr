@@ -11,17 +11,17 @@
     "lint": "eslint ./src"
   },
   "dependencies": {
-    "@typegoose/typegoose": "^8.3.0",
-    "bufferutil": "^4.0.3",
-    "discord.js": "^13.1.0",
+    "@typegoose/typegoose": "^9.2.0",
+    "bufferutil": "^4.0.5",
+    "discord.js": "^13.2.0",
     "erlpack": "github:discord/erlpack",
     "express": "^4.17.1",
-    "mathjs": "^9.4.4",
-    "mongoose": "^5.13.9",
+    "mathjs": "^9.5.1",
+    "mongoose": "^6.0.12",
     "node-fetch": "^3.0.0",
     "roman-numerals": "^0.3.2",
     "time-limited-regular-expressions": "^1.0.0",
-    "utf-8-validate": "^5.0.5",
+    "utf-8-validate": "^5.0.7",
     "zlib-sync": "^0.1.7"
   },
   "devDependencies": {
