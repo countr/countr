@@ -1,4 +1,4 @@
-import { Config } from "./config";
+import { Config } from "./src/types/config";
 
 export default {
   client: { // make an application at https://discord.com/developers/applications and turn it into a bot. fill in these values
