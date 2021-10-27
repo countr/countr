@@ -76,5 +76,4 @@ export class Guild {
 
 export type GuildDocument = DocumentType<Guild, BeAnObject>;
 
-const Guuild = getModelForClass(Guild);
-export default Guuild;
+export default getModelForClass(Guild);
