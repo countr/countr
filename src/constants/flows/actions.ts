@@ -1,16 +1,7 @@
 import { NewsChannel, TextChannel } from "discord.js";
+import { Action } from "../../types/flows/actions";
 import { joinListWithAnd } from "../../utils/text";
-import { CountingData } from "./countingData";
-import { propertyTypes, Property, PropertyValue } from "./properties";
-
-interface Action {
-  short: string;
-  long?: string;
-  properties?: Array<Property>;
-  explanation(properties: Array<PropertyValue>): string;
-  run(data: CountingData, properties: Array<PropertyValue>): Promise<boolean>,
-  limit?: number;
-}
+import { propertyTypes } from "./properties";
 
 const actions: Record<string, Action> = {
   "giverole": {

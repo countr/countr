@@ -1,4 +1,4 @@
-import { SlashCommand } from "../../command";
+import { SlashCommand } from "../../../types/command";
 
 import walkthrough from "../../../constants/flows/walkthrough";
 

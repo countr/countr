@@ -1,5 +1,5 @@
 import config from "../../../config";
-import { SlashCommand } from "../command";
+import { SlashCommand } from "../../types/command";
 
 export default {
   description: "Get the bot's ping",

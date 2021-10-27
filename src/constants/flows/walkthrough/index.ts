@@ -2,8 +2,9 @@ import { CommandInteraction, InteractionReplyOptions, MessageButtonOptions, Mess
 import config from "../../../../config";
 import { Flow } from "../../../database/models/Guild";
 import { components } from "../../../handlers/interactions/components";
+import { Step } from "../../../types/flows/steps";
 import { generateId } from "../../../utils/crypto";
-import steps, { Step } from "./steps";
+import steps from "./steps";
 
 const inProgress: Map<string, {
   guildId: string;

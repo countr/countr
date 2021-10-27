@@ -1,15 +1,5 @@
-import { CountingData } from "./countingData";
-import { propertyTypes, Property, PropertyValue } from "./properties";
+import { propertyTypes } from "./properties";
 import match from "../../utils/regex";
-
-interface Trigger {
-  short: string;
-  long?: string;
-  properties?: Array<Property>;
-  explanation(properties: Array<PropertyValue>): string;
-  check(data: CountingData, properties: Array<PropertyValue>): Promise<boolean>;
-  limit?: number;
-}
 
 const triggers: Record<string, Trigger> = {
   "each": {

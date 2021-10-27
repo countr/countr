@@ -2,7 +2,7 @@ import { ApplicationCommandSubCommand, ApplicationCommandSubGroup, CommandIntera
 import config from "../../../config";
 import { getPermissionLevel, ladder } from "../../constants/permissions";
 import commandPermissions from "../../commands/slash/_permissions";
-import { SlashCommand } from "../../commands/command";
+import { SlashCommand } from "../../types/command";
 import { GuildDocument } from "../../database/models/Guild";
 
 export default async (interaction: CommandInteraction, document?: GuildDocument): Promise<void> => {

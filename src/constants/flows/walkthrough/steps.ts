@@ -1,37 +1,14 @@
-import { ButtonInteraction, EmbedFieldData, InteractionButtonOptions, InteractionReplyOptions, MessageComponentInteraction, MessageSelectMenuOptions, SelectMenuInteraction } from "discord.js";
+import { MessageComponentInteraction, MessageSelectMenuOptions, SelectMenuInteraction } from "discord.js";
 import config from "../../../../config";
 import { Flow, FlowOptions } from "../../../database/models/Guild";
 import { components } from "../../../handlers/interactions/components";
+import { ButtonComponentCallback, Component, SelectMenuComponentCallback } from "../../../types/flows/components";
+import { Step } from "../../../types/flows/steps";
 import { capitalizeFirst, trim } from "../../../utils/text";
 import limits from "../../limits";
 import actions from "../actions";
 import { Property } from "../properties";
 import triggers from "../triggers";
-
-type ButtonComponentCallback = (interaction: ButtonInteraction, flow: Flow, designNewMessage: () => InteractionReplyOptions) => Promise<void>;
-type SelectMenuComponentCallback = (interaction: SelectMenuInteraction, flow: Flow, designNewMessage: () => InteractionReplyOptions) => Promise<void>;
-
-interface ButtonComponent {
-  data: InteractionButtonOptions;
-  callback: ButtonComponentCallback;
-}
-
-interface SelectMenuComponent {
-  data: MessageSelectMenuOptions;
-  callback: SelectMenuComponentCallback;
-}
-
-export type Component = ButtonComponent | SelectMenuComponent;
-export type ComponentCallback = ButtonComponentCallback | SelectMenuComponentCallback;
-
-export interface Step {
-  title: string;
-  description(flow: Flow): string;
-  fields?(flow: Flow): Array<EmbedFieldData>;
-  components?(flow: Flow): Array<Array<Component>>; // action row, components
-  getStatus(flow: Flow): "complete" | "incomplete";
-  skipIfExists?: boolean;
-}
 
 const steps: Array<Step> = [
   {
