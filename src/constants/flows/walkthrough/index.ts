@@ -111,41 +111,43 @@ export function designMessage(selected: number, flow: Flow, flowIdentifier: stri
           return { ...component.data, customId };
         })
       })) : []),
-      { type: "ACTION_ROW", components: [
-        {
-          type: "BUTTON",
-          label: "< Back",
-          customId: `previous:${randomIdentifier}`,
-          style: "PRIMARY",
-          disabled: selected == 0
-        },
-        {
-          type: "BUTTON",
-          label: `Step ${selected + 1}/${steps.length}`,
-          customId: `disabled:${randomIdentifier}`,
-          style: "SECONDARY",
-          disabled: true
-        },
-        selected !== steps.length - 1 ? {
-          type: "BUTTON",
-          label: "Next >",
-          customId: `next:${randomIdentifier}`,
-          style: "PRIMARY",
-          disabled: selectedStep.getStatus(flow) == "incomplete"
-        } : null,
-        !steps.find(step => step.getStatus(flow) == "incomplete") ? {
-          type: "BUTTON",
-          label: "Save flow",
-          customId: `save:${randomIdentifier}`,
-          style: "SUCCESS"
-        } : null,
-        {
-          type: "BUTTON",
-          label: "Cancel",
-          customId: `cancel:${randomIdentifier}`,
-          style: "DANGER"
-        }
-      ].filter(Boolean) as Array<MessageButtonOptions> }
+      {
+        type: "ACTION_ROW", components: [
+          {
+            type: "BUTTON",
+            label: "< Back",
+            customId: `previous:${randomIdentifier}`,
+            style: "PRIMARY",
+            disabled: selected == 0
+          },
+          {
+            type: "BUTTON",
+            label: `Step ${selected + 1}/${steps.length}`,
+            customId: `disabled:${randomIdentifier}`,
+            style: "SECONDARY",
+            disabled: true
+          },
+          selected !== steps.length - 1 ? {
+            type: "BUTTON",
+            label: "Next >",
+            customId: `next:${randomIdentifier}`,
+            style: "PRIMARY",
+            disabled: selectedStep.getStatus(flow) == "incomplete"
+          } : null,
+          !steps.find(step => step.getStatus(flow) == "incomplete") ? {
+            type: "BUTTON",
+            label: "Save flow",
+            customId: `save:${randomIdentifier}`,
+            style: "SUCCESS"
+          } : null,
+          {
+            type: "BUTTON",
+            label: "Cancel",
+            customId: `cancel:${randomIdentifier}`,
+            style: "DANGER"
+          }
+        ].filter(Boolean) as Array<MessageButtonOptions>
+      }
     ]
   };
 

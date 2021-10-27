@@ -42,7 +42,7 @@ const numberSystems: NumberSystemList = {
     convert: (string) => {
       try {
         return toArabic(string);
-      } catch(e) {
+      } catch (e) {
         return null;
       }
     },
