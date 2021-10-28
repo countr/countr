@@ -3,9 +3,9 @@
   "main": "build/src/sharding.js",
   "license": "GPL-3.0",
   "scripts": {
-    "setup": "npm run setup:install && npm run setup:build",
-    "setup:install": "npm i --save-dev",
-    "setup:build": "tsc && echo Complete!",
+    "docker": "docker compose up --build",
+    "docker:standalone": "docker compose -f docker-compose-standalone.yml up --build",
+    "build": "tsc",
     "start": "node .",
     "watch": "tsc -w",
     "lint": "eslint ./src"
