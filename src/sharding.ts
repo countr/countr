@@ -1,5 +1,5 @@
 import { ShardingManager } from "discord.js";
-import config from "../config";
+import config from "./config";
 
 const manager = new ShardingManager(`${__dirname}/bot.js`, {
   totalShards: config.client.shards || "auto",

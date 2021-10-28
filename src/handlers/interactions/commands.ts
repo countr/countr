@@ -1,5 +1,5 @@
 import { ApplicationCommandSubCommand, ApplicationCommandSubGroup, CommandInteraction, CommandInteractionOption, CommandInteractionOptionResolver, GuildMember } from "discord.js";
-import config from "../../../config";
+import config from "../../config";
 import { getPermissionLevel, ladder } from "../../constants/permissions";
 import commandPermissions from "../../commands/slash/_permissions";
 import { SlashCommand } from "../../types/command";

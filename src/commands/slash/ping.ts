@@ -1,4 +1,4 @@
-import config from "../../../config";
+import config from "../../config";
 import { SlashCommand } from "../../types/command";
 
 export default {

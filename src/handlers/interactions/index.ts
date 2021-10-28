@@ -1,7 +1,7 @@
 import { ApplicationCommandData, ApplicationCommandOption, ApplicationCommandOptionData, ApplicationCommandSubCommandData, ButtonInteraction, ChatInputApplicationCommandData, Client, CommandInteraction, ContextMenuInteraction, MessageApplicationCommandData, SelectMenuInteraction, UserApplicationCommandData } from "discord.js";
 import fs from "fs";
 import { join } from "path";
-import config from "../../../config";
+import config from "../../config";
 import commandHandler from "./commands";
 import contextMenuHandler from "./contextMenus";
 import componentHandler from "./components";

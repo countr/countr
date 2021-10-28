@@ -1,6 +1,6 @@
 import { Client, WebhookClient, Guild } from "discord.js";
 import { access } from "../database";
-import config from "../../config";
+import config from "../config";
 
 const webhook = config.access.webhook_log ? new WebhookClient({ url: config.access.webhook_log }) : null;
 

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import config from "../../config";
+import config from "../config";
 
 import * as Guilds from "./guilds";
 import * as Global from "./global";

@@ -1,5 +1,5 @@
 import { MessageComponentInteraction, MessageSelectMenuOptions, SelectMenuInteraction } from "discord.js";
-import config from "../../../../config";
+import config from "../../../config";
 import { Flow, FlowOptions } from "../../../database/models/Guild";
 import { components } from "../../../handlers/interactions/components";
 import { ButtonComponentCallback, Component, SelectMenuComponentCallback } from "../../../types/flows/components";

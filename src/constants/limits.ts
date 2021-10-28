@@ -1,4 +1,4 @@
-import config from "../../config";
+import config from "../config";
 
 /*
   For those reading this, we are not creating strict limits

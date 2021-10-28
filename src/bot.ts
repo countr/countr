@@ -1,5 +1,5 @@
 import { Client, Options } from "discord.js";
-import config from "../config";
+import config from "./config";
 import * as db from "./database";
 import prepareGuild from "./handlers/prepareGuild";
 import updateLiveboards from "./handlers/liveboard";

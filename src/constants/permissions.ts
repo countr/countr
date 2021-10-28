@@ -1,5 +1,5 @@
 import { GuildMember, Permissions } from "discord.js";
-import config from "../../config";
+import config from "../config";
 
 export type CommandPermissionLevel = "DEVELOPER" | "SUPPORT" | "OWNER" | "ADMIN" | "MOD" | "ALL";
 

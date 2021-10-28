@@ -1,5 +1,5 @@
 import { CommandInteraction, InteractionReplyOptions, MessageButtonOptions, MessageEmbedOptions, User } from "discord.js";
-import config from "../../../../config";
+import config from "../../../config";
 import { Flow } from "../../../database/models/Guild";
 import { components } from "../../../handlers/interactions/components";
 import { Step } from "../../../types/flows/steps";
