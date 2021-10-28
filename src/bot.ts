@@ -10,7 +10,6 @@ import messageCommandHandler from "./handlers/messageCommands";
 
 const client = new Client({
   makeCache: Options.cacheWithLimits({
-    MessageManager: 50,
     ...config.client.caches
   }),
   partials: [ "USER", "CHANNEL", "GUILD_MEMBER", "MESSAGE", "REACTION" ],

@@ -10,7 +10,20 @@ export default {
     token: env.BOT_TOKEN,
     shards: parseInt(env.BOT_SHARDS) || "auto",
     caches: {
-      GuildMemberManager: 100
+      GuildBanManager: 0,
+      GuildEmojiManager: 0,
+      GuildInviteManager: 0,
+      GuildMemberManager: 100,
+      GuildStickerManager: 0,
+      MessageManager: 50,
+      PresenceManager: 0,
+      ReactionManager: 0,
+      ReactionUserManager: 0,
+      StageInstanceManager: 0,
+      ThreadManager: 0,
+      ThreadMemberManager: 0,
+      UserManager: 1, // bot only
+      VoiceStateManager: 0
     }
   },
   database_uri: isDockerWithMongo ? "mongodb://db/countr" : env.DATABASE_URI,
