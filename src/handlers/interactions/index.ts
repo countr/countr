@@ -27,7 +27,7 @@ export default async (client: Client): Promise<void> => {
 };
 
 function nestCommands(relativePath: string, type: string): Promise<Array<ApplicationCommandData | ApplicationCommandOption>> {
-  return new Promise(resolve => fs.readdir(join(__dirname, relativePath), async (err?: unknown, files?: Array<string>) => {
+  return new Promise(resolve => fs.readdir(join(__dirname, relativePath), async (err, files) => {
     if (err) return console.log(err);
 
     const arr = [];
