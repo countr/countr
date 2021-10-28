@@ -1,6 +1,6 @@
 {
   "name": "countr",
-  "main": "build/src/sharding.js",
+  "main": "build/sharding.js",
   "license": "GPL-3.0",
   "scripts": {
     "docker": "docker compose up --build",
