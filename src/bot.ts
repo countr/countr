@@ -24,34 +24,36 @@ client.once("ready", async client => {
   shard = `Shard ${client.shard?.ids.join(",")}:`;
   console.log(shard, `Ready as ${client.user.tag}! Caching guilds...`);
 
-  disabledGuilds = new Set(client.guilds.cache.map(g => g.id));  // cache guilds
+  if (client.guilds.cache.size) {
+    disabledGuilds = new Set(client.guilds.cache.map(g => g.id));  // cache guilds
 
-  const cacheStart = Date.now();
-  await db.guilds.touch(client.guilds.cache.map(g => g.id));
-  console.log(shard, `${client.guilds.cache.size} guilds cached in ${Math.ceil((Date.now() - cacheStart) / 1000)}s. Processing available guilds...`);
+    const cacheStart = Date.now();
+    await db.guilds.touch(client.guilds.cache.map(g => g.id));
+    console.log(shard, `${client.guilds.cache.size} guilds cached in ${Math.ceil((Date.now() - cacheStart) / 1000)}s. Processing available guilds...`);
 
-  // process guilds
-  let completed = 0;
-  const processingStart = Date.now(), presenceInterval = setInterval(() => {
-    const percentage = (completed / client.guilds.cache.size) * 100;
-    client.user.setPresence({
-      status: "idle",
-      activities: [{
-        type: "WATCHING",
-        name: `${Math.round(percentage)}% ${"|".repeat(Math.round(percentage / 5))}`
-      }]
-    });
-  }, 1000);
-  await Promise.all(client.guilds.cache.map(async guild => {
-    await prepareGuild(guild);
-    disabledGuilds.delete(guild.id);
-    completed++;
-  }));
-  clearInterval(presenceInterval);
-  console.log(shard, `${client.guilds.cache.size} guilds processed in ${Math.ceil((Date.now() - processingStart) / 1000)}s.`);
+    // process guilds
+    let completed = 0;
+    const processingStart = Date.now(), presenceInterval = setInterval(() => {
+      const percentage = (completed / client.guilds.cache.size) * 100;
+      client.user.setPresence({
+        status: "idle",
+        activities: [{
+          type: "WATCHING",
+          name: `${Math.round(percentage)}% ${"|".repeat(Math.round(percentage / 5))}`
+        }]
+      });
+    }, 1000);
+    await Promise.all(client.guilds.cache.map(async guild => {
+      await prepareGuild(guild);
+      disabledGuilds.delete(guild.id);
+      completed++;
+    }));
+    clearInterval(presenceInterval);
+    console.log(shard, `${client.guilds.cache.size} guilds processed in ${Math.ceil((Date.now() - processingStart) / 1000)}s.`);
 
-  // finish up
-  disabledGuilds = new Set();
+    // finish up
+    disabledGuilds = new Set();
+  } else console.log("Add the bot with this link: https://todo");
 
   // presence
   updatePresence();
