@@ -28,7 +28,6 @@ export default async (interaction: CommandInteraction, document?: GuildDocument)
     }
 
     const commandFile = (await import(`../../commands/slash/${path.join("/")}`)).default as SlashCommand; // todo
-    if (!commandFile.workInPrivateMessage && !interaction.guild) return; // todo reply with error
 
     const inCountingChannel = document?.channels.has(interaction.channelId) || false;
     if (commandFile.disableInCountingChannel && inCountingChannel) return; // todo reply with error
