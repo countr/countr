@@ -31,7 +31,7 @@ export default async (message: Message, document: GuildDocument): Promise<void> 
 
       message.guild.members.fetch(message.author).then(member => {
         const permissionLevel = getPermissionLevel(member);
-        if (permissionLevel < ladder[permissions[commandName]]) {
+        if (permissionLevel < ladder[permissions[commandName] || "ALL"]) {
           message.react("⛔").catch();
           return resolve(message);
         }
