@@ -6,7 +6,10 @@ ENV IS_THIS_DOCKER=yes
 COPY package*.json .
 RUN npm i
 
-COPY . .
+COPY ./src .
+COPY tsconfig.json .
 RUN npm run build
+
+COPY . .
 
 CMD ["dumb-init", "npm", "start"]
