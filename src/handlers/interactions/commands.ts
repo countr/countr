@@ -33,7 +33,30 @@ export default async (interaction: CommandInteraction, document: GuildDocument):
     const inCountingChannel = document.channels.has(interaction.channelId) || false;
     if (commandFile.disableInCountingChannel && inCountingChannel) return; // todo reply with error
 
-    commandFile.execute(interaction, inCountingChannel, getSlashArgs(interaction.options.data), document);
+    let selectedCountingChannel: SelectedCountingChannel | undefined = inCountingChannel ? {
+      channel: interaction.channelId,
+      expires: Date.now()
+    } : selectedCountingChannels.get(interaction.user.id);
+
+    if (selectedCountingChannel && selectedCountingChannel.expires < Date.now()) {
+      selectedCountingChannel = undefined;
+      selectedCountingChannels.delete(interaction.user.id);
+    }
+
+    if (commandFile.requireSelectedCountingChannel && (
+      !selectedCountingChannel ||
+      selectedCountingChannel.expires < Date.now()
+    )) {
+      if (document.channels.size == 1) selectedCountingChannel = { channel: document.channels.values().next().value, expires: Date.now() + 1000 * 60 * 60 * 24 };
+      else if (document.channels.has(interaction.channelId)) selectedCountingChannel = { channel: interaction.channelId, expires: Date.now() + 1000 * 60 * 60 * 24 };
+      else return interaction.reply({
+        content: "💥 You need a counting channel selected to run this command. Type `/select` to select a counting channel and then run this command again.",
+        ephemeral: true
+      });
+      selectedCountingChannels.set(interaction.user.id, selectedCountingChannel);
+    }
+
+    commandFile.execute(interaction, inCountingChannel, getSlashArgs(interaction.options.data), document, selectedCountingChannel?.channel);
   }
 };
 

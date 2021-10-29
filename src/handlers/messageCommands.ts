@@ -4,6 +4,7 @@ import { join } from "path";
 import permissions from "../commands/mention/_permissions";
 import config from "../config";
 import { getPermissionLevel, ladder } from "../constants/permissions";
+import { SelectedCountingChannel, selectedCountingChannels } from "../constants/selectedCountingChannels";
 import { GuildDocument } from "../database/models/Guild";
 import { MentionCommand } from "../types/command";
 
@@ -35,12 +36,33 @@ export default async (message: Message, document: GuildDocument): Promise<void> 
           return resolve(message);
         }
 
+
+        let selectedCountingChannel: SelectedCountingChannel | undefined = inCountingChannel ? {
+          channel: message.channelId,
+          expires: Date.now()
+        } : selectedCountingChannels.get(message.author.id);
+
+        if (selectedCountingChannel && selectedCountingChannel.expires < Date.now()) {
+          selectedCountingChannel = undefined;
+          selectedCountingChannels.delete(message.author.id);
+        }
+
+        if (command.requireSelectedCountingChannel && (
+          !selectedCountingChannel ||
+          selectedCountingChannel.expires < Date.now()
+        )) {
+          if (document.channels.size == 1) selectedCountingChannel = { channel: document.channels.values().next().value, expires: Date.now() + 1000 * 60 * 60 * 24 };
+          else if (document.channels.has(message.channelId)) selectedCountingChannel = { channel: message.channelId, expires: Date.now() + 1000 * 60 * 60 * 24 };
+          else return resolve(message.reply("💥 You need a counting channel selected to run this command. Type `/select` to select a counting channel and then run this command again."));
+          selectedCountingChannels.set(message.author.id, selectedCountingChannel);
+        }
+
         if (args.length < (command.minArguments || 0)) {
           message.react("📏").catch();
           return resolve(message);
         }
 
-        return command.execute(message, args, document).then(resolve);
+        return command.execute(message, args, document, selectedCountingChannel?.channel).then(resolve);
       });
     } catch (e) {
       console.log(e);
