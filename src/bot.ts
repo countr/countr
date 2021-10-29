@@ -69,7 +69,7 @@ client.once("ready", async client => {
   if (config.access.enabled) accessHandler(client);
 });
 
-const updatePresence = async () => client?.user?.setPresence({
+const updatePresence = async () => client.user?.setPresence({
   status: "online",
   activities: [{
     type: "WATCHING",
@@ -79,7 +79,7 @@ const updatePresence = async () => client?.user?.setPresence({
 
 client.on("messageCreate", async message => {
   if (
-    !client?.user ||
+    !client.user ||
     !message.guild ||
     disabledGuilds?.has(message.guild.id) ||
     message.author.bot ||

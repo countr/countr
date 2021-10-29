@@ -22,7 +22,7 @@ export default async (interaction: CommandInteraction, document: GuildDocument):
     const subCommandOrGroup = command.options.find(o => o.type == "SUB_COMMAND" || o.type == "SUB_COMMAND_GROUP") as ApplicationCommandSubCommand | ApplicationCommandSubGroup;
     if (subCommandOrGroup) {
       path.push(subCommandOrGroup.name);
-      if (subCommandOrGroup) {
+      if (subCommandOrGroup.options) {
         const subCommand = (subCommandOrGroup.options as Array<ApplicationCommandSubCommand>)?.find(o => o.type == "SUB_COMMAND");
         if (subCommand) path.push(subCommand.name);
       }
