@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionData, CommandInteraction, ContextMenuInteraction, Message } from "discord.js";
+import { ApplicationCommandOptionChoice, ApplicationCommandOptionData, AutocompleteInteraction, CommandInteraction, ContextMenuInteraction, Message } from "discord.js";
 import { GuildDocument } from "../database/models/Guild";
 import { SlashArgRecord } from "../handlers/interactions/commands";
 
@@ -8,9 +8,14 @@ type Command = {
   requireSelectedCountingChannel?: boolean;
 }
 
+export type Autocomplete = (query: string | number, interaction: AutocompleteInteraction, document: GuildDocument, selectedCountingChannel?: string) => Promise<Array<ApplicationCommandOptionChoice>>;
+
 export type SlashCommand = Command & {
   description: string;
   options?: Array<ApplicationCommandOptionData>;
+  autocompletes?: {
+    [optionName: string]: Autocomplete;
+  }
   execute(interaction: CommandInteraction, ephemeralPreference: boolean, args: SlashArgRecord, document: GuildDocument, selectedCountingChannel?: string): Promise<void>;
 };
 

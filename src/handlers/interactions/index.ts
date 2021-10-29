@@ -2,6 +2,7 @@ import { ApplicationCommandData, ApplicationCommandOption, ApplicationCommandOpt
 import fs from "fs";
 import { join } from "path";
 import config from "../../config";
+import autocompleteHandler from "./autocompletes";
 import commandHandler from "./commands";
 import contextMenuHandler from "./contextMenus";
 import componentHandler from "./components";
@@ -28,6 +29,8 @@ export default async (client: Client): Promise<void> => {
       if (interaction.isCommand()) return commandHandler(interaction as CommandInteraction, document);
       if (interaction.isContextMenu()) return contextMenuHandler(interaction as ContextMenuInteraction, document);
     }
+
+    if (interaction.isAutocomplete()) return autocompleteHandler(interaction);
   });
 };
 
