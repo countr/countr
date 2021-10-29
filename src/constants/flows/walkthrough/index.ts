@@ -1,6 +1,6 @@
 import { CommandInteraction, InteractionReplyOptions, MessageButtonOptions, MessageEmbedOptions, User } from "discord.js";
 import config from "../../../config";
-import { Flow } from "../../../database/models/Guild";
+import { Flow, GuildDocument } from "../../../database/models/Guild";
 import { components } from "../../../handlers/interactions/components";
 import { Step } from "../../../types/flows/steps";
 import { generateId } from "../../../utils/crypto";
@@ -13,7 +13,7 @@ const inProgress: Map<string, {
   abortCurrentEditor: (user: User) => Promise<unknown>;
 }> = new Map();
 
-export default async (interaction: CommandInteraction, existingFlow?: Flow, existingFlowIdentifier?: string): Promise<void> => {
+export default async (interaction: CommandInteraction, document: GuildDocument, channel: string, existingFlow?: Flow, existingFlowIdentifier?: string): Promise<void> => {
   const exists = Boolean(existingFlow);
   const flow = JSON.parse(JSON.stringify(existingFlow || { triggers: [], actions: [] })) as Flow; // clone so we don't modify the live flow, if it exists
   const flowIdentifier = existingFlowIdentifier || generateId();
@@ -29,7 +29,7 @@ export default async (interaction: CommandInteraction, existingFlow?: Flow, exis
         userId: interaction.user.id,
         abortCurrentEditor: (user: User) => i.editReply({ content: `💢 This flow has been re-opened by ${user}.`, embeds: [], components: [] })
       }));
-      return i.update(designMessage(step, flow, flowIdentifier));
+      return i.update(designMessage(step, flow, flowIdentifier, document, channel));
     });
 
     interaction.reply({
@@ -59,24 +59,24 @@ export default async (interaction: CommandInteraction, existingFlow?: Flow, exis
       flow,
       abortCurrentEditor: (user: User) => interaction.editReply({ content: `💢 This flow has been re-opened by ${user}.`, embeds: [], components: [] })
     });
-    interaction.reply(designMessage(step, flow, flowIdentifier));
+    interaction.reply(designMessage(step, flow, flowIdentifier, document, channel));
   }
 };
 
-export function designMessage(selected: number, flow: Flow, flowIdentifier: string): InteractionReplyOptions {
+export function designMessage(selected: number, flow: Flow, flowIdentifier: string, document: GuildDocument, channel: string): InteractionReplyOptions {
   const selectedStep = steps[selected];
 
   const randomIdentifier = Math.random().toString(36).substring(2);
 
-  components.set(`previous:${randomIdentifier}`, i => i.update(designMessage(selected - 1, flow, flowIdentifier)));
-  components.set(`next:${randomIdentifier}`, i => i.update(designMessage(selected + 1, flow, flowIdentifier)));
-  components.set(`save:${randomIdentifier}`, i => i.update(saveFlow(flow, flowIdentifier)));
+  components.set(`previous:${randomIdentifier}`, i => i.update(designMessage(selected - 1, flow, flowIdentifier, document, channel)));
+  components.set(`next:${randomIdentifier}`, i => i.update(designMessage(selected + 1, flow, flowIdentifier, document, channel)));
+  components.set(`save:${randomIdentifier}`, i => i.update(saveFlow(flow, flowIdentifier, document, channel)));
   components.set(`cancel:${randomIdentifier}`, async i => {
     components.set(`cancel:${randomIdentifier}:yes`, async i => {
       inProgress.delete(flowIdentifier);
       i.update({ content: "🕳 Flow editing has been cancelled.", components: [] });
     });
-    components.set(`cancel:${randomIdentifier}:no`, i => i.update(designMessage(selected, flow, flowIdentifier)));
+    components.set(`cancel:${randomIdentifier}:no`, i => i.update(designMessage(selected, flow, flowIdentifier, document, channel)));
     i.update({
       content: "💢 Are you sure you want to cancel? You will lose all your progress!",
       embeds: [],
@@ -119,7 +119,7 @@ export function designMessage(selected: number, flow: Flow, flowIdentifier: stri
         type: "ACTION_ROW",
         components: group.map(component => {
           const customId = `${randomIdentifier}:${component.data.customId}`;
-          components.set(customId, i => component.callback(i as never, flow, () => designMessage(selected, flow, flowIdentifier)));
+          components.set(customId, i => component.callback(i as never, flow, () => designMessage(selected, flow, flowIdentifier, document, channel)));
           return { ...component.data, customId };
         })
       })) : []),
@@ -176,10 +176,17 @@ function designEmbed(step: Step, flow: Flow): MessageEmbedOptions {
   return embed;
 }
 
-function saveFlow(flow: Flow, flowIdentifier: string): InteractionReplyOptions {
-  // save flow
-  return {
-    content: `✅ Flow \`${flowIdentifier}\` has been saved successfully!`,
+function saveFlow(flow: Flow, flowIdentifier: string, document: GuildDocument, channel: string): InteractionReplyOptions {
+  const success = document.channels.get(channel)?.flows.set(flowIdentifier, flow);
+  if (success) {
+    document.safeSave();
+    return {
+      content: `✅ Flow \`${flowIdentifier}\` has been saved successfully!`,
+      embeds: [],
+      components: []
+    };
+  } else return {
+    content: `💢 Failed to save flow \`${flowIdentifier}\`. Does the counting channel exist anymore?`,
     embeds: [],
     components: []
   };
