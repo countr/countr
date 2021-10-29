@@ -4,8 +4,9 @@ import { getPermissionLevel, ladder } from "../../constants/permissions";
 import commandPermissions from "../../commands/slash/_permissions";
 import { SlashCommand } from "../../types/command";
 import { GuildDocument } from "../../database/models/Guild";
+import { SelectedCountingChannel, selectedCountingChannels } from "../../constants/selectedCountingChannels";
 
-export default async (interaction: CommandInteraction, document?: GuildDocument): Promise<void> => {
+export default async (interaction: CommandInteraction, document: GuildDocument): Promise<void> => {
   if (!interaction.guild && config.guild) return; // todo reply with error
   const commands = config.guild ? interaction.client.guilds.cache.get(config.guild)?.commands : interaction.client.application?.commands;
   const command = commands?.cache.find(c => c.name == interaction.commandName);
@@ -29,7 +30,7 @@ export default async (interaction: CommandInteraction, document?: GuildDocument)
 
     const commandFile = (await import(`../../commands/slash/${path.join("/")}`)).default as SlashCommand; // todo
 
-    const inCountingChannel = document?.channels.has(interaction.channelId) || false;
+    const inCountingChannel = document.channels.has(interaction.channelId) || false;
     if (commandFile.disableInCountingChannel && inCountingChannel) return; // todo reply with error
 
     commandFile.execute(interaction, inCountingChannel, getSlashArgs(interaction.options.data), document);
