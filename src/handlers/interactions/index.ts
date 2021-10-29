@@ -20,9 +20,14 @@ export default async (client: Client): Promise<void> => {
       if (interaction.isButton()) return componentHandler(interaction as ButtonInteraction);
       if (interaction.isSelectMenu()) return componentHandler(interaction as SelectMenuInteraction);
     }
-    const document = interaction.guildId ? await get(interaction.guildId) : undefined;
-    if (interaction.isCommand()) return commandHandler(interaction as CommandInteraction, document);
-    if (interaction.isContextMenu()) return contextMenuHandler(interaction as ContextMenuInteraction, document);
+
+    if (interaction.isApplicationCommand()) {
+      if (!interaction.guildId) return; // ignore DM interactions
+      const document = await get(interaction.guildId);
+
+      if (interaction.isCommand()) return commandHandler(interaction as CommandInteraction, document);
+      if (interaction.isContextMenu()) return contextMenuHandler(interaction as ContextMenuInteraction, document);
+    }
   });
 };
 
