@@ -1,5 +1,4 @@
 import { SlashCommand } from "../../../types/command";
-import walkthrough from "../../../constants/flows/walkthrough";
 import { flowList } from "../../../constants/autocompleters";
 
 export default {
