@@ -16,4 +16,4 @@ services:
     container_name: db
     restart: unless-stopped
     volumes:
-      - /database:/data/db
+      - ./database:/data/db
