@@ -2,6 +2,7 @@ import { prop, getModelForClass, DocumentType } from "@typegoose/typegoose";
 import { WhatIsIt } from "@typegoose/typegoose/lib/internal/constants";
 import { BeAnObject } from "@typegoose/typegoose/lib/types";
 import { PropertyValue } from "../../constants/flows/properties";
+import numberSystems from "../../constants/numberSystems";
 
 const saveQueue = new Map();
 
@@ -19,8 +20,8 @@ export class TimeoutRole {
 }
 
 export class FlowOptions {
-  @prop({ type: String, required: true }                ) type!: string;
-  @prop({ type: [],     default: []    }, WhatIsIt.ARRAY) data!: Array<PropertyValue>;
+  @prop({ type: String,    required: true }                ) type!: string;
+  @prop({ type: [String, Number, []], default: []    }, WhatIsIt.ARRAY) data!: Array<PropertyValue>; // waiting for help on this one
 }
 
 export class Flow {
@@ -42,21 +43,22 @@ export class Liveboard {
 }
 
 export class CountingChannel {
-  @prop({ type: Count,        default: { number: 0 } as Count }                ) count!: Count;
-  @prop({ type: String,       default: "decimal"              }                ) type!: string;
-  @prop({ type: [String],     default: []                     }, WhatIsIt.ARRAY) modules!: Array<string>;
-  @prop({ type: Number,       default: {}                     }                ) scores!: Map<string, number>;
-  @prop({ type: TimeoutRole,  default: null                   }                ) timeoutRole!: TimeoutRole | null;
-  @prop({ type: Flow,         default: {}                     }                ) flows!: Map<string, Flow>;
-  @prop({ type: Notification, default: {}                     }                ) notifications!: Map<string, Notification>;
-  @prop({ type: Date,         default: {}                     }                ) timeouts!: Map<string, Date>;
-  @prop({ type: [String],     default: []                     }, WhatIsIt.ARRAY) filters!: Array<string>;
-  @prop({ type: Liveboard,    default: null                   }                ) liveboard!: Liveboard | null;
+  @prop({ type: Boolean,      default: false                         }                ) isThread!: boolean;
+  @prop({ type: Count,        default: { number: 0 } as Count        }                ) count!: Count;
+  @prop({ type: String,       default: Object.keys(numberSystems)[0] }                ) type!: string;
+  @prop({ type: [String],     default: []                            }, WhatIsIt.ARRAY) modules!: Array<string>;
+  @prop({ type: Number,       default: {}                            }, WhatIsIt.MAP  ) scores!: Map<string, number>;
+  @prop({ type: TimeoutRole,  default: null                          }                ) timeoutRole?: TimeoutRole;
+  @prop({ type: Flow,         default: {}                            }, WhatIsIt.MAP  ) flows!: Map<string, Flow>;
+  @prop({ type: Notification, default: {}                            }, WhatIsIt.MAP  ) notifications!: Map<string, Notification>;
+  @prop({ type: Date,         default: {}                            }, WhatIsIt.MAP  ) timeouts!: Map<string, Date>;
+  @prop({ type: [String],     default: []                            }, WhatIsIt.ARRAY) filters!: Array<string>;
+  @prop({ type: Liveboard,    default: null                          }                ) liveboard?: Liveboard;
 }
 
 export class Guild {
   @prop({ type: String,                unique: true, required: true }              ) guildId!: string;
-  @prop({ type: () => CountingChannel, _id: false,   default: {}    }, WhatIsIt.MAP) channels!: Map<string, CountingChannel>;
+  @prop({ type: CountingChannel,       _id: false,   default: {}    }, WhatIsIt.MAP) channels!: Map<string, CountingChannel>;
   @prop({ type: Number,                _id: false,   default: {}    }, WhatIsIt.MAP) log!: Map<string, number>;
 
   // we can't save in parallell, and although we can await the guild.save(), that would not work across files.
