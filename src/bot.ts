@@ -1,21 +1,23 @@
+import * as global from "./database/global";
+import * as guilds from "./database/guilds";
 import { Client, Options } from "discord.js";
+import accessHandler from "./handlers/access";
 import config from "./config";
-import * as db from "./database";
+import { connection } from "./database";
+import countingHandler from "./handlers/counting";
+import interactionsHandler from "./handlers/interactions";
+import messageCommandHandler from "./handlers/messageCommands";
 import prepareGuild from "./handlers/prepareGuild";
 import updateLiveboards from "./handlers/liveboard";
-import accessHandler from "./handlers/access";
-import interactionsHandler from "./handlers/interactions";
-import countingHandler from "./handlers/counting";
-import messageCommandHandler from "./handlers/messageCommands";
 
 const client = new Client({
   makeCache: Options.cacheWithLimits({
-    ...config.client.caches
+    ...config.client.caches,
   }),
-  partials: [ "USER", "CHANNEL", "GUILD_MEMBER", "MESSAGE", "REACTION" ],
+  partials: ["USER", "CHANNEL", "GUILD_MEMBER", "MESSAGE", "REACTION"],
   userAgentSuffix: [],
   presence: { status: "dnd" },
-  intents: [ "GUILDS", "GUILD_MESSAGES" ]
+  intents: ["GUILDS", "GUILD_MESSAGES"],
 });
 
 let shard = "Shard N/A:", disabledGuilds = new Set();
@@ -25,28 +27,30 @@ client.once("ready", async client => {
   console.log(shard, `Ready as ${client.user.tag}! Caching guilds...`);
 
   if (client.guilds.cache.size) {
-    disabledGuilds = new Set(client.guilds.cache.map(g => g.id));  // cache guilds
+    disabledGuilds = new Set(client.guilds.cache.map(g => g.id)); // cache guilds
 
     const cacheStart = Date.now();
-    await db.guilds.touch(client.guilds.cache.map(g => g.id));
+    await guilds.touch(client.guilds.cache.map(g => g.id));
     console.log(shard, `${client.guilds.cache.size} guilds cached in ${Math.ceil((Date.now() - cacheStart) / 1000)}s. Processing available guilds...`);
 
     // process guilds
     let completed = 0;
     const processingStart = Date.now(), presenceInterval = setInterval(() => {
-      const percentage = (completed / client.guilds.cache.size) * 100;
+      const percentage = completed / client.guilds.cache.size * 100;
       client.user.setPresence({
         status: "idle",
-        activities: [{
-          type: "WATCHING",
-          name: `${Math.round(percentage)}% ${"|".repeat(Math.round(percentage / 5))}`
-        }]
+        activities: [
+          {
+            type: "WATCHING",
+            name: `${Math.round(percentage)}% ${"|".repeat(Math.round(percentage / 5))}`,
+          },
+        ],
       });
     }, 1000);
     await Promise.all(client.guilds.cache.map(async guild => {
       await prepareGuild(guild);
       disabledGuilds.delete(guild.id);
-      completed++;
+      completed += 1;
     }));
     clearInterval(presenceInterval);
     console.log(shard, `${client.guilds.cache.size} guilds processed in ${Math.ceil((Date.now() - processingStart) / 1000)}s.`);
@@ -71,10 +75,12 @@ client.once("ready", async client => {
 
 const updatePresence = async () => client.user?.setPresence({
   status: "online",
-  activities: [{
-    type: "WATCHING",
-    name: `${(await db.global.get()).counts} counts this week!`
-  }]
+  activities: [
+    {
+      type: "WATCHING",
+      name: `${(await global.get()).counts} counts this week!`,
+    },
+  ],
 });
 
 client.on("messageCreate", async message => {
@@ -86,15 +92,17 @@ client.on("messageCreate", async message => {
     message.type !== "DEFAULT"
   ) return;
 
-  const document = await db.guilds.get(message.guild.id);
+  const document = await guilds.get(message.guild.id);
   if (document.channels.has(message.channel.id)) countingHandler(message, document);
 
   else if (message.content.match(`^<@!?${client.user.id}> `)) messageCommandHandler(message, document);
-  else if (message.content.match(`^<@!?${client.user.id}>`)) message.reply({
-    content: "hello"
-  });
+  else if (message.content.match(`^<@!?${client.user.id}>`)) {
+    message.reply({
+      content: "hello",
+    });
+  }
 });
 
-db.connection.then(() => client.login(config.client.token));
+connection.then(() => client.login(config.client.token));
 
 process.on("unhandledRejection", console.log);

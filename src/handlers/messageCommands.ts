@@ -1,14 +1,14 @@
+import { SelectedCountingChannel, selectedCountingChannels } from "../constants/selectedCountingChannels";
+import { getPermissionLevel, ladder } from "../constants/permissions";
+import { GuildDocument } from "../database/models/Guild";
+import { MentionCommand } from "../types/command";
 import { Message } from "discord.js";
+import config from "../config";
 import fs from "fs";
 import { join } from "path";
 import permissions from "../commands/mention/_permissions";
-import config from "../config";
-import { getPermissionLevel, ladder } from "../constants/permissions";
-import { SelectedCountingChannel, selectedCountingChannels } from "../constants/selectedCountingChannels";
-import { GuildDocument } from "../database/models/Guild";
-import { MentionCommand } from "../types/command";
 
-export default async (message: Message, document: GuildDocument): Promise<void> => {
+export default (message: Message, document: GuildDocument): Promise<void> => {
   const args = message.content.split(" ").slice(1);
   const commandOrAlias = (args.shift() || "").toLowerCase();
   const commandName = aliases.get(commandOrAlias) || commandOrAlias;
@@ -16,9 +16,11 @@ export default async (message: Message, document: GuildDocument): Promise<void> 
   const command = commands.get(commandName);
   const inCountingChannel = document.channels.has(message.channel.id);
 
-  if (!command) return message.react("❓").then(() => {
-    if (inCountingChannel) setTimeout(message.delete, 5000);
-  }).catch();
+  if (!command) {
+    return message.react("❓").then(() => {
+      if (inCountingChannel) setTimeout(message.delete, 5000);
+    }).catch();
+  }
 
   return new Promise<Message>(resolve => {
     if (!message.guild) return; // typescript. guild will always be defined
@@ -26,7 +28,8 @@ export default async (message: Message, document: GuildDocument): Promise<void> 
     try {
       if (inCountingChannel && command.disableInCountingChannel) {
         message.react("💢").catch();
-        return resolve(message);
+        resolve(message);
+        return;
       }
 
       message.guild.members.fetch(message.author).then(member => {
@@ -37,10 +40,12 @@ export default async (message: Message, document: GuildDocument): Promise<void> 
         }
 
 
-        let selectedCountingChannel: SelectedCountingChannel | undefined = inCountingChannel ? {
-          channel: message.channelId,
-          expires: Date.now()
-        } : selectedCountingChannels.get(message.author.id);
+        let selectedCountingChannel: SelectedCountingChannel | undefined = inCountingChannel ?
+          {
+            channel: message.channelId,
+            expires: Date.now(),
+          } :
+          selectedCountingChannels.get(message.author.id);
 
         if (selectedCountingChannel && selectedCountingChannel.expires < Date.now()) {
           selectedCountingChannel = undefined;
@@ -51,7 +56,7 @@ export default async (message: Message, document: GuildDocument): Promise<void> 
           !selectedCountingChannel ||
           selectedCountingChannel.expires < Date.now()
         )) {
-          if (document.channels.size == 1) selectedCountingChannel = { channel: document.channels.values().next().value, expires: Date.now() + 1000 * 60 * 60 * 24 };
+          if (document.channels.size === 1) selectedCountingChannel = { channel: document.channels.values().next().value, expires: Date.now() + 1000 * 60 * 60 * 24 };
           else if (document.channels.has(message.channelId)) selectedCountingChannel = { channel: message.channelId, expires: Date.now() + 1000 * 60 * 60 * 24 };
           else return resolve(message.reply("💥 You need a counting channel selected to run this command. Type `/select` to select a counting channel and then run this command again."));
           selectedCountingChannels.set(message.author.id, selectedCountingChannel);
@@ -67,19 +72,21 @@ export default async (message: Message, document: GuildDocument): Promise<void> 
     } catch (e) {
       console.log(e);
       message.react("💥").catch();
-      return resolve(message);
+      resolve(message);
     }
   }).then(response => {
-    if (inCountingChannel) setTimeout(() => {
+    if (inCountingChannel) {
+      setTimeout(() => {
       // re-check if the channel is still a counting channel
-      if (document.channels.has(message.channel.id)) console.log("todo delete"); // todo
-    }, 5000);
+        if (document.channels.has(message.channel.id)) console.log("todo delete"); // todo
+      }, 5000);
+    }
   });
 };
 
 // loading commands
 const commands = new Map<string, MentionCommand>(), aliases = new Map<string, string>();
-fs.readdir(join(__dirname, "../commands/mention"), async (err, files) => {
+fs.readdir(join(__dirname, "../commands/mention"), (err, files) => {
   if (err || !files) return console.log(err);
   for (const file of files) if (file.endsWith(".js") && !file.startsWith("_")) loadCommand(file.replace(".js", ""));
 });

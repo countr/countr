@@ -1,4 +1,3 @@
-import Global from "./models/Global";
-import { Global as GlobalModel } from "./models/Global";
+import Global, { Global as GlobalModel } from "./models/Global";
 
-export const get = async (): Promise<GlobalModel> => (await Global.findOne()) || new Global();
+export const get = async (): Promise<GlobalModel> => await Global.findOne() || new Global();

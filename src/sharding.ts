@@ -4,12 +4,12 @@ import config from "./config";
 const manager = new ShardingManager(`${__dirname}/bot.js`, {
   totalShards: config.client.shards || "auto",
   token: config.client.token,
-  mode: "worker"
+  mode: "worker",
 });
 
 manager.on("shardCreate", shard => {
   shard.on("message", message => {
-    if (message == "respawn") {
+    if (message === "respawn") {
       console.log(`Manager: Shard ${shard.id} has requested a respawn.`);
       shard.respawn();
     }

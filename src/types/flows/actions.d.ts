@@ -1,7 +1,7 @@
-import { CountingData } from "./countingData";
 import { Property, PropertyValue } from "./properties";
+import { CountingData } from "./countingData";
 
-interface Action {
+export interface Action {
   short: string;
   long?: string;
   properties?: Array<Property>;

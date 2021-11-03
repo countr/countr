@@ -1,6 +1,6 @@
+import { Component } from "./components";
 import { EmbedFieldData } from "discord.js";
 import { Flow } from "../../database/models/Guild";
-import { Component } from "./components";
 
 export interface Step {
   title: string;

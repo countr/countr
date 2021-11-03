@@ -8,45 +8,45 @@ const numberSystems: {
     format(number: number): string;
   }
 } = {
-  "decimal": {
+  decimal: {
     name: "Decimal (10-number system) (Default)",
-    convert: (string) => parseInt(string) || null,
-    format: (number) => number.toString()
+    convert: string => parseInt(string) || null,
+    format: number => number.toString(),
   },
-  "hexadecimal": {
+  hexadecimal: {
     name: "Hexadecimal (16-number system)",
-    convert: (string) => {
+    convert: string => {
       const converted = parseInt(string, 16) || null;
       if (!converted || converted.toString(16) !== string) return null; // prevents starting with 0s, for example "000FF" = 255 while 255 = "FF"
       return converted;
     },
-    format: (number) => number.toString(16)
+    format: number => number.toString(16),
   },
-  "binary": {
+  binary: {
     name: "Binary (2-number system)",
-    convert: (string) => {
+    convert: string => {
       const converted = parseInt(string, 2) || null;
       if (!converted || converted.toString(2) !== string) return null; // prevents starting with 0s, for example "00011" = 3 while 3 = "11"
       return converted;
     },
-    format: (number) => number.toString(2)
+    format: number => number.toString(2),
   },
-  "roman": {
+  roman: {
     name: "Roman (I, II, III, IV, V...)",
-    convert: (string) => {
+    convert: string => {
       try {
         return toArabic(string);
       } catch (e) {
         return null;
       }
     },
-    format: toRoman
+    format: toRoman,
   },
-  "math": {
+  math: {
     name: "Math Expression (4*4 = 16)",
     convert: evaluate,
-    format: (number) => number.toString()
-  }
+    format: number => number.toString(),
+  },
 };
 
 export default numberSystems;

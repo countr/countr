@@ -8,7 +8,7 @@ export interface Config {
     shards: number | "auto",
     caches: CacheWithLimitsOptions
   },
-  database_uri: string,
+  databaseUri: string,
   isPremium?: boolean,
 
   admins: Array<string>,
@@ -25,13 +25,13 @@ export interface Config {
   },
 
   integration: {
-    webhook_url?: string | null, // todo
+    webhookUrl?: string | null, // todo
   },
 
   access: {
     enabled: boolean,
     interval: number,
-    webhook_log?: string,
+    webhookLog?: string,
   },
 
   progressIcons: {

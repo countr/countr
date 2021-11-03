@@ -1,6 +1,6 @@
+import { getChannel, getRole } from "../resolvers";
 import { Guild } from "discord.js";
 import { joinListWithAnd } from "../../utils/text";
-import { getChannel, getRole } from "../resolvers";
 
 export type PropertyValue = string | number | Array<PropertyValue>;
 
@@ -12,24 +12,24 @@ export interface Property {
 }
 
 export const propertyTypes: Record<string, Property> = {
-  "numberX": {
+  numberX: {
     short: "Number (X)",
     help: "This can be any positive number.",
-    convert: async (userInput): Promise<number | null> => parseInt(userInput) || null,
+    convert: (userInput): Promise<number | null> => Promise.resolve(parseInt(userInput) || null),
   },
-  "regex": {
+  regex: {
     short: "Regex",
     help: "Get help on how to create a regex here: https://flaviocopes.com/javascript-regular-expressions/#regular-expressions-choices",
-    convert: async (userInput): Promise<string | null> => {
+    convert: (userInput): Promise<string | null> => {
       try {
-        new RegExp(userInput);
-        return userInput;
-      } catch(e) {
-        return null;
+        RegExp(userInput);
+        return Promise.resolve(userInput);
+      } catch (e) {
+        return Promise.resolve(null);
       }
     },
   },
-  "role": {
+  role: {
     short: "Role(s)",
     help: "This can be any role, or a list of roles. Make sure the roles are below Countr's highest role.",
     convert: async (userInputList, guild: Guild): Promise<Array<string> | null> => {
@@ -39,32 +39,22 @@ export const propertyTypes: Record<string, Property> = {
         const result = await getRole(userInput, guild);
         if (result && result.id !== guild.roles.everyone.id) roles.push(result.id);
       }
-      if (roles.length) return roles; else return null;
+      if (roles.length) return roles; return null;
     },
-    format: async (roleIds: Array<string>) => joinListWithAnd(roleIds.map(roleId => `<@&${roleId}>`)),
+    format: (roleIds: Array<string>) => Promise.resolve(joinListWithAnd(roleIds.map(roleId => `<@&${roleId}>`))),
   },
-  "channel": {
+  channel: {
     short: "Channel",
     help: "Any channel. Make sure Countr has access to the channel, and that it is a text based channel. (news channels and threads also work)",
     convert: async (userInput, guild: Guild): Promise<string | null> => {
       const result = await getChannel(userInput, guild);
-      if (result) return result.id; else return null;
+      if (result) return result.id; return null;
     },
-    format: async (channelId: string) => `<#${channelId}>`,
+    format: (channelId: string) => Promise.resolve(`<#${channelId}>`),
   },
-  "text": {
+  text: {
     short: "Text",
-    help: [
-      "Any text. Get creative with these placeholders:",
-      "• `{count}` The count that triggered this flow",
-      "• `{mention}` Mentions the user who triggered this flow",
-      "• `{tag}` The tag of the user who triggered this flow",
-      "• `{username}` The username of the user who triggered this flow",
-      "• `{nickname}` The nickname of the user who triggered this flow",
-      "• `{everyone}` Mentions the everyone-role",
-      "• `{score}` The new score of the user who triggered this flow",
-      "• `{content}` The content of the message that triggered this flow"
-    ].join("\n"),
-    format: async (content: string) => `\`\`\`\n${content}\`\`\``,
-  }
+    help: ["Any text. Get creative with these placeholders:", "• `{count}` The count that triggered this flow", "• `{mention}` Mentions the user who triggered this flow", "• `{tag}` The tag of the user who triggered this flow", "• `{username}` The username of the user who triggered this flow", "• `{nickname}` The nickname of the user who triggered this flow", "• `{everyone}` Mentions the everyone-role", "• `{score}` The new score of the user who triggered this flow", "• `{content}` The content of the message that triggered this flow"].join("\n"),
+    format: (content: string) => Promise.resolve(`\`\`\`\n${content}\`\`\``),
+  },
 };

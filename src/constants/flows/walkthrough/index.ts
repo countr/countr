@@ -1,8 +1,8 @@
 import { CommandInteraction, InteractionReplyOptions, MessageButtonOptions, MessageEmbedOptions, User } from "discord.js";
-import config from "../../../config";
 import { Flow, GuildDocument } from "../../../database/models/Guild";
-import { components } from "../../../handlers/interactions/components";
 import { Step } from "../../../types/flows/steps";
+import { components } from "../../../handlers/interactions/components";
+import config from "../../../config";
 import { generateId } from "../../../utils/crypto";
 import steps from "./steps";
 
@@ -13,51 +13,53 @@ const inProgress: Map<string, {
   abortCurrentEditor: (user: User) => Promise<unknown>;
 }> = new Map();
 
-export default async (interaction: CommandInteraction, document: GuildDocument, channel: string, existingFlow?: Flow, existingFlowIdentifier?: string): Promise<void> => {
+export default (interaction: CommandInteraction, document: GuildDocument, channel: string, existingFlow?: Flow, existingFlowIdentifier?: string): void => {
   const exists = Boolean(existingFlow);
-  const flow = JSON.parse(JSON.stringify(existingFlow || { triggers: [], actions: [] })) as Flow; // clone so we don't modify the live flow, if it exists
+  const flow = JSON.parse(JSON.stringify(existingFlow || { triggers: [], actions: []})) as Flow; // clone so we don't modify the live flow, if it exists
   const flowIdentifier = existingFlowIdentifier || generateId();
 
   const step = exists ? steps.indexOf(steps.find(step => !step.skipIfExists) || steps[0]) : 0;
 
   const flowInProgress = inProgress.get(flowIdentifier);
   if (flowInProgress) {
-    components.set(`${interaction.id}:no`, i => i.update({ content: "", components: [] }));
+    components.set(`${interaction.id}:no`, i => i.update({ content: "", components: []}));
     components.set(`${interaction.id}:yes`, i => {
       flowInProgress.abortCurrentEditor(i.user);
       inProgress.set(flowIdentifier, Object.assign({}, flowInProgress, {
         userId: interaction.user.id,
-        abortCurrentEditor: (user: User) => i.editReply({ content: `💢 This flow has been re-opened by ${user}.`, embeds: [], components: [] })
+        abortCurrentEditor: (user: User) => i.editReply({ content: `💢 This flow has been re-opened by ${user}.`, embeds: [], components: []}),
       }));
       return i.update(designMessage(step, flow, flowIdentifier, document, channel));
     });
 
     interaction.reply({
       content: "🚫 This flow is already in the flow editor, would you like to re-open the editor?",
-      components: [{
-        type: "ACTION_ROW",
-        components: [
-          {
-            type: "BUTTON",
-            label: "No",
-            customId: `${interaction.id}:no`,
-            style: "DANGER"
-          },
-          {
-            type: "BUTTON",
-            label: "Yes",
-            customId: `${interaction.id}:yes`,
-            style: "SUCCESS"
-          }
-        ]
-      }]
+      components: [
+        {
+          type: "ACTION_ROW",
+          components: [
+            {
+              type: "BUTTON",
+              label: "No",
+              customId: `${interaction.id}:no`,
+              style: "DANGER",
+            },
+            {
+              type: "BUTTON",
+              label: "Yes",
+              customId: `${interaction.id}:yes`,
+              style: "SUCCESS",
+            },
+          ],
+        },
+      ],
     });
   } else {
     inProgress.set(flowIdentifier, {
       guildId: interaction.guild?.id || "unknown",
       userId: interaction.user.id,
       flow,
-      abortCurrentEditor: (user: User) => interaction.editReply({ content: `💢 This flow has been re-opened by ${user}.`, embeds: [], components: [] })
+      abortCurrentEditor: (user: User) => interaction.editReply({ content: `💢 This flow has been re-opened by ${user}.`, embeds: [], components: []}),
     });
     interaction.reply(designMessage(step, flow, flowIdentifier, document, channel));
   }
@@ -71,32 +73,34 @@ export function designMessage(selected: number, flow: Flow, flowIdentifier: stri
   components.set(`previous:${randomIdentifier}`, i => i.update(designMessage(selected - 1, flow, flowIdentifier, document, channel)));
   components.set(`next:${randomIdentifier}`, i => i.update(designMessage(selected + 1, flow, flowIdentifier, document, channel)));
   components.set(`save:${randomIdentifier}`, i => i.update(saveFlow(flow, flowIdentifier, document, channel)));
-  components.set(`cancel:${randomIdentifier}`, async i => {
-    components.set(`cancel:${randomIdentifier}:yes`, async i => {
+  components.set(`cancel:${randomIdentifier}`, i => {
+    components.set(`cancel:${randomIdentifier}:yes`, i => {
       inProgress.delete(flowIdentifier);
-      i.update({ content: "🕳 Flow editing has been cancelled.", components: [] });
+      return void i.update({ content: "🕳 Flow editing has been cancelled.", components: []});
     });
     components.set(`cancel:${randomIdentifier}:no`, i => i.update(designMessage(selected, flow, flowIdentifier, document, channel)));
-    i.update({
+    return void i.update({
       content: "💢 Are you sure you want to cancel? You will lose all your progress!",
       embeds: [],
-      components: [{
-        type: "ACTION_ROW",
-        components: [
-          {
-            type: "BUTTON",
-            label: "No, go back",
-            customId: `cancel:${randomIdentifier}:no`,
-            style: "SECONDARY"
-          },
-          {
-            type: "BUTTON",
-            label: "Yes, I'm sure",
-            customId: `cancel:${randomIdentifier}:yes`,
-            style: "DANGER"
-          }
-        ]
-      }]
+      components: [
+        {
+          type: "ACTION_ROW",
+          components: [
+            {
+              type: "BUTTON",
+              label: "No, go back",
+              customId: `cancel:${randomIdentifier}:no`,
+              style: "SECONDARY",
+            },
+            {
+              type: "BUTTON",
+              label: "Yes, I'm sure",
+              customId: `cancel:${randomIdentifier}:yes`,
+              style: "DANGER",
+            },
+          ],
+        },
+      ],
     });
   });
 
@@ -106,61 +110,69 @@ export function designMessage(selected: number, flow: Flow, flowIdentifier: stri
       {
         title: flow.name ? `Editing flow "${flow.name}" (\`${flowIdentifier}\`)` : `Editing flow \`${flowIdentifier}\``,
         color: parseInt(flowIdentifier, 16),
-        description: steps.map((step, index) =>
-          selected == index ? `🌀 **Step ${index + 1}: ${step.title}**` :
-            selected > index ? `✅ ~~Step ${index + 1}: ${step.title}~~` :
-              `✴️ Step ${index + 1}: ${step.title}`).join("\n")
+        description: steps.map((step, index) => selected === index ?
+          `🌀 **Step ${index + 1}: ${step.title}**` :
+          selected > index ?
+            `✅ ~~Step ${index + 1}: ${step.title}~~` :
+            `✴️ Step ${index + 1}: ${step.title}`).join("\n"),
       },
-      //...steps.map((step, index) => designStepEmbed(step, index, flow, selected)),
-      designEmbed(selectedStep, flow)
+      // ...steps.map((step, index) => designStepEmbed(step, index, flow, selected)),
+      designEmbed(selectedStep, flow),
     ],
     components: [
-      ...(selectedStep.components ? selectedStep.components(flow).map(group => ({
-        type: "ACTION_ROW",
-        components: group.map(component => {
-          const customId = `${randomIdentifier}:${component.data.customId}`;
-          components.set(customId, i => component.callback(i as never, flow, () => designMessage(selected, flow, flowIdentifier, document, channel)));
-          return { ...component.data, customId };
-        })
-      })) : []),
+      ...selectedStep.components ?
+        selectedStep.components(flow).map(group => ({
+          type: "ACTION_ROW",
+          components: group.map(component => {
+            const customId = `${randomIdentifier}:${component.data.customId}`;
+            components.set(customId, i => component.callback(i as never, flow, () => designMessage(selected, flow, flowIdentifier, document, channel)));
+            return { ...component.data, customId };
+          }),
+        })) :
+        [],
       {
-        type: "ACTION_ROW", components: [
+        type: "ACTION_ROW",
+        components: [
           {
             type: "BUTTON",
             label: "< Back",
             customId: `previous:${randomIdentifier}`,
             style: "PRIMARY",
-            disabled: selected == 0
+            disabled: selected === 0,
           },
           {
             type: "BUTTON",
             label: `Step ${selected + 1}/${steps.length}`,
             customId: `disabled:${randomIdentifier}`,
             style: "SECONDARY",
-            disabled: true
+            disabled: true,
           },
-          selected !== steps.length - 1 ? {
-            type: "BUTTON",
-            label: "Next >",
-            customId: `next:${randomIdentifier}`,
-            style: "PRIMARY",
-            disabled: selectedStep.getStatus(flow) == "incomplete"
-          } : null,
-          !steps.find(step => step.getStatus(flow) == "incomplete") ? {
-            type: "BUTTON",
-            label: "Save flow",
-            customId: `save:${randomIdentifier}`,
-            style: "SUCCESS"
-          } : null,
+          selected !== steps.length - 1 ?
+            {
+              type: "BUTTON",
+              label: "Next >",
+              customId: `next:${randomIdentifier}`,
+              style: "PRIMARY",
+              disabled: selectedStep.getStatus(flow) === "incomplete",
+            } :
+            null,
+          !steps.find(step => step.getStatus(flow) === "incomplete") ?
+            {
+              type: "BUTTON",
+              label: "Save flow",
+              customId: `save:${randomIdentifier}`,
+              style: "SUCCESS",
+            } :
+            null,
           {
             type: "BUTTON",
             label: "Cancel",
             customId: `cancel:${randomIdentifier}`,
-            style: "DANGER"
-          }
-        ].filter(Boolean) as Array<MessageButtonOptions>
-      }
-    ]
+            style: "DANGER",
+          },
+        ].filter(Boolean) as Array<MessageButtonOptions>,
+      },
+    ],
   };
 
   return message as InteractionReplyOptions;
@@ -171,7 +183,7 @@ function designEmbed(step: Step, flow: Flow): MessageEmbedOptions {
     title: step.title,
     description: step.description(flow),
     fields: step.fields ? step.fields(flow) : undefined,
-    color: config.colors.info
+    color: config.colors.info,
   } as MessageEmbedOptions;
   return embed;
 }
@@ -183,11 +195,11 @@ function saveFlow(flow: Flow, flowIdentifier: string, document: GuildDocument, c
     return {
       content: `✅ Flow \`${flowIdentifier}\` has been saved successfully!`,
       embeds: [],
-      components: []
+      components: [],
     };
-  } else return {
+  } return {
     content: `💢 Failed to save flow \`${flowIdentifier}\`. Does the counting channel exist anymore?`,
     embeds: [],
-    components: []
+    components: [],
   };
 }

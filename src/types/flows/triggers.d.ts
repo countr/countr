@@ -1,4 +1,4 @@
-interface Trigger {
+export interface Trigger {
   short: string;
   long?: string;
   properties?: Array<Property>;

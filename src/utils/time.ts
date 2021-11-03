@@ -1,8 +1,8 @@
-export const getWeek = (d = new Date()): number => { // https://stackoverflow.com/a/6117889
-  d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+export const getWeek = (d_ = new Date()): number => { // https://stackoverflow.com/a/6117889
+  const d = new Date(Date.UTC(d_.getFullYear(), d_.getMonth(), d_.getDate()));
   d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
   const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  const week = Math.ceil(( ( (d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+  const week = Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
 
   return week;
 };
@@ -10,8 +10,8 @@ export const getWeek = (d = new Date()): number => { // https://stackoverflow.co
 export const getDateFormatted = (d = new Date()): string => { // https://stackoverflow.com/a/23593099
   let month = (d.getMonth() + 1).toString(), day = d.getDate().toString();
   const year = d.getFullYear();
-  if (month.length < 2) month = "0" + month;
-  if (day.length < 2) day = "0" + day;
+  if (month.length < 2) month = `0${month}`;
+  if (day.length < 2) day = `0${day}`;
   return [year, month, day].join("-");
 };
 
@@ -26,10 +26,10 @@ export const msToTime = (ms: number): string => { // https://stackoverflow.com/a
     sec = Math.floor(minutesms / 1000);
 
   let str = "";
-  if (days) str = str + days + "d";
-  if (hours) str = str + hours + "h";
-  if (minutes) str = str + minutes + "m";
-  if (sec) str = str + sec + "s";
+  if (days) str = `${str + days}d`;
+  if (hours) str = `${str + hours}h`;
+  if (minutes) str = `${str + minutes}m`;
+  if (sec) str = `${str + sec}s`;
 
   return str || "0s";
 };

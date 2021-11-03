@@ -1,10 +1,10 @@
+import * as guilds from "../../database/guilds";
 import { AutocompleteInteraction } from "discord.js";
-import { selectedCountingChannels } from "../../constants/selectedCountingChannels";
-import { guilds } from "../../database";
 import { SlashCommand } from "../../types/command";
+import { selectedCountingChannels } from "../../constants/selectedCountingChannels";
 
 export default async (interaction: AutocompleteInteraction): Promise<void> => {
-  const path = [ interaction.commandName, interaction.options.getSubcommandGroup(false), interaction.options.getSubcommand(false) ].filter(Boolean);
+  const path = [interaction.commandName, interaction.options.getSubcommandGroup(false), interaction.options.getSubcommand(false)].filter(Boolean);
 
   const commandFile = (await import(`../../commands/slash/${path.join("/")}`)).default as SlashCommand; // todo
   const autocompletes = commandFile.autocompletes || {};

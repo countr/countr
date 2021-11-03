@@ -1,7 +1,7 @@
-import { config } from "dotenv";
 import { Config } from "./types/config";
+import { config } from "dotenv";
 
-const isDockerWithMongo = process.env.IS_THIS_DOCKER_WITH_MONGO == "yes";
+const isDockerWithMongo = process.env.IS_THIS_DOCKER_WITH_MONGO === "yes";
 config(); // load env variables
 
 export default {
@@ -22,11 +22,11 @@ export default {
       ThreadManager: 0,
       ThreadMemberManager: 0,
       UserManager: 1, // bot only
-      VoiceStateManager: 0
-    }
+      VoiceStateManager: 0,
+    },
   },
-  database_uri: isDockerWithMongo ? "mongodb://db/countr" : process.env.DATABASE_URI,
-  isPremium: process.env.IS_PREMIUM == "true",
+  databaseUri: isDockerWithMongo ? "mongodb://db/countr" : process.env.DATABASE_URI,
+  isPremium: process.env.IS_PREMIUM === "true",
 
   admins: (process.env.ADMINS || "").split(","),
   guild: process.env.GUILD || null,
@@ -42,13 +42,13 @@ export default {
   },
 
   integration: {
-    webhook_url: process.env.WEBHOOK_URL || null, // todo
+    webhookUrl: process.env.WEBHOOK_URL || null, // todo
   },
 
   access: {
-    enabled: process.env.ACCESS_ENABLED == "true",
+    enabled: process.env.ACCESS_ENABLED === "true",
     interval: parseInt(process.env.ACCESS_INTERVAL || "") || 30000,
-    webhook_log: process.env.ACCESS_WEBHOOK_LOG || null,
+    webhookLog: process.env.ACCESS_WEBHOOK_LOG || null,
   },
 
   statusPage: "https://uptime.countr.xyz",

@@ -1,29 +1,31 @@
 import { ApplicationCommandSubCommand, ApplicationCommandSubGroup, CommandInteraction, CommandInteractionOption, CommandInteractionOptionResolver, GuildMember } from "discord.js";
-import config from "../../config";
-import { getPermissionLevel, ladder } from "../../constants/permissions";
-import commandPermissions from "../../commands/slash/_permissions";
-import { SlashCommand } from "../../types/command";
-import { GuildDocument } from "../../database/models/Guild";
 import { SelectedCountingChannel, selectedCountingChannels } from "../../constants/selectedCountingChannels";
+import { getPermissionLevel, ladder } from "../../constants/permissions";
+import { GuildDocument } from "../../database/models/Guild";
+import { SlashCommand } from "../../types/command";
+import commandPermissions from "../../commands/slash/_permissions";
+import config from "../../config";
 
+// eslint-disable-next-line complexity
 export default async (interaction: CommandInteraction, document: GuildDocument): Promise<void> => {
   if (!interaction.guild && config.guild) return; // todo reply with error
   const commands = config.guild ? interaction.client.guilds.cache.get(config.guild)?.commands : interaction.client.application?.commands;
-  const command = commands?.cache.find(c => c.name == interaction.commandName);
+  const command = commands?.cache.find(c => c.name === interaction.commandName);
 
   if (command) {
-    const member = (interaction.member && interaction.member instanceof GuildMember) ? interaction.member : await interaction.guild?.members.fetch(interaction.user.id);
+    const member = interaction.member && interaction.member instanceof GuildMember ? interaction.member : await interaction.guild?.members.fetch(interaction.user.id);
     const permissionLevel = member ? getPermissionLevel(member) : 0;
 
     if (permissionLevel < ladder[commandPermissions[command.name] || "ALL"]) return; // todo reply with error
 
-    const path = [ command.name ];
+    const path = [command.name];
 
-    const subCommandOrGroup = command.options.find(o => o.type == "SUB_COMMAND" || o.type == "SUB_COMMAND_GROUP") as ApplicationCommandSubCommand | ApplicationCommandSubGroup;
+    const subCommandOrGroup = command.options.find(o => o.type === "SUB_COMMAND" || o.type === "SUB_COMMAND_GROUP") as ApplicationCommandSubCommand | ApplicationCommandSubGroup;
     if (subCommandOrGroup) {
       path.push(subCommandOrGroup.name);
       if (subCommandOrGroup.options) {
-        const subCommand = (subCommandOrGroup.options as Array<ApplicationCommandSubCommand>).find(o => o.type == "SUB_COMMAND");
+        const subCommands = subCommandOrGroup.options as Array<ApplicationCommandSubCommand>;
+        const subCommand = subCommands.find(o => o.type === "SUB_COMMAND");
         if (subCommand) path.push(subCommand.name);
       }
     }
@@ -33,10 +35,12 @@ export default async (interaction: CommandInteraction, document: GuildDocument):
     const inCountingChannel = document.channels.has(interaction.channelId) || false;
     if (commandFile.disableInCountingChannel && inCountingChannel) return; // todo reply with error
 
-    let selectedCountingChannel: SelectedCountingChannel | undefined = inCountingChannel ? {
-      channel: interaction.channelId,
-      expires: Date.now()
-    } : selectedCountingChannels.get(interaction.user.id);
+    let selectedCountingChannel: SelectedCountingChannel | undefined = inCountingChannel ?
+      {
+        channel: interaction.channelId,
+        expires: Date.now(),
+      } :
+      selectedCountingChannels.get(interaction.user.id);
 
     if (selectedCountingChannel && selectedCountingChannel.expires < Date.now()) {
       selectedCountingChannel = undefined;
@@ -47,12 +51,14 @@ export default async (interaction: CommandInteraction, document: GuildDocument):
       !selectedCountingChannel ||
       selectedCountingChannel.expires < Date.now()
     )) {
-      if (document.channels.size == 1) selectedCountingChannel = { channel: document.channels.values().next().value, expires: Date.now() + 1000 * 60 * 60 * 24 };
+      if (document.channels.size === 1) selectedCountingChannel = { channel: document.channels.values().next().value, expires: Date.now() + 1000 * 60 * 60 * 24 };
       else if (document.channels.has(interaction.channelId)) selectedCountingChannel = { channel: interaction.channelId, expires: Date.now() + 1000 * 60 * 60 * 24 };
-      else return interaction.reply({
-        content: "💥 You need a counting channel selected to run this command. Type `/select` to select a counting channel and then run this command again.",
-        ephemeral: true
-      });
+      else {
+        return interaction.reply({
+          content: "💥 You need a counting channel selected to run this command. Type `/select` to select a counting channel and then run this command again.",
+          ephemeral: true,
+        });
+      }
       selectedCountingChannels.set(interaction.user.id, selectedCountingChannel);
     }
 
@@ -67,9 +73,9 @@ export type SlashArgRecord = {
 function getSlashArgs(options: CommandInteractionOptionResolver["data"]): SlashArgRecord {
   if (!options[0]) return {};
   if (options[0].options) return getSlashArgs(options[0].options);
-  else {
-    const args: SlashArgRecord = {};
-    for (const o of options) args[o.name] = o.value;
-    return args;
-  }
+
+  const args: SlashArgRecord = {};
+  for (const o of options) args[o.name] = o.value;
+  return args;
+
 }
