@@ -6,6 +6,7 @@ export interface Config {
     secret: string,
     token: string,
     shards: number | "auto",
+    clusters: number | "auto",
     caches: CacheWithLimitsOptions
   },
   databaseUri: string,

@@ -8,6 +8,7 @@ export default {
   client: {
     token: process.env.BOT_TOKEN,
     shards: parseInt(process.env.BOT_SHARDS || "") || "auto",
+    clusters: parseInt(process.env.BOT_CLUSTERS || "") || "auto",
     caches: {
       GuildBanManager: 0,
       GuildEmojiManager: 0,

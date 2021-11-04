@@ -1,6 +1,7 @@
 import * as global from "./database/global";
 import * as guilds from "./database/guilds";
 import { Client, Options } from "discord.js";
+import { SHARD_LIST, TOTAL_SHARDS, getCluster } from "./utils/cluster";
 import accessHandler from "./handlers/access";
 import config from "./config";
 import { connection } from "./database";
@@ -18,12 +19,16 @@ const client = new Client({
   userAgentSuffix: [],
   presence: { status: "dnd" },
   intents: ["GUILDS", "GUILD_MESSAGES"],
+  shards: SHARD_LIST,
+  shardCount: TOTAL_SHARDS,
 });
 
-let shard = "Shard N/A:", disabledGuilds = new Set();
+export const cluster = getCluster(client);
+
+let shard = "C?;S?:", disabledGuilds = new Set();
 
 client.once("ready", async client => {
-  shard = `Shard ${client.shard?.ids.join(",")}:`;
+  shard = `C${cluster.id};S${SHARD_LIST.join(",")}:`;
   console.log(shard, `Ready as ${client.user.tag}! Caching guilds...`);
 
   if (client.guilds.cache.size) {

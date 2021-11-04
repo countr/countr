@@ -1,22 +1,17 @@
-import { ShardingManager } from "discord.js";
-import config from "./config";
+import { getClusterManager } from "./utils/cluster";
 
-const manager = new ShardingManager(`${__dirname}/bot.js`, {
-  totalShards: config.client.shards || "auto",
-  token: config.client.token,
-  mode: "worker",
-});
+const manager = getClusterManager();
 
-manager.on("shardCreate", shard => {
-  shard.on("message", message => {
+manager.on("clusterCreate", cluster => {
+  cluster.on("message", message => {
     if (message === "respawn") {
-      console.log(`Manager: Shard ${shard.id} has requested a respawn.`);
-      shard.respawn();
+      console.log(`Manager: Cluster ${cluster.id} has requested a respawn.`);
+      cluster.respawn();
     }
   });
-  console.log(`Manager: Shard ${shard.id} has been created and is starting.`);
+  console.log(`Manager: Cluster ${cluster.id} has been created and is starting.`);
 });
 
 // todo: api stuff
 
-manager.spawn();
+manager.spawn(undefined, undefined, -1);
