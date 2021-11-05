@@ -6,7 +6,7 @@ services:
     container_name: countr
     restart: unless-stopped
     environment:
-      - IS_THIS_DOCKER_WITH_MONGO=yes
+      - DATABASE_URI=mongodb://db/countr
     stdin_open: true
     tty: true
     depends_on:

@@ -1,7 +1,5 @@
 import { Config } from "./types/config";
 import { config } from "dotenv";
-
-const isDockerWithMongo = process.env.IS_THIS_DOCKER_WITH_MONGO === "yes";
 config(); // load env variables
 
 export default {
@@ -26,7 +24,7 @@ export default {
       VoiceStateManager: 0,
     },
   },
-  databaseUri: isDockerWithMongo ? "mongodb://db/countr" : process.env.DATABASE_URI,
+  databaseUri: process.env.DATABASE_URI,
   isPremium: process.env.IS_PREMIUM === "true",
 
   admins: (process.env.ADMINS || "").split(","),
