@@ -51,3 +51,5 @@ async function updateBotInfo() {
 }
 
 manager.spawn({ amount: config.shards || "auto", timeout: -1 });
+
+process.on("unhandledRejection", console.log);

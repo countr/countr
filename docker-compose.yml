@@ -6,6 +6,8 @@ services:
     container_name: countr
     restart: unless-stopped
     environment: []
+    ports:
+      - 11131:11131
     stdin_open: true
     tty: true
     depends_on: []
