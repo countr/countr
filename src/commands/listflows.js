@@ -13,7 +13,7 @@ module.exports = {
 
 const { limitFlows, formatExplanation, /*generateTip, */limitTriggers, limitActions } = require("../constants/index.js"), config = require("../../config.json");
 
-module.exports.run = async (message, [ query ], gdb, { prefix }) => {
+module.exports.run = async (message, [ query ], gdb) => {
   const { flows } = gdb.get();
 
   const flowIDs = Object.keys(flows).slice(0, limitFlows);
@@ -22,7 +22,7 @@ module.exports.run = async (message, [ query ], gdb, { prefix }) => {
     if(query && flowIDs.includes(query)) {
       const triggers = await formatTriggers(flows[query]);
       const actions = await formatActions(flows[query]);
-      return message.channel.send({embed: {
+      return message.channel.send({embeds: [{
         title: `Flow \`${query}\``,
         color: config.color,
         timestamp: Date.now(),
@@ -40,10 +40,10 @@ module.exports.run = async (message, [ query ], gdb, { prefix }) => {
             value: actions.length > 1024 ? actions.slice(0, 1002) + " [Too long to show...]" : actions,
           }
         ]
-      }});
+      }]});
     }
     return message.channel.send({
-      embed: {
+      embeds: [{
         title: "List of Flows",
         description: `You have ${flowIDs.length}/${limitFlows} flows.`,
         color: config.color,
@@ -65,7 +65,7 @@ module.exports.run = async (message, [ query ], gdb, { prefix }) => {
             inline: true
           });
         }))
-      }
+      }]
     })
     //.then(m => m.edit(generateTip(prefix)))
       .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));

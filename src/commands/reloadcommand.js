@@ -17,11 +17,11 @@ module.exports = {
 module.exports.run = async (message, [ type, command, shards ]) => {
   if (type == "slash") {
     if (shards == "this") module.exports.reloadSlash(command);
-    else message.client.shard.broadcastEval(`(()=>require("${__filename.replace(/\\/g, "\\\\")}").reloadSlash("${command}"))()`);
+    else message.client.shard.broadcastEval(() => eval(`(()=>require("${__filename.replace(/\\/g, "\\\\")}").reloadSlash("${command}"))()`)); // temp fixes
     registerCommands(message.client);
   } else {
     if (shards == "this") module.exports.reload(command);
-    else message.client.shard.broadcastEval(`(()=>require("${__filename.replace(/\\/g, "\\\\")}").reload("${command}"))()`);
+    else message.client.shard.broadcastEval(() => eval(`(()=>require("${__filename.replace(/\\/g, "\\\\")}").reload("${command}"))()`)); // temp fixes
   }
   message.channel.send("✅ Command has been reloaded successfully.");
 };

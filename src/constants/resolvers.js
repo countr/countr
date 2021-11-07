@@ -10,10 +10,10 @@ module.exports.getMember = async (search, guild) =>
   guild.members.cache.find(m => search == m.displayName) ||
   guild.members.cache.find(m => search.toLowerCase() == m.displayName.toLowerCase()) ||
   await guild.members.fetch((search.match(idResolver) || ["0"])[0]).catch(() => null) ||
-  ((await guild.members.fetch({ query: search, limit: 1 }).catch(() => ([null]))).array())[0];
+  [ ...await guild.members.fetch({ query: search, limit: 1 }).then(m => m.values()).catch(() => [null]) ][0];
 
 module.exports.getChannel = (search, guild) => {
-  const channels = guild.channels.cache.filter(ch => ch.type == "text" && ch.viewable);
+  const channels = guild.channels.cache.filter(ch => ch.type == "GUILD_TEXT" && ch.viewable);
   return false ||
     channels.find(ch => search.toLowerCase() == ch.name.toLowerCase()) ||
     channels.get((search.match(idResolver) || ["0"])[0]);

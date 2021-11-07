@@ -15,7 +15,7 @@ const fs = require("fs"), config = require("../../config.json");//, { generateTi
 
 module.exports.run = async (message, _, gdb, { prefix, permissionLevel, content: searchQuery }) => {
   if (!searchQuery) return message.channel.send({
-    embed: {
+    embeds: [{
       title: `${message.client.user.username} Help`,
       description: [
         `• To get started with the bot, do \`${prefix}setup\`.`,
@@ -35,7 +35,7 @@ module.exports.run = async (message, _, gdb, { prefix, permissionLevel, content:
           inline: true
         }
       ]
-    }
+    }]
   })
   //.then(m => m.edit(generateTip(prefix)))
     .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
@@ -46,7 +46,7 @@ module.exports.run = async (message, _, gdb, { prefix, permissionLevel, content:
     if (!commandFile) return message.channel.send("❌ No command was found with your search.");
 
     return message.channel.send({
-      embed: {
+      embeds: [{
         title: `Help: ${commandFile.command}`,
         description: commandFile.description,
         color: config.color,
@@ -75,7 +75,7 @@ module.exports.run = async (message, _, gdb, { prefix, permissionLevel, content:
             inline: true
           }
         ].filter(f => f.value)
-      }
+      }]
     })
     //.then(m => m.edit(generateTip(prefix)))
       .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
@@ -99,7 +99,7 @@ const loadCommandDescriptions = () => {
     aliases: static.triggers.slice(1), // all except the first trigger
     command: static.triggers[0] // the first trigger
   }));
-  
+
   fs.readdir("./src/commands/", (err, files) => {
     if (err) return console.log(err);
     for (const file of files) if (file.endsWith(".js")) {

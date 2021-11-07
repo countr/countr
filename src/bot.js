@@ -6,9 +6,7 @@ const
   countingHandler = require("./handlers/counting.js"),
   prepareGuild = require("./handlers/prepareGuilds.js"),
   client = new Discord.Client({
-    messageCacheLifetime: 30,
-    messageSweepInterval: 60,
-    disableMentions: "everyone",
+    allowedMentions: { parse: ["users", "roles"], repliedUser: true },
     partials: [ "USER", "CHANNEL", "GUILD_MEMBER", "MESSAGE", "REACTION" ],
     presence: {
       status: "idle",
@@ -17,12 +15,14 @@ const
         name: "the loading screen"
       }
     },
-    ws: {
-      intents: [ "GUILDS", "GUILD_MESSAGES" ]
-    }
+    intents: [ "GUILDS", "GUILD_MESSAGES" ],
+    makeCache: Discord.Options.cacheWithLimits({
+      MessageManager: 50,
+      UserManager: 1,
+      GuildMemberManager: 100
+    })
   }),
-  db = require("./database/index.js")(client),
-  updateLiveboards = require("./handlers/liveboard.js")(client, db);
+  db = require("./database/index.js")(client);
 
 let shard = "Shard N/A:", disabledGuilds = null;
 
@@ -55,12 +55,7 @@ client.once("shardReady", async (shardid, unavailable = new Set()) => {
 
   // update presence
   updatePresence();
-  client.setInterval(updatePresence, 60000);
-
-  if (config.isPremium) {
-    updateLiveboards();
-    client.setInterval(updateLiveboards, 60000);
-  }
+  setInterval(updatePresence, 60000);
 
   slashCommandHandler(client, db, shardid).then(() => console.log(shard, "Slash Commands have been set up."));
 });
@@ -71,7 +66,7 @@ async function updatePresence() {
     const gdb = await db.guild(guild.id),
       { channel, count } = gdb.get(),
       chnl = guild.channels.cache.get(channel);
-    
+
     if(!chnl) return;
     name = `#${chnl.name} • ${count}`;
   }
@@ -84,7 +79,7 @@ async function updatePresence() {
   });
 }
 
-client.on("message", async message => {
+client.on("messageCreate", async message => {
   if (
     !message.guild || // dms
     disabledGuilds == null ||
@@ -94,7 +89,8 @@ client.on("message", async message => {
     ) ||
     message.channel.name == "countr-flow-editor" || // ignore flow channels
     message.author.bot ||
-    message.type !== "DEFAULT"
+    message.type !== "DEFAULT" ||
+    message.channel.isThread()
   ) return;
 
   const gdb = await db.guild(message.guild.id);
@@ -145,8 +141,8 @@ client.on("messageUpdate", async (original, updated) => {
     !modules.includes("reposting") &&
     !modules.includes("webhook") &&
     (
-      modules.includes("talking") ? 
-        (original.content || `${count}`).split(" ")[0] !== updated.content.split(" ")[0] : // check if the count changed at all 
+      modules.includes("talking") ?
+        (original.content || `${count}`).split(" ")[0] !== updated.content.split(" ")[0] : // check if the count changed at all
         (original.content || `${count}`) !== updated.content
     )
   ) {
@@ -165,3 +161,5 @@ client
   .on("shardResume", (_, replayedEvents) => console.log(shard, `Resumed. ${replayedEvents} replayed events.`))
   .on("warn", info => console.log(shard, "Warning.", info))
   .login(config.token);
+
+process.on("unhandledRejection", console.log);

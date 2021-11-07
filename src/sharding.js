@@ -31,13 +31,8 @@ if (config.port) {
   api.listen(config.port);
 }
 
-// https://github.com/discordjs/discord.js/pull/4020
-const broadcastEval = fn => manager.broadcastEval(
-  `(${fn})(this)`
-);
-
 async function updateBotInfo() {
-  const newBotInfo = await broadcastEval(client => ({
+  const newBotInfo = await manager.broadcastEval(client => ({
     status: client.ws.status,
     guilds: client.guilds.cache.size,
     cachedUsers: client.users.cache.size,
@@ -45,8 +40,8 @@ async function updateBotInfo() {
     ping: client.ws.ping,
     loading: client.loading
   })).then(results => results.reduce((info, next, index) => {
-    for (const [key, value] of Object.entries(next)) 
-      if (["guilds", "cachedUsers", "users"].includes(key)) 
+    for (const [key, value] of Object.entries(next))
+      if (["guilds", "cachedUsers", "users"].includes(key))
         info[key] = (info[key] || 0) + value;
     info.shards[`${index}`] = next;
     return info;
@@ -55,4 +50,4 @@ async function updateBotInfo() {
   return botInfo = newBotInfo;
 }
 
-manager.spawn(config.shards || "auto", 5500, -1);
+manager.spawn({ amount: config.shards || "auto", timeout: -1 });

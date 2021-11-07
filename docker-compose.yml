@@ -1,0 +1,11 @@
+version: '3.3'
+
+services:
+  countr:
+    build: .
+    container_name: countr
+    restart: unless-stopped
+    environment: []
+    stdin_open: true
+    tty: true
+    depends_on: []

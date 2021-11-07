@@ -12,7 +12,7 @@ module.exports.run = async (message, _, gdb) => {
   if (channel) {
     const overwrite = await new Promise(resolve => {
       message.channel.send("⚠️ This server has been set up before. If you continue, your old setup would no longer work. Are you sure you want to continue?\nType `yes` or `no` in chat.");
-      message.channel.awaitMessages(m => m.author.id == message.author.id && ["yes", "no"].includes(m.content.toLowerCase()), { max: 1, time: 30000, errors: [ "time" ]})
+      message.channel.awaitMessages({ filter: m => m.author.id == message.author.id && ["yes", "no"].includes(m.content.toLowerCase()), max: 1, time: 30000, errors: [ "time" ]})
         .then(collection => collection.first().content.toLowerCase() == "yes" ? resolve(true) : resolve(false))
         .catch(() => resolve(false));
     });
@@ -34,7 +34,7 @@ module.exports.run = async (message, _, gdb) => {
     rateLimitPerUser: 2,
     permissionOverwrites: [
       {
-        id: message.client.user.id,
+        id: message.client.user,
         allow: perms
       }
     ]
@@ -46,7 +46,7 @@ module.exports.run = async (message, _, gdb) => {
         user: "",
         message: message.id
       });
-    
+
       return message.channel.send(`✅ ${newChannel} channel created! Please also give the bot \`Manage Permissions\`-permission in the channel before starting. Happy counting!`);
     })
     .catch(() => message.channel.send(`❌ The bot is missing permissions to make a channel. Make sure it has the following permissions:\n\`\`\`css\n${perms.join("\n").replace(/_/g, " ")}\`\`\``));

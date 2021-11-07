@@ -11,7 +11,7 @@ flowchart:
 - ask first what the trigger is/triggers are going to be (depending on premium)
 - "next" will go to the next step
 - ask what the action is/actions are going to be
-- 
+-
  */
 
 module.exports = {
@@ -30,14 +30,14 @@ module.exports.run = async (message, _, gdb) => {
   let { flows } = gdb.get();
   if (Object.keys(flows).length >= limitFlows) return message.channel.send(`❌ You can only have ${limitFlows} flows configured.`);
 
-  if (!message.guild.me.hasPermission("MANAGE_CHANNELS")) return message.channel.send("❌ The bot is missing the `Manage Channels`-permission. When creating a flow, the bot will create a new channel so you can configure your flow.");
+  if (!message.guild.me.permissions.has("MANAGE_CHANNELS")) return message.channel.send("❌ The bot is missing the `Manage Channels`-permission. When creating a flow, the bot will create a new channel so you can configure your flow.");
 
   const
     flowID = generateID(Object.keys(flows)),
     channel = await message.guild.channels.create("countr-flow-editor", {
       permissionOverwrites: [
         {
-          id: message.client.user.id,
+          id: message.client.user,
           allow: [
             "VIEW_CHANNEL",
             "SEND_MESSAGES",
@@ -47,7 +47,7 @@ module.exports.run = async (message, _, gdb) => {
           ]
         },
         {
-          id: message.author.id,
+          id: message.author,
           allow: [
             "VIEW_CHANNEL",
             "SEND_MESSAGES",

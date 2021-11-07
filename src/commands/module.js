@@ -25,7 +25,7 @@ const { modules/*, generateTip*/ } = require("../constants/index.js"), config = 
 module.exports.run = async (message, [ moduleName, state ], gdb, { prefix }) => {
   const { modules: enabledModules } = gdb.get();
   if (!moduleName) return message.channel.send({
-    embed: {
+    embeds: [{
       title: "📋 Available modules",
       description: [
         `**Get more information with \`${prefix}module <module>\`.`,
@@ -39,7 +39,7 @@ module.exports.run = async (message, [ moduleName, state ], gdb, { prefix }) => 
         icon_url: message.author.displayAvatarURL(),
         text: `Requested by ${message.author.tag}`
       }
-    }
+    }]
   })
   //.then(m => m.edit(generateTip(prefix)))
     .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));
@@ -47,7 +47,7 @@ module.exports.run = async (message, [ moduleName, state ], gdb, { prefix }) => 
   if (!modules[moduleName]) return message.channel.send("❌ No module exists with this name.");
 
   if (!state) return message.channel.send({
-    embed: {
+    embeds: [{
       title: `${enabledModules.includes(moduleName) ? "🔘" : "⚫"} Module \`${moduleName}\``,
       description: (modules[moduleName].long || modules[moduleName].short) + (modules[moduleName].incompatible.length ? `\n**Incompatible with:** ${modules[moduleName].incompatible.map(mName => `\`${mName}\``).join(", ")}.` : ""),
       color: config.color,
@@ -59,7 +59,7 @@ module.exports.run = async (message, [ moduleName, state ], gdb, { prefix }) => 
       image: {
         url: modules[moduleName].image
       }
-    }
+    }]
   })
   //.then(m => m.edit(generateTip(prefix)))
     .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));

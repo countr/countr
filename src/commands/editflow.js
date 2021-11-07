@@ -16,13 +16,13 @@ module.exports.run = async (message, [ flowID ], gdb) => {
   const { flows } = gdb.get();
   if (!flows[flowID]) return message.channel.send("❌ This flow does not exist.");
 
-  if (!message.guild.me.hasPermission("MANAGE_CHANNELS")) return message.channel.send("❌ The bot is missing the `Manage Channels`-permission. When editing a flow, the bot will create a new channel so you can reconfigure your flow.");
+  if (!message.guild.me.permissions.has("MANAGE_CHANNELS")) return message.channel.send("❌ The bot is missing the `Manage Channels`-permission. When editing a flow, the bot will create a new channel so you can reconfigure your flow.");
 
   const
     channel = await message.guild.channels.create("countr-flow-editor", {
       permissionOverwrites: [
         {
-          id: message.client.user.id,
+          id: message.client.user,
           allow: [
             "VIEW_CHANNEL",
             "SEND_MESSAGES",
@@ -32,7 +32,7 @@ module.exports.run = async (message, [ flowID ], gdb) => {
           ]
         },
         {
-          id: message.author.id,
+          id: message.author,
           allow: [
             "VIEW_CHANNEL",
             "SEND_MESSAGES",

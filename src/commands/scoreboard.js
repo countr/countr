@@ -9,7 +9,7 @@ module.exports = {
 
 const config = require("../../config.json"), { /*generateTip, */formatScore } = require("../constants/index.js");
 
-module.exports.run = async (message, _, gdb, { prefix }) => {
+module.exports.run = async (message, _, gdb) => {
   const
     { users } = gdb.get(),
     sorted = Object.keys(users).sort((a, b) => users[b] - users[a]),
@@ -22,7 +22,7 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
   }
 
   return message.channel.send({
-    embed: {
+    embeds: [{
       author: {
         name: `${message.guild.name} Scoreboard`,
         icon_url: message.guild.iconURL({ dynamic: true, size: 128 })
@@ -34,7 +34,7 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
         icon_url: message.author.displayAvatarURL(),
         text: `Requested by ${message.author.tag}`
       }
-    }
+    }]
   })
   //.then(m => m.edit(generateTip(prefix)))
     .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));

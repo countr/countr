@@ -110,7 +110,7 @@ module.exports.flow = {
           .replace(/{score}/gi, score)
           .replace(/{content}/gi, content)
         , {
-          disableMentions: "none"
+          allowedMentions: { parse: [ "roles", "users", "everyone" ] }
         }).catch();
       }
     },
@@ -118,7 +118,7 @@ module.exports.flow = {
       "short": "Lock the counting channel",
       "long": "This will lock the counting channel for the everyone-role, and will be read-only.",
       "explanation": "Lock the counting channel",
-      "run": async ({ message: { channel, guild } }) => await channel.updateOverwrite(guild.roles.everyone, { SEND_MESSAGES: false }).catch()
+      "run": async ({ message: { channel, guild } }) => await channel.permissionOverwrites.edit(guild.roles.everyone, { SEND_MESSAGES: false }).catch()
     },
     "reset": {
       "short": "Reset the current count",

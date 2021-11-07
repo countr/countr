@@ -10,12 +10,12 @@ module.exports = async (guild, db) => {
       if (messages.size) {
         const
           alert = await channel.send("💢 Making channel ready for counting."),
-          defaultPermissions = channel.permissionOverwrites.get(guild.roles.everyone) || { allow: new Set(), deny: new Set() };
+          defaultPermissions = channel.permissionOverwrites.cache.get(guild.roles.everyone) || { allow: new Set(), deny: new Set() };
         let oldPermission = null;
         if (defaultPermissions.allow.has("SEND_MESSAGES")) oldPermission = true;
         else if (defaultPermissions.deny.has("SEND_MESSAGES")) oldPermission = false;
 
-        if (oldPermission !== false) await channel.updateOverwrite(guild.roles.everyone, { SEND_MESSAGES: false }, "Making channel ready for counting");
+        if (oldPermission !== false) await channel.permissionOverwrites.edit(guild.roles.everyone, { SEND_MESSAGES: false }, "Making channel ready for counting");
 
         let processing = true, fail = false;
         while (processing) {
@@ -31,7 +31,7 @@ module.exports = async (guild, db) => {
           if (processing) messages = await channel.messages.fetch({ limit: 100, after: messageid });
         }
 
-        if (oldPermission !== false) await channel.updateOverwrite(guild.roles.everyone, { SEND_MESSAGES: oldPermission });
+        if (oldPermission !== false) await channel.permissionOverwrites.edit(guild.roles.everyone, { SEND_MESSAGES: oldPermission });
         if (fail) alert.edit("❌ Something went wrong when making the channel ready for counting. Do I have permissions? (Manage Channels)");
         else alert.edit("🔰 The channel is ready! Happy counting!") && setTimeout(() => alert.delete(), 5000);
       }
@@ -50,5 +50,6 @@ module.exports = async (guild, db) => {
         gdb.removeFromObject("timeouts", userid);
       }, timeouts[userid] - Date.now());
     } else if (member && !member.roles.cache.get(timeoutrole.role)) gdb.removeFromObject("timeouts", userid);
+    await new Promise(resolve => setInterval(resolve, 1050));
   } catch(e) { /* something went wrong */ }
 };

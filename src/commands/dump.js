@@ -13,7 +13,8 @@ module.exports = {
 module.exports.run = async (message, [ id = message.guild.id ], gdb, { db }) => {
   const guilddb = await db.guild(id);
 
-  return message.author.send(`Database information for guild ${id}`, {
+  return message.author.send({
+    content: `Database information for guild ${id}`,
     files: [
       {
         attachment: Buffer.from(JSON.stringify(guilddb.get(), null, 2)),

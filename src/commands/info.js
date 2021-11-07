@@ -11,12 +11,12 @@ const os = require("os"), platform = `${os.type()} (${os.release()})`, djsversio
 
 let guilds = 0, users = 0, shardCount = 0, memory = 0, memoryUsage = "0MB", memoryGlobal = 0, memoryUsageGlobal = "0MB", nextUpdate = Date.now();
 
-module.exports.run = async (message, _, gdb, { prefix }) => {
+module.exports.run = async (message) => {
   if (nextUpdate < Date.now()) {
-    nextUpdate = Date.now() + 300000; 
+    nextUpdate = Date.now() + 300000;
     if (message.client.shard) {
-      guilds = await message.client.shard.broadcastEval("this.guilds.cache.size").then(res => res.reduce((prev, val) => prev + val, 0));
-      users = await message.client.shard.broadcastEval("this.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b)").then(res => res.reduce((prev, val) => prev + val, 0));
+      guilds = await message.client.shard.broadcastEval(client => client.guilds.cache.size).then(res => res.reduce((prev, val) => prev + val, 0));
+      users = await message.client.shard.broadcastEval(client => client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b)).then(res => res.reduce((prev, val) => prev + val, 0));
       shardCount = message.client.shard.count;
     } else {
       guilds = message.client.guilds.cache.size;
@@ -36,7 +36,7 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
   }
 
   message.channel.send({
-    embed: {
+    embeds: [{
       title: `Bot Information - ${message.client.user.tag}`,
       description: "Countr is an advanced counting bot which can manage a counting channel in your guild. With a simple setup, your channel is ready.",
       color: config.color,
@@ -65,7 +65,7 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
           inline: true
         },
         {
-          name: message.client.shard ? `🔷 This Shard (${message.guild.shardID})` : false,
+          name: message.client.shard ? `🔷 This Shard (${message.guild.shardId})` : false,
           value: [
             `**Guilds**: \`${message.client.guilds.cache.size}\``,
             `**Users**: \`${message.client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b)}\``,
@@ -84,7 +84,7 @@ module.exports.run = async (message, _, gdb, { prefix }) => {
           inline: false
         }
       ].filter(f => f.name) // filters out shard field if sharding is disabled
-    }
+    }]
   })
   //.then(m => m.edit(generateTip(prefix)))
     .catch(() => message.channel.send("🆘 An unknown error occurred. Do I have permission? (Embed Links)"));

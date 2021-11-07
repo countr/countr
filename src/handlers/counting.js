@@ -12,7 +12,7 @@ module.exports = async (message, gdb) => {
         regexMatches = true;
         break;
       }
-  
+
   if (
     regexMatches ||
     (!modules.includes("allow-spam") && message.author.id == user) ||
@@ -79,7 +79,8 @@ module.exports = async (message, gdb) => {
     if (!webhook) webhook = await message.channel.createWebhook("Countr").catch(() => null);
 
     if (webhook) {
-      countingMessage = await webhook.send(content, {
+      countingMessage = await webhook.send({
+        content,
         username: message.author.username,
         avatarURL: message.author.displayAvatarURL({ dynamic: true }),
         allowedMentions: {
@@ -97,10 +98,10 @@ module.exports = async (message, gdb) => {
   } catch(e) { /* something went wrong */ }
   else if (modules.includes("embed")) try {
     countingMessage = await message.channel.send({
-      embed: {
+      embeds: [{
         description: `${message.author}: ${content}`,
         color: message.member.displayColor || 3553598
-      }
+      }]
     });
     deleteMessage(message);
   } catch(e) { /* something went wrong */ }
@@ -116,7 +117,7 @@ module.exports = async (message, gdb) => {
       try {
         const receiver = await message.guild.members.fetch(notif.user);
         if (receiver) receiver.send({
-          embed: {
+          embeds: [{
             description: [
               `🎉 **${message.guild} reached ${count} total counts!**`,
               `The user who sent it was ${message.author}.`,
@@ -131,7 +132,7 @@ module.exports = async (message, gdb) => {
             footer: {
               text: `Notification ID ${notifID}`
             }
-          }
+          }]
         });
       } catch(e) { /* something went wrong */ }
       if (notif.mode == "only") {
@@ -188,9 +189,9 @@ module.exports.deleteMessages = messages => {
   else {
     const rate = rates.get(channel.id) || 0;
     rates.set(channel.id, rate + messages.length);
-  
+
     setTimeout(() => rates.set(channel.id, rates.get(channel.id) - messages.length), 10000);
-  
+
     const bulk = bulks.get(channel.id) || [];
     if (bulk.length) bulk.push(...messages);
     else {

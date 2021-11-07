@@ -20,7 +20,8 @@ module.exports.run = async (message, args, gdb) => {
   if (args[0] == "raw") {
     const { users } = gdb.get(), amount = Object.keys(users).length;
 
-    return message.channel.send(`✅ Exported ${amount == 1 ? "1 user" : `${amount} users`}.`, {
+    return message.channel.send({
+      content: `✅ Exported ${amount == 1 ? "1 user" : `${amount} users`}.`,
       files: [
         {
           attachment: Buffer.from(JSON.stringify(users, null, 2)),
@@ -37,7 +38,8 @@ module.exports.run = async (message, args, gdb) => {
     const { users } = gdb.get(), exports = {};
     for (const member of members) exports[member.id] = users[member.id] || 0;
 
-    return message.channel.send(`✅ Exported ${members.length == 1 ? "1 user" : `${members.length} users`}.`, {
+    return message.channel.send({
+      content: `✅ Exported ${members.length == 1 ? "1 user" : `${members.length} users`}.`,
       files: [
         {
           attachment: Buffer.from(JSON.stringify(exports, null, 2)),

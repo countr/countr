@@ -21,8 +21,10 @@ module.exports.flowWalkthrough = async (guild, author, channel, newFlow, generat
   let editing = true, successStatus = false;
   while (editing) {
     try {
-      pinned.edit("", { embed: await generateEmbed() });
-      const inputs = await channel.awaitMessages(m => m.author.id == author.id, { max: 1, time: 1800000, errors: [ "time" ]}), input = inputs.first(), messagesToDelete = [ input ];
+      pinned.edit({ content: null, embeds: [ await generateEmbed() ] });
+      console.log("test");
+      const inputs = await channel.awaitMessages({ filter: m => m.author.id == author.id, max: 1, time: 1800000, errors: [ "time" ]}), input = inputs.first(), messagesToDelete = [ input ];
+      console.log("test");
 
       const args = input.content.split(" "), command = args.shift().toLowerCase();
 
@@ -32,23 +34,23 @@ module.exports.flowWalkthrough = async (guild, author, channel, newFlow, generat
           if (slot > module.exports.limitTriggers) messagesToDelete.push(await channel.send(`❌ You can only have ${module.exports.limitTriggers == 1 ? "1 trigger" : `${module.exports.limitTriggers} triggers`} per flow.`));
           else {
             messagesToDelete.push(await channel.send({
-              embed: {
+              embeds: [{
                 title: `📝 Select Trigger for Slot ${slot}`,
                 description: "0 - **Clear/Empty**\n\n" + allTriggers.map((trigger, index) => `${index + 1} - **${trigger.short}**${trigger.long ? `\n${trigger.long}` : ""}`).join("\n\n"),
                 color: config.color,
                 timestamp: Date.now()
-              }
+              }]
             }));
-            const selections = await channel.awaitMessages(m => m.author.id == author.id, { max: 1, time: 1800000, errors: [ "time" ]}), selection = selections.first(), newTriggerIndex = parseInt(selection.content);
+            const selections = await channel.awaitMessages({ filter: m => m.author.id == author.id, max: 1, time: 1800000, errors: [ "time" ]}), selection = selections.first(), newTriggerIndex = parseInt(selection.content);
             messagesToDelete.push(selection);
             if (newTriggerIndex == 0) {
               newFlow.triggers[slot - 1] = null;
               messagesToDelete.push(await channel.send({
-                embed: {
+                embeds: [{
                   title: `✅ Trigger ${slot} is now cleared!`,
                   color: config.color,
                   timestamp: Date.now()
-                }
+                }]
               }));
             }
             else if (!newTriggerIndex || newTriggerIndex > allTriggerTypes.length) messagesToDelete.push(await channel.send("✴️ Invalid trigger. Cancelled."));
@@ -59,29 +61,29 @@ module.exports.flowWalkthrough = async (guild, author, channel, newFlow, generat
               };
               for (const property of trigger.properties) {
                 messagesToDelete.push(await channel.send({
-                  embed: {
+                  embeds: [{
                     title: `✏️ Define ${property.short}`,
                     description: property.help || undefined,
                     color: config.color,
                     timestamp: Date.now()
-                  }
+                  }]
                 }));
-                const values = await channel.awaitMessages(m => m.author.id == author.id, { max: 1, time: 1800000, errors: [ "time" ]}), value = values.first(), convertedValue = await property.convert(value.content, { guild });
+                const values = await channel.awaitMessages({ filter: m => m.author.id == author.id, max: 1, time: 1800000, errors: [ "time" ]}), value = values.first(), convertedValue = await property.convert(value.content, { guild });
                 messagesToDelete.push(value);
                 if (convertedValue == null) {
                   messagesToDelete.push(await channel.send({
-                    embed: {
+                    embeds: [{
                       title: `❌ Invalid value. Cancelled edit of trigger ${slot}.`,
                       color: config.color,
                       timestamp: Date.now()
-                    }
+                    }]
                   }));
                   break;
                 } else newTrigger.data.push(convertedValue);
               }
               if (newTrigger.data.length == trigger.properties.length) {
                 messagesToDelete.push(await channel.send({
-                  embed: {
+                  embeds: [{
                     title: `💨 Confirm trigger ${slot}`,
                     description: [
                       "**Does this seem correct to you? Type yes or no in chat.**",
@@ -89,25 +91,25 @@ module.exports.flowWalkthrough = async (guild, author, channel, newFlow, generat
                     ].join("\n"),
                     color: config.color,
                     timestamp: Date.now()
-                  }
+                  }]
                 }));
-                const confirmations = await channel.awaitMessages(m => m.author.id == author.id, { max: 1, time: 1800000, errors: [ "time" ]}), confirmation = confirmations.first(), confirmed = confirmation.content.toLowerCase() == "yes";
+                const confirmations = await channel.awaitMessages({ filter: m => m.author.id == author.id, max: 1, time: 1800000, errors: [ "time" ]}), confirmation = confirmations.first(), confirmed = confirmation.content.toLowerCase() == "yes";
                 messagesToDelete.push(confirmation);
                 if (confirmed) {
                   newFlow.triggers[slot - 1] = newTrigger;
                   messagesToDelete.push(await channel.send({
-                    embed: {
+                    embeds: [{
                       title: `✅ Trigger ${slot} edited successfully!`,
                       color: config.color,
                       timestamp: Date.now()
-                    }
+                    }]
                   }));
                 } else messagesToDelete.push(await channel.send({
-                  embed: {
+                  embeds: [{
                     title: `✴️ Cancelled edit of trigger ${slot}.`,
                     color: config.color,
                     timestamp: Date.now()
-                  }
+                  }]
                 }));
               }
             }
@@ -116,23 +118,23 @@ module.exports.flowWalkthrough = async (guild, author, channel, newFlow, generat
           if (slot > module.exports.limitActions) messagesToDelete.push(await channel.send(`❌ You can only have ${module.exports.limitActions == 1 ? "1 action" : `${module.exports.limitActions} actions`} per flow.`));
           else {
             messagesToDelete.push(await channel.send({
-              embed: {
+              embeds: [{
                 title: `📝 Select Action for Slot ${slot}`,
                 description: "0 - **Clear/Empty**\n\n" + allActions.map((action, index) => `${index + 1} - **${action.short}**${action.long ? `\n${action.long}` : ""}`).join("\n\n"),
                 color: config.color,
                 timestamp: Date.now()
-              }
+              }]
             }));
-            const selections = await channel.awaitMessages(m => m.author.id == author.id, { max: 1, time: 1800000, errors: [ "time" ]}), selection = selections.first(), newActionIndex = parseInt(selection.content);
+            const selections = await channel.awaitMessages({ filter: m => m.author.id == author.id, max: 1, time: 1800000, errors: [ "time" ]}), selection = selections.first(), newActionIndex = parseInt(selection.content);
             messagesToDelete.push(selection);
             if (newActionIndex == 0) {
               newFlow.actions[slot - 1] = null;
               messagesToDelete.push(await channel.send({
-                embed: {
+                embeds: [{
                   title: `✅ Action ${slot} is now cleared!`,
                   color: config.color,
                   timestamp: Date.now()
-                }
+                }]
               }));
             }
             else if (!newActionIndex || newActionIndex > allActionTypes.length) messagesToDelete.push(await channel.send("✴️ Invalid action. Cancelled."));
@@ -143,29 +145,29 @@ module.exports.flowWalkthrough = async (guild, author, channel, newFlow, generat
               };
               for (const property of action.properties) {
                 messagesToDelete.push(await channel.send({
-                  embed: {
+                  embeds: [{
                     title: `✏️ Define ${property.short}`,
                     description: property.help || undefined,
                     color: config.color,
                     timestamp: Date.now()
-                  }
+                  }]
                 }));
-                const values = await channel.awaitMessages(m => m.author.id == author.id, { max: 1, time: 1800000, errors: [ "time" ]}), value = values.first(), convertedValue = await property.convert(value.content, { guild });
+                const values = await channel.awaitMessages({ filter: m => m.author.id == author.id, max: 1, time: 1800000, errors: [ "time" ]}), value = values.first(), convertedValue = await property.convert(value.content, { guild });
                 messagesToDelete.push(value);
                 if (convertedValue == null) {
                   messagesToDelete.push(await channel.send({
-                    embed: {
+                    embeds: [{
                       title: `❌ Invalid value. Cancelled edit of action ${slot}.`,
                       color: config.color,
                       timestamp: Date.now()
-                    }
+                    }]
                   }));
                   break;
                 } else newAction.data.push(convertedValue);
               }
               if (newAction.data.length == action.properties.length) {
                 messagesToDelete.push(await channel.send({
-                  embed: {
+                  embeds: [{
                     title: `💨 Confirm action ${slot}`,
                     description: [
                       "**Does this seem correct to you? Type yes or no in chat.**",
@@ -173,25 +175,25 @@ module.exports.flowWalkthrough = async (guild, author, channel, newFlow, generat
                     ].join("\n"),
                     color: config.color,
                     timestamp: Date.now()
-                  }
+                  }]
                 }));
-                const confirmations = await channel.awaitMessages(m => m.author.id == author.id, { max: 1, time: 1800000, errors: [ "time" ]}), confirmation = confirmations.first(), confirmed = confirmation.content.toLowerCase() == "yes";
+                const confirmations = await channel.awaitMessages({ filter: m => m.author.id == author.id, max: 1, time: 1800000, errors: [ "time" ]}), confirmation = confirmations.first(), confirmed = confirmation.content.toLowerCase() == "yes";
                 messagesToDelete.push(confirmation);
                 if (confirmed) {
                   newFlow.actions[slot - 1] = newAction;
                   messagesToDelete.push(await channel.send({
-                    embed: {
+                    embeds: [{
                       title: `✅ Action ${slot} edited successfully!`,
                       color: config.color,
                       timestamp: Date.now()
-                    }
+                    }]
                   }));
                 } else messagesToDelete.push(await channel.send({
-                  embed: {
+                  embeds: [{
                     title: `✴️ Cancelled edit of action ${slot}.`,
                     color: config.color,
                     timestamp: Date.now()
-                  }
+                  }]
                 }));
               }
             }
