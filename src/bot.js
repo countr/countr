@@ -119,7 +119,7 @@ client.on("messageDelete", async deleted => {
     !modules.includes("reposting") &&
     !modules.includes("webhook")
   ) {
-    let newMessage = await deleted.channel.send(`${deleted.author || `<@${user}>`}: ${message.content || count}`);
+    let newMessage = await deleted.channel.send(`${deleted.author || `<@${user}>`}: ${deleted.content || count}`);
     gdb.set("message", newMessage.id);
   }
 });
