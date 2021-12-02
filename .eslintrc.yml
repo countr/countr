@@ -203,6 +203,7 @@ rules:
     - error
   linebreak-style:
     - error
+    - windows
   lines-around-comment:
     - error
   multiline-ternary:
