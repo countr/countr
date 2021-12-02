@@ -1,5 +1,6 @@
+import { ApplicationCommandOptionData, Guild } from "discord.js";
+import { ChannelInput, NumberInput, RegexInput, RolesInput, TextInput } from "./inputs";
 import { getChannel, getRole } from "../resolvers";
-import { Guild } from "discord.js";
 import { joinListWithAnd } from "../../utils/text";
 
 export type PropertyValue = string | number | Array<PropertyValue>;
@@ -7,6 +8,7 @@ export type PropertyValue = string | number | Array<PropertyValue>;
 export interface Property {
   short: string;
   help: string;
+  input: ApplicationCommandOptionData;
   convert?(userInput: string, guild: Guild): Promise<PropertyValue | null>;
   format?(converted: PropertyValue, guild: Guild): Promise<string>;
 }
@@ -15,11 +17,13 @@ export const propertyTypes: Record<string, Property> = {
   numberX: {
     short: "Number (X)",
     help: "This can be any positive number.",
+    input: NumberInput,
     convert: (userInput): Promise<number | null> => Promise.resolve(parseInt(userInput) || null),
   },
   regex: {
     short: "Regex",
     help: "Get help on how to create a regex here: https://flaviocopes.com/javascript-regular-expressions/#regular-expressions-choices",
+    input: RegexInput,
     convert: (userInput): Promise<string | null> => {
       try {
         RegExp(userInput);
@@ -32,8 +36,9 @@ export const propertyTypes: Record<string, Property> = {
   role: {
     short: "Role(s)",
     help: "This can be any role, or a list of roles. Make sure the roles are below Countr's highest role.",
+    input: RolesInput,
     convert: async (userInputList, guild: Guild): Promise<Array<string> | null> => {
-      const userInputs = userInputList.split("\n");
+      const userInputs = userInputList.split("\nl");
       const roles = [];
       for (const userInput of userInputs) {
         const result = await getRole(userInput, guild);
@@ -46,6 +51,7 @@ export const propertyTypes: Record<string, Property> = {
   channel: {
     short: "Channel",
     help: "Any channel. Make sure Countr has access to the channel, and that it is a text based channel. (news channels and threads also work)",
+    input: ChannelInput,
     convert: async (userInput, guild: Guild): Promise<string | null> => {
       const result = await getChannel(userInput, guild);
       if (result) return result.id; return null;
@@ -55,6 +61,7 @@ export const propertyTypes: Record<string, Property> = {
   text: {
     short: "Text",
     help: ["Any text. Get creative with these placeholders:", "• `{count}` The count that triggered this flow", "• `{mention}` Mentions the user who triggered this flow", "• `{tag}` The tag of the user who triggered this flow", "• `{username}` The username of the user who triggered this flow", "• `{nickname}` The nickname of the user who triggered this flow", "• `{everyone}` Mentions the everyone-role", "• `{score}` The new score of the user who triggered this flow", "• `{content}` The content of the message that triggered this flow"].join("\n"),
+    input: TextInput,
     format: (content: string) => Promise.resolve(`\`\`\`\n${content}\`\`\``),
   },
 };
