@@ -56,7 +56,7 @@ export default (interaction: CommandInteraction, document: GuildDocument, channe
     });
   } else {
     inProgress.set(flowIdentifier, {
-      guildId: interaction.guild?.id || "unknown",
+      guildId: interaction.guildId,
       userId: interaction.user.id,
       flow,
       abortCurrentEditor: (user: User) => interaction.editReply({ content: `💢 This flow has been re-opened by ${user}.`, embeds: [], components: []}),
@@ -189,7 +189,8 @@ function designEmbed(step: Step, flow: Flow): MessageEmbedOptions {
 }
 
 function saveFlow(flow: Flow, flowIdentifier: string, document: GuildDocument, channel: string): InteractionReplyOptions {
-  const success = document.channels.get(channel)?.flows.set(flowIdentifier, flow);
+  document.channels.get(channel)?.flows.set(flowIdentifier, flow);
+  const success = Boolean(document.channels.get(channel)?.flows.has(flowIdentifier)); // double-check it worked
   if (success) {
     document.safeSave();
     return {
