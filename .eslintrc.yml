@@ -184,8 +184,6 @@ rules:
     - property
   eol-last:
     - error
-  func-call-spacing:
-    - error
   function-call-argument-newline:
     - error
     - consistent
