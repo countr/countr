@@ -9,7 +9,7 @@ export interface Property {
   short: string;
   help: string;
   input: ApplicationCommandOptionData;
-  convert?(userInput: string, guild: Guild): Promise<PropertyValue | null>;
+  convert?(userInput: string | number, guild: Guild): Promise<PropertyValue | null>;
   format?(converted: PropertyValue, guild: Guild): Promise<string>;
 }
 
@@ -18,13 +18,13 @@ export const propertyTypes: Record<string, Property> = {
     short: "Number (X)",
     help: "This can be any positive number.",
     input: NumberInput,
-    convert: (userInput): Promise<number | null> => Promise.resolve(parseInt(userInput) || null),
+    convert: (userInput: number): Promise<number | null> => userInput > 0 ? Promise.resolve(userInput) : Promise.resolve(null),
   },
   regex: {
     short: "Regex",
     help: "Get help on how to create a regex here: https://flaviocopes.com/javascript-regular-expressions/#regular-expressions-choices",
     input: RegexInput,
-    convert: (userInput): Promise<string | null> => {
+    convert: (userInput: string): Promise<string | null> => {
       try {
         RegExp(userInput);
         return Promise.resolve(userInput);
@@ -37,7 +37,7 @@ export const propertyTypes: Record<string, Property> = {
     short: "Role(s)",
     help: "This can be any role, or a list of roles. Make sure the roles are below Countr's highest role.",
     input: RolesInput,
-    convert: async (userInputList, guild: Guild): Promise<Array<string> | null> => {
+    convert: async (userInputList: string, guild): Promise<Array<string> | null> => {
       const userInputs = userInputList.split("\nl");
       const roles = [];
       for (const userInput of userInputs) {
@@ -52,7 +52,7 @@ export const propertyTypes: Record<string, Property> = {
     short: "Channel",
     help: "Any channel. Make sure Countr has access to the channel, and that it is a text based channel. (news channels and threads also work)",
     input: ChannelInput,
-    convert: async (userInput, guild: Guild): Promise<string | null> => {
+    convert: async (userInput: string, guild): Promise<string | null> => {
       const result = await getChannel(userInput, guild);
       if (result) return result.id; return null;
     },
