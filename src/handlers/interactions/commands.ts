@@ -20,12 +20,12 @@ export default async (interaction: CommandInteraction, document: GuildDocument):
 
     const path = [command.name];
 
-    const subCommandOrGroup = command.options.find(o => o.type === "SUB_COMMAND" || o.type === "SUB_COMMAND_GROUP") as ApplicationCommandSubCommand | ApplicationCommandSubGroup;
+    const subCommandOrGroup = command.options.find(o => ["SUB_COMMAND", "SUB_COMMAND_GROUP"].includes(o.type) && o.name === interaction.options.data[0].name) as ApplicationCommandSubCommand | ApplicationCommandSubGroup;
     if (subCommandOrGroup) {
       path.push(subCommandOrGroup.name);
       if (subCommandOrGroup.options) {
         const subCommands = subCommandOrGroup.options as Array<ApplicationCommandSubCommand>;
-        const subCommand = subCommands.find(o => o.type === "SUB_COMMAND");
+        const subCommand = subCommands.find(o => o.type === "SUB_COMMAND" && o.name === subCommandOrGroup.options?.[0].name);
         if (subCommand) path.push(subCommand.name);
       }
     }
@@ -51,7 +51,7 @@ export default async (interaction: CommandInteraction, document: GuildDocument):
       !selectedCountingChannel ||
       selectedCountingChannel.expires < Date.now()
     )) {
-      if (document.channels.size === 1) selectedCountingChannel = { channel: document.channels.values().next().value, expires: Date.now() + 1000 * 60 * 60 * 24 };
+      if (document.channels.size === 1) selectedCountingChannel = { channel: document.channels.keys().next().value, expires: Date.now() + 1000 * 60 * 60 * 24 };
       else if (document.channels.has(interaction.channelId)) selectedCountingChannel = { channel: interaction.channelId, expires: Date.now() + 1000 * 60 * 60 * 24 };
       else {
         return interaction.reply({
