@@ -1,4 +1,6 @@
-# use this file for development and testing purposes
+# this is for production. it's called "clusterfuck" because it's literally a clusterfuck of clusters.
+# Countr uses this file to run, and it also makes it easy to restart individual clusters and have a "rolling restart" as well.
+
 version: '3.3'
 
 services:
@@ -132,6 +134,8 @@ services:
       - CLUSTER=8
       - SHARDS=80,81,82,83,84,85,86,87,88,89
       - SHARD_COUNT=100
+    volumes:
+      - ./logs/countr-cluster8:/app/logs
     depends_on:
       - manager
       - db

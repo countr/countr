@@ -1,4 +1,5 @@
-# use this file for development and testing purposes
+# use this if you want to use the manager, but have an external database.
+
 version: '3.3'
 
 services:

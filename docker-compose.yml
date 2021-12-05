@@ -1,4 +1,5 @@
-# use this file for development and testing purposes
+# use this for standard usage and development.
+
 version: '3.3'
 
 services:

@@ -1,4 +1,5 @@
-# use this file for development and testing purposes
+# use this if you only need to run the bot, and have an external database.
+
 version: '3.3'
 
 services:
