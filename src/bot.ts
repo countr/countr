@@ -82,15 +82,17 @@ client.once("ready", async client => {
   if (config.access.enabled) accessHandler(client);
 });
 
-const updatePresence = async () => client.user?.setPresence({
-  status: "online",
-  activities: [
-    {
-      type: "WATCHING",
-      name: `${(await global.get()).counts} counts this week!`,
-    },
-  ],
-});
+async function updatePresence() {
+  client.user?.setPresence({
+    status: "online",
+    activities: [
+      {
+        type: "WATCHING",
+        name: `${(await global.get()).counts} counts this week!`,
+      },
+    ],
+  });
+}
 
 client.on("messageCreate", async message => {
   if (
