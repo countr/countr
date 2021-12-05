@@ -15,10 +15,8 @@ export interface Config {
   admins: Array<string>,
   guild?: string | null,
 
-  webPort?: number | null,
-
-  managerUri?: string | null,
-  managerPort?: number | null,
+  apiPort?: number | null,
+  apiUri?: string | null,
 
   colors: {
     primary: number,

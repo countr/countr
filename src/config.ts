@@ -33,10 +33,8 @@ export default {
   admins: (process.env.ADMINS || "").split(","),
   guild: process.env.GUILD || null,
 
-  webPort: parseInt(process.env.API_PORT || ""),
-
-  managerUri: process.env.MANAGER_URI,
-  managerPort: parseInt(process.env.MANAGER_PORT || ""),
+  apiPort: parseInt(process.env.API_PORT || ""),
+  apiUri: process.env.API_URI,
 
   colors: {
     primary: parseInt(process.env.COLOR_PRIMARY || "BD4632", 16),

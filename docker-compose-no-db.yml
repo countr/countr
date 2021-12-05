@@ -7,7 +7,7 @@ services:
     container_name: countr
     restart: unless-stopped
     environment:
-      - MANAGER_URI=http://manager:1337
+      - API_URI=http://manager:8080
     volumes:
       - ./logs/countr:/app/logs
     depends_on:
@@ -17,4 +17,5 @@ services:
     command: ["npm", "run", "manager"]
     container_name: manager
     restart: unless-stopped
-      - MANAGER_PORT=1337      - ./logs/manager:/app/logs
+    volumes:
+      - ./logs/manager:/app/logs

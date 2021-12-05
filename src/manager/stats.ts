@@ -5,9 +5,9 @@ import config from "../config";
 import superagent from "superagent";
 
 export function postStats(client: Client<true>, loading: boolean): void {
-  if (!config.managerUri) return;
+  if (!config.apiUri) return;
   return void superagent
-    .post(config.managerUri)
+    .post(`${config.apiUri}/cluster/${config.cluster.id}/stats`)
     .send({
       type: "cluster-update",
       payload: {
@@ -27,7 +27,8 @@ export function postStats(client: Client<true>, loading: boolean): void {
       },
     } as ClusterUpdate)
     .set("Content-Type", "application/json")
-    .set("Authorization", config.client.token);
+    .set("Authorization", config.client.token)
+    .end();
 }
 
 export function getStats(client: Client): Promise<ManagerStatus> {
@@ -37,7 +38,7 @@ export function getStats(client: Client): Promise<ManagerStatus> {
       guilds: 0,
       users: 0,
     });
-  } else if (!config.managerUri) {
+  } else if (!config.apiUri) {
     return Promise.resolve({
       clusters: [
         {
@@ -60,5 +61,5 @@ export function getStats(client: Client): Promise<ManagerStatus> {
     });
   }
 
-  return fetch(config.managerUri).then(res => res.json()).then(json => json as ManagerStatus);
+  return superagent.get(config.apiUri).then(json => json.body as ManagerStatus);
 }
