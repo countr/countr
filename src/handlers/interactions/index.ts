@@ -10,7 +10,7 @@ import { join } from "path";
 
 export default async (client: Client): Promise<void> => {
   const commands = config.guild ? client.guilds.cache.get(config.guild)?.commands : client.application?.commands;
-  if (client.shard?.ids.includes(0)) {
+  if (config.cluster.shardIds.includes(0)) {
     commands?.set([...await nestCommands("../../commands/slash", "CHAT_INPUT") as Array<ApplicationCommandData>, ...await nestCommands("../../commands/user", "USER") as Array<ApplicationCommandData>, ...await nestCommands("../../commands/message", "MESSAGE") as Array<ApplicationCommandData>]);
   }
 

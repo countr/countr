@@ -5,8 +5,6 @@ config(); // load env variables
 export default {
   client: {
     token: process.env.BOT_TOKEN,
-    shards: parseInt(process.env.BOT_SHARDS || "") || "auto",
-    clusters: parseInt(process.env.BOT_CLUSTERS || "") || "auto",
     caches: {
       GuildBanManager: 0,
       GuildEmojiManager: 0,
@@ -24,13 +22,21 @@ export default {
       VoiceStateManager: 0,
     },
   },
+  cluster: {
+    id: parseInt(process.env.CLUSTER || "") || 0,
+    shardIds: process.env.SHARDS?.split(",").map(s => parseInt(s)) || [0],
+    shardCount: parseInt(process.env.SHARD_COUNT || "") || 1,
+  },
   databaseUri: process.env.DATABASE_URI,
   isPremium: process.env.IS_PREMIUM === "true",
 
   admins: (process.env.ADMINS || "").split(","),
   guild: process.env.GUILD || null,
 
-  port: parseInt(process.env.API_PORT || ""),
+  webPort: parseInt(process.env.API_PORT || ""),
+
+  managerUri: process.env.MANAGER_URI,
+  managerPort: parseInt(process.env.MANAGER_PORT || ""),
 
   colors: {
     primary: parseInt(process.env.COLOR_PRIMARY || "BD4632", 16),

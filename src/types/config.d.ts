@@ -1,21 +1,24 @@
 import { CacheWithLimitsOptions } from "discord.js";
+import { Cluster } from "./cluster";
 
 export interface Config {
   client: {
     id: string,
     secret: string,
     token: string,
-    shards: number | "auto",
-    clusters: number | "auto",
     caches: CacheWithLimitsOptions
   },
+  cluster: Cluster,
   databaseUri: string,
   isPremium?: boolean,
 
   admins: Array<string>,
   guild?: string | null,
 
-  port?: number | null,
+  webPort?: number | null,
+
+  managerUri?: string | null,
+  managerPort?: number | null,
 
   colors: {
     primary: number,

@@ -1,13 +1,14 @@
 import * as global from "./database/global";
 import * as guilds from "./database/guilds";
 import { Client, Options } from "discord.js";
-import { SHARD_LIST, TOTAL_SHARDS, getCluster } from "./utils/cluster";
+import { askForPermissionToInitialize, markClusterAsReady } from "./manager/initializeCluster";
 import accessHandler from "./handlers/access";
 import config from "./config";
 import { connection } from "./database";
 import countingHandler from "./handlers/counting";
 import interactionsHandler from "./handlers/interactions";
 import messageCommandHandler from "./handlers/messageCommands";
+import { postStats } from "./manager/stats";
 import prepareGuild from "./handlers/prepareGuild";
 import updateLiveboards from "./handlers/liveboard";
 
@@ -19,18 +20,18 @@ const client = new Client({
   userAgentSuffix: [],
   presence: { status: "dnd" },
   intents: ["GUILDS", "GUILD_MESSAGES"],
-  shards: SHARD_LIST,
-  shardCount: TOTAL_SHARDS,
+  shards: config.cluster.shardIds,
+  shardCount: config.cluster.shardCount,
 });
 
-export const cluster = getCluster(client);
-
-let shard = "C?;S?:", disabledGuilds = new Set();
+const shard = `C${config.cluster.id};S${config.cluster.shardIds.join(",")}:`;
+let disabledGuilds = new Set();
 
 client.once("ready", async client => {
-  shard = `C${cluster.id};S${SHARD_LIST.join(",")}:`;
   console.log(shard, `Ready as ${client.user.tag}! Caching guilds...`);
+  markClusterAsReady();
 
+  // prepare guilds
   if (client.guilds.cache.size) {
     disabledGuilds = new Set(client.guilds.cache.map(g => g.id)); // cache guilds
 
@@ -68,13 +69,16 @@ client.once("ready", async client => {
   updatePresence();
   setInterval(updatePresence, 1000 * 60);
 
+  // premium
   if (config.isPremium) {
     updateLiveboards(client);
     setInterval(() => updateLiveboards(client), 1000 * 60);
   }
 
+  // interactions
   interactionsHandler(client).then(() => console.log(shard, "Now listening to interactions."));
 
+  // access handler
   if (config.access.enabled) accessHandler(client);
 });
 
@@ -108,6 +112,28 @@ client.on("messageCreate", async message => {
   }
 });
 
-connection.then(() => client.login(config.client.token));
+client
+  .on("error", err => console.log(shard, "Client error.", err))
+  .on("rateLimit", rateLimitInfo => console.log(shard, "Rate limited.", JSON.stringify(rateLimitInfo)))
+  .on("shardReady", id => console.log(shard, `Shard ${id} ready.`))
+  .on("shardDisconnected", closeEvent => console.log(shard, "Disconnected.", closeEvent))
+  .on("shardError", err => console.log(shard, "Error.", err))
+  .on("shardReconnecting", () => console.log(shard, "Reconnecting."))
+  .on("shardResume", (_, replayedEvents) => console.log(shard, `Resumed. ${replayedEvents} replayed events.`))
+  .on("warn", info => console.log(shard, "Warning.", info));
+
+Promise.all([
+  connection,
+  new Promise(resolve => {
+    const timeout = setInterval(() => askForPermissionToInitialize().then(greenLight => {
+      if (greenLight) {
+        resolve(void 0);
+        clearInterval(timeout);
+      }
+    }), 5000);
+  }),
+]).then(() => client.login(config.client.token));
+
+setInterval(() => postStats(client, Boolean(disabledGuilds.size)), 10000);
 
 process.on("unhandledRejection", console.log);
