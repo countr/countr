@@ -66,6 +66,8 @@ rules:
     - error
   no-caller:
     - error
+  no-console:
+    - error
   no-continue:
     - error
   no-else-return:

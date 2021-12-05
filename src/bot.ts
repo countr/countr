@@ -6,6 +6,8 @@ import accessHandler from "./handlers/access";
 import config from "./config";
 import { connection } from "./database";
 import countingHandler from "./handlers/counting";
+import { countrLogger } from "./utils/logger/countr";
+import { discordLogger } from "./utils/logger/discord";
 import interactionsHandler from "./handlers/interactions";
 import messageCommandHandler from "./handlers/messageCommands";
 import { postStats } from "./manager/stats";
@@ -24,12 +26,14 @@ const client = new Client({
   shardCount: config.cluster.shardCount,
 });
 
-const shard = `C${config.cluster.id};S${config.cluster.shardIds.join(",")}:`;
 let disabledGuilds = new Set();
 
 client.once("ready", async client => {
-  console.log(shard, `Ready as ${client.user.tag}! Caching guilds...`);
+  countrLogger.info(`Ready as ${client.user.tag} on shards ${config.cluster.shardIds.join(", ")}! Caching guilds...`);
   markClusterAsReady();
+
+  // stats
+  setInterval(() => postStats(client, Boolean(disabledGuilds.size)), 10000);
 
   // prepare guilds
   if (client.guilds.cache.size) {
@@ -37,7 +41,7 @@ client.once("ready", async client => {
 
     const cacheStart = Date.now();
     await guilds.touch(client.guilds.cache.map(g => g.id));
-    console.log(shard, `${client.guilds.cache.size} guilds cached in ${Math.ceil((Date.now() - cacheStart) / 1000)}s. Processing available guilds...`);
+    countrLogger.info(`${client.guilds.cache.size} guilds cached in ${Math.ceil((Date.now() - cacheStart) / 1000)}s. Processing available guilds...`);
 
     // process guilds
     let completed = 0;
@@ -59,11 +63,11 @@ client.once("ready", async client => {
       completed += 1;
     }));
     clearInterval(presenceInterval);
-    console.log(shard, `${client.guilds.cache.size} guilds processed in ${Math.ceil((Date.now() - processingStart) / 1000)}s.`);
+    countrLogger.info(`${client.guilds.cache.size} guilds processed in ${Math.ceil((Date.now() - processingStart) / 1000)}s.`);
 
     // finish up
     disabledGuilds = new Set();
-  } else console.log("Add the bot with this link: https://todo");
+  } else countrLogger.warn("Add the bot with this link: https://todo");
 
   // presence
   updatePresence();
@@ -76,7 +80,7 @@ client.once("ready", async client => {
   }
 
   // interactions
-  interactionsHandler(client).then(() => console.log(shard, "Now listening to interactions."));
+  interactionsHandler(client).then(() => countrLogger.info("Now listening to interactions."));
 
   // access handler
   if (config.access.enabled) accessHandler(client);
@@ -115,14 +119,16 @@ client.on("messageCreate", async message => {
 });
 
 client
-  .on("error", err => console.log(shard, "Client error.", err))
-  .on("rateLimit", rateLimitInfo => console.log(shard, "Rate limited.", JSON.stringify(rateLimitInfo)))
-  .on("shardReady", id => console.log(shard, `Shard ${id} ready.`))
-  .on("shardDisconnected", closeEvent => console.log(shard, "Disconnected.", closeEvent))
-  .on("shardError", err => console.log(shard, "Error.", err))
-  .on("shardReconnecting", () => console.log(shard, "Reconnecting."))
-  .on("shardResume", (_, replayedEvents) => console.log(shard, `Resumed. ${replayedEvents} replayed events.`))
-  .on("warn", info => console.log(shard, "Warning.", info));
+  .on("debug", info => void discordLogger.debug(info))
+  .on("error", error => void discordLogger.error(`Cluster errored. ${JSON.stringify({ ...error })}`))
+  .on("rateLimit", rateLimitData => void discordLogger.warn(`Rate limit ${JSON.stringify(rateLimitData)}`))
+  .on("ready", () => void discordLogger.info("All shards have been connected."))
+  .on("shardDisconnect", (event, id) => void discordLogger.warn(`Shard ${id} disconnected. ${JSON.stringify({ ...event })}`))
+  .on("shardError", (error, id) => void discordLogger.error(`Shard ${id} errored. ${JSON.stringify({ ...error })}`))
+  .on("shardReady", id => void discordLogger.info(`Shard ${id} is ready.`))
+  .on("shardReconnecting", id => void discordLogger.warn(`Shard ${id} is reconnecting.`))
+  .on("shardResume", (id, replayed) => void discordLogger.info(`Shard ${id} resumed. ${replayed} events replayed.`))
+  .on("warn", info => void discordLogger.warn(info));
 
 Promise.all([
   connection,
@@ -131,6 +137,7 @@ Promise.all([
       if (greenLight) {
         resolve(void 0);
         clearInterval(timeout);
+        countrLogger.info("Green light received. Logging in...");
       }
     }), 5000);
   }),
@@ -138,4 +145,4 @@ Promise.all([
 
 setInterval(() => postStats(client, Boolean(disabledGuilds.size)), 10000);
 
-process.on("unhandledRejection", console.log);
+process.on("unhandledRejection", countrLogger.error);

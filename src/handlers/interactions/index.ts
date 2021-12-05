@@ -4,6 +4,7 @@ import commandHandler from "./commands";
 import componentHandler from "./components";
 import config from "../../config";
 import contextMenuHandler from "./contextMenus";
+import { countrLogger } from "../../utils/logger/countr";
 import fs from "fs";
 import { get } from "../../database/guilds";
 import { join } from "path";
@@ -35,7 +36,7 @@ export default async (client: Client): Promise<void> => {
 function nestCommands(relativePath: string, type: string): Promise<Array<ApplicationCommandData | ApplicationCommandOption>> {
   return new Promise(resolve => {
     fs.readdir(join(__dirname, relativePath), async (err, files) => {
-      if (err) return console.log(err);
+      if (err) return countrLogger.error(err);
 
       const arr = [];
       if (files) {

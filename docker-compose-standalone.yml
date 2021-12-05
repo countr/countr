@@ -6,3 +6,5 @@ services:
     build: .
     container_name: countr
     restart: unless-stopped
+    volumes:
+      - ./logs/countr:/app/logs

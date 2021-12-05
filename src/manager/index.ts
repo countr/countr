@@ -2,8 +2,11 @@ import { ClusterStatus, ClusterUpdate } from "../types/cluster";
 import { ManagerStatus } from "../types/manager";
 import config from "../config";
 import express from "express";
+import { expressLogger } from "../utils/logger/express";
+import { managerLogger } from "../utils/logger/manager";
 
 const app = express();
+app.use(expressLogger);
 app.use(express.json());
 
 const clusters = new Map<number, ClusterStatus>();

@@ -9,6 +9,8 @@ services:
     environment:
       - DATABASE_URI=mongodb://db/countr
       - MANAGER_URI=http://manager:1337
+    volumes:
+      - ./logs/countr:/app/logs
     depends_on:
       - manager
       - db
@@ -19,6 +21,8 @@ services:
     restart: unless-stopped
     environment:
       - MANAGER_PORT=1337
+    volumes:
+      - ./logs/manager:/app/logs
     ports:
       - "8080:8080"
   db:

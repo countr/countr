@@ -8,6 +8,8 @@ services:
     restart: unless-stopped
     environment:
       - DATABASE_URI=mongodb://db/countr
+    volumes:
+      - ./logs/countr:/app/logs
     depends_on:
       - db
   db:

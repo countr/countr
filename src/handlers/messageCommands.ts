@@ -4,6 +4,7 @@ import { GuildDocument } from "../database/models/Guild";
 import { MentionCommand } from "../types/command";
 import { Message } from "discord.js";
 import config from "../config";
+import { countrLogger } from "../utils/logger/countr";
 import fs from "fs";
 import { join } from "path";
 import permissions from "../commands/mention/_permissions";
@@ -70,7 +71,6 @@ export default (message: Message, document: GuildDocument): Promise<void> => {
         return command.execute(message, args, document, selectedCountingChannel?.channel).then(resolve);
       });
     } catch (e) {
-      console.log(e);
       message.react("💥").catch();
       resolve(message);
     }
@@ -87,7 +87,7 @@ export default (message: Message, document: GuildDocument): Promise<void> => {
 // loading commands
 const commands = new Map<string, MentionCommand>(), aliases = new Map<string, string>();
 fs.readdir(join(__dirname, "../commands/mention"), (err, files) => {
-  if (err || !files) return console.log(err);
+  if (err || !files) return countrLogger.error(err);
   for (const file of files) if (file.endsWith(".js") && !file.startsWith("_")) loadCommand(file.replace(".js", ""));
 });
 
