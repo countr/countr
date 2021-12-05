@@ -7,11 +7,9 @@ services:
     container_name: countr
     restart: unless-stopped
     environment:
-      - DATABASE_URI=mongodb://db/countr
       - MANAGER_URI=http://manager:1337
     depends_on:
       - manager
-      - db
   manager:
     build: .
     command: ["npm", "run", "manager"]
@@ -19,11 +17,3 @@ services:
     restart: unless-stopped
     environment:
       - MANAGER_PORT=1337
-    ports:
-      - "8080:8080"
-  db:
-    image: mongo:4
-    container_name: db
-    restart: unless-stopped
-    volumes:
-      - ./database:/data/db

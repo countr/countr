@@ -1,3 +1,4 @@
+# use this file for development and testing purposes
 version: '3.3'
 
 services:
@@ -5,7 +6,3 @@ services:
     build: .
     container_name: countr
     restart: unless-stopped
-    environment: []
-    stdin_open: true
-    tty: true
-    depends_on: []
