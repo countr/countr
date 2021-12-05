@@ -4,6 +4,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "docker": "docker-compose up --build",
+    "docker:clusterfuck": "docker-compose -f docker-compose-clusterfuck.yml up --build",
     "docker:no-db": "docker-compose -f docker-compose-no-db.yml up --build",
     "docker:no-manager": "docker-compose -f docker-compose-no-manager.yml up --build",
     "docker:standalone": "docker-compose -f docker-compose-standalone.yml up --build",

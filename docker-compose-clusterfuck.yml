@@ -1,0 +1,147 @@
+# use this file for development and testing purposes
+version: '3.3'
+
+services:
+  countr-cluster0:
+    build: .
+    container_name: countr-cluster0
+    restart: unless-stopped
+    environment:
+      - DATABASE_URI=mongodb://db/countr
+      - MANAGER_URI=http://manager:8080
+      - CLUSTER=0
+      - SHARDS=0,1,2,3,4,5,6,7,8,9
+      - SHARD_COUNT=100
+    depends_on:
+      - manager
+      - db
+  countr-cluster1:
+    build: .
+    container_name: countr-cluster1
+    restart: unless-stopped
+    environment:
+      - DATABASE_URI=mongodb://db/countr
+      - MANAGER_URI=http://manager:8080
+      - CLUSTER=1
+      - SHARDS=10,11,12,13,14,15,16,17,18,19
+      - SHARD_COUNT=100
+    depends_on:
+      - manager
+      - db
+  countr-cluster2:
+    build: .
+    container_name: countr-cluster2
+    restart: unless-stopped
+    environment:
+      - DATABASE_URI=mongodb://db/countr
+      - MANAGER_URI=http://manager:8080
+      - CLUSTER=2
+      - SHARDS=20,21,22,23,24,25,26,27,28,29
+      - SHARD_COUNT=100
+    depends_on:
+      - manager
+      - db
+  countr-cluster3:
+    build: .
+    container_name: countr-cluster3
+    restart: unless-stopped
+    environment:
+      - DATABASE_URI=mongodb://db/countr
+      - MANAGER_URI=http://manager:8080
+      - CLUSTER=3
+      - SHARDS=30,31,32,33,34,35,36,37,38,39
+      - SHARD_COUNT=100
+    depends_on:
+      - manager
+      - db
+  countr-cluster4:
+    build: .
+    container_name: countr-cluster4
+    restart: unless-stopped
+    environment:
+      - DATABASE_URI=mongodb://db/countr
+      - MANAGER_URI=http://manager:8080
+      - CLUSTER=4
+      - SHARDS=40,41,42,43,44,45,46,47,48,49
+      - SHARD_COUNT=100
+    depends_on:
+      - manager
+      - db
+  countr-cluster5:
+    build: .
+    container_name: countr-cluster5
+    restart: unless-stopped
+    environment:
+      - DATABASE_URI=mongodb://db/countr
+      - MANAGER_URI=http://manager:8080
+      - CLUSTER=5
+      - SHARDS=50,51,52,53,54,55,56,57,58,59
+      - SHARD_COUNT=100
+    depends_on:
+      - manager
+      - db
+  countr-cluster6:
+    build: .
+    container_name: countr-cluster6
+    restart: unless-stopped
+    environment:
+      - DATABASE_URI=mongodb://db/countr
+      - MANAGER_URI=http://manager:8080
+      - CLUSTER=6
+      - SHARDS=60,61,62,63,64,65,66,67,68,69
+      - SHARD_COUNT=100
+    depends_on:
+      - manager
+      - db
+  countr-cluster7:
+    build: .
+    container_name: countr-cluster7
+    restart: unless-stopped
+    environment:
+      - DATABASE_URI=mongodb://db/countr
+      - MANAGER_URI=http://manager:8080
+      - CLUSTER=7
+      - SHARDS=70,71,72,73,74,75,76,77,78,79
+      - SHARD_COUNT=100
+    depends_on:
+      - manager
+      - db
+  countr-cluster8:
+    build: .
+    container_name: countr-cluster8
+    restart: unless-stopped
+    environment:
+      - DATABASE_URI=mongodb://db/countr
+      - MANAGER_URI=http://manager:8080
+      - CLUSTER=8
+      - SHARDS=80,81,82,83,84,85,86,87,88,89
+      - SHARD_COUNT=100
+    depends_on:
+      - manager
+      - db
+  countr-cluster9:
+    build: .
+    container_name: countr-cluster9
+    restart: unless-stopped
+    environment:
+      - DATABASE_URI=mongodb://db/countr
+      - MANAGER_URI=http://manager:8080
+      - CLUSTER=9
+      - SHARDS=90,91,92,93,94,95,96,97,98,99
+      - SHARD_COUNT=100
+    depends_on:
+      - manager
+      - db
+  manager:
+    build: .
+    command: ["npm", "run", "manager"]
+    container_name: manager
+    restart: unless-stopped
+    environment:
+      - MANAGER_PORT=1337
+  db:
+    image: mongo:4
+    container_name: db
+    restart: unless-stopped
+    volumes:
+      - ./database:/data/db
