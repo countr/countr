@@ -1,6 +1,7 @@
 import { countingChannelPermissions, countingThreadParentChannelPermissions } from "../../../constants/discordPermissions";
 import { CountingChannel } from "../../../database/models/Guild";
 import { SlashCommand } from "../../../types/command";
+import limits from "../../../constants/limits";
 import numberSystems from "../../../constants/numberSystems";
 
 export default {
@@ -27,8 +28,18 @@ export default {
     },
   ],
   execute: async (interaction, _, { channel: channelId, count, type = Object.keys(numberSystems)[0] }: { channel: string; count: number; type: string; }, document) => {
+    if (document.channels.size >= limits.channels.amount) {
+      return interaction.reply({
+        content: `❌ You can't have more than **${limits.channels.amount}** counting channels in a guild.`,
+        ephemeral: true,
+      });
+    }
+
     const channel = await interaction.guild?.channels.fetch(channelId).catch(() => null) || interaction.guild?.channels.cache.get(channelId);
-    if (!channel) {
+    if (!channel || (
+      channel.isThread() && !channel.parent?.viewable ||
+      !channel.isThread() && !channel.viewable
+    )) {
       return interaction.reply({
         content: "❌ I couldn't find that channel. Do I have access?",
         ephemeral: true,
@@ -76,7 +87,6 @@ export default {
       type,
       isThread,
     } as CountingChannel);
-    console.log(document);
     document.safeSave();
 
     return interaction.reply({
