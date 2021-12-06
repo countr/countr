@@ -9,7 +9,6 @@ const uptime = Date.now();
 
 const app = express();
 app.use(expressLogger);
-app.use(express.json());
 
 app.use("/cluster", clusterRouter);
 

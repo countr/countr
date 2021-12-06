@@ -1,8 +1,8 @@
 import { Cluster, ClusterUpdate } from "../types/cluster";
+import { Router as expressRouter, json } from "express";
 import { ClusterData } from "../types/manager";
 import { PresenceData } from "discord.js";
 import config from "../config";
-import { Router as expressRouter } from "express";
 
 export const router = expressRouter();
 export const clusters = new Map<Cluster["id"], ClusterData>();
@@ -10,7 +10,7 @@ export const clusters = new Map<Cluster["id"], ClusterData>();
 router.use((req, res, next) => {
   if (req.headers["authorization"] !== config.client.token) return res.sendStatus(401);
   next();
-});
+}, json());
 
 router.post("/:clusterId/stats", (req, res) => {
   const request = req.body as ClusterUpdate;
