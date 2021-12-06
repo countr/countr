@@ -1,10 +1,29 @@
-import { Client } from "discord.js";
+import { Client, PresenceData } from "discord.js";
 import { ClusterUpdate } from "../types/cluster";
 import { ManagerStatus } from "../types/manager";
 import config from "../config";
 import superagent from "superagent";
 
 const uptime = Date.now();
+
+export function askForPermissionToInitialize(): Promise<boolean> {
+  if (!config.apiUri) return Promise.resolve(true);
+  return new Promise(resolve => {
+    superagent
+      .post(`${config.apiUri}/cluster/${config.cluster.id}/init`)
+      .set("Authorization", config.client.token)
+      .then(res => res.status === 200 ? resolve(true) : resolve(false))
+      .catch(() => resolve(false));
+  });
+}
+
+export function markClusterAsReady(): void {
+  if (!config.apiUri) return;
+  return void superagent
+    .post(`${config.apiUri}/cluster/${config.cluster.id}/done`)
+    .set("Authorization", config.client.token)
+    .end();
+}
 
 export function postStats(client: Client<true>, loading: boolean): void {
   if (!config.apiUri) return;
@@ -33,7 +52,7 @@ export function postStats(client: Client<true>, loading: boolean): void {
     .end();
 }
 
-export function getStats(client: Client): Promise<ManagerStatus> {
+export function getManagerStats(client: Client): Promise<ManagerStatus> {
   if (!client.isReady()) {
     return Promise.resolve({
       clusters: [],

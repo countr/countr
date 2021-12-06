@@ -1,7 +1,7 @@
 import * as global from "./database/global";
 import * as guilds from "./database/guilds";
 import { Client, Options } from "discord.js";
-import { askForPermissionToInitialize, markClusterAsReady } from "./manager/initializeCluster";
+import { askForPermissionToInitialize, markClusterAsReady, postStats } from "./utils/cluster";
 import accessHandler from "./handlers/access";
 import config from "./config";
 import { connection } from "./database";
@@ -10,7 +10,6 @@ import { countrLogger } from "./utils/logger/countr";
 import { discordLogger } from "./utils/logger/discord";
 import interactionsHandler from "./handlers/interactions";
 import messageCommandHandler from "./handlers/messageCommands";
-import { postStats } from "./manager/stats";
 import prepareGuild from "./handlers/prepareGuild";
 import updateLiveboards from "./handlers/liveboard";
 
