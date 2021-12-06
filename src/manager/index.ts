@@ -1,4 +1,4 @@
-import { Cluster, ClusterStatus, ClusterUpdate } from "../types/cluster";
+import { Cluster, ClusterUpdate } from "../types/cluster";
 import { ClusterData, ManagerStatus } from "../types/manager";
 import { PresenceData } from "discord.js";
 import config from "../config";
