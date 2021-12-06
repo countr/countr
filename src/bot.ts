@@ -135,4 +135,4 @@ Promise.all([
 
 setInterval(() => postStats(client, Boolean(disabledGuilds.size)), 10000);
 
-process.on("unhandledRejection", countrLogger.error);
+process.on("unhandledRejection", error => countrLogger.error(`Unhandled rejection: ${JSON.stringify(error)}`));

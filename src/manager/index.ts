@@ -26,3 +26,5 @@ app.get("/", (_req, res) => {
 
 if (config.apiPort) app.listen(config.apiPort, () => managerLogger.info(`Webserver listening on port ${config.apiPort}.`));
 else throw new Error("Manager has no port to listen to.");
+
+process.on("unhandledRejection", error => managerLogger.error(`Unhandled rejection: ${JSON.stringify(error)}`));
