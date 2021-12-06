@@ -1,5 +1,6 @@
 import { Cluster, ClusterStatus, ClusterUpdate } from "../types/cluster";
 import { ClusterData, ManagerStatus } from "../types/manager";
+import { PresenceData } from "discord.js";
 import config from "../config";
 import express from "express";
 import { expressLogger } from "../utils/logger/express";
@@ -32,6 +33,20 @@ app.post("/cluster/:clusterId/stats", (req, res) => {
 
   clusters.set(request.payload.cluster.id, request.payload);
   return res.sendStatus(200);
+});
+
+app.get("/cluster/:clusterId/status", (req, res) => {
+  if (req.headers["authorization"] !== config.client.token) return res.sendStatus(401);
+
+  return res.json({
+    status: "online",
+    activities: [
+      {
+        type: "WATCHING",
+        name: "",
+      },
+    ],
+  } as PresenceData);
 });
 
 /*

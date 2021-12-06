@@ -1,7 +1,6 @@
-import * as global from "./database/global";
 import * as guilds from "./database/guilds";
 import { Client, Options } from "discord.js";
-import { askForPermissionToInitialize, markClusterAsReady, postStats } from "./utils/cluster";
+import { askForPermissionToInitialize, getPresence, markClusterAsReady, postStats } from "./utils/cluster";
 import accessHandler from "./handlers/access";
 import config from "./config";
 import { connection } from "./database";
@@ -85,16 +84,8 @@ client.once("ready", async client => {
   if (config.access.enabled) accessHandler(client);
 });
 
-async function updatePresence() {
-  client.user?.setPresence({
-    status: "online",
-    activities: [
-      {
-        type: "WATCHING",
-        name: `${(await global.get()).counts} counts this week!`,
-      },
-    ],
-  });
+function updatePresence() {
+  return getPresence(client).then(presence => client.user?.setPresence(presence));
 }
 
 client.on("messageCreate", async message => {

@@ -89,3 +89,19 @@ export function getManagerStats(client: Client): Promise<ManagerStatus> {
 
   return superagent.get(config.apiUri).then(json => json.body as ManagerStatus);
 }
+
+export function getPresence(client: Client): Promise<PresenceData> {
+  if (!client.isReady()) return Promise.resolve({ status: "dnd" });
+
+  if (!config.apiUri) {
+    return Promise.resolve({
+      status: "online",
+      activity: {
+        name: "the counting channel",
+        type: "WATCHING",
+      },
+    });
+  }
+
+  return superagent.get(`${config.apiUri}/cluster/${config.cluster.id}/status`).then(json => json.body as PresenceData);
+}
