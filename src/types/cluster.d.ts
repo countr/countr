@@ -1,27 +1,28 @@
+import { ClusterData } from "./manager";
 import { Status } from "discord.js";
 
 export type Cluster = {
   id: number;
-  shardIds: Array<number>;
+  shards: Array<number>;
   shardCount: number;
 }
 
-export type ClusterStatus = ClusterInfo & {
-  status: Status;
+export type ClusterStatus = {
   shards: Array<{
     id: number;
     ping: number;
     status: Status;
   }>;
   ping: number;
-  uptime: number;
+  status: Status;
   guilds: number;
   users: number;
   loading: boolean;
-  heartbeat: number; // last update
+  uptime: number;
+  update: number; // last update
 };
 
 export type ClusterUpdate = {
   type: "cluster-update";
-  payload: ClusterStatus;
+  payload: ClusterData;
 }

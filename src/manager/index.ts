@@ -1,22 +1,26 @@
-import { ClusterStatus, ClusterUpdate } from "../types/cluster";
-import { ManagerStatus } from "../types/manager";
+import { Cluster, ClusterStatus, ClusterUpdate } from "../types/cluster";
+import { ClusterData, ManagerStatus } from "../types/manager";
 import config from "../config";
 import express from "express";
 import { expressLogger } from "../utils/logger/express";
 import { managerLogger } from "../utils/logger/manager";
 
+const uptime = Date.now();
+
 const app = express();
 app.use(expressLogger);
 app.use(express.json());
 
-const clusters = new Map<number, ClusterStatus>();
+const clusters = new Map<Cluster["id"], ClusterData>();
 
 app.get("/", (_req, res) => {
-  const list: Array<ClusterStatus> = Array.from(clusters.values());
+  const list: Array<ClusterData> = Array.from(clusters.values());
   res.json({
     clusters: list,
     guilds: list.map(c => c.guilds).reduce((a, b) => a + b, 0),
     users: list.map(c => c.users).reduce((a, b) => a + b, 0),
+    uptime,
+    update: Date.now(),
   } as ManagerStatus);
 });
 
@@ -26,7 +30,7 @@ app.post("/cluster/:clusterId/stats", (req, res) => {
   const request = req.body as ClusterUpdate;
   if (request.type !== "cluster-update") return res.sendStatus(400);
 
-  clusters.set(request.payload.id, request.payload);
+  clusters.set(request.payload.cluster.id, request.payload);
   return res.sendStatus(200);
 });
 

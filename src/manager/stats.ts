@@ -4,6 +4,8 @@ import { ManagerStatus } from "../types/manager";
 import config from "../config";
 import superagent from "superagent";
 
+const uptime = Date.now();
+
 export function postStats(client: Client<true>, loading: boolean): void {
   if (!config.apiUri) return;
   return void superagent
@@ -11,19 +13,19 @@ export function postStats(client: Client<true>, loading: boolean): void {
     .send({
       type: "cluster-update",
       payload: {
-        ...config.cluster,
-        status: client.ws.status,
+        cluster: config.cluster,
         shards: client.ws.shards.map(s => ({
           id: s.id,
           ping: s.ping,
           status: s.status,
         })),
         ping: client.ws.ping,
-        uptime: client.uptime,
+        status: client.ws.status,
         guilds: client.guilds.cache.size,
         users: client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b, 0),
         loading,
-        heartbeat: Date.now(),
+        uptime,
+        update: Date.now(),
       },
     } as ClusterUpdate)
     .set("Content-Type", "application/json")
@@ -37,27 +39,32 @@ export function getStats(client: Client): Promise<ManagerStatus> {
       clusters: [],
       guilds: 0,
       users: 0,
+      uptime,
+      update: Date.now(),
     });
   } else if (!config.apiUri) {
     return Promise.resolve({
       clusters: [
         {
-          ...config.cluster,
-          status: client.ws.status,
+          cluster: config.cluster,
           shards: client.ws.shards.map(s => ({
             id: s.id,
             ping: s.ping,
             status: s.status,
           })),
           ping: client.ws.ping,
-          uptime: client.uptime,
+          status: client.ws.status,
           guilds: client.guilds.cache.size,
           users: client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b, 0),
           loading: false,
+          uptime,
+          update: Date.now(),
         },
       ],
       guilds: client.guilds.cache.size,
       users: client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b, 0),
+      uptime,
+      update: Date.now(),
     });
   }
 

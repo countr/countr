@@ -22,14 +22,14 @@ const client = new Client({
   userAgentSuffix: [],
   presence: { status: "dnd" },
   intents: ["GUILDS", "GUILD_MESSAGES"],
-  shards: config.cluster.shardIds,
+  shards: config.cluster.shards,
   shardCount: config.cluster.shardCount,
 });
 
 let disabledGuilds = new Set();
 
 client.once("ready", async client => {
-  countrLogger.info(`Ready as ${client.user.tag} on shards ${config.cluster.shardIds.join(", ")}! Caching guilds...`);
+  countrLogger.info(`Ready as ${client.user.tag} on shards ${config.cluster.shards.join(", ")}! Caching guilds...`);
   markClusterAsReady();
 
   // stats

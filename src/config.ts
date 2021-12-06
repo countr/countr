@@ -24,7 +24,7 @@ export default {
   },
   cluster: {
     id: parseInt(process.env.CLUSTER || "") || 0,
-    shardIds: process.env.SHARDS?.split(",").map(s => parseInt(s)) || [0],
+    shards: process.env.SHARDS?.split(",").map(s => parseInt(s)) || [0],
     shardCount: parseInt(process.env.SHARD_COUNT || "") || 1,
   },
   databaseUri: process.env.DATABASE_URI,
