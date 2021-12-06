@@ -38,7 +38,7 @@ export const propertyTypes: Record<string, Property> = {
     help: "This can be any role, or a list of roles. Make sure the roles are below Countr's highest role.",
     input: RolesInput,
     convert: async (userInputList: string, guild): Promise<Array<string> | null> => {
-      const userInputs = userInputList.split("\nl");
+      const userInputs = userInputList.split(", ");
       const roles = [];
       for (const userInput of userInputs) {
         const result = await getRole(userInput, guild);
