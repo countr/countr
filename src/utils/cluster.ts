@@ -103,5 +103,7 @@ export function getPresence(client: Client): Promise<PresenceData> {
     });
   }
 
-  return superagent.get(`${config.apiUri}/cluster/${config.cluster.id}/status`).then(json => json.body as PresenceData);
+  return superagent.get(`${config.apiUri}/cluster/${config.cluster.id}/status`)
+    .set("Authorization", config.client.token)
+    .then(json => json.body as PresenceData);
 }
