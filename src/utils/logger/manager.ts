@@ -10,7 +10,7 @@ export const managerLogger = createLogger({
   ),
   transports: [
     new DailyRotateFile({
-      filename: "logs/manager-info.%DATE%.log",
+      filename: "logs/manager-info.%DATE%",
       level: "info",
       ...dailyRotateFileOptions,
     }),

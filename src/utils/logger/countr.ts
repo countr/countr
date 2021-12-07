@@ -10,7 +10,7 @@ export const countrLogger = createLogger({
   ),
   transports: [
     new DailyRotateFile({
-      filename: "logs/countr-info.%DATE%.log",
+      filename: "logs/countr-info.%DATE%",
       level: "info",
       ...dailyRotateFileOptions,
     }),

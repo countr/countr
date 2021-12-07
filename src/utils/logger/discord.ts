@@ -10,22 +10,22 @@ export const discordLogger = createLogger({
   ),
   transports: [
     new DailyRotateFile({
-      filename: "logs/discord-info.%DATE%.log",
+      filename: "logs/discord-info.%DATE%",
       level: "info",
       ...dailyRotateFileOptions,
     }),
     new DailyRotateFile({
-      filename: "logs/discord-warn.%DATE%.log",
+      filename: "logs/discord-warn.%DATE%",
       level: "warn",
       ...dailyRotateFileOptions,
     }),
     new DailyRotateFile({
-      filename: "logs/discord-error.%DATE%.log",
+      filename: "logs/discord-error.%DATE%",
       level: "error",
       ...dailyRotateFileOptions,
     }),
     new DailyRotateFile({
-      filename: "logs/discord-debug.%DATE%.log",
+      filename: "logs/discord-debug.%DATE%",
       level: "debug",
       ...dailyRotateFileOptions,
     }),

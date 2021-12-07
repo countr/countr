@@ -8,7 +8,7 @@ export const expressLogger = expressWinston.logger({
   format: format.json(),
   transports: [
     new DailyRotateFile({
-      filename: "logs/express-info.%DATE%.log",
+      filename: "logs/express-info.%DATE%",
       level: "info",
       ...dailyRotateFileOptions,
     }),

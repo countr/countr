@@ -10,7 +10,7 @@ export const mongooseLogger = createLogger({
   ),
   transports: [
     new DailyRotateFile({
-      filename: "logs/mongoose-debug.%DATE%.log",
+      filename: "logs/mongoose-debug.%DATE%",
       level: "debug",
       ...dailyRotateFileOptions,
     }),
