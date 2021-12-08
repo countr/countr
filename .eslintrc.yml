@@ -160,6 +160,7 @@ rules:
       }
   array-element-newline:
     - error
+    - consistent
     - multiline: true
   arrow-parens:
     - error
