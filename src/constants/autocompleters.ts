@@ -2,9 +2,10 @@ import { Autocomplete } from "../types/command";
 import { matchSorter } from "match-sorter";
 
 export const flowList: Autocomplete = (query, interaction, document, selectedCountingChannel?: string) => {
-  if (!selectedCountingChannel) return Promise.resolve([{ name: "Error: No selected counting channel. Do /select first", value: "error" }]);
+  const selected = document.channels.has(interaction.channelId) ? interaction.channelId : selectedCountingChannel; // prefer current counting channel, then selected, then undefined and ask them to select
+  if (!selected) return Promise.resolve([{ name: "Error: No selected counting channel. Do /select first", value: "error" }]);
 
-  const channel = document.channels.get(selectedCountingChannel);
+  const channel = document.channels.get(selected);
   if (!channel) return Promise.resolve([]);
 
   const flows = Array.from(channel.flows.entries());
