@@ -11,5 +11,4 @@ export default {
       content: [`🏓 Server latency is \`${Date.now() - start}ms\`, API latency is \`${interaction.client.ws.ping}ms\` and my uptime is \`${msToTime(interaction.client.uptime || 0)}\`.`, config.statusPage ? `🔗 Having issues? Check our [status page](<${config.statusPage}>)!` : ""].filter(Boolean).join("\n"),
     });
   },
-  workInPrivateMessage: true,
 } as SlashCommand;
