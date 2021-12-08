@@ -1,0 +1,25 @@
+name: ESLint
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    name: Lint project
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up node
+      uses: actions/setup-node@v1
+      with:
+        node-version: "16.x"
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run ESLint
+      run: npm run lint

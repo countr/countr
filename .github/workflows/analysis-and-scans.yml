@@ -63,34 +63,34 @@ jobs:
     - name: Inspect results
       run: ca ${{ steps.analysis.outputs.sarifFile }}
 
-    docker:
-      name: Docker Scan
-      runs-on: ubuntu-latest
+  docker:
+    name: Docker Scan
+    runs-on: ubuntu-latest
 
-      steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 2
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
 
-      - name: Checkout head of pull request
-        run: git checkout HEAD^2
-        if: ${{ github.event_name == 'pull_request' }}
+    - name: Checkout head of pull request
+      run: git checkout HEAD^2
+      if: ${{ github.event_name == 'pull_request' }}
 
-      - name: Build Docker image
-        run: docker build . -t local/testimage:latest
+    - name: Build Docker image
+      run: docker build . -t local/testimage:latest
 
-      - name: Perform Docker scan
-        uses: anchore/scan-action@v3
-        with:
-          image: "local/testimage:latest"
-          acs-report-enable: true
-        id: scan
+    - name: Perform Docker scan
+      uses: anchore/scan-action@v3
+      with:
+        image: "local/testimage:latest"
+        acs-report-enable: true
+      id: scan
 
-      - name: Upload Docker results
-        uses: github/codeql-action/upload-sarif@v1
-        with:
-          sarif_file: ${{ steps.scan.outputs.sarif }}
+    - name: Upload Docker results
+      uses: github/codeql-action/upload-sarif@v1
+      with:
+        sarif_file: ${{ steps.scan.outputs.sarif }}
 
-      - name: Inspect results
-        run: ca ${{ steps.analysis.outputs.sarif }}
+    - name: Inspect results
+      run: ca ${{ steps.analysis.outputs.sarif }}
