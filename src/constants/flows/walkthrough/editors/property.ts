@@ -7,7 +7,7 @@ import config from "../../../../config";
 
 export function editProperty(interaction: MessageComponentInteraction, property: Property, flowOptions: FlowOptions, propertyIndex: number | null): Promise<MessageComponentInteraction> {
   return new Promise((resolve, reject) => {
-    awaitingInput.set([interaction.guildId, interaction.channelId, interaction.user.id].join("."), async (i, args) => {
+    awaitingInput.set([interaction.channelId, interaction.user.id].join("."), async (i, args) => {
       const arg = args[property.input.name] as string | number | undefined;
       if (arg === undefined) {
         return i.reply({
@@ -35,7 +35,7 @@ export function editProperty(interaction: MessageComponentInteraction, property:
         });
       }
 
-      awaitingInput.delete([interaction.guildId, interaction.channelId, interaction.user.id].join("."));
+      awaitingInput.delete([interaction.channelId, interaction.user.id].join("."));
 
       components.set(`${i.id}:yes`, ii => {
         interaction.deleteReply();
