@@ -21,7 +21,7 @@ app.get("/", (_req, res) => {
     totalGuilds: list.map(c => c.guilds).reduce((a, b) => a + b, 0),
     totalUsers: list.map(c => c.users).reduce((a, b) => a + b, 0),
     weeklyCount: 0, // todo
-    totalMemory: list.reduce((acc, cluster) => acc + cluster.memory, 0),
+    totalMemory: list.reduce((acc, cluster) => acc + cluster.memory, 0) + process.memoryUsage().heapUsed,
     lastUpdate: Date.now(),
   } as ManagerStatus);
 });
