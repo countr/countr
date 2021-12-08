@@ -1,8 +1,4 @@
-import { Cluster, ClusterStatus } from "./cluster";
-
-export type ClusterData = {
-  cluster: Cluster;
-} & ClusterStatus;
+import { ClusterData } from "./cluster";
 
 export type ManagerStatus = {
   clusters: Array<ClusterData>;

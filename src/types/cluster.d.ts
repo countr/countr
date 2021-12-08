@@ -1,4 +1,3 @@
-import { ClusterData } from "./manager";
 import { Status } from "discord.js";
 
 export type Cluster = {
@@ -21,6 +20,10 @@ export type ClusterStatus = {
   uptime: number;
   update: number; // last update
 };
+
+export type ClusterData = {
+  cluster: Cluster;
+} & ClusterStatus;
 
 export type ClusterUpdate = {
   type: "cluster-update";

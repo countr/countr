@@ -1,5 +1,6 @@
-import { ClusterData, ManagerStatus } from "../types/manager";
 import { router as clusterRouter, clusters } from "./clusters";
+import { ClusterData } from "../types/cluster";
+import { ManagerStatus } from "../types/manager";
 import config from "../config";
 import express from "express";
 import { expressLogger } from "../utils/logger/express";
