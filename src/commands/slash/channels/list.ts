@@ -18,7 +18,7 @@ export default {
       content: `📋 The server has **${document.channels.size}/${limits.channels.amount}** counting channels.`,
       embeds: Array.from(document.channels.entries()).map(([channelId, channel]) => ({
         color: parseInt(channelId) % 0xFFFFFF, // unique color for each channel
-        description: `**<#${channelId}>** ${channel.isThread ? "(thread)" : ""}`,
+        description: `**<#${channelId}>** - **${numberSystems[channel.type].name}**`,
         fields: [
           {
             name: "Count",
@@ -31,8 +31,8 @@ export default {
             inline: true,
           },
           {
-            name: "Type",
-            value: `**${numberSystems[channel.type].name}**`,
+            name: "Filters",
+            value: `**${channel.filters.length === 1 ? "1 filter" : `${channel.filters.length} filters`}**.`,
             inline: true,
           },
           {
@@ -69,11 +69,6 @@ export default {
               },
             ] :
             [],
-          {
-            name: "Filters",
-            value: `**${channel.filters.length === 1 ? "1 filter" : `${channel.filters.length} filters`}**.`,
-            inline: true,
-          },
         ].filter(Boolean),
       })),
       ephemeral: ephemeralPreference,
