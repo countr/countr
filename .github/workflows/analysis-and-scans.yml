@@ -19,12 +19,6 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-      with:
-        fetch-depth: 2
-
-    - name: Checkout head of pull request
-      run: git checkout HEAD^2
-      if: ${{ github.event_name == 'pull_request' }}
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
@@ -81,7 +75,8 @@ jobs:
       uses: anchore/scan-action@v3
       with:
         image: "local/testimage:latest"
-        acs-report-enable: true
+        debug: true
+        fail-build: false
       id: scan
 
     - name: Upload Docker results
