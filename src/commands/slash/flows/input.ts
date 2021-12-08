@@ -9,7 +9,7 @@ export default {
   description: "Add an input to a flow (the flow editor will ask you to run this command)",
   options: Object.values(propertyTypes).map(prop => prop.input).filter((prop, index, props) => props.indexOf(prop) === index),
   execute: (interaction, _, args) => {
-    const awaiting = awaitingInput.get([interaction.guildId, interaction.channelId, interaction.user.id].join("."));
+    const awaiting = awaitingInput.get([interaction.channelId, interaction.user.id].join("."));
     if (awaiting) return awaiting(interaction, args);
 
     return interaction.reply({
