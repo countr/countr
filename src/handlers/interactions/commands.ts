@@ -40,11 +40,11 @@ export default async (interaction: CommandInteraction, document: GuildDocument):
         channel: interaction.channelId,
         expires: Date.now(),
       } :
-      selectedCountingChannels.get(interaction.user.id);
+      selectedCountingChannels.get([interaction.guildId, interaction.user.id].join("."));
 
     if (selectedCountingChannel && selectedCountingChannel.expires < Date.now()) {
       selectedCountingChannel = undefined;
-      selectedCountingChannels.delete(interaction.user.id);
+      selectedCountingChannels.delete([interaction.guildId, interaction.user.id].join("."));
     }
 
     if (commandFile.requireSelectedCountingChannel && (
@@ -59,7 +59,7 @@ export default async (interaction: CommandInteraction, document: GuildDocument):
           ephemeral: true,
         });
       }
-      selectedCountingChannels.set(interaction.user.id, selectedCountingChannel);
+      selectedCountingChannels.set([interaction.guildId, interaction.user.id].join("."), selectedCountingChannel);
     }
 
     commandFile.execute(interaction, inCountingChannel, getSlashArgs(interaction.options.data), document, selectedCountingChannel?.channel);

@@ -46,11 +46,11 @@ export default (message: Message, document: GuildDocument): Promise<void> => {
             channel: message.channelId,
             expires: Date.now(),
           } :
-          selectedCountingChannels.get(message.author.id);
+          selectedCountingChannels.get([message.guildId, message.author.id].join("."));
 
         if (selectedCountingChannel && selectedCountingChannel.expires < Date.now()) {
           selectedCountingChannel = undefined;
-          selectedCountingChannels.delete(message.author.id);
+          selectedCountingChannels.delete([message.guildId, message.author.id].join("."));
         }
 
         if (command.requireSelectedCountingChannel && (
@@ -60,7 +60,7 @@ export default (message: Message, document: GuildDocument): Promise<void> => {
           if (document.channels.size === 1) selectedCountingChannel = { channel: document.channels.values().next().value, expires: Date.now() + 1000 * 60 * 60 * 24 };
           else if (document.channels.has(message.channelId)) selectedCountingChannel = { channel: message.channelId, expires: Date.now() + 1000 * 60 * 60 * 24 };
           else return resolve(message.reply("💥 You need a counting channel selected to run this command. Type `/select` to select a counting channel and then run this command again."));
-          selectedCountingChannels.set(message.author.id, selectedCountingChannel);
+          selectedCountingChannels.set([message.guildId, message.author.id].join("."), selectedCountingChannel);
         }
 
         if (args.length < (command.minArguments || 0)) {
