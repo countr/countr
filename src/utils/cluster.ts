@@ -42,6 +42,7 @@ export function postStats(client: Client<true>, loading: boolean): void {
         status: client.ws.status,
         guilds: client.guilds.cache.size,
         users: client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b, 0),
+        memory: process.memoryUsage().heapUsed,
         loading,
         uptime,
         update: Date.now(),
@@ -56,12 +57,15 @@ export function getManagerStats(client: Client): Promise<ManagerStatus> {
   if (!client.isReady()) {
     return Promise.resolve({
       clusters: [],
-      guilds: 0,
-      users: 0,
-      uptime,
-      update: Date.now(),
+      totalShards: 0,
+      totalGuilds: 0,
+      totalUsers: 0,
+      weeklyCount: 0,
+      totalMemory: 0,
+      lastUpdate: Date.now(),
     });
   } else if (!config.apiUri) {
+    const memory = process.memoryUsage().heapUsed;
     return Promise.resolve({
       clusters: [
         {
@@ -75,15 +79,18 @@ export function getManagerStats(client: Client): Promise<ManagerStatus> {
           status: client.ws.status,
           guilds: client.guilds.cache.size,
           users: client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b, 0),
+          memory,
           loading: false,
           uptime,
           update: Date.now(),
         },
       ],
-      guilds: client.guilds.cache.size,
-      users: client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b, 0),
-      uptime,
-      update: Date.now(),
+      totalShards: config.cluster.shardCount,
+      totalGuilds: client.guilds.cache.size,
+      totalUsers: client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b, 0),
+      weeklyCount: 0,
+      totalMemory: memory,
+      lastUpdate: Date.now(),
     });
   }
 

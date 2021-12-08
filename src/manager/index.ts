@@ -17,10 +17,12 @@ app.get("/", (_req, res) => {
   const list: Array<ClusterData> = Array.from(clusters.values());
   res.json({
     clusters: list,
-    guilds: list.map(c => c.guilds).reduce((a, b) => a + b, 0),
-    users: list.map(c => c.users).reduce((a, b) => a + b, 0),
-    uptime,
-    update: Date.now(),
+    totalShards: list.reduce((acc, cluster) => acc + cluster.shards.length, 0),
+    totalGuilds: list.map(c => c.guilds).reduce((a, b) => a + b, 0),
+    totalUsers: list.map(c => c.users).reduce((a, b) => a + b, 0),
+    weeklyCount: 0, // todo
+    totalMemory: list.reduce((acc, cluster) => acc + cluster.memory, 0),
+    lastUpdate: Date.now(),
   } as ManagerStatus);
 });
 

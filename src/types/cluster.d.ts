@@ -3,6 +3,9 @@ import { Status } from "discord.js";
 export type Cluster = {
   id: number;
   shards: Array<number>;
+}
+
+export type ClientCluster = Cluster & {
   shardCount: number;
 }
 
@@ -16,6 +19,7 @@ export type ClusterStatus = {
   status: Status;
   guilds: number;
   users: number;
+  memory: number;
   loading: boolean;
   uptime: number;
   update: number; // last update

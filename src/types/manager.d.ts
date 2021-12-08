@@ -2,8 +2,10 @@ import { ClusterData } from "./cluster";
 
 export type ManagerStatus = {
   clusters: Array<ClusterData>;
-  guilds: number;
-  users: number;
-  uptime: number;
-  update: number;
+  totalShards: number;
+  totalGuilds: number;
+  totalUsers: number;
+  weeklyCount: number;
+  totalMemory: number;
+  lastUpdate: number;
 }

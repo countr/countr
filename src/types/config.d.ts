@@ -1,5 +1,5 @@
 import { CacheWithLimitsOptions } from "discord.js";
-import { Cluster } from "./cluster";
+import { ClientCluster } from "./cluster";
 
 export interface Config {
   client: {
@@ -8,7 +8,7 @@ export interface Config {
     token: string,
     caches: CacheWithLimitsOptions
   },
-  cluster: Cluster,
+  cluster: ClientCluster,
   databaseUri: string,
   isPremium?: boolean,
 
