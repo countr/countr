@@ -42,7 +42,10 @@ export default async (interaction: CommandInteraction, document: GuildDocument):
       } :
       selectedCountingChannels.get([interaction.guildId, interaction.user.id].join("."));
 
-    if (selectedCountingChannel && selectedCountingChannel.expires < Date.now()) {
+    if (selectedCountingChannel && (
+      selectedCountingChannel.expires < Date.now() ||
+      !document.channels.has(selectedCountingChannel.channel) // check if channel is deleted
+    )) {
       selectedCountingChannel = undefined;
       selectedCountingChannels.delete([interaction.guildId, interaction.user.id].join("."));
     }
