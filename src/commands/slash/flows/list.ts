@@ -9,6 +9,13 @@ export default {
     const flows = document.channels.get(selectedCountingChannel || "")?.flows;
     if (!flows) return; // always defined
 
+    if (!flows.size) {
+      return interaction.reply({
+        content: `❌ <#${selectedCountingChannel}> has no flows configured.`,
+        ephemeral: true,
+      });
+    }
+
     interaction.reply(createMessage(interaction.id, Array.from(flows.entries())));
   },
   disableInCountingChannel: true,
