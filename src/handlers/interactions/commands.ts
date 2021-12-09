@@ -23,9 +23,9 @@ export default async (interaction: CommandInteraction, document: GuildDocument):
     const subCommandOrGroup = command.options.find(o => ["SUB_COMMAND", "SUB_COMMAND_GROUP"].includes(o.type) && o.name === interaction.options.data[0].name) as ApplicationCommandSubCommand | ApplicationCommandSubGroup;
     if (subCommandOrGroup) {
       path.push(subCommandOrGroup.name);
-      if (subCommandOrGroup.options) {
+      if (subCommandOrGroup.type === "SUB_COMMAND_GROUP") {
         const subCommands = subCommandOrGroup.options as Array<ApplicationCommandSubCommand>;
-        const subCommand = subCommands.find(o => o.type === "SUB_COMMAND" && o.name === subCommandOrGroup.options?.[0].name);
+        const subCommand = subCommands.find(o => o.name === interaction.options.data[0]?.options?.[0].name);
         if (subCommand) path.push(subCommand.name);
       }
     }
