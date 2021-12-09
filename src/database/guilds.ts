@@ -1,4 +1,5 @@
 import Guild, { GuildDocument } from "./models/Guild";
+import { mongooseLogger } from "../utils/logger/mongoose";
 
 export const cache: Map<string, GuildDocument> = new Map(), cacheQueue = new Map();
 
@@ -24,4 +25,7 @@ export const get = (guildId: string, fromCache = true): Promise<GuildDocument> =
 export const touch = (guildIds: Array<string>): Promise<void> => Guild.find({ $or: guildIds.map(guildId => ({ guildId })) })
   .then(guilds => guildIds.forEach(guildId => cache.set(guildId, guilds.find(guild => guild.guildId === guildId) || new Guild({ guildId }))));
 
-export const reset = (guildId: string): Promise<boolean> => Guild.deleteOne({ guildId }).then(() => cache.delete(guildId));
+export const reset = (guildId: string): Promise<boolean> => {
+  mongooseLogger.info(`Removed database of guild ${guildId}, contents were ${JSON.stringify(cache.get(guildId))}`);
+  return Guild.deleteOne({ guildId }).then(() => cache.delete(guildId));
+};
