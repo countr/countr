@@ -1,4 +1,4 @@
-name: TypeScript
+name: Test build
 
 on:
   push:
@@ -23,3 +23,14 @@ jobs:
 
     - name: Build TypeScript
       run: npm run build
+
+  docker:
+    name: Test image
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Build Docker image
+      run: docker build . -t local/testimage:latest

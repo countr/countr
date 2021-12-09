@@ -53,33 +53,3 @@ jobs:
       uses: github/codeql-action/upload-sarif@v1
       with:
         sarif_file: ${{ steps.analysis.outputs.sarifFile }}
-
-  docker:
-    name: Docker Scan
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 2
-
-    - name: Checkout head of pull request
-      run: git checkout HEAD^2
-      if: ${{ github.event_name == 'pull_request' }}
-
-    - name: Build Docker image
-      run: docker build . -t local/testimage:latest
-
-    - name: Perform Docker scan
-      uses: anchore/scan-action@v3
-      with:
-        image: "local/testimage:latest"
-        debug: true
-        fail-build: false
-      id: scan
-
-    - name: Upload Docker results
-      uses: github/codeql-action/upload-sarif@v1
-      with:
-        sarif_file: ${{ steps.scan.outputs.sarif }}

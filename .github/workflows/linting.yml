@@ -1,4 +1,4 @@
-name: ESLint
+name: Linting
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   lint:
-    name: Lint project
+    name: ESLint
     runs-on: ubuntu-latest
 
     steps:
