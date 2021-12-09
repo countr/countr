@@ -1,5 +1,5 @@
-[![ESLint](https://github.com/countr/countr/actions/workflows/typescript.yml/badge.svg)](https://github.com/countr/countr/actions/workflows/typescript.yml)
-[![TypeScript](https://github.com/countr/countr/actions/workflows/eslint.yml/badge.svg)](https://github.com/countr/countr/actions/workflows/eslint.yml)
+[![Linting](https://github.com/countr/countr/actions/workflows/linting.yml/badge.svg)](https://github.com/countr/countr/actions/workflows/linting.yml)
+[![Test build](https://github.com/countr/countr/actions/workflows/build-test.yml/badge.svg)](https://github.com/countr/countr/actions/workflows/build-test.yml)
 [![Analysis and Scans](https://github.com/countr/countr/actions/workflows/analysis-and-scans.yml/badge.svg)](https://github.com/countr/countr/actions/workflows/analysis-and-scans.yml)
 [![DeepScan grade](https://deepscan.io/api/teams/5752/projects/13580/branches/231936/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=5752&pid=13580&bid=231936)
 [![Dependency Status](https://david-dm.org/countr/countr.svg)](https://david-dm.org/countr/countr)
