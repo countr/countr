@@ -8,6 +8,11 @@ export default {
   description: "Link an existing channel to Countr",
   options: [
     {
+      type: "STRING",
+      name: "name",
+      description: "The name of the channel you want to create",
+    },
+    {
       type: "CHANNEL",
       name: "thread_in",
       description: "The channel you want to make a thread in. Don't include this if you just want a regular text channel",
@@ -21,7 +26,7 @@ export default {
     },
   ],
   // eslint-disable-next-line camelcase -- slash command options can't be camel case, we make it camel case though
-  execute: async (interaction, ephemeralPreference, { thread_in: threadIn, type = Object.keys(numberSystems)[0] }: { thread_in?: string; type: string; }, document) => {
+  execute: async (interaction, ephemeralPreference, { name = "Counting", thread_in: threadIn, type = Object.keys(numberSystems)[0] }: { name: string; thread_in?: string; type: string; }, document) => {
     if (document.channels.size >= limits.channels.amount) {
       return interaction.reply({
         content: `❌ You can't have more than **${limits.channels.amount}** counting channels in a guild.`,
@@ -46,7 +51,7 @@ export default {
         });
       }
 
-      parent.threads.create({ name: "Counting" }).then(channel => {
+      parent.threads.create({ name }).then(channel => {
         document.channels.set(channel.id, {
           count: {
             number: 0,
@@ -66,7 +71,7 @@ export default {
       }));
     } else { // regular text channel
       const permissions = countingChannelPermissions;
-      interaction.guild?.channels.create("counting", {
+      interaction.guild?.channels.create(name, {
         parent: interaction.guild.channels.cache.get(interaction.channelId)?.parentId || undefined,
         rateLimitPerUser: 2,
         permissionOverwrites: interaction.guild.me ?
