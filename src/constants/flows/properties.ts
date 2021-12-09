@@ -1,9 +1,8 @@
 import { ApplicationCommandOptionData, Guild } from "discord.js";
 import { ChannelInput, NumberInput, RegexInput, RolesInput, TextInput } from "./inputs";
 import { getChannel, getRole } from "../resolvers";
+import { PropertyValue } from "../../types/flows/properties";
 import { joinListWithAnd } from "../../utils/text";
-
-export type PropertyValue = string | number | Array<PropertyValue>;
 
 export interface Property {
   short: string;
