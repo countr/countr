@@ -8,6 +8,10 @@
 [![License](https://img.shields.io/github/license/countr/countr.svg)](https://github.com/countr/countr/blob/master/LICENSE)
 [![Discord Support](https://img.shields.io/discord/449576301997588490.svg)](https://promise.solutions/support)
 
+# 🚧 THIS BRANCH IS WORK-IN-PROGRESS 🚧
+
+Go to the [`djs-12`](https://github.com/countr/countr/tree/djs-12)-branch for a somewhat stable but otudated branch. The branch will no longer be maintained.
+
 # Countr
 
 Countr is an advanced counting bot which can manage a counting channel in your guild. With a simple setup, your channel is ready.
