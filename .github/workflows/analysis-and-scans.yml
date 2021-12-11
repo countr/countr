@@ -11,25 +11,36 @@ jobs:
     name: CodeQL Analysis
     runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: false
-      matrix:
-        language: ['javascript']
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Initialize
+      uses: github/codeql-action/init@v1
+
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v1
+
+    - name: Perform analysis and upload results
+      uses: github/codeql-action/analyze@v1
+
+  njsscan:
+    name: NJS Scan
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
+    - name: Perform scan
+      uses: ajinabraham/njsscan-action@master
       with:
-        languages: ${{ matrix.language }}
+        args: '. --sarif --output results.sarif || true'
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v1
-
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
+    - name: Upload results
+      uses: github/codeql-action/upload-sarif@v1
+      with:
+        sarif_file: results.sarif
 
   ossar:
     name: OSSAR Analysis
@@ -45,11 +56,11 @@ jobs:
       run: git checkout HEAD^2
       if: ${{ github.event_name == 'pull_request' }}
 
-    - name: Perform OSSAR analysis
+    - name: Perform analysis
       uses: github/ossar-action@v1
       id: analysis
 
-    - name: Upload OSSAR results
+    - name: Upload results
       uses: github/codeql-action/upload-sarif@v1
       with:
         sarif_file: ${{ steps.analysis.outputs.sarifFile }}
