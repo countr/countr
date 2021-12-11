@@ -3,16 +3,16 @@
   "main": "build/bot.js",
   "license": "GPL-3.0",
   "scripts": {
+    "build": "tsc",
     "docker": "docker-compose up --build",
     "docker:clusterfuck": "docker-compose -f docker/docker-compose-clusterfuck.yml up --build",
     "docker:no-db": "docker-compose -f docker/docker-compose-no-db.yml up --build",
     "docker:no-manager": "docker-compose -f docker/docker-compose-no-manager.yml up --build",
     "docker:standalone": "docker-compose -f docker/docker-compose-standalone.yml up --build",
-    "build": "tsc",
-    "start": "node .",
+    "lint": "eslint ./src",
     "manager": "node ./build/manager",
-    "watch": "tsc -w",
-    "lint": "eslint ./src"
+    "start": "node .",
+    "watch": "tsc -w"
   },
   "dependencies": {
     "@typegoose/typegoose": "^9.2.0",
