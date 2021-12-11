@@ -1,8 +1,7 @@
 ---
-name: 'Feature Request'
+name: 'Feature request'
 about: Create a feature request on something you feel should be added to the bot
 labels: feature_request
-assignees: promise
 ---
 
 # Feature request
