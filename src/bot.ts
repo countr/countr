@@ -92,19 +92,21 @@ function updatePresence() {
 
 client.on("messageCreate", async message => {
   if (
-    !client.user ||
-    !message.guild ||
-    disabledGuilds?.has(message.guild.id) ||
+    !message.guildId ||
+    disabledGuilds?.has(message.guildId) ||
     message.author.bot ||
     message.type !== "DEFAULT"
   ) return;
 
-  const document = await guilds.get(message.guild.id);
-  if (document.channels.has(message.channel.id)) countingHandler(message, document);
+  const document = await guilds.get(message.guildId);
 
-  else if (message.content.match(`^<@!?${client.user.id}> `)) messageCommandHandler(message, document);
-  else if (message.content.match(`^<@!?${client.user.id}>`)) {
-    message.reply({
+  const channel = document.channels.get(message.channelId);
+  if (channel) return void countingHandler(message, document, channel);
+
+  if (message.content.match(`^<@!?${client.user?.id}> `)) return void messageCommandHandler(message, document);
+
+  if (message.content.match(`^<@!?${client.user?.id}>`)) {
+    return void message.reply({
       content: "hello",
     });
   }
