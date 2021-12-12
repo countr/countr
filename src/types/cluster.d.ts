@@ -1,5 +1,4 @@
 import { Status } from "discord.js";
-import { number } from "mathjs";
 
 export type Cluster = {
   id: number;
