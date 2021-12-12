@@ -17,7 +17,7 @@ export default (interaction: SelectMenuInteraction | ButtonInteraction): void =>
         allowedUsers: [interaction.message.interaction?.user.id || ""],
         callback: detailsOrCallback,
       };
-    if (component.allowedUsers && !component.allowedUsers.includes(interaction.user.id)) return console.log("hhhh"); // todo add error message
+    if (component.allowedUsers && !component.allowedUsers.includes(interaction.user.id)) return; // user is not allowed to interact, so just ignore
     component.callback(interaction);
   }
 };
