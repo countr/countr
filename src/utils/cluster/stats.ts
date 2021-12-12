@@ -1,32 +1,12 @@
-import { Client, PresenceData } from "discord.js";
-import { ClusterUpdate } from "../types/cluster";
-import { ManagerStatus } from "../types/manager";
-import config from "../config";
+import { Client } from "discord.js";
+import { ClusterUpdate } from "../../types/cluster";
+import { ManagerStatus } from "../../types/manager";
+import config from "../../config";
 import superagent from "superagent";
-
-const uptime = Date.now();
-
-export function askForPermissionToInitialize(): Promise<boolean> {
-  if (!config.apiUri) return Promise.resolve(true);
-  return new Promise(resolve => {
-    superagent
-      .post(`${config.apiUri}/cluster/${config.cluster.id}/init`)
-      .set("Authorization", config.client.token)
-      .then(res => res.status === 200 ? resolve(true) : resolve(false))
-      .catch(() => resolve(false));
-  });
-}
-
-export function markClusterAsReady(): void {
-  if (!config.apiUri) return;
-  return void superagent
-    .post(`${config.apiUri}/cluster/${config.cluster.id}/done`)
-    .set("Authorization", config.client.token)
-    .end();
-}
 
 export function postStats(client: Client<true>, loading: boolean): void {
   if (!config.apiUri) return;
+  const now = Date.now();
   return void superagent
     .post(`${config.apiUri}/cluster/${config.cluster.id}/stats`)
     .send({
@@ -44,8 +24,8 @@ export function postStats(client: Client<true>, loading: boolean): void {
         users: client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b, 0),
         memory: process.memoryUsage().heapUsed,
         loading,
-        uptime,
-        update: Date.now(),
+        uptime: now - client.uptime,
+        update: now,
       },
     } as ClusterUpdate)
     .set("Content-Type", "application/json")
@@ -66,6 +46,7 @@ export function getManagerStats(client: Client): Promise<ManagerStatus> {
     });
   } else if (!config.apiUri) {
     const memory = process.memoryUsage().heapUsed;
+    const now = Date.now();
     return Promise.resolve({
       clusters: [
         {
@@ -81,8 +62,8 @@ export function getManagerStats(client: Client): Promise<ManagerStatus> {
           users: client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b, 0),
           memory,
           loading: false,
-          uptime,
-          update: Date.now(),
+          uptime: now - client.uptime,
+          update: now,
         },
       ],
       totalShards: config.cluster.shardCount,
@@ -90,27 +71,9 @@ export function getManagerStats(client: Client): Promise<ManagerStatus> {
       totalUsers: client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b, 0),
       weeklyCount: 0,
       totalMemory: memory,
-      lastUpdate: Date.now(),
+      lastUpdate: now,
     });
   }
 
   return superagent.get(config.apiUri).then(json => json.body as ManagerStatus);
-}
-
-export function getPresence(client: Client): Promise<PresenceData> {
-  if (!client.isReady()) return Promise.resolve({ status: "dnd" });
-
-  if (!config.apiUri) {
-    return Promise.resolve({
-      status: "online",
-      activity: {
-        name: "the counting channel",
-        type: "WATCHING",
-      },
-    });
-  }
-
-  return superagent.get(`${config.apiUri}/cluster/${config.cluster.id}/status`)
-    .set("Authorization", config.client.token)
-    .then(json => json.body as PresenceData);
 }

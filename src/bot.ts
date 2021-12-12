@@ -1,14 +1,16 @@
 import * as guilds from "./database/guilds";
 import { Client, Options } from "discord.js";
-import { askForPermissionToInitialize, getPresence, markClusterAsReady, postStats } from "./utils/cluster";
+import { askForPermissionToInitialize, markClusterAsReady } from "./utils/cluster";
 import accessHandler from "./handlers/access";
 import config from "./config";
 import { connection } from "./database";
 import countingHandler from "./handlers/counting";
 import { countrLogger } from "./utils/logger/countr";
 import { discordLogger } from "./utils/logger/discord";
+import { getPresence } from "./utils/cluster/presence";
 import interactionsHandler from "./handlers/interactions";
 import messageCommandHandler from "./handlers/messageCommands";
+import { postStats } from "./utils/cluster/stats";
 import prepareGuild from "./handlers/prepareGuild";
 import updateLiveboards from "./handlers/liveboard";
 

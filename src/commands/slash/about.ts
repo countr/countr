@@ -3,7 +3,7 @@ import { ManagerStatus } from "../../types/manager";
 import { SlashCommand } from "../../types/command";
 import { bytesToHumanReadableFormat } from "../../utils/human";
 import config from "../../config";
-import { getManagerStats } from "../../utils/cluster";
+import { getManagerStats } from "../../utils/cluster/stats";
 import { msToTime } from "../../utils/time";
 import { trim } from "../../utils/text";
 import { version } from "discord.js";
