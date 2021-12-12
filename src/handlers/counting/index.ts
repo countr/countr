@@ -91,13 +91,13 @@ function queueDelete(messages: Array<Message>): void {
 
 function bulkDelete(channel: TextBasedChannels): void {
   const bulk = bulks.get(channel.id);
-  if (bulk && ( // typescript
+  if (bulk?.[0] && ( // typescript
     bulk[0].channel.type === "GUILD_TEXT" ||
     bulk[0].channel.type === "GUILD_PRIVATE_THREAD" ||
     bulk[0].channel.type === "GUILD_PUBLIC_THREAD"
   )) {
     if (bulk.length > 2) bulk[0].channel.bulkDelete(bulk.slice(0, 100));
-    else if (bulk[0]) bulk[0].delete();
+    else bulk[0].delete();
 
     const newBulk = bulk.slice(100);
 

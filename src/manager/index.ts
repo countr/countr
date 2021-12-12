@@ -6,8 +6,6 @@ import express from "express";
 import { expressLogger } from "../utils/logger/express";
 import { managerLogger } from "../utils/logger/manager";
 
-const uptime = Date.now();
-
 const app = express();
 app.use(expressLogger);
 
