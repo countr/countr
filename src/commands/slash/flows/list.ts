@@ -1,7 +1,9 @@
 import { InteractionReplyOptions, SelectMenuInteraction } from "discord.js";
 import { Flow } from "../../../database/models/Guild";
 import { SlashCommand } from "../../../types/command";
+import actions from "../../../constants/flows/actions";
 import { components } from "../../../handlers/interactions/components";
+import triggers from "../../../constants/flows/triggers";
 
 export default {
   description: "List all the flows configured",
@@ -16,7 +18,7 @@ export default {
       });
     }
 
-    interaction.reply(createMessage(interaction.id, Array.from(flows.entries())));
+    interaction.reply(createMessage(interaction.id, Array.from(flows.entries()), selectedCountingChannel || ""));
   },
   disableInCountingChannel: true,
   requireSelectedCountingChannel: true,
@@ -24,7 +26,7 @@ export default {
 
 const embedsPerMessage = 10;
 
-function createMessage(randomIdentifier: string, flows: Array<[ string, Flow ]>, page = 0): InteractionReplyOptions {
+function createMessage(randomIdentifier: string, flows: Array<[ string, Flow ]>, channel: string, page = 0): InteractionReplyOptions {
   const totalPages = Math.ceil(flows.length / embedsPerMessage);
   const flowsForThisPage = flows.slice(page * embedsPerMessage, (page + 1) * embedsPerMessage);
 
@@ -35,6 +37,7 @@ function createMessage(randomIdentifier: string, flows: Array<[ string, Flow ]>,
   }));
 
   const message: InteractionReplyOptions = {
+    content: `Showing flows **${page * embedsPerMessage + 1}-${page * embedsPerMessage + flowsForThisPage.length}** (${flows.length} flows total) for channel <#${channel}>.`,
     embeds,
     components: [
       {
@@ -59,12 +62,62 @@ function createMessage(randomIdentifier: string, flows: Array<[ string, Flow ]>,
   components.set(`${randomIdentifier}:details`, i_ => {
     const i = i_ as SelectMenuInteraction;
     const [flowId] = i.values;
-    // todo add details
+
+    const flow = flows.find(([id]) => id === flowId)?.[1];
+    if (!flow) return;
+
+    components.set(`${i.id}:back`, i__ => i__.update(createMessage(i__.id, flows, channel, page)));
+
+    i.update({
+      content: null,
+      embeds: [
+        {
+          title: `${flow.name ? `${flow.name} (\`${flowId}\`)` : `\`${flowId}\``} ${flow.disabled ? "(disabled)" : ""}`,
+          color: parseInt(flowId, 16),
+          fields: [
+            {
+              name: "Status",
+              value: flow.disabled ? "❌ Disabled" : "✅ Enabled",
+              inline: true,
+            },
+          ],
+        },
+        {
+          title: "Triggers",
+          color: parseInt(flowId, 16),
+          fields: flow.triggers.map(({ type, data }, i) => {
+            const trigger = triggers[type];
+            return { name: `• ${i + 1}: ${trigger.short}`, value: trigger.explanation(data) };
+          }),
+        },
+        {
+          title: "Actions",
+          color: parseInt(flowId, 16),
+          fields: flow.actions.map(({ type, data }, i) => {
+            const action = actions[type];
+            return { name: `• ${i + 1}: ${action.short}`, value: action.explanation(data) };
+          }),
+        },
+      ],
+      components: [
+        {
+          type: "ACTION_ROW",
+          components: [
+            {
+              type: "BUTTON",
+              label: "Go back to list",
+              customId: `${i.id}:back`,
+              style: "SECONDARY",
+            },
+          ],
+        },
+      ],
+    });
   });
 
   if (totalPages > 1) {
-    components.set(`${randomIdentifier}:previous`, i => i.update(createMessage(i.id, flows, page - 1)));
-    components.set(`${randomIdentifier}:next`, i => i.update(createMessage(i.id, flows, page + 1)));
+    components.set(`${randomIdentifier}:previous`, i => i.update(createMessage(i.id, flows, channel, page - 1)));
+    components.set(`${randomIdentifier}:next`, i => i.update(createMessage(i.id, flows, channel, page + 1)));
 
     message.components?.push({
       type: "ACTION_ROW",
