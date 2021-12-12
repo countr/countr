@@ -13,20 +13,30 @@ export default {
       type: "STRING",
       name: "json_url",
       description: "URL to the JSON file to import",
+      required: true,
     },
   ],
   // eslint-disable-next-line camelcase -- slash command options can't be camel case, we make it camel case though
-  execute: (interaction, _, { json_url: url }: { json_url: string; }, document, selectedCountingChannel) => {
-    // test url and that it comes from discord's CDN
-    const { origin, toString } = new URL(url);
-    if (origin !== interaction.client.options.http?.cdn) {
+  execute: (interaction, _, { json_url: inputUrl }: { json_url: string; }, document, selectedCountingChannel) => {
+    // test url
+    const url = getURL(inputUrl);
+    if (!url) {
       return interaction.reply({
-        content: `The URL must come from Discord (link starting with ${interaction.client.options.http?.cdn}) to avoid abuse.`,
+        content: "❌ Invalid URL",
         ephemeral: true,
       });
     }
 
-    superagent.get(toString()).then(json => json.body).then(json => {
+    // check that it comes from Discord
+    if (url.origin !== interaction.client.options.http?.cdn) {
+      return interaction.reply({
+        content: `❌ The URL must come from Discord (link starting with \`${interaction.client.options.http?.cdn}\`) to avoid abuse. Try and upload the file to Discord and use the attachment URL from there.`,
+        ephemeral: true,
+      });
+    }
+
+    // fetch, test and add
+    superagent.get(inputUrl).then(json => json.body).then(json => {
       const flow = getFlow(json);
       if (!flow) {
         return interaction.reply({
@@ -41,7 +51,6 @@ export default {
 
       return interaction.reply({
         content: `✅ Imported flow configuration as flow ID \`${flowId}\`!`,
-        ephemeral: true,
       });
     }).catch(() => interaction.reply({
       content: "❌ Failed to import flow configuration",
@@ -120,4 +129,12 @@ function getFlowOptionData(input: any): Array<PropertyValue> | null {
   if (data.includes(null)) return null;
 
   return data as Array<PropertyValue>;
+}
+
+function getURL(input: string): URL | null {
+  try {
+    return new URL(input);
+  } catch (e) {
+    return null;
+  }
 }
