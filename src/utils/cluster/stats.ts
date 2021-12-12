@@ -4,9 +4,13 @@ import { ManagerStatus } from "../../types/manager";
 import config from "../../config";
 import superagent from "superagent";
 
+let newCounts = 0;
+
 export function postStats(client: Client<true>, loading: boolean): void {
   if (!config.apiUri) return;
-  const now = Date.now();
+  const now = Date.now(), count = newCounts;
+  newCounts = 0;
+
   return void superagent
     .post(`${config.apiUri}/cluster/${config.cluster.id}/stats`)
     .send({
@@ -26,6 +30,7 @@ export function postStats(client: Client<true>, loading: boolean): void {
         loading,
         uptime: now - client.uptime,
         update: now,
+        newCounts: count,
       },
     } as ClusterUpdate)
     .set("Content-Type", "application/json")
@@ -76,4 +81,8 @@ export function getManagerStats(client: Client): Promise<ManagerStatus> {
   }
 
   return superagent.get(config.apiUri).then(json => json.body as ManagerStatus);
+}
+
+export function addToCount(n: number): void {
+  newCounts += n;
 }

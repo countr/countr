@@ -1,6 +1,7 @@
 import { Cluster, ClusterData, ClusterUpdate } from "../types/cluster";
 import { Router as expressRouter, json } from "express";
 import { PresenceData } from "discord.js";
+import { addToCount } from "./global";
 import config from "../config";
 
 export const router = expressRouter();
@@ -15,7 +16,9 @@ router.post("/:clusterId/stats", (req, res) => {
   const request = req.body as ClusterUpdate;
   if (request.type !== "cluster-update") return res.sendStatus(400);
 
-  clusters.set(request.payload.cluster.id, request.payload);
+  const { newCounts, ...payload } = request.payload;
+  clusters.set(request.payload.cluster.id, payload);
+  addToCount(newCounts);
   return res.sendStatus(200);
 });
 

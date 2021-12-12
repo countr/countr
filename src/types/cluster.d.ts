@@ -1,4 +1,5 @@
 import { Status } from "discord.js";
+import { number } from "mathjs";
 
 export type Cluster = {
   id: number;
@@ -31,5 +32,7 @@ export type ClusterData = {
 
 export type ClusterUpdate = {
   type: "cluster-update";
-  payload: ClusterData;
+  payload: ClusterData & {
+    newCounts: number;
+  };
 }
