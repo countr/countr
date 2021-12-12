@@ -28,7 +28,7 @@ const steps: Array<Step> = [
     description: () => "create actions", // todo
     fields: flow => flow.actions.map(({ type, data }, i) => {
       const action = actions[type];
-      return { name: `Action ${i + 1}: ${action.short}`, value: action.explanation(data) };
+      return { name: `• ${i + 1}: ${action.short}`, value: action.explanation(data) };
     }),
     components: flow => getTriggerOrActionComponents("action", flow),
     getStatus: flow => flow.actions.length ? "complete" : "incomplete",
@@ -36,7 +36,18 @@ const steps: Array<Step> = [
   {
     title: "Flow details (Optional)",
     description: () => "Here's some optional settings you can set, like a custom name. You can also disable it if you'd like.",
-    fields: flow => [{ name: "Name (optional)", value: flow.name || "*No name is set*", inline: true }, { name: "Status", value: flow.disabled ? "❌ Disabled" : "✅ Enabled", inline: true }],
+    fields: flow => [
+      {
+        name: "Name (optional)",
+        value: flow.name || "*No name is set*",
+        inline: true,
+      },
+      {
+        name: "Status",
+        value: flow.disabled ? "❌ Disabled" : "✅ Enabled",
+        inline: true,
+      },
+    ],
     components: flow => [
       [
         flow.name ?
