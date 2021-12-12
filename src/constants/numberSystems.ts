@@ -35,7 +35,9 @@ const numberSystems: {
     name: "Roman (I, II, III, IV, V...)",
     convert: string => {
       try {
-        return toArabic(string);
+        const arabic = toArabic(string) || null;
+        if (!arabic || toRoman(arabic) !== string) return null;
+        return arabic;
       } catch (e) {
         return null;
       }
