@@ -5,7 +5,6 @@
 [![discord.js version](https://img.shields.io/github/package-json/dependency-version/countr/countr/discord.js)](https://www.npmjs.com/package/discord.js)
 [![GitHub Issues](https://img.shields.io/github/issues-raw/countr/countr.svg)](https://github.com/countr/countr/issues)
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr-raw/countr/countr.svg)](https://github.com/countr/countr/pulls)
-[![License](https://img.shields.io/github/license/countr/countr.svg)](https://github.com/countr/countr/blob/master/LICENSE)
 
 # 🚧 THIS BRANCH IS WORK-IN-PROGRESS 🚧
 
