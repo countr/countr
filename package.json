@@ -15,7 +15,7 @@
     "watch": "tsc -w"
   },
   "dependencies": {
-    "@typegoose/typegoose": "^9.2.0",
+    "@typegoose/typegoose": "^9.3.1",
     "bufferutil": "^4.0.5",
     "discord.js": "^13.3.1",
     "dotenv": "^10.0.0",
@@ -24,7 +24,7 @@
     "express-winston": "^4.2.0",
     "match-sorter": "^6.3.1",
     "mathjs": "^10.0.0",
-    "mongoose": "^6.0.12",
+    "mongoose": "^6.0.14",
     "roman-numerals": "^0.3.2",
     "superagent": "^6.1.0",
     "time-limited-regular-expressions": "^1.0.0",
@@ -35,12 +35,12 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
-    "@types/node": "^16.11.6",
+    "@types/node": "^16.11.12",
     "@types/roman-numerals": "^0.3.0",
     "@types/superagent": "^4.1.13",
     "@types/time-limited-regular-expressions": "^1.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.31.1",
-    "@typescript-eslint/parser": "^4.31.1",
-    "eslint": "^7.32.0"
+    "@typescript-eslint/eslint-plugin": "^5.7.0",
+    "@typescript-eslint/parser": "^5.7.0",
+    "eslint": "^8.4.1"
   }
 }
