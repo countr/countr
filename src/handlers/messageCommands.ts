@@ -48,14 +48,14 @@ export default (message: Message, document: GuildDocument): Promise<void> => {
           } :
           selectedCountingChannels.get([message.guildId, message.author.id].join("."));
 
-        if (selectedCountingChannel && selectedCountingChannel.expires < Date.now()) {
+        if (selectedCountingChannel?.expires && selectedCountingChannel.expires < Date.now()) {
           selectedCountingChannel = undefined;
           selectedCountingChannels.delete([message.guildId, message.author.id].join("."));
         }
 
         if (command.requireSelectedCountingChannel && (
           !selectedCountingChannel ||
-          selectedCountingChannel.expires < Date.now()
+          selectedCountingChannel.expires && selectedCountingChannel.expires < Date.now()
         )) {
           if (document.channels.size === 1) selectedCountingChannel = { channel: document.channels.values().next().value, expires: Date.now() + 1000 * 60 * 60 * 24 };
           else if (document.channels.has(message.channelId)) selectedCountingChannel = { channel: message.channelId, expires: Date.now() + 1000 * 60 * 60 * 24 };

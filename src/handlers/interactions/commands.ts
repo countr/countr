@@ -1,5 +1,5 @@
 import { ApplicationCommandSubCommand, ApplicationCommandSubGroup, CommandInteraction, CommandInteractionOption, CommandInteractionOptionResolver, GuildMember } from "discord.js";
-import { SelectedCountingChannel, selectedCountingChannels } from "../../constants/selectedCountingChannels";
+import { SelectedCountingChannel, defaultExpirationValue, selectedCountingChannels } from "../../constants/selectedCountingChannels";
 import { getPermissionLevel, ladder } from "../../constants/permissions";
 import { GuildDocument } from "../../database/models/Guild";
 import { SlashCommand } from "../../types/command";
@@ -38,12 +38,11 @@ export default async (interaction: CommandInteraction, document: GuildDocument):
     let selectedCountingChannel: SelectedCountingChannel | undefined = inCountingChannel ?
       {
         channel: interaction.channelId,
-        expires: Date.now(),
       } :
       selectedCountingChannels.get([interaction.guildId, interaction.user.id].join("."));
 
     if (selectedCountingChannel && (
-      selectedCountingChannel.expires < Date.now() ||
+      selectedCountingChannel.expires && selectedCountingChannel.expires < Date.now() ||
       !document.channels.has(selectedCountingChannel.channel) // check if channel is deleted
     )) {
       selectedCountingChannel = undefined;
@@ -52,11 +51,14 @@ export default async (interaction: CommandInteraction, document: GuildDocument):
 
     if (commandFile.requireSelectedCountingChannel && (
       !selectedCountingChannel ||
-      selectedCountingChannel.expires < Date.now()
+      selectedCountingChannel.expires && selectedCountingChannel.expires < Date.now()
     )) {
-      if (document.channels.size === 1) selectedCountingChannel = { channel: document.channels.keys().next().value, expires: Date.now() + 1000 * 60 * 60 * 24 };
-      else if (document.channels.has(interaction.channelId)) selectedCountingChannel = { channel: interaction.channelId, expires: Date.now() + 1000 * 60 * 60 * 24 };
-      else {
+      if (document.channels.size === 1) {
+        selectedCountingChannel = {
+          channel: document.channels.keys().next().value,
+          expires: Date.now() + defaultExpirationValue,
+        };
+      } else {
         return interaction.reply({
           content: "💥 You need a counting channel selected to run this command. Type `/select` to select a counting channel and then run this command again.",
           ephemeral: true,
