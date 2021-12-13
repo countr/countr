@@ -1,16 +1,15 @@
-[![Linting](https://github.com/countr/countr/actions/workflows/linting.yml/badge.svg)](https://github.com/countr/countr/actions/workflows/linting.yml)
-[![Test build](https://github.com/countr/countr/actions/workflows/build-test.yml/badge.svg)](https://github.com/countr/countr/actions/workflows/build-test.yml)
-[![Analysis and Scans](https://github.com/countr/countr/actions/workflows/analysis-and-scans.yml/badge.svg)](https://github.com/countr/countr/actions/workflows/analysis-and-scans.yml)
+[![Test build](https://img.shields.io/github/workflow/status/countr/countr/Test%20build)](https://github.com/countr/countr/actions/workflows/build-test.yml)
+[![Linting](https://img.shields.io/github/workflow/status/countr/countr/Linting?label=quality)](https://github.com/countr/countr/actions/workflows/linting.yml)
+[![Analysis and Scans](https://img.shields.io/github/workflow/status/countr/countr/Analysis%20and%20Scans?label=scan)](https://github.com/countr/countr/actions/workflows/analysis-and-scans.yml)
 [![DeepScan grade](https://deepscan.io/api/teams/16173/projects/19382/branches/506155/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=16173&pid=19382&bid=506155)
-[![Dependency Status](https://david-dm.org/countr/countr.svg)](https://david-dm.org/countr/countr)
+[![discord.js version](https://img.shields.io/github/package-json/dependency-version/countr/countr/discord.js)](https://www.npmjs.com/package/discord.js)
 [![GitHub Issues](https://img.shields.io/github/issues-raw/countr/countr.svg)](https://github.com/countr/countr/issues)
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr-raw/countr/countr.svg)](https://github.com/countr/countr/pulls)
 [![License](https://img.shields.io/github/license/countr/countr.svg)](https://github.com/countr/countr/blob/master/LICENSE)
-[![Discord Support](https://img.shields.io/discord/449576301997588490.svg)](https://promise.solutions/support)
 
 # 🚧 THIS BRANCH IS WORK-IN-PROGRESS 🚧
 
-Go to the [`djs-12`](https://github.com/countr/countr/tree/djs-12)-branch for a somewhat stable but otudated branch. The branch will no longer be maintained.
+Go to the [`djs-12`](https://github.com/countr/countr/tree/djs-12)-branch for a somewhat stable but outdated branch. The branch will no longer be maintained.
 
 # Countr
 
