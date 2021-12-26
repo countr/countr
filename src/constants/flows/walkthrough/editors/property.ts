@@ -1,6 +1,6 @@
 import { FlowOptions } from "../../../../database/models/Guild";
 import { MessageComponentInteraction } from "discord.js";
-import { Property } from "../../properties";
+import { Property } from "../../../../types/flows/properties";
 import { awaitingInput } from "../../../../commands/slash/flows/input";
 import { components } from "../../../../handlers/interactions/components";
 import config from "../../../../config";

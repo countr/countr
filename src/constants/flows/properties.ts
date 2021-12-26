@@ -1,16 +1,7 @@
-import { ApplicationCommandOptionData, Guild } from "discord.js";
 import { ChannelInput, NumberInput, RegexInput, RolesInput, TextInput } from "./inputs";
 import { getChannel, getRole } from "../resolvers";
-import { PropertyValue } from "../../types/flows/properties";
+import { Property } from "../../types/flows/properties";
 import { joinListWithAnd } from "../../utils/text";
-
-export interface Property {
-  short: string;
-  help: string;
-  input: ApplicationCommandOptionData;
-  convert?(userInput: string | number, guild: Guild): Promise<PropertyValue | null>;
-  format?(converted: PropertyValue, guild: Guild): Promise<string>;
-}
 
 export const propertyTypes: Record<string, Property> = {
   numberX: {
