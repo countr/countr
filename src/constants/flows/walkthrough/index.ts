@@ -1,9 +1,10 @@
 import { CommandInteraction, InteractionReplyOptions, MessageButtonOptions, MessageEmbedOptions, User } from "discord.js";
-import { Flow, GuildDocument } from "../../../database/models/Guild";
+import { CountingChannel, Flow, GuildDocument } from "../../../database/models/Guild";
 import { Step } from "../../../types/flows/steps";
 import { components } from "../../../handlers/interactions/components";
 import config from "../../../config";
 import { generateId } from "../../../utils/crypto";
+import limits from "../../limits";
 import steps from "./steps";
 
 const inProgress: Map<string, {
@@ -15,7 +16,9 @@ const inProgress: Map<string, {
 
 export default (interaction: CommandInteraction, document: GuildDocument, channel: string, existingFlow?: Flow, existingFlowIdentifier?: string): void => {
   const exists = Boolean(existingFlow);
-  const flow = JSON.parse(JSON.stringify(existingFlow || { triggers: [], actions: []})) as Flow; // clone so we don't modify the live flow, if it exists
+  const disabled = Array.from(document.channels.get(channel)?.flows.values() || []).filter(flow => flow.disabled).length >= limits.flows.amount;
+
+  const flow = JSON.parse(JSON.stringify(existingFlow || { ...disabled ? { disabled } : {}, triggers: [], actions: []})) as Flow; // clone so we don't modify the live flow, if it exists
   const flowIdentifier = existingFlowIdentifier || generateId();
 
   const step = exists ? steps.indexOf(steps.find(step => !step.skipIfExists) || steps[0]) : 0;
@@ -125,7 +128,7 @@ export function designMessage(selected: number, flow: Flow, flowIdentifier: stri
           type: "ACTION_ROW",
           components: group.map(component => {
             const customId = `${randomIdentifier}:${component.data.customId}`;
-            components.set(customId, i => component.callback(i as never, flow, () => designMessage(selected, flow, flowIdentifier, document, channel)));
+            components.set(customId, i => component.callback(i as never, flow, () => designMessage(selected, flow, flowIdentifier, document, channel), document.channels.get(channel) as CountingChannel));
             return { ...component.data, customId };
           }),
         })) :

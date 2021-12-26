@@ -1,8 +1,8 @@
 import { ButtonInteraction, InteractionButtonOptions, InteractionReplyOptions, MessageSelectMenuOptions, SelectMenuInteraction } from "discord.js";
-import { Flow } from "../../database/models/Guild";
+import { CountingChannel, Flow, GuildDocument } from "../../database/models/Guild";
 
-type ButtonComponentCallback = (interaction: ButtonInteraction, flow: Flow, designNewMessage: () => InteractionReplyOptions) => Promise<void>;
-type SelectMenuComponentCallback = (interaction: SelectMenuInteraction, flow: Flow, designNewMessage: () => InteractionReplyOptions) => Promise<void>;
+type ButtonComponentCallback = (interaction: ButtonInteraction, flow: Flow, designNewMessage: () => InteractionReplyOptions, channel: CountingChannel) => Promise<void>;
+type SelectMenuComponentCallback = (interaction: SelectMenuInteraction, flow: Flow, designNewMessage: () => InteractionReplyOptions, channel: CountingChannel) => Promise<void>;
 
 interface ButtonComponent {
   data: InteractionButtonOptions;

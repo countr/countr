@@ -5,6 +5,7 @@ import { awaitingInput } from "../../../commands/slash/flows/input";
 import { components } from "../../../handlers/interactions/components";
 import { getTriggerOrActionComponents } from "./components";
 import triggers from "../triggers";
+import limits from "../../limits";
 
 const steps: Array<Step> = [
   {
@@ -58,7 +59,7 @@ const steps: Array<Step> = [
               customId: "unset_name",
               style: "SECONDARY",
             },
-            callback: ((interaction, flow, designMessage) => {
+            callback: ((interaction, flow, designMessage, channel) => {
               flow.name = undefined;
               interaction.update(designMessage());
             }) as ButtonComponentCallback,
@@ -70,7 +71,7 @@ const steps: Array<Step> = [
               customId: "set_name",
               style: "PRIMARY",
             },
-            callback: ((interaction, flow, designNewMessage) => {
+            callback: ((interaction, flow, designNewMessage, channel) => {
               awaitingInput.set([interaction.channelId, interaction.user.id].join("."), (i, args) => {
                 let name = args["text"] as string | undefined;
                 if (!name) {
@@ -123,7 +124,13 @@ const steps: Array<Step> = [
               customId: "enable",
               style: "PRIMARY",
             },
-            callback: ((interaction, flow, designMessage) => {
+            callback: ((interaction, flow, designMessage, channel) => {
+              if (Array.from(channel.flows.values()).filter(f => f.disabled).length >= limits.flows.amount) {
+                return interaction.reply({
+                  content: `❌ You can only have **${limits.flows.amount}** flows enabled at a time.`,
+                  ephemeral: true,
+                });
+              }
               flow.disabled = undefined;
               interaction.update(designMessage());
             }) as ButtonComponentCallback,
@@ -135,7 +142,7 @@ const steps: Array<Step> = [
               customId: "enable",
               style: "SECONDARY",
             },
-            callback: ((interaction, flow, designMessage) => {
+            callback: ((interaction, flow, designMessage, channel) => {
               flow.disabled = true;
               interaction.update(designMessage());
             }) as ButtonComponentCallback,
