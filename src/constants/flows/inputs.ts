@@ -3,6 +3,7 @@ import { ApplicationCommandOptionData } from "discord.js";
 export const ChannelInput: ApplicationCommandOptionData = {
   type: "CHANNEL",
   name: "channel",
+  channelTypes: ["GUILD_NEWS", "GUILD_NEWS_THREAD", "GUILD_PRIVATE_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_TEXT"],
   description: "A channel.",
 };
 
