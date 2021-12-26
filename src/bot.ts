@@ -8,6 +8,7 @@ import countingHandler from "./handlers/counting";
 import { countrLogger } from "./utils/logger/countr";
 import { discordLogger } from "./utils/logger/discord";
 import { getPresence } from "./utils/cluster/presence";
+import { inspect } from "util";
 import interactionsHandler from "./handlers/interactions";
 import messageCommandHandler from "./handlers/messageCommands";
 import { postStats } from "./utils/cluster/stats";
@@ -131,12 +132,17 @@ Promise.all([
       if (greenLight) {
         resolve(void 0);
         clearInterval(timeout);
-        countrLogger.info("Green light received. Logging in...");
       }
     }), 5000);
   }),
-]).then(() => client.login(config.client.token));
+]).then(() => {
+  countrLogger.info("Green light received and connected to the database. Logging in to Discord.");
+  client.login(config.client.token);
+}).catch(error => {
+  countrLogger.error(`Failed to connect to database: ${inspect(error)}`);
+  process.exit(1);
+});
 
 setInterval(() => postStats(client, Boolean(disabledGuilds.size)), 10000);
 
-process.on("unhandledRejection", error => countrLogger.error(`Unhandled rejection: ${JSON.stringify(error)}`));
+process.on("unhandledRejection", error => countrLogger.error(`Unhandled rejection: ${inspect(error)}`));
