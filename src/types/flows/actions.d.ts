@@ -5,7 +5,7 @@ export interface Action {
   short: string;
   long?: string;
   properties?: Array<Property>;
-  explanation(properties: Array<PropertyValue>): string;
+  explanation(properties: Array<Array<PropertyValue>>): string;
   run(data: CountingData, properties: Array<PropertyValue>): Promise<boolean>,
   limit?: number;
 }

@@ -52,7 +52,7 @@ export function getTriggerOrActionComponents(triggerOrAction: "trigger" | "actio
               let currentInteraction: MessageComponentInteraction = i;
               if (option.properties) {
                 for (const property of option.properties) {
-                  const response = await editProperty(currentInteraction, property, newOption, null).then(ii => [ii, true]).catch(ii => [ii, false]);
+                  const response = await editProperty(currentInteraction, property, newOption, null, []).then(ii => [ii, true]).catch(ii => [ii, false]);
                   const ii = response[0] as MessageComponentInteraction;
                   if (response[1]) [currentInteraction] = response;
                   else return ii.update(designNewMessage());

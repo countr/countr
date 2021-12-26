@@ -1,7 +1,8 @@
-import { DocumentType, getModelForClass, prop } from "@typegoose/typegoose";
+import { DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
+import { Severity, WhatIsIt } from "@typegoose/typegoose/lib/internal/constants";
 import { BeAnObject } from "@typegoose/typegoose/lib/types";
 import { PropertyValue } from "../../types/flows/properties";
-import { WhatIsIt } from "@typegoose/typegoose/lib/internal/constants";
+import { Schema } from "mongoose";
 import numberSystems from "../../constants/numberSystems";
 
 const saveQueue = new Map();
@@ -19,9 +20,10 @@ export class TimeoutRole {
   @prop({ type: Number }) duration?: number;
 }
 
+@modelOptions({ options: { allowMixed: Severity.ALLOW } })
 export class FlowOptions {
   @prop({ type: String, required: true }) type!: string;
-  @prop({ type: [String, Number, []], default: []}, WhatIsIt.ARRAY) data!: Array<PropertyValue>; // waiting for help on this one
+  @prop({ type: [Schema.Types.Mixed], default: []}, WhatIsIt.ARRAY) data!: Array<Array<PropertyValue>>;
 }
 
 export class Flow {

@@ -20,9 +20,9 @@ export const RegexInput: ApplicationCommandOptionData = {
 
 // will be changed when role lists come out
 export const RolesInput: ApplicationCommandOptionData = {
-  type: "STRING",
-  name: "roles",
-  description: "A comma-separated list of roles.",
+  type: "ROLE",
+  name: "role",
+  description: "A role.",
 };
 
 export const TextInput: ApplicationCommandOptionData = {

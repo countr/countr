@@ -108,27 +108,23 @@ function getFlowOptions(input: any, triggerOrAction: "trigger" | "action"): Arra
   return options as Array<FlowOptions>;
 }
 
-function getFlowOptionData(input: any): Array<PropertyValue> | null {
+function getFlowOptionData(input: any): Array<Array<PropertyValue>> | null {
   if (!Array.isArray(input)) return null;
 
-  const data = input.map<PropertyValue | null>((property: any) => {
-    if (
-      ["string", "number"].includes(typeof property) === false &&
-      Array.isArray(property) === false
-    ) return null;
+  const data = input.map<Array<PropertyValue | null>>((list: any) => {
+    if (!Array.isArray(list)) return [null];
 
-    if (Array.isArray(property)) {
-      const list = property.map(getFlowOptionData);
-      if (list.includes(null)) return null;
-      return list;
-    }
+    const propertyValues = list.map<PropertyValue | null>((property: any) => {
+      if (["string", "number"].includes(typeof property) === false) return null;
+      return property;
+    });
 
-    return property;
+    return propertyValues;
   });
 
-  if (data.includes(null)) return null;
+  if (data.find(d => d.includes(null))) return null;
 
-  return data as Array<PropertyValue>;
+  return data as Array<Array<PropertyValue>>;
 }
 
 function getURL(input: string): URL | null {

@@ -27,16 +27,12 @@ export const propertyTypes: Record<string, Property> = {
     short: "Role(s)",
     help: "This can be any role, or a list of roles. Make sure the roles are below Countr's highest role.",
     input: RolesInput,
-    convert: async (userInputList: string, guild): Promise<Array<string> | null> => {
-      const userInputs = userInputList.split(", ");
-      const roles = [];
-      for (const userInput of userInputs) {
-        const result = await getRole(userInput, guild);
-        if (result && result.id !== guild.roles.everyone.id) roles.push(result.id);
-      }
-      if (roles.length) return roles; return null;
+    isMultiple: true,
+    convert: async (userInput: string, guild): Promise<string | null> => {
+      const result = await getRole(userInput, guild);
+      if (result && result.id !== guild.roles.everyone.id) return result.id; return null;
     },
-    format: (roleIds: Array<string>) => Promise.resolve(joinListWithAnd(roleIds.map(roleId => `<@&${roleId}>`))),
+    format: roleIds => Promise.resolve(joinListWithAnd(roleIds.map(roleId => `<@&${roleId}>`))),
   },
   channel: {
     short: "Channel",
@@ -46,12 +42,12 @@ export const propertyTypes: Record<string, Property> = {
       const result = await getChannel(userInput, guild);
       if (result) return result.id; return null;
     },
-    format: (channelId: string) => Promise.resolve(`<#${channelId}>`),
+    format: ([channelId]) => Promise.resolve(`<#${channelId}>`),
   },
   text: {
     short: "Text",
     help: ["Any text. Get creative with these placeholders:", "• `{count}` The count that triggered this flow", "• `{mention}` Mentions the user who triggered this flow", "• `{tag}` The tag of the user who triggered this flow", "• `{username}` The username of the user who triggered this flow", "• `{nickname}` The nickname of the user who triggered this flow", "• `{everyone}` Mentions the everyone-role", "• `{score}` The new score of the user who triggered this flow", "• `{content}` The content of the message that triggered this flow"].join("\n"),
     input: TextInput,
-    format: (content: string) => Promise.resolve(`\`\`\`\n${content}\`\`\``),
+    format: ([content]) => Promise.resolve(`\`\`\`\n${content}\`\`\``),
   },
 };

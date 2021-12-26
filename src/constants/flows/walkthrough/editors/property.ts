@@ -1,11 +1,14 @@
+import { Guild, MessageComponentInteraction } from "discord.js";
+import { Property, PropertyValue } from "../../../../types/flows/properties";
 import { FlowOptions } from "../../../../database/models/Guild";
-import { MessageComponentInteraction } from "discord.js";
-import { Property } from "../../../../types/flows/properties";
 import { awaitingInput } from "../../../../commands/slash/flows/input";
 import { components } from "../../../../handlers/interactions/components";
 import config from "../../../../config";
+import { joinListWithAnd } from "../../../../utils/text";
 
-export function editProperty(interaction: MessageComponentInteraction, property: Property, flowOptions: FlowOptions, propertyIndex: number | null): Promise<MessageComponentInteraction> {
+export function editProperty(interaction: MessageComponentInteraction, property: Property, flowOptions: FlowOptions, propertyIndex: number | null, data?: Array<PropertyValue>): Promise<MessageComponentInteraction> {
+  const newData = data || [...flowOptions.data[propertyIndex || 0] || []]; // copy the data or use data from previous interaction
+
   return new Promise((resolve, reject) => {
     awaitingInput.set([interaction.channelId, interaction.user.id].join("."), async (i, args) => {
       const arg = args[property.input.name] as string | number | undefined;
@@ -16,8 +19,8 @@ export function editProperty(interaction: MessageComponentInteraction, property:
         });
       }
 
-      const value = property.convert && i.guild ? await property.convert(arg, i.guild) : arg;
-      if (value === null) {
+      const value = property.convert ? await property.convert(arg, i.guild as Guild) : arg;
+      if (value === null || newData.includes(value)) {
         return i.reply({
           embeds: [
             {
@@ -25,11 +28,17 @@ export function editProperty(interaction: MessageComponentInteraction, property:
               description: property.help,
               color: config.colors.info,
             },
-            {
-              title: "Invalid value",
-              description: "The value you provided is invalid. Please try again using the same command.",
-              color: config.colors.error,
-            },
+            value === null ?
+              {
+                title: "Invalid value",
+                description: "The value you provided is invalid. Please try again using the same command.",
+                color: config.colors.error,
+              } :
+              {
+                title: "Value already exists",
+                description: "The value you provided already exists in this property. Please try again using the same command.",
+                color: config.colors.error,
+              },
           ],
           ephemeral: true,
         });
@@ -38,14 +47,20 @@ export function editProperty(interaction: MessageComponentInteraction, property:
       awaitingInput.delete([interaction.channelId, interaction.user.id].join("."));
 
       components.set(`${i.id}:yes`, ii => {
+        newData.push(value);
+
+        // loop back if it's allowing multiple properties. if not then just save and resolve
+        if (property.isMultiple) editProperty(ii, property, flowOptions, propertyIndex, newData).then(resolve).catch(reject);
+        else {
+          if (propertyIndex) flowOptions.data[propertyIndex] = newData;
+          else flowOptions.data.push(newData);
+          resolve(ii);
+        }
         interaction.deleteReply();
-        if (propertyIndex) flowOptions.data[propertyIndex] = value;
-        else flowOptions.data.push(value);
-        return void resolve(ii);
       });
       components.set(`${i.id}:no`, ii => {
         interaction.deleteReply();
-        editProperty(ii, property, flowOptions, propertyIndex).then(resolve).catch(reject);
+        editProperty(ii, property, flowOptions, propertyIndex, newData).then(resolve).catch(reject);
       });
       i.reply({
         embeds: [
@@ -56,7 +71,7 @@ export function editProperty(interaction: MessageComponentInteraction, property:
           },
           {
             title: "Is this correct?",
-            description: `> **${property.format && i.guild ? await property.format(value, i.guild) : value}**`,
+            description: (property.format && i.guild ? await property.format([value], i.guild) : `${value}`).split("\n").map(line => `> **${line}**`).join("\n"),
             color: config.colors.warning,
           },
         ],
@@ -83,9 +98,18 @@ export function editProperty(interaction: MessageComponentInteraction, property:
     });
     components.set(`${interaction.id}:cancel`, i => {
       awaitingInput.delete(i.user.id);
-      void reject(i);
+      reject(i);
     });
-    interaction.update({
+    components.set(`${interaction.id}:save`, i => {
+      awaitingInput.delete(i.user.id);
+      if (propertyIndex) flowOptions.data[propertyIndex] = newData;
+      else flowOptions.data.push(newData);
+      resolve(i);
+    });
+    components.set(`${interaction.id}:clear_list`, i => {
+      editProperty(i, property, flowOptions, propertyIndex, []).then(resolve).catch(reject);
+    });
+    (async () => interaction.update({
       content: null,
       embeds: [
         {
@@ -93,9 +117,15 @@ export function editProperty(interaction: MessageComponentInteraction, property:
             {
               name: property.short,
               value: property.help,
+              inline: true,
             },
             {
-              name: "Set value with command",
+              name: property.isMultiple ? "List" : "Current value",
+              value: (property.format && newData.length ? await property.format(newData, interaction.guild as Guild) : joinListWithAnd(newData.map(d => `${d}`))) || "*None*",
+              inline: true,
+            },
+            {
+              name: property.isMultiple ? "Add values with command" : "Set value with command",
               value: `\`\`\`/flows input ${property.input.name}:\`\`\``,
             },
           ],
@@ -112,9 +142,27 @@ export function editProperty(interaction: MessageComponentInteraction, property:
               customId: `${interaction.id}:cancel`,
               style: "DANGER",
             },
+            ...property.isMultiple ?
+              [
+                {
+                  type: "BUTTON" as const,
+                  label: "Save",
+                  customId: `${interaction.id}:save`,
+                  style: "SUCCESS" as const,
+                  disabled: !newData.length,
+                },
+                {
+                  type: "BUTTON" as const,
+                  label: "Clear list",
+                  customId: `${interaction.id}:clear_list`,
+                  style: "SECONDARY" as const,
+                  disabled: !newData.length,
+                },
+              ] :
+              [],
           ],
         },
       ],
-    });
+    }))();
   });
 }
