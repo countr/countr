@@ -12,7 +12,7 @@ export default async (interaction: AutocompleteInteraction): Promise<void> => {
   const { name, value } = interaction.options.getFocused(true);
   const autocomplete = autocompletes[name];
   console.log({ name, value, autocomplete });
-  if (autocomplete) {
+  if (autocomplete && interaction.guildId) {
     const document = await guilds.get(interaction.guildId);
     const isCountingChannel = document.channels.has(interaction.channelId);
     autocomplete(value, interaction, document, isCountingChannel ? interaction.channelId : selectedCountingChannels.get([interaction.guildId, interaction.user.id].join("."))?.channel).then(response => interaction.respond(response));

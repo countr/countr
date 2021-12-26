@@ -8,7 +8,7 @@ import triggers from "../../../constants/flows/triggers";
 export default {
   description: "List all the flows configured",
   execute: (interaction, _, __, document, selectedCountingChannel) => {
-    const flows = document.channels.get(selectedCountingChannel || "")?.flows;
+    const flows = document.channels.get(selectedCountingChannel as string)?.flows;
     if (!flows) return; // always defined
 
     if (!flows.size) {
@@ -18,7 +18,7 @@ export default {
       });
     }
 
-    interaction.reply(createMessage(interaction.id, Array.from(flows.entries()), selectedCountingChannel || ""));
+    interaction.reply(createMessage(interaction.id, Array.from(flows.entries()), selectedCountingChannel as string));
   },
   disableInCountingChannel: true,
   requireSelectedCountingChannel: true,

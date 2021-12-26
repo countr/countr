@@ -1,4 +1,5 @@
 import { countingChannelPermissions, countingThreadParentChannelPermissions } from "../../../constants/discordPermissions";
+import { ClientUser } from "discord.js";
 import { CountingChannel } from "../../../database/models/Guild";
 import { SlashCommand } from "../../../types/command";
 import limits from "../../../constants/limits";
@@ -44,9 +45,9 @@ export default {
       }
 
       const permissions = [...countingChannelPermissions, ...countingThreadParentChannelPermissions];
-      if (!parent.permissionsFor(interaction.client.user || "", true)?.has(permissions, true)) {
+      if (!parent.permissionsFor(interaction.client.user as ClientUser, true)?.has(permissions, true)) {
         return interaction.reply({
-          content: `⚠ I am missing permissions in the parent channel ${parent.toString()}: ${permissions.filter(p => !parent.permissionsFor(interaction.client.user || "")?.has(p, true)).map(p => `\`${p}\``).join(", ")}`,
+          content: `⚠ I am missing permissions in the parent channel ${parent.toString()}: ${permissions.filter(p => !parent.permissionsFor(interaction.client.user as ClientUser)?.has(p, true)).map(p => `\`${p}\``).join(", ")}`,
           ephemeral: true,
         });
       }

@@ -46,7 +46,7 @@ export default {
       }
 
       const flowId = generateId();
-      document.channels.get(selectedCountingChannel || "")?.flows.set(flowId, flow);
+      document.channels.get(selectedCountingChannel as string)?.flows.set(flowId, flow);
       document.safeSave();
 
       return interaction.reply({

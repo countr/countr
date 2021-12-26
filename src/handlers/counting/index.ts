@@ -1,5 +1,5 @@
 import { CountingChannel, GuildDocument } from "../../database/models/Guild";
-import { Message, TextBasedChannels, TextChannel, ThreadChannel } from "discord.js";
+import { Message, TextBasedChannel, TextChannel, ThreadChannel } from "discord.js";
 import { addToCount } from "../../utils/cluster/stats";
 import { countrLogger } from "../../utils/logger/countr";
 import { getPermissionLevel } from "../../constants/permissions";
@@ -89,7 +89,7 @@ function queueDelete(messages: Array<Message>): void {
   setTimeout(() => bulkDelete(channel), 10000);
 }
 
-function bulkDelete(channel: TextBasedChannels): void {
+function bulkDelete(channel: TextBasedChannel): void {
   const bulk = bulks.get(channel.id);
   if (bulk?.[0] && ( // typescript
     bulk[0].channel.type === "GUILD_TEXT" ||

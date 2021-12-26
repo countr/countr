@@ -56,7 +56,7 @@ export default (interaction: CommandInteraction, document: GuildDocument, channe
     });
   } else {
     inProgress.set(flowIdentifier, {
-      guildId: interaction.guildId,
+      guildId: interaction.guildId as string,
       userId: interaction.user.id,
       flow,
       abortCurrentEditor: (user: User) => interaction.editReply({ content: `💢 This flow has been re-opened by ${user}.`, embeds: [], components: []}),

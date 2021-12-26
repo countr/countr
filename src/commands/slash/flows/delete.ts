@@ -16,7 +16,7 @@ export default {
     flow: flowList,
   },
   execute: (interaction, ephemeralPreference, { flow }: { flow: string }, document, selectedCountingChannel) => {
-    const channel = document.channels.get(selectedCountingChannel || "" /* always defined because requireSelectedCountingChannel is true */);
+    const channel = document.channels.get(selectedCountingChannel as string);
 
     if (!channel?.flows.has(flow)) {
       return interaction.reply({

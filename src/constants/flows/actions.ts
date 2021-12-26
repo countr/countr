@@ -61,7 +61,7 @@ const actions: Record<string, Action> = {
         await channel.send({
           content: text
             .replace(/{count}/gi, count.toString())
-            .replace(/{mention}/gi, member?.toString() || "")
+            .replace(/{mention}/gi, author.toString())
             .replace(/{tag}/gi, author.tag)
             .replace(/{username}/gi, author.username)
             .replace(/{nickname}/gi, member?.displayName || author.username)

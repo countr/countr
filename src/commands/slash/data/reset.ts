@@ -5,7 +5,7 @@ import { reset } from "../../../database/guilds";
 export default {
   description: "Factory reset",
   execute: interaction => {
-    components.set(`${interaction.id}:yes`, i => reset(i.guildId).then(() => i.update({
+    components.set(`${interaction.id}:yes`, i => reset(i.guildId as string).then(() => i.update({
       content: "✅ Successfully reset the guild database.",
       components: [],
     })));

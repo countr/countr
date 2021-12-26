@@ -1,4 +1,5 @@
 import { countingChannelPermissions, countingThreadParentChannelPermissions } from "../../../constants/discordPermissions";
+import { ClientUser } from "discord.js";
 import { CountingChannel } from "../../../database/models/Guild";
 import { SlashCommand } from "../../../types/command";
 import limits from "../../../constants/limits";
@@ -55,7 +56,7 @@ export default {
 
     const isThread = channel.isThread();
     if (isThread) {
-      const parent = await interaction.guild?.channels.fetch(channel.parentId || "").catch(() => null);
+      const parent = await interaction.guild?.channels.fetch(channel.parentId as string).catch(() => null);
       if (!parent) {
         return interaction.reply({
           content: "❌ I couldn't find the parent channel to this thread. Do I have access?",
@@ -64,17 +65,17 @@ export default {
       }
 
       const permissions = [...countingChannelPermissions, ...countingThreadParentChannelPermissions];
-      if (!parent.permissionsFor(interaction.client.user || "", true)?.has(permissions, true)) {
+      if (!parent.permissionsFor(interaction.client.user as ClientUser, true)?.has(permissions, true)) {
         return interaction.reply({
-          content: `⚠ I am missing permissions in the parent channel ${parent.toString()}: ${permissions.filter(p => !parent.permissionsFor(interaction.client.user || "")?.has(p, true)).map(p => `\`${p}\``).join(", ")}`,
+          content: `⚠ I am missing permissions in the parent channel ${parent.toString()}: ${permissions.filter(p => !parent.permissionsFor(interaction.client.user as ClientUser)?.has(p, true)).map(p => `\`${p}\``).join(", ")}`,
           ephemeral: true,
         });
       }
     } else {
       const permissions = countingChannelPermissions;
-      if (!channel.permissionsFor(interaction.client.user || "", true)?.has(permissions, true)) {
+      if (!channel.permissionsFor(interaction.client.user as ClientUser, true)?.has(permissions, true)) {
         return interaction.reply({
-          content: `⚠ I am missing permissions in the channel ${channel.toString()}: ${permissions.filter(p => !channel.permissionsFor(interaction.client.user || "")?.has(p, true)).map(p => `\`${p}\``).join(", ")}`,
+          content: `⚠ I am missing permissions in the channel ${channel.toString()}: ${permissions.filter(p => !channel.permissionsFor(interaction.client.user as ClientUser)?.has(p, true)).map(p => `\`${p}\``).join(", ")}`,
           ephemeral: true,
         });
       }
