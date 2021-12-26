@@ -71,11 +71,11 @@ const steps: Array<Step> = [
               style: "PRIMARY",
             },
             callback: ((interaction, flow, designNewMessage) => {
-              awaitingInput.set([interaction.guildId, interaction.channelId, interaction.user.id].join("."), (i, args) => {
+              awaitingInput.set([interaction.channelId, interaction.user.id].join("."), (i, args) => {
                 let name = args["text"] as string | undefined;
                 if (!name) {
                   return i.reply({
-                    content: "❌ You need to use the `text\" argument to set the name.\n> \"/flows input text:INPUT_HERE`",
+                    content: "❌ You need to use the `text` argument to set the name.\n> `/flows input text:INPUT_HERE`",
                     ephemeral: true,
                   });
                 }
@@ -88,6 +88,8 @@ const steps: Array<Step> = [
                     ephemeral: true,
                   });
                 }
+
+                awaitingInput.delete([interaction.channelId, interaction.user.id].join("."));
 
                 flow.name = name;
                 interaction.deleteReply();
