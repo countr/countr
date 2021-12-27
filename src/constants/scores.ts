@@ -1,4 +1,4 @@
-export const medals: { [suffix: string]: string } = {
+export const medals: Record<string, string> = {
   "1st": "🥇",
   "2nd": "🥈",
   "3rd": "🥉",
