@@ -4,11 +4,23 @@ import { Property } from "../../types/flows/properties";
 import { joinListWithAnd } from "../../utils/text";
 
 export const propertyTypes: Record<string, Property> = {
-  numberX: {
-    short: "Number (X)",
-    help: "This can be any positive number.",
+  numberPositive: {
+    short: "Number (Positive)",
+    help: "This can be any positive number. Zero is not allowed.",
     input: NumberInput,
     convert: (userInput: number): Promise<number | null> => userInput > 0 ? Promise.resolve(userInput) : Promise.resolve(null),
+  },
+  numberPositiveOrZero: {
+    short: "Number (Positive or zero)",
+    help: "This can be any positive number, or zero.",
+    input: NumberInput,
+    convert: (userInput: number): Promise<number | null> => userInput >= 0 ? Promise.resolve(userInput) : Promise.resolve(null),
+  },
+  numberPositiveOrNegative: {
+    short: "Number (Positive or negative)",
+    help: "This can be any positive or negative number. Zero is not allowed.",
+    input: NumberInput,
+    convert: (userInput: number): Promise<number | null> => Promise.resolve(userInput === 0 ? null : userInput),
   },
   regex: {
     short: "Regex",
@@ -23,7 +35,7 @@ export const propertyTypes: Record<string, Property> = {
       }
     },
   },
-  role: {
+  roles: {
     short: "Role(s)",
     help: "This can be any role, or a list of roles. Make sure the roles are below Countr's highest role.",
     input: RolesInput,

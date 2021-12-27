@@ -22,7 +22,7 @@ export default async (data: CountingData) => {
 
 export const onFail = (data: CountingData) => {
   const { countingChannel } = data;
-  const flowsToRun = getFlows(countingChannel).filter(flow => flow.triggers.slice(0, limits.flows.triggers).some(trigger => trigger.type === "countfail"));
+  const flowsToRun = getFlows(countingChannel).filter(flow => flow.triggers.slice(0, limits.flows.triggers).some(trigger => trigger.type === "countFail"));
 
   return runFlows(flowsToRun, data);
 };
