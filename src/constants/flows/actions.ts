@@ -94,17 +94,47 @@ const actions: Record<string, Action> = {
     },
     limit: 1,
   },
-  reset: {
-    short: "Reset the count",
-    explanation: () => "Reset the count to 0",
-    run: ({ message: { channel }, document }) => {
-      const dbChannel = document.channels.get(channel.id);
-      if (dbChannel) {
-        dbChannel.count = { number: 0 };
-        return Promise.resolve(true);
-      } return Promise.resolve(false);
+  setCount: {
+    short: "Set the count",
+    properties: [propertyTypes.numberPositiveOrZero],
+    explanation: ([[number]]: Array<Array<number>>) => `Set the channel count to ${number}`,
+    run: ({ countingChannel }, [[number]]: Array<Array<number>>) => {
+      countingChannel.count.number = number;
+      return Promise.resolve(true);
     },
     limit: 1,
+  },
+  modifyCount: {
+    short: "Modify the count",
+    properties: [propertyTypes.numberPositiveOrNegative],
+    explanation: ([[number]]: Array<Array<number>>) => `Modify the channel count with ${number > 0 ? "+" : ""}${number}`,
+    run: ({ countingChannel }, [[number]]: Array<Array<number>>) => {
+      countingChannel.count.number += number;
+      if (countingChannel.count.number < 0) countingChannel.count.number = 0;
+      return Promise.resolve(true);
+    },
+  },
+  setScore: {
+    short: "Set the user's score",
+    properties: [propertyTypes.numberPositiveOrZero],
+    explanation: ([[number]]: Array<Array<number>>) => `Set the user's score to ${number}`,
+    run: ({ member, countingChannel }, [[number]]: Array<Array<number>>) => {
+      if (number > 0) countingChannel.scores.set(member.id, number);
+      else return Promise.resolve(countingChannel.scores.delete(member.id));
+      return Promise.resolve(true);
+    },
+    limit: 1,
+  },
+  modifyScore: {
+    short: "Modify the user's score",
+    properties: [propertyTypes.numberPositiveOrNegative],
+    explanation: ([[number]]: Array<Array<number>>) => `Modify the user's score with ${number > 0 ? "+" : ""}${number}`,
+    run: ({ member, countingChannel }, [[number]]: Array<Array<number>>) => {
+      const newScore = (countingChannel.scores.get(member.id) || 0) + number;
+      if (newScore > 0) countingChannel.scores.set(member.id, newScore);
+      else return Promise.resolve(countingChannel.scores.delete(member.id));
+      return Promise.resolve(true);
+    },
   },
 };
 
