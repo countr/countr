@@ -49,13 +49,15 @@ async function testFlow(flow: Flow, data: CountingData): Promise<boolean> {
 }
 
 async function runFlows(flows: Array<Flow>, data: CountingData) {
+  let save = false;
   for (const flow of flows) {
     try {
       for (const action of flow.actions.slice(0, limits.flows.actions)) {
-        await actions[action.type].run(data, action.data);
+        if (await actions[action.type].run(data, action.data)) save = true;
       }
     } catch (e) {
       countrLogger.verbose(`Failed to run flow on message ${data.message.url}: ${inspect(e)}`);
     }
   }
+  if (save) data.document.safeSave();
 }
