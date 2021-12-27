@@ -6,6 +6,6 @@ export interface Action {
   long?: string;
   properties?: Array<Property>;
   explanation(properties: Array<Array<PropertyValue>>): string;
-  run(data: CountingData, properties: Array<PropertyValue>): Promise<boolean>,
+  run(data: CountingData, properties: Array<Array<PropertyValue>>): Promise<boolean>,
   limit?: number;
 }

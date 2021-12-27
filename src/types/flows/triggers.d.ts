@@ -6,6 +6,6 @@ export interface Trigger {
   long?: string;
   properties?: Array<Property>;
   explanation(properties: Array<Array<PropertyValue>>): string;
-  check(data: CountingData, properties: Array<PropertyValue>): Promise<boolean>;
+  check(data: CountingData, properties: Array<Array<PropertyValue>>): Promise<boolean>;
   limit?: number;
 }
