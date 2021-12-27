@@ -3,6 +3,7 @@ import { Flow } from "../../../database/models/Guild";
 import { SlashCommand } from "../../../types/command";
 import actions from "../../../constants/flows/actions";
 import { components } from "../../../handlers/interactions/components";
+import { embedsPerMessage } from "../../../constants/discordLimits";
 import triggers from "../../../constants/flows/triggers";
 
 export default {
@@ -23,8 +24,6 @@ export default {
   disableInCountingChannel: true,
   requireSelectedCountingChannel: true,
 } as SlashCommand;
-
-const embedsPerMessage = 10;
 
 function createMessage(randomIdentifier: string, flows: Array<[ string, Flow ]>, channel: string, page = 0): InteractionReplyOptions {
   const totalPages = Math.ceil(flows.length / embedsPerMessage);
