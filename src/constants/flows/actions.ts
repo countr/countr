@@ -42,7 +42,7 @@ const actions: Record<string, Action> = {
     short: "Pin the count message",
     explanation: () => "Pin the count",
     run: async ({ countingMessageId, message }) => {
-      const countingMessage = await message.channel.messages.fetch(countingMessageId);
+      const countingMessage = message.id === countingMessageId ? message : await message.channel.messages.fetch(countingMessageId).catch(() => null);
       if (countingMessage) {
         await countingMessage.pin().catch(async () => {
           const pinned = await message.channel.messages.fetchPinned().catch(() => null);
