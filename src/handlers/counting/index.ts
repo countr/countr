@@ -57,6 +57,7 @@ export default async (message: Message, document: GuildDocument, countingChannel
 
   // update counts
   count.number += 1;
+  countingChannel.scores.set(message.author.id, (countingChannel.scores.get(message.author.id) || 0) + 1);
   addToCount(1);
 
   // repost message if enabled
