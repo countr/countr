@@ -8,6 +8,7 @@ import { countrLogger } from "../utils/logger/countr";
 import fs from "fs";
 import { join } from "path";
 import permissions from "../commands/mention/_permissions";
+import { queueDelete } from "./counting";
 
 export default (message: Message, document: GuildDocument): Promise<void> => {
   const args = message.content.split(" ").slice(1);
@@ -77,8 +78,7 @@ export default (message: Message, document: GuildDocument): Promise<void> => {
   }).then(response => {
     if (inCountingChannel) {
       setTimeout(() => {
-      // re-check if the channel is still a counting channel
-        if (document.channels.has(message.channel.id)) console.log("todo delete"); // todo
+        if (document.channels.has(message.channel.id)) queueDelete([message, response]);
       }, 5000);
     }
   });

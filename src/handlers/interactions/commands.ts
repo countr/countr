@@ -8,7 +8,7 @@ import config from "../../config";
 
 // eslint-disable-next-line complexity
 export default async (interaction: CommandInteraction, document: GuildDocument): Promise<void> => {
-  if (!interaction.guild && config.guild) return; // todo reply with error
+  if (!interaction.guild && config.guild) return;
   const commands = config.guild ? interaction.client.guilds.cache.get(config.guild)?.commands : interaction.client.application?.commands;
   const command = commands?.cache.find(c => c.name === interaction.commandName);
 
@@ -16,7 +16,12 @@ export default async (interaction: CommandInteraction, document: GuildDocument):
     const member = interaction.member && interaction.member instanceof GuildMember ? interaction.member : await interaction.guild?.members.fetch(interaction.user.id);
     const permissionLevel = member ? getPermissionLevel(member) : 0;
 
-    if (permissionLevel < ladder[commandPermissions[command.name] || "ALL"]) return; // todo reply with error
+    if (permissionLevel < ladder[commandPermissions[command.name] || "ALL"]) {
+      return interaction.reply({
+        content: "⛔ You do not have permission to use this command.",
+        ephemeral: true,
+      });
+    }
 
     const path = [command.name];
 
@@ -30,10 +35,15 @@ export default async (interaction: CommandInteraction, document: GuildDocument):
       }
     }
 
-    const commandFile = (await import(`../../commands/slash/${path.join("/")}`)).default as SlashCommand; // todo
+    const commandFile = (await import(`../../commands/slash/${path.join("/")}`)).default as SlashCommand;
 
     const inCountingChannel = document.channels.has(interaction.channelId) || false;
-    if (commandFile.disableInCountingChannel && inCountingChannel) return; // todo reply with error
+    if (commandFile.disableInCountingChannel && inCountingChannel) {
+      return interaction.reply({
+        content: "❌ This command is disabled in counting channels.",
+        ephemeral: true,
+      });
+    }
 
     let selectedCountingChannel: SelectedCountingChannel | undefined = inCountingChannel ?
       {

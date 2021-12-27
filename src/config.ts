@@ -45,7 +45,7 @@ export default {
   },
 
   integration: {
-    webhookUrl: process.env.WEBHOOK_URL || null, // todo
+    webhookUrl: process.env.WEBHOOK_URL || null,
   },
 
   access: {

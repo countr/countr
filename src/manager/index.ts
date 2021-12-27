@@ -4,6 +4,7 @@ import { ManagerStatus } from "../types/manager";
 import config from "../config";
 import express from "express";
 import { expressLogger } from "../utils/logger/express";
+import { getGlobalCount } from "./global";
 import { managerLogger } from "../utils/logger/manager";
 
 const app = express();
@@ -18,7 +19,7 @@ app.get("/", (_req, res) => {
     totalShards: list.reduce((acc, cluster) => acc + cluster.shards.length, 0),
     totalGuilds: list.map(c => c.guilds).reduce((a, b) => a + b, 0),
     totalUsers: list.map(c => c.users).reduce((a, b) => a + b, 0),
-    weeklyCount: 0, // todo
+    weeklyCount: getGlobalCount(),
     totalMemory: list.reduce((acc, cluster) => acc + cluster.memory, 0) + process.memoryUsage().heapUsed,
     lastUpdate: Date.now(),
   } as ManagerStatus);

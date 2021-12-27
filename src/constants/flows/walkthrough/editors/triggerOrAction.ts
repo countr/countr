@@ -27,7 +27,7 @@ export function editTriggerOrAction(triggerOrAction: "trigger" | "action", inter
     });
 
     // get fields, this is async so we need this long line of code
-    Promise.all<EmbedFieldData>(properties?.map(async (property, i) => ({ name: `Edit property ${i + 1}: ${property.short}`, value: String(property.format && interaction.guild ? await property.format(flowOptions.data[i], interaction.guild) : flowOptions.data[i]) })) || []).then(fields => interaction.update({
+    Promise.all<EmbedFieldData>(properties?.map(async (property, i) => ({ name: `• Property ${i + 1}: ${property.short}`, value: String(property.format && interaction.guild ? await property.format(flowOptions.data[i], interaction.guild) : flowOptions.data[i]) })) || []).then(fields => interaction.update({
       content: null,
       embeds: [
         {

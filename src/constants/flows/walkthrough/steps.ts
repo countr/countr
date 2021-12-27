@@ -1,3 +1,4 @@
+import { flowHelpUrl, supportServerUrl } from "../../links";
 import { ButtonComponentCallback } from "../../../types/flows/components";
 import { Step } from "../../../types/flows/steps";
 import actions from "../actions";
@@ -10,13 +11,26 @@ import triggers from "../triggers";
 const steps: Array<Step> = [
   {
     title: "Welcome to the flow editor!",
-    description: () => "general information about the flow generator here", // todo
+    description: () => [
+      "I will guide you through creating a flow. It is very easy to set one up, and you can customize flows a lot as well!",
+      "",
+      "Here's some things to note:",
+      "• **Any trigger** will run **all actions**. So if you want to give out role rewards, you need to set up a flow per reward.",
+      "• Actions run **asynchronously**, meaning that your first action will run, and then your second, and then your third etc.",
+      "• If an action fails, it will just continue on to the next action.",
+      "",
+      `Click the buttons below to navigate. Need help? Check out the [documentation](${flowHelpUrl}) or ask a question in the [support server](${supportServerUrl}). Have feedback? Join the support server, we would love to hear from you!`,
+    ].join("\n"),
     getStatus: () => "complete",
     skipIfExists: true,
   },
   {
     title: "Triggers",
-    description: () => "create triggers", // todo
+    description: () => [
+      "Triggers are the conditions that will trigger your flow. You can set up multiple triggers. Keep in mind that if any trigger's condition is met, all actions will run.",
+      "",
+      "You can add and edit triggers below!",
+    ].join("\n"),
     fields: flow => flow.triggers.map(({ type, data }, i) => {
       const trigger = triggers[type];
       return { name: `• ${i + 1}: ${trigger.short}`, value: trigger.explanation(data) };
@@ -26,7 +40,11 @@ const steps: Array<Step> = [
   },
   {
     title: "Actions",
-    description: () => "create actions", // todo
+    description: () => [
+      "Actions are what will happen when a trigger is met. You can set up multiple actions. If any of the actions fails, it will continue the flow.",
+      "",
+      "You can add and edit actions below!",
+    ].join("\n"),
     fields: flow => flow.actions.map(({ type, data }, i) => {
       const action = actions[type];
       return { name: `• ${i + 1}: ${action.short}`, value: action.explanation(data) };

@@ -1,5 +1,6 @@
 import { NewsChannel, TextChannel } from "discord.js";
 import { Action } from "../../types/flows/actions";
+import { cacheHelpUrl } from "../links";
 import { joinListWithAnd } from "../../utils/text";
 import { propertyTypes } from "./properties";
 
@@ -28,12 +29,16 @@ const actions: Record<string, Action> = {
   },
   prunerole: {
     short: "Remove everyone from a role (or list of roles)",
-    long: "This will remove everyone from a role, or a list of roles.\nNote: This might not remove everyone from the role(s). This is due to caching. [Read more](https://docs.countr.xyz/#/caching)", // todo
+    long: `This will remove everyone from a role, or a list of roles.\nNote: This might not remove everyone from the role(s). This is due to caching. [Read more](${cacheHelpUrl})`,
     properties: [propertyTypes.role],
     explanation: ([roles]) => `Remove everyone from ${roles.length === 1 ? "role" : "roles"} ${joinListWithAnd(roles.map(role => `<@&${role}>`))}`,
-    run: async ({ message: { guild }}, [[roleId]]: Array<Array<string>>) => { // todo support multiple roles
-      const role = guild?.roles.resolve(roleId);
-      if (role) await Promise.all(role.members.map(member => member.roles.remove(roleId).catch()));
+    run: async ({ message: { guild }}, [roleIds]: Array<Array<string>>) => {
+      const roles = Array.from(guild?.roles.cache.filter(r => roleIds.includes(r.id)).values() || []);
+      const members = Array.from(roles.map(role => Array.from(role.members.values())).flat().values());
+      for (const member of members) {
+        await member.roles.remove(member.roles.cache.filter(r => roleIds.includes(r.id))).catch();
+        if (members.indexOf(member) !== members.length - 1) await sleep(1100);
+      }
       return false;
     },
     limit: 1,
@@ -100,5 +105,11 @@ const actions: Record<string, Action> = {
     limit: 1,
   },
 };
+
+function sleep(ms: number) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+}
 
 export default actions;

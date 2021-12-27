@@ -27,7 +27,7 @@ export interface Config {
   },
 
   integration: {
-    webhookUrl?: string | null, // todo
+    webhookUrl?: string | null,
   },
 
   access: {

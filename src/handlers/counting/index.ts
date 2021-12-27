@@ -124,7 +124,7 @@ export default async (message: Message, document: GuildDocument, countingChannel
 
 // bulks is an array of messages waiting to get bulk-deleted. channel id is the key of the map.
 const bulks = new Map<string, Array<Message>>();
-function queueDelete(messages: Array<Message>): void {
+export function queueDelete(messages: Array<Message>): void {
   if (!messages.length) return;
   const [{ channel }] = messages;
 
