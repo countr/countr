@@ -1,15 +1,20 @@
 import { CountingChannel, GuildDocument } from "../../database/models/Guild";
-import { Message, TextBasedChannel, TextChannel, ThreadChannel } from "discord.js";
+import { GuildMember, Message, TextBasedChannel, TextChannel, ThreadChannel } from "discord.js";
+import handleFlows, { onFail as handleFlowsOnFail } from "./flows";
+import { CountingData } from "../../types/flows/countingData";
 import { addToCount } from "../../utils/cluster/stats";
 import { countrLogger } from "../../utils/logger/countr";
 import { getPermissionLevel } from "../../constants/permissions";
+import handleNotifications from "./notifications";
+import handleTimeouts from "./timeout";
+import { inspect } from "util";
 import numberSystems from "../../constants/numberSystems";
 import regexTest from "../../utils/regex";
 
+// eslint-disable-next-line complexity -- it's going to be a pain to refactor this into separate files
 export default async (message: Message, document: GuildDocument, countingChannel: CountingChannel): Promise<void> => {
-  const member = message.member || await message.guild?.members.fetch(message.author);
-  const channel = message.channel as TextChannel || ThreadChannel;
-  if (!member || !channel) return; // typescript
+  const member = message.member || await message.guild?.members.fetch(message.author) as GuildMember;
+  const channel = message.channel as TextChannel | ThreadChannel;
 
   const permissionLevel = getPermissionLevel(member);
   const { content } = message;
@@ -34,7 +39,10 @@ export default async (message: Message, document: GuildDocument, countingChannel
     !converted ||
     !modules.includes("allow-spam") && message.author.id === count.userId
   ) {
-    // todo timeout role and count fail flows
+    const countingData: CountingData = { channel, countingChannel, countingMessageId: message.id, document, member, message };
+    handleTimeouts(countingData);
+    handleFlowsOnFail(countingData);
+
     return queueDelete([message]);
   }
 
@@ -45,7 +53,28 @@ export default async (message: Message, document: GuildDocument, countingChannel
   // repost message if enabled
   let countingMessageId = message.id;
 
-  if (modules.includes("webhook")) {
+  if (modules.includes("embed")) {
+    try {
+      countingMessageId = await channel.send({
+        embeds: [
+          {
+            description: `${message.author}: ${content}`,
+            color: message.member?.displayColor || 3553598,
+          },
+        ],
+      }).then(m => m.id);
+      queueDelete([message]);
+    } catch (e) {
+      countrLogger.verbose(`Failed to replace message ${message.url} with embed module: ${inspect(e)}`);
+    }
+  } else if (modules.includes("reposting")) {
+    try {
+      countingMessageId = await channel.send(`${message.author}: ${content}`).then(m => m.id);
+      queueDelete([message]);
+    } catch (e) {
+      countrLogger.verbose(`Failed to replace message ${message.url} with reposting module: ${inspect(e)}`);
+    }
+  } else if (modules.includes("webhook") && channel.type === "GUILD_TEXT") {
     try {
       const webhooks = await channel.fetchWebhooks();
       const webhook = webhooks.find(webhook => webhook.name === "Countr") || await channel.createWebhook("Countr").catch();
@@ -64,13 +93,14 @@ export default async (message: Message, document: GuildDocument, countingChannel
         queueDelete([message]);
       }
     } catch (e) {
-      countrLogger.verbose(`Failed to replace message ${message.url} with webhook: ${JSON.stringify(e)}`);
+      countrLogger.verbose(`Failed to replace message ${message.url} with webhook module: ${inspect(e)}`);
     }
-  } else if (modules.includes("embed")) {
-    // todo
   }
 
-  // todo notifications and flows
+  const countingData: CountingData = { channel, countingChannel, countingMessageId, document, member, message };
+
+  handleFlows(countingData);
+  handleNotifications(countingData);
 };
 
 // bulks is an array of messages waiting to get bulk-deleted. channel id is the key of the map.
