@@ -8,4 +8,4 @@ services:
     container_name: countr
     restart: unless-stopped
     volumes:
-      - ./logs/countr:/app/logs
+      - ./logs:/app/logs

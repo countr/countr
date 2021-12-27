@@ -18,5 +18,7 @@ services:
     command: ["npm", "run", "manager"]
     container_name: manager
     restart: unless-stopped
+    environment:
+      - API_PORT=8080
     volumes:
       - ./logs/manager:/app/logs
