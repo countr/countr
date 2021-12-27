@@ -4,8 +4,8 @@ import actions from "../actions";
 import { awaitingInput } from "../../../commands/slash/flows/input";
 import { components } from "../../../handlers/interactions/components";
 import { getTriggerOrActionComponents } from "./components";
-import triggers from "../triggers";
 import limits from "../../limits";
+import triggers from "../triggers";
 
 const steps: Array<Step> = [
   {
@@ -33,7 +33,7 @@ const steps: Array<Step> = [
     }),
     components: flow => getTriggerOrActionComponents("action", flow),
     getStatus: flow => flow.actions.length ? "complete" : "incomplete",
-  }, // todo
+  },
   {
     title: "Flow details (Optional)",
     description: () => "Here's some optional settings you can set, like a custom name. You can also disable it if you'd like.",
@@ -59,7 +59,8 @@ const steps: Array<Step> = [
               customId: "unset_name",
               style: "SECONDARY",
             },
-            callback: ((interaction, flow, designMessage, channel) => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            callback: ((interaction, flow, designMessage, _) => {
               flow.name = undefined;
               interaction.update(designMessage());
             }) as ButtonComponentCallback,
@@ -71,7 +72,8 @@ const steps: Array<Step> = [
               customId: "set_name",
               style: "PRIMARY",
             },
-            callback: ((interaction, flow, designNewMessage, channel) => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars -- //! fix this, typescript fails
+            callback: ((interaction, flow, designNewMessage, _) => {
               awaitingInput.set([interaction.channelId, interaction.user.id].join("."), (i, args) => {
                 let name = args["text"] as string | undefined;
                 if (!name) {
@@ -142,7 +144,8 @@ const steps: Array<Step> = [
               customId: "enable",
               style: "SECONDARY",
             },
-            callback: ((interaction, flow, designMessage, channel) => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars -- //! fix this, typescript fails
+            callback: ((interaction, flow, designMessage, _) => {
               flow.disabled = true;
               interaction.update(designMessage());
             }) as ButtonComponentCallback,
