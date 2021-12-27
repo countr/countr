@@ -58,18 +58,18 @@ const actions: Record<string, Action> = {
     long: "This will send a message in any channel you'd like",
     properties: [propertyTypes.channel, propertyTypes.text],
     explanation: ([[channel], [text]]: Array<Array<string>>) => `Send a message in <#${channel}>: \`\`\`${text}\`\`\``,
-    run: async ({ countingChannel, message: { guild, member, author, content }}, [[channelId], [text]]: Array<Array<string>>) => {
+    run: async ({ count, message: { guild, member, author, content }, score }, [[channelId], [text]]: Array<Array<string>>) => {
       const channel = guild?.channels.resolve(channelId);
       if (channel && channel.isText()) {
         await channel.send({
           content: text
-            .replace(/{count}/gi, countingChannel.count.toString())
+            .replace(/{count}/gi, count.toString())
             .replace(/{mention}/gi, author.toString())
             .replace(/{tag}/gi, author.tag)
             .replace(/{username}/gi, author.username)
             .replace(/{nickname}/gi, member?.displayName || author.username)
             .replace(/{everyone}/gi, guild?.roles.everyone.toString() || "")
-            .replace(/{score}/gi, (countingChannel.scores.get(author.id) || 0).toString())
+            .replace(/{score}/gi, score.toString())
             .replace(/{content}/gi, content),
           allowedMentions: { parse: ["everyone", "users", "roles"]},
         }).catch();

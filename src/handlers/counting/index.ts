@@ -39,7 +39,16 @@ export default async (message: Message, document: GuildDocument, countingChannel
     !converted ||
     !modules.includes("allow-spam") && message.author.id === count.userId
   ) {
-    const countingData: CountingData = { channel, countingChannel, countingMessageId: message.id, document, member, message };
+    const countingData: CountingData = {
+      channel,
+      count: count.number,
+      countingChannel,
+      countingMessageId: message.id,
+      document,
+      member,
+      message,
+      score: countingChannel.scores.get(member.id) || 0,
+    };
     handleTimeouts(countingData);
     handleFlowsOnFail(countingData);
 
@@ -97,7 +106,16 @@ export default async (message: Message, document: GuildDocument, countingChannel
     }
   }
 
-  const countingData: CountingData = { channel, countingChannel, countingMessageId, document, member, message };
+  const countingData: CountingData = {
+    channel,
+    count: count.number,
+    countingChannel,
+    countingMessageId,
+    document,
+    member,
+    message,
+    score: countingChannel.scores.get(member.id) || 0,
+  };
 
   handleFlows(countingData);
   handleNotifications(countingData);
