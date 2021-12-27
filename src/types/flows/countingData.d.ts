@@ -1,10 +1,11 @@
-import { GuildDocument } from "../../database/models/Guild";
-import { Message } from "discord.js";
+import { CountingChannel, GuildDocument } from "../../database/models/Guild";
+import { GuildMember, Message, TextChannel, ThreadChannel } from "discord.js";
 
 export type CountingData = {
-  count: number;
-  score: number;
+  channel: TextChannel | ThreadChannel;
+  countingChannel: CountingChannel;
+  countingMessageId: string;
+  document: GuildDocument;
+  member: GuildMember;
   message: Message;
-  countingMessage: Message;
-  gdb: GuildDocument;
 };
