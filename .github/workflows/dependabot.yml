@@ -24,7 +24,7 @@ jobs:
 
       - name: Approve a PR if it's a patch
         run: gh pr review --approve "$PR_URL"
-        if: ${{ steps.metadata.outputs.update-type == 'version-update:semver-minor' }}
+        if: ${{ steps.metadata.outputs.update-type == 'version-update:semver-minor' || steps.metadata.outputs.update-type == 'version-update:semver-patch' }}
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
