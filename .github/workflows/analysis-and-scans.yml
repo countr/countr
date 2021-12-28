@@ -3,10 +3,10 @@ name: Analysis and Scans
 on:
   push:
     branches:
-      - master
+      - djs-13
   pull_request:
     branches:
-      - master
+      - djs-13
   schedule:
     - cron: '0 12 * * 3'
 
