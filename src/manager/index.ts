@@ -2,9 +2,11 @@ import { router as clusterRouter, clusters } from "./clusters";
 import { ClusterData } from "../types/cluster";
 import { ManagerStatus } from "../types/manager";
 import config from "../config";
+import { connection } from "../database";
 import express from "express";
 import { expressLogger } from "../utils/logger/express";
 import { getGlobalCount } from "./global";
+import { inspect } from "util";
 import { managerLogger } from "../utils/logger/manager";
 
 const app = express();
@@ -28,4 +30,6 @@ app.get("/", (_req, res) => {
 if (config.apiPort) app.listen(config.apiPort, () => managerLogger.info(`Webserver listening on port ${config.apiPort}.`));
 else throw new Error("Manager has no port to listen to.");
 
-process.on("unhandledRejection", error => managerLogger.error(`Unhandled rejection: ${JSON.stringify(error)}`));
+connection.then(() => managerLogger.info("Connected to database."));
+
+process.on("unhandledRejection", error => managerLogger.error(`Unhandled rejection: ${inspect(error)}`));
