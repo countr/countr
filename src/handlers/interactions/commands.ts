@@ -8,7 +8,7 @@ import config from "../../config";
 
 // eslint-disable-next-line complexity
 export default async (interaction: CommandInteraction, document: GuildDocument): Promise<void> => {
-  if (!interaction.guild && config.guild) return;
+  if (!interaction.guild) return;
   const commands = config.guild ? interaction.client.guilds.cache.get(config.guild)?.commands : interaction.client.application?.commands;
   const command = commands?.cache.find(c => c.name === interaction.commandName);
 

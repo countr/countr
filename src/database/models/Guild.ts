@@ -65,7 +65,7 @@ export class Guild {
 
   // we can't save in parallell, and although we can await the guild.save(), that would not work across files.
 
-  safeSave(this: GuildDocument): void {
+  safeSave(this: GuildDocument) {
     if (!saveQueue.has(this.guildId)) {
       saveQueue.set(this.guildId, 1);
       this.save().then(() => {
