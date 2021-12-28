@@ -9,7 +9,7 @@
     "docker:no-db": "docker-compose -f docker/docker-compose-no-db.yml up --build",
     "docker:no-manager": "docker-compose -f docker/docker-compose-no-manager.yml up --build",
     "docker:standalone": "docker-compose -f docker/docker-compose-standalone.yml up --build",
-    "lint": "eslint ./src",
+    "lint": "eslint ./src --max-warnings=0",
     "manager": "node ./build/manager",
     "start": "node .",
     "watch": "tsc -w"
