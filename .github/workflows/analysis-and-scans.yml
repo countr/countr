@@ -2,7 +2,11 @@ name: Analysis and Scans
 
 on:
   push:
+    branches:
+      - master
   pull_request:
+    branches:
+      - master
   schedule:
     - cron: '0 12 * * 3'
 
