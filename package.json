@@ -34,14 +34,16 @@
     "zlib-sync": "^0.1.7"
   },
   "devDependencies": {
+    "@biaw/eslint-config": "^1.0.2",
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.5",
     "@types/roman-numerals": "^0.3.0",
     "@types/superagent": "^4.1.13",
     "@types/time-limited-regular-expressions": "^1.0.0",
-    "@typescript-eslint/eslint-plugin": "^5.8.1",
-    "@typescript-eslint/parser": "^5.8.1",
     "eslint": "^8.5.0",
     "typescript": "^4.5.4"
+  },
+  "eslintConfig": {
+    "extends": "@biaw"
   }
 }
