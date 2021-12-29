@@ -23,7 +23,7 @@
     "express": "^4.17.2",
     "express-winston": "^4.2.0",
     "match-sorter": "^6.3.1",
-    "mathjs": "^10.0.1",
+    "mathjs": "^10.0.2",
     "mongoose": "^6.1.4",
     "roman-numerals": "^0.3.2",
     "superagent": "^6.1.0",
