@@ -9,6 +9,7 @@ const triggers: Record<string, Trigger> = {
     properties: [propertyTypes.numberPositive],
     explanation: ([[number]]: Array<Array<number>>) => `When someone counts a multiplication of ${number}, for example ${number}, ${number * 2}, ${number * 3} and so on`,
     check: ({ count }, [[number]]: Array<Array<number>>) => Promise.resolve(count % number === 0),
+    supports: ["flows", "notifications"],
   },
   only: {
     short: "Only number X",
@@ -16,6 +17,7 @@ const triggers: Record<string, Trigger> = {
     properties: [propertyTypes.numberPositive],
     explanation: ([[number]]: Array<Array<number>>) => `When someone counts the number ${number}`,
     check: ({ count }, [[number]]: Array<Array<number>>) => Promise.resolve(count === number),
+    supports: ["flows", "notifications"],
   },
   score: {
     short: "Score of X",
@@ -23,6 +25,7 @@ const triggers: Record<string, Trigger> = {
     properties: [propertyTypes.numberPositive],
     explanation: ([[number]]: Array<Array<number>>) => `When someone counts a total of ${number} counts`,
     check: ({ score }, [[number]]: Array<Array<number>>) => Promise.resolve(score === number),
+    supports: ["flows"],
   },
   regex: {
     short: "Regex match",
@@ -30,6 +33,7 @@ const triggers: Record<string, Trigger> = {
     properties: [propertyTypes.regex],
     explanation: ([[regex]]: Array<Array<string>>) => `When a successful counting message matches the regex \`${regex}\``,
     check: async ({ message }, [[regex]]: Array<Array<string>>) => Boolean(await match(regex, message.content)),
+    supports: ["flows", "notifications"],
   },
   countFail: {
     short: "Count fail",
@@ -37,14 +41,16 @@ const triggers: Record<string, Trigger> = {
     properties: [],
     explanation: () => "When someone fails to count the correct number",
     check: () => Promise.resolve(false), // custom trigger
-    limit: 1,
+    supports: ["flows"],
+    limitPerFlow: 1,
   },
   timeout: {
     short: "Timeout role triggered",
     long: "This will get triggered whenever someone gets the timeout role.",
     explanation: () => "When someone gets the timeout role",
     check: () => Promise.resolve(false), // custom trigger
-    limit: 1,
+    supports: ["flows"],
+    limitPerFlow: 1,
   },
 };
 

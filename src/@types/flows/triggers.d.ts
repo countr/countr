@@ -7,5 +7,6 @@ export interface Trigger {
   properties?: Array<Property>;
   explanation(properties: Array<Array<PropertyValue>>): string;
   check(data: CountingData, properties: Array<Array<PropertyValue>>): Promise<boolean>;
-  limit?: number;
+  supports: Array<"flows" | "notifications">;
+  limitPerFlow?: number;
 }
