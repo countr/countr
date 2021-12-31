@@ -4,7 +4,7 @@ import { SlashCommand } from "../../../../types/command";
 import actions from "../../../../constants/flows/actions";
 import { generateId } from "../../../../utils/crypto";
 import superagent from "superagent";
-import triggers from "../../../../constants/flows/triggers";
+import triggers from "../../../../constants/triggers";
 
 export default {
   description: "Import a flow configuration",

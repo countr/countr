@@ -6,7 +6,7 @@ import { awaitingInput } from "../../../commands/slash/flows/input";
 import { components } from "../../../handlers/interactions/components";
 import { getTriggerOrActionComponents } from "./components";
 import limits from "../../limits";
-import triggers from "../triggers";
+import triggers from "../../triggers";
 
 const steps: Array<Step> = [
   {

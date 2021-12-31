@@ -4,7 +4,7 @@ import actions from "../../constants/flows/actions";
 import { countrLogger } from "../../utils/logger/countr";
 import { inspect } from "util";
 import limits from "../../constants/limits";
-import triggers from "../../constants/flows/triggers";
+import triggers from "../../constants/triggers";
 
 export default async (data: CountingData) => {
   const { countingChannel } = data;

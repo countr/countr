@@ -1,6 +1,6 @@
-import { Trigger } from "../../types/flows/triggers";
-import match from "../../utils/regex";
-import { propertyTypes } from "./properties";
+import { Trigger } from "../types/flows/triggers";
+import match from "../utils/regex";
+import { propertyTypes } from "./flows/properties";
 
 const triggers: Record<string, Trigger> = {
   each: {

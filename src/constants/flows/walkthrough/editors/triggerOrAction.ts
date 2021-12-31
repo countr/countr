@@ -5,7 +5,7 @@ import actions from "../../actions";
 import { components } from "../../../../handlers/interactions/components";
 import config from "../../../../config";
 import { editProperty } from "./property";
-import triggers from "../../triggers";
+import triggers from "../../../triggers";
 
 export function editTriggerOrAction(triggerOrAction: "trigger" | "action", interaction: MessageComponentInteraction, flowOptions: FlowOptions, index: number, flow: Flow): Promise<MessageComponentInteraction> {
   const allOptions = triggerOrAction === "trigger" ? triggers : actions;

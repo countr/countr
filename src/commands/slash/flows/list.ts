@@ -4,7 +4,7 @@ import { SlashCommand } from "../../../types/command";
 import actions from "../../../constants/flows/actions";
 import { components } from "../../../handlers/interactions/components";
 import { embedsPerMessage } from "../../../constants/discordLimits";
-import triggers from "../../../constants/flows/triggers";
+import triggers from "../../../constants/triggers";
 
 export default {
   description: "List all the flows configured",

@@ -6,7 +6,7 @@ import { components } from "../../../handlers/interactions/components";
 import { editProperty } from "./editors/property";
 import { editTriggerOrAction } from "./editors/triggerOrAction";
 import limits from "../../limits";
-import triggers from "../triggers";
+import triggers from "../../triggers";
 import { trim } from "../../../utils/text";
 
 export function getTriggerOrActionComponents(triggerOrAction: "trigger" | "action", flow: Flow): Array<Array<Component>> {
