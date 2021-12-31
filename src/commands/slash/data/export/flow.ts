@@ -1,4 +1,4 @@
-import { SlashCommand } from "../../../../types/command";
+import { SlashCommand } from "../../../../@types/command";
 import { flowList } from "../../../../constants/autocompleters";
 
 export default {

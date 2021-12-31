@@ -1,7 +1,7 @@
 import { CountingChannel, GuildDocument } from "../../database/models/Guild";
 import { GuildMember, Message, TextBasedChannel, TextChannel, ThreadChannel } from "discord.js";
 import handleFlows, { onFail as handleFlowsOnFail } from "./flows";
-import { CountingData } from "../../types/flows/countingData";
+import { CountingData } from "../../@types/flows/countingData";
 import { addToCount } from "../../utils/cluster/stats";
 import { countrLogger } from "../../utils/logger/countr";
 import { getPermissionLevel } from "../../constants/permissions";

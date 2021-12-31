@@ -1,4 +1,4 @@
-import { Component, SelectMenuComponentCallback } from "../../../types/flows/components";
+import { Component, SelectMenuComponentCallback } from "../../../@types/flows/components";
 import { Flow, FlowOptions } from "../../../database/models/Guild";
 import { MessageComponentInteraction, MessageSelectMenuOptions, SelectMenuInteraction } from "discord.js";
 import actions from "../actions";

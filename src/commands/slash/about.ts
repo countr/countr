@@ -1,6 +1,6 @@
 import { release, type } from "os";
-import { ManagerStatus } from "../../types/manager";
-import { SlashCommand } from "../../types/command";
+import { ManagerStatus } from "../../@types/manager";
+import { SlashCommand } from "../../@types/command";
 import { bytesToHumanReadableFormat } from "../../utils/human";
 import config from "../../config";
 import { getManagerStats } from "../../utils/cluster/stats";

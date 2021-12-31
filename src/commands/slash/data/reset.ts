@@ -1,4 +1,4 @@
-import { SlashCommand } from "../../../types/command";
+import { SlashCommand } from "../../../@types/command";
 import { components } from "../../../handlers/interactions/components";
 import { reset } from "../../../database/guilds";
 

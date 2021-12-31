@@ -1,4 +1,4 @@
-import { CountingData } from "../../types/flows/countingData";
+import { CountingData } from "../../@types/flows/countingData";
 import { countrLogger } from "../../utils/logger/countr";
 import { onTimeout as handleFlowsOnTimeout } from "./flows";
 import { inspect } from "util";

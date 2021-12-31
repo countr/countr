@@ -1,6 +1,6 @@
 import { CommandInteraction } from "discord.js";
 import { SlashArgRecord } from "../../../handlers/interactions/commands";
-import { SlashCommand } from "../../../types/command";
+import { SlashCommand } from "../../../@types/command";
 import { propertyTypes } from "../../../constants/flows/properties";
 
 export const awaitingInput = new Map<string, (interaction: CommandInteraction, args: SlashArgRecord) => void>();

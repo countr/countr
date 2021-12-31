@@ -1,4 +1,4 @@
-import { Autocomplete } from "../types/command";
+import { Autocomplete } from "../@types/command";
 import { matchSorter } from "match-sorter";
 
 export const flowList: Autocomplete = (query, interaction, document, selectedCountingChannel?: string) => {

@@ -1,4 +1,4 @@
-import { SlashCommand } from "../../../types/command";
+import { SlashCommand } from "../../../@types/command";
 import config from "../../../config";
 import limits from "../../../constants/limits";
 import numberSystems from "../../../constants/numberSystems";

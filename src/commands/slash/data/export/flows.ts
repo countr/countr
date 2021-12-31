@@ -1,4 +1,4 @@
-import { SlashCommand } from "../../../../types/command";
+import { SlashCommand } from "../../../../@types/command";
 
 export default {
   description: "Export all data about flows from the database",

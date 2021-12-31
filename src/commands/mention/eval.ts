@@ -1,4 +1,4 @@
-import { MentionCommand } from "../../types/command";
+import { MentionCommand } from "../../@types/command";
 import { inspect } from "util";
 
 export default {

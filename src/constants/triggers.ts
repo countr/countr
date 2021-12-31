@@ -1,4 +1,4 @@
-import { Trigger } from "../types/flows/triggers";
+import { Trigger } from "../@types/flows/triggers";
 import match from "../utils/regex";
 import { propertyTypes } from "./flows/properties";
 

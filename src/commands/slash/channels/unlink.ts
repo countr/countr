@@ -1,4 +1,4 @@
-import { SlashCommand } from "../../../types/command";
+import { SlashCommand } from "../../../@types/command";
 
 export default {
   description: "Link an existing channel to Countr",

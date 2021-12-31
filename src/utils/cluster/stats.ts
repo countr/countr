@@ -1,6 +1,6 @@
 import { Client } from "discord.js";
-import { ClusterUpdate } from "../../types/cluster";
-import { ManagerStatus } from "../../types/manager";
+import { ClusterUpdate } from "../../@types/cluster";
+import { ManagerStatus } from "../../@types/manager";
 import config from "../../config";
 import superagent from "superagent";
 

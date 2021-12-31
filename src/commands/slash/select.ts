@@ -1,5 +1,5 @@
 import { defaultExpirationValue, selectedCountingChannels } from "../../constants/selectedCountingChannels";
-import { SlashCommand } from "../../types/command";
+import { SlashCommand } from "../../@types/command";
 
 export default {
   description: "Select a counting channel to edit",

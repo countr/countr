@@ -1,4 +1,4 @@
-import { Cluster, ClusterData, ClusterUpdate } from "../types/cluster";
+import { Cluster, ClusterData, ClusterUpdate } from "../@types/cluster";
 import { Router as expressRouter, json } from "express";
 import { PresenceData } from "discord.js";
 import { addToCount } from "./global";

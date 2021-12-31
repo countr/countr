@@ -1,6 +1,6 @@
 import { CommandInteraction, InteractionReplyOptions, MessageButtonOptions, MessageEmbedOptions, User } from "discord.js";
 import { CountingChannel, Flow, GuildDocument } from "../../../database/models/Guild";
-import { Step } from "../../../types/flows/steps";
+import { Step } from "../../../@types/flows/steps";
 import { components } from "../../../handlers/interactions/components";
 import config from "../../../config";
 import { generateId } from "../../../utils/crypto";

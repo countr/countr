@@ -1,7 +1,7 @@
 import { SelectedCountingChannel, selectedCountingChannels } from "../constants/selectedCountingChannels";
 import { getPermissionLevel, ladder } from "../constants/permissions";
 import { GuildDocument } from "../database/models/Guild";
-import { MentionCommand } from "../types/command";
+import { MentionCommand } from "../@types/command";
 import { Message } from "discord.js";
 import config from "../config";
 import { countrLogger } from "../utils/logger/countr";

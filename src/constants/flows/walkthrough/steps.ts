@@ -1,6 +1,6 @@
 import { flowHelpUrl, supportServerUrl } from "../../links";
-import { ButtonComponentCallback } from "../../../types/flows/components";
-import { Step } from "../../../types/flows/steps";
+import { ButtonComponentCallback } from "../../../@types/flows/components";
+import { Step } from "../../../@types/flows/steps";
 import actions from "../actions";
 import { awaitingInput } from "../../../commands/slash/flows/input";
 import { components } from "../../../handlers/interactions/components";

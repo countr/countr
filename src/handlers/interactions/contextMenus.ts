@@ -1,5 +1,5 @@
 import { SelectedCountingChannel, defaultExpirationValue, selectedCountingChannels } from "../../constants/selectedCountingChannels";
-import { ContextMenuCommand } from "../../types/command";
+import { ContextMenuCommand } from "../../@types/command";
 import { ContextMenuInteraction } from "discord.js";
 import { GuildDocument } from "../../database/models/Guild";
 import config from "../../config";
