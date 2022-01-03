@@ -1,11 +1,10 @@
 {
-  "include": [ "src/**/*" ],
+  "exclude": ["test/**/*.ts"],
   "compilerOptions": {
-    "target": "es2021",
+    "target": "es5",
     "experimentalDecorators": true,
     "module": "commonjs",
     "outDir": "./build",
-    "removeComments": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true
