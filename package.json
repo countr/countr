@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@typegoose/typegoose": "^9.4.0",
-    "bufferutil": "^4.0.5",
+    "bufferutil": "^4.0.6",
     "discord.js": "^13.5.0",
     "dotenv": "^10.0.0",
     "erlpack": "github:discord/erlpack",
@@ -28,7 +28,7 @@
     "roman-numerals": "^0.3.2",
     "superagent": "^6.1.0",
     "time-limited-regular-expressions": "^1.0.0",
-    "utf-8-validate": "^5.0.7",
+    "utf-8-validate": "^5.0.8",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.5",
     "zlib-sync": "^0.1.7"
