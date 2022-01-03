@@ -36,7 +36,7 @@
   "devDependencies": {
     "@biaw/eslint-config": "^1.0.2",
     "@types/express": "^4.17.13",
-    "@types/node": "^17.0.5",
+    "@types/node": "^17.0.7",
     "@types/roman-numerals": "^0.3.0",
     "@types/superagent": "^4.1.14",
     "@types/time-limited-regular-expressions": "^1.0.0",
