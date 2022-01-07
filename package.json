@@ -26,7 +26,7 @@
     "mathjs": "^10.0.2",
     "mongoose": "^6.1.5",
     "roman-numerals": "^0.3.2",
-    "superagent": "^6.1.0",
+    "superagent": "^7.0.1",
     "time-limited-regular-expressions": "^1.0.0",
     "utf-8-validate": "^5.0.8",
     "winston": "^3.3.3",
