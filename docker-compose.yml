@@ -4,33 +4,33 @@ version: '3.3'
 
 services:
   countr:
-    build: .
     container_name: countr
+    build: .
     restart: unless-stopped
     environment:
       - DATABASE_URI=mongodb://db/countr
-      - API_URI=http://manager:8080
+      - API_URI=http://manager:$API_PORT
     volumes:
       - ./logs/countr:/app/logs
     depends_on:
       - manager
       - db
   manager:
-    build: .
-    command: ["npm", "run", "manager"]
     container_name: manager
-    restart: unless-stopped
+    build: .
+    restart: always
+    command: ["npm", "run", "manager"]
     environment:
-      - API_PORT=8080
+      - DATABASE_URI=mongodb://db/countr
     volumes:
       - ./logs/manager:/app/logs
     ports:
-      - "8080:8080"
+      - $API_PORT:$API_PORT
     depends_on:
       - db
   db:
-    image: mongo:4
     container_name: db
-    restart: unless-stopped
+    image: mongo:4
+    restart: always
     volumes:
       - ./database:/data/db
