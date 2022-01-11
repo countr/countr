@@ -1,4 +1,4 @@
-import { Flow, FlowOptions } from "../../../../database/models/Guild";
+import { Flow, TriggerOrActionDetails } from "../../../../database/models/Guild";
 import { PropertyValue } from "../../../../@types/flows/properties";
 import { SlashCommand } from "../../../../@types/command";
 import actions from "../../../../constants/flows/actions";
@@ -83,7 +83,7 @@ function getFlow(input: any): Flow | null {
   return flow;
 }
 
-function getFlowOptions(input: any, triggerOrAction: "trigger" | "action"): Array<FlowOptions> | null {
+function getFlowOptions(input: any, triggerOrAction: "trigger" | "action"): Array<TriggerOrActionDetails> | null {
   if (!Array.isArray(input)) return null;
 
   const options = input.map((option: any) => {
@@ -100,12 +100,12 @@ function getFlowOptions(input: any, triggerOrAction: "trigger" | "action"): Arra
     const data = getFlowOptionData(option.data);
     if (data === null) return null;
 
-    const flowOption: FlowOptions = { type: option.type, data };
+    const flowOption: TriggerOrActionDetails = { type: option.type, data };
 
     return flowOption;
   });
 
-  return options as Array<FlowOptions>;
+  return options as Array<TriggerOrActionDetails>;
 }
 
 function getFlowOptionData(input: any): Array<Array<PropertyValue>> | null {

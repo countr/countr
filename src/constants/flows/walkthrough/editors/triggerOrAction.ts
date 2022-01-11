@@ -1,5 +1,5 @@
 import { EmbedFieldData, MessageComponentInteraction, SelectMenuInteraction } from "discord.js";
-import { Flow, FlowOptions } from "../../../../database/models/Guild";
+import { Flow, TriggerOrActionDetails } from "../../../../database/models/Guild";
 import { capitalizeFirst, trim } from "../../../../utils/text";
 import actions from "../../actions";
 import { components } from "../../../../handlers/interactions/components";
@@ -7,7 +7,7 @@ import config from "../../../../config";
 import { editProperty } from "./property";
 import triggers from "../../../triggers";
 
-export function editTriggerOrAction(triggerOrAction: "trigger" | "action", interaction: MessageComponentInteraction, flowOptions: FlowOptions, index: number, flow: Flow): Promise<MessageComponentInteraction> {
+export function editTriggerOrAction(triggerOrAction: "trigger" | "action", interaction: MessageComponentInteraction, flowOptions: TriggerOrActionDetails, index: number, flow: Flow): Promise<MessageComponentInteraction> {
   const allOptions = triggerOrAction === "trigger" ? triggers : actions;
 
   return new Promise(resolve => {

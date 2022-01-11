@@ -21,7 +21,7 @@ export class TimeoutRole {
 }
 
 @modelOptions({ options: { allowMixed: Severity.ALLOW } })
-export class FlowOptions {
+export class TriggerOrActionDetails {
   @prop({ type: String, required: true }) type!: string;
   @prop({ type: [Schema.Types.Mixed], default: []}, WhatIsIt.ARRAY) data!: Array<Array<PropertyValue>>;
 }
@@ -29,14 +29,13 @@ export class FlowOptions {
 export class Flow {
   @prop({ type: String }) name?: string;
   @prop({ type: Boolean, default: false }) disabled?: boolean;
-  @prop({ type: [FlowOptions], default: []}, WhatIsIt.ARRAY) triggers!: Array<FlowOptions>;
-  @prop({ type: [FlowOptions], default: []}, WhatIsIt.ARRAY) actions!: Array<FlowOptions>;
+  @prop({ type: [TriggerOrActionDetails], default: []}, WhatIsIt.ARRAY) triggers!: Array<TriggerOrActionDetails>;
+  @prop({ type: [TriggerOrActionDetails], default: []}, WhatIsIt.ARRAY) actions!: Array<TriggerOrActionDetails>;
 }
 
 export class Notification {
   @prop({ type: String, required: true }) userId!: string;
-  @prop({ type: String, default: "only" }) mode!: string;
-  @prop({ type: Number, required: true }) count!: number;
+  @prop({ type: TriggerOrActionDetails, required: true }) trigger!: TriggerOrActionDetails;
 }
 
 export class Liveboard {

@@ -1,12 +1,12 @@
 import { Guild, MessageComponentInteraction } from "discord.js";
 import { Property, PropertyValue } from "../../../../@types/flows/properties";
-import { FlowOptions } from "../../../../database/models/Guild";
+import { TriggerOrActionDetails } from "../../../../database/models/Guild";
 import { awaitingInput } from "../../../../commands/slash/flows/input";
 import { components } from "../../../../handlers/interactions/components";
 import config from "../../../../config";
 import { joinListWithAnd } from "../../../../utils/text";
 
-export function editProperty(interaction: MessageComponentInteraction, property: Property, flowOptions: FlowOptions, propertyIndex: number | null, data?: Array<PropertyValue>): Promise<MessageComponentInteraction> {
+export function editProperty(interaction: MessageComponentInteraction, property: Property, flowOptions: TriggerOrActionDetails, propertyIndex: number | null, data?: Array<PropertyValue>): Promise<MessageComponentInteraction> {
   const newData = data || [...flowOptions.data[propertyIndex || 0] || []]; // copy the data or use data from previous interaction
 
   return new Promise((resolve, reject) => {

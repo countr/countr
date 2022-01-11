@@ -1,5 +1,5 @@
 import { Component, SelectMenuComponentCallback } from "../../../@types/flows/components";
-import { Flow, FlowOptions } from "../../../database/models/Guild";
+import { Flow, TriggerOrActionDetails } from "../../../database/models/Guild";
 import { MessageComponentInteraction, MessageSelectMenuOptions, SelectMenuInteraction } from "discord.js";
 import actions from "../actions";
 import { components } from "../../../handlers/interactions/components";
@@ -47,7 +47,7 @@ export function getTriggerOrActionComponents(triggerOrAction: "trigger" | "actio
               const i = i_ as SelectMenuInteraction;
               const [type] = i.values;
               const option = allOptions[type];
-              const newOption = { type, data: []} as FlowOptions;
+              const newOption = { type, data: []} as TriggerOrActionDetails;
 
               let currentInteraction: MessageComponentInteraction = i;
               if (option.properties) {

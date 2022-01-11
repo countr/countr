@@ -1,25 +1,22 @@
 import { GuildMember, MessageEmbedOptions } from "discord.js";
 import { CountingData } from "../../@types/flows/countingData";
-import { Notification } from "../../database/models/Guild";
 import config from "../../config";
 import { countrLogger } from "../../utils/logger/countr";
 import { embedsPerMessage } from "../../constants/discordLimits";
 import { inspect } from "util";
+import triggers from "../../constants/triggers";
 
 export default async (data: CountingData): Promise<void> => {
-  const { count, countingChannel, message, countingMessageId } = data;
+  const { countingChannel, message, countingMessageId } = data;
 
-  for (const [id, notification] of Array.from(countingChannel.notifications.entries())) {
-    if (
-      notification.mode === "only" && count === notification.count ||
-      notification.mode === "each" && count % notification.count === 0
-    ) {
+  for (const [id, { userId, trigger }] of Array.from(countingChannel.notifications.entries())) {
+    if (await triggers[trigger.type].check(data, trigger.data)) {
       const url = message.url.replace(message.id, countingMessageId);
       try {
-        const receiver = await message.guild?.members.fetch(notification.userId);
-        if (receiver) queue(data, id, notification, receiver, url);
+        const receiver = await message.guild?.members.fetch(userId);
+        if (receiver) queue(data, id, receiver, url);
       } catch (e) {
-        countrLogger.verbose(`Error sending notification about ${url} to ${notification.userId}: ${inspect(e)}`);
+        countrLogger.verbose(`Error sending notification about ${url} to ${userId}: ${inspect(e)}`);
       }
     }
   }
@@ -28,7 +25,7 @@ export default async (data: CountingData): Promise<void> => {
 const queuedEmbeds = new Map<string, Array<MessageEmbedOptions>>();
 export const blockedUsers = new Set<string>();
 
-function queue(data: CountingData, id: string, notification: Notification, receiver: GuildMember, messageUrl: string) {
+function queue(data: CountingData, id: string, receiver: GuildMember, messageUrl: string) {
   const { count, message } = data;
   const embed: MessageEmbedOptions = {
     description: [
