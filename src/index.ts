@@ -115,11 +115,11 @@ client.on("messageCreate", async message => {
 
 client
   .on("debug", info => void discordLogger.debug(info))
-  .on("error", error => void discordLogger.error(`Cluster errored. ${JSON.stringify({ ...error })}`))
-  .on("rateLimit", rateLimitData => void discordLogger.warn(`Rate limit ${JSON.stringify(rateLimitData)}`))
+  .on("error", error => void discordLogger.error(`Cluster errored. ${inspect(error)}`))
+  .on("rateLimit", rateLimitData => void discordLogger.warn(`Rate limit ${inspect(rateLimitData)}`))
   .on("ready", () => void discordLogger.info("All shards have been connected."))
-  .on("shardDisconnect", (event, id) => void discordLogger.warn(`Shard ${id} disconnected. ${JSON.stringify({ ...event })}`))
-  .on("shardError", (error, id) => void discordLogger.error(`Shard ${id} errored. ${JSON.stringify({ ...error })}`))
+  .on("shardDisconnect", (event, id) => void discordLogger.warn(`Shard ${id} disconnected. ${inspect(event)}`))
+  .on("shardError", (error, id) => void discordLogger.error(`Shard ${id} errored. ${inspect(error)}`))
   .on("shardReady", id => void discordLogger.info(`Shard ${id} is ready.`))
   .on("shardReconnecting", id => void discordLogger.warn(`Shard ${id} is reconnecting.`))
   .on("shardResume", (id, replayed) => void discordLogger.info(`Shard ${id} resumed. ${replayed} events replayed.`))
