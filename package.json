@@ -1,6 +1,6 @@
 {
   "name": "countr",
-  "main": "build/bot.js",
+  "main": "build",
   "license": "GPL-3.0",
   "scripts": {
     "build": "tsc",
