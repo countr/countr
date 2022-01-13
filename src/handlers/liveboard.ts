@@ -36,6 +36,4 @@ export default (client: Client): Promise<Array<void>> => Promise.all(client.guil
       ],
     });
   }
-
-
 }));
