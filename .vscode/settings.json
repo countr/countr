@@ -1,7 +1,0 @@
-{
-  "github-actions.workflows.pinned.workflows": [
-    ".github/workflows/linting.yml",
-    ".github/workflows/analysis-and-scans.yml",
-    ".github/workflows/build-test.yml"
-  ]
-}
