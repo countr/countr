@@ -6,22 +6,18 @@ export default async (guild: Guild, timeoutRole: TimeoutRole, timeouts: Map<stri
   let needSave = false;
 
   for (const [userId, timestamp] of Array.from(timeouts)) {
-    const member = guild.members.cache.get(userId);
-    if (member && member.roles.cache.has(timeoutRole.roleId)) {
-      if (Date.now() >= timestamp.getTime()) {
-        await member.roles.remove(timeoutRole.roleId, "User no longer timed out (offline)").catch();
-        timeouts.delete(userId);
-        needSave = true;
-      } else {
-        setTimeout(() => {
-          member.roles.remove(timeoutRole.roleId, "User no longer timed out").catch();
-          timeouts.delete(userId);
-          save();
-        }, timestamp.getTime() - Date.now());
-      }
-    } else {
+    if (Date.now() >= timestamp.getTime()) {
+      const member = await guild.members.fetch(userId);
+      if (member && member.roles.cache.has(timeoutRole.roleId)) member.roles.remove(timeoutRole.roleId);
       timeouts.delete(userId);
       needSave = true;
+    } else {
+      setTimeout(async () => {
+        const member = await guild.members.fetch(userId);
+        if (member && member.roles.cache.has(timeoutRole.roleId)) member.roles.remove(timeoutRole.roleId);
+        timeouts.delete(userId);
+        save();
+      }, timestamp.getTime() - Date.now());
     }
   }
 
