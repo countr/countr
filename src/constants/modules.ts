@@ -35,13 +35,4 @@ const modules: {
   },
 };
 
-for (const i in modules) {
-  modules[i] = Object.assign({
-    short: "N/A",
-    long: null,
-    image: null,
-    incompatible: [],
-  }, modules[i]);
-}
-
 export default modules;
