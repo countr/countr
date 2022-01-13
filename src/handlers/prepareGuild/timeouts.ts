@@ -5,7 +5,6 @@ export default async (guild: Guild, timeoutRole: TimeoutRole, timeouts: Map<stri
   if (!timeouts.size) return false;
   let needSave = false;
 
-  await guild.members.fetch({ user: Array.from(timeouts.keys()) }); // fetch the members having a timeout
   for (const [userId, timestamp] of Array.from(timeouts)) {
     const member = guild.members.cache.get(userId);
     if (member && member.roles.cache.has(timeoutRole.roleId)) {

@@ -1,11 +1,16 @@
 import * as guilds from "../../database/guilds";
-import { Guild, TextChannel, ThreadChannel } from "discord.js";
+import { Guild, GuildMember, TextChannel, ThreadChannel } from "discord.js";
 import { CountingChannel } from "../../database/models/Guild";
 import recoverHandler from "./recover";
 import timeoutsHandler from "./timeouts";
 
 export default async (guild: Guild): Promise<void> => {
   const db = await guilds.get(guild.id);
+
+  await queueFetch([
+    ...Array.from(db.channels.values()).map(channel => Array.from(channel.timeouts.keys())).flat(),
+    // room for more if needed
+  ], guild);
 
   await Promise.all(Array.from(db.channels as Map<string, CountingChannel>).map(([id, { count: { messageId }, modules, timeoutRole, timeouts }]) => {
     const channel = guild.channels.cache.get(id) as TextChannel | ThreadChannel;
@@ -18,3 +23,47 @@ export default async (guild: Guild): Promise<void> => {
     } return void 0;
   }));
 };
+
+const queue: Array<() => Promise<void>> = [];
+let current: Promise<void> | null = null;
+
+function queueFetch(userIds: Array<string>, guild: Guild): Promise<Array<GuildMember>> {
+  return new Promise(resolveFunction => {
+    queue.push(() => new Promise(resolveQueue => {
+      fetchAll(userIds, guild).then(members => {
+        current = null;
+        resolveQueue();
+        resolveFunction(members);
+      });
+    }));
+
+    if (!current) {
+      (async () => { // we need async here to await the current
+        while (queue.length) {
+          current = queue.shift()?.() || null;
+          await current;
+        }
+      })();
+    }
+  });
+}
+
+async function fetchAll(userIds: Array<string>, guild: Guild): Promise<Array<GuildMember>> {
+  if (!userIds.length) return [];
+  const members: Array<GuildMember> = [];
+
+  // split userIds in chunks of 100 -- copilot made this, idk if it'll work yet
+  const chunks = userIds.reduce<Array<Array<string>>>((acc, userId, index) => {
+    if (index % 100 === 0) acc.push([]);
+    acc[acc.length - 1].push(userId);
+    return acc;
+  }, []);
+
+  // fetch all chunks
+  for (const chunk of chunks) {
+    const fetched = await guild.members.fetch({ user: chunk });
+    members.push(...Array.from(fetched.values()));
+  }
+
+  return members;
+}
