@@ -6,10 +6,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm i
 
-COPY ./src ./
-COPY tsconfig.json ./
-RUN npm run build
-
 COPY . ./
+RUN npm run build
 
 CMD ["dumb-init", "npm", "start"]

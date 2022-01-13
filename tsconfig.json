@@ -1,5 +1,5 @@
 {
-  "exclude": ["test/**/*.ts"],
+  "include": [ "./src" ],
   "compilerOptions": {
     "target": "es5",
     "experimentalDecorators": true,
