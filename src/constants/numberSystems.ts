@@ -46,7 +46,13 @@ const numberSystems: {
   },
   math: {
     name: "Math Expression (4*4 = 16)",
-    convert: evaluate,
+    convert: expression => {
+      try {
+        return evaluate(expression) || null;
+      } catch (e) {
+        return null;
+      }
+    },
     format: number => number.toString(),
   },
 };
