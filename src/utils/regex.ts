@@ -1,7 +1,7 @@
 import limits from "../constants/limits";
 import tlre from "time-limited-regular-expressions";
 
-const regexTest = tlre({ limit: limits.filters.timeout }).match;
+const regexTest = tlre({ limit: limits.filters.timeout / 1000 }).match;
 
 export default async (regex: string, text: string): Promise<boolean | null> => {
   try {
