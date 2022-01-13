@@ -1,0 +1,21 @@
+name: Testing
+
+on:
+  push:
+    branches:
+      - djs-13
+  pull_request:
+    branches:
+      - djs-13
+
+jobs:
+  jest:
+    name: Jest
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: "16.x"
+    - run: npm install
+    - run: npm run test
