@@ -12,8 +12,10 @@ import { managerLogger } from "../utils/logger/manager";
 const app = express();
 app.use(expressLogger);
 
+// routes
 app.use("/cluster", clusterRouter);
 
+// main route
 app.get("/", (_req, res) => {
   const list: Array<ClusterData> = Array.from(clusters.values());
   res.json({

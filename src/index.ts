@@ -87,8 +87,9 @@ client.once("ready", async client => {
   if (config.access.enabled) accessHandler(client);
 });
 
-function updatePresence() {
-  return getPresence(client).then(presence => client.user?.setPresence(presence));
+async function updatePresence() {
+  const presence = await getPresence(client);
+  return client.user?.setPresence(presence);
 }
 
 client.on("messageCreate", async message => {
@@ -100,11 +101,10 @@ client.on("messageCreate", async message => {
   ) return;
 
   const document = await guilds.get(message.guildId);
-
   const channel = document.channels.get(message.channelId);
-  if (channel) return void countingHandler(message, document, channel);
+  if (channel) return countingHandler(message, document, channel);
 
-  if (message.content.match(`^<@!?${client.user?.id}> `)) return void messageCommandHandler(message, document);
+  if (message.content.match(`^<@!?${client.user?.id}> `)) return messageCommandHandler(message, document);
 
   if (message.content.match(`^<@!?${client.user?.id}>`)) {
     return void message.reply({
@@ -133,7 +133,7 @@ Promise.all([
         resolve(void 0);
         clearInterval(timeout);
       }
-    }), 5000);
+    }), 1000);
   }),
 ]).then(() => {
   countrLogger.info("Green light received and connected to the database. Logging in to Discord.");

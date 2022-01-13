@@ -25,8 +25,6 @@ export default (message: Message, document: GuildDocument): Promise<void> => {
   }
 
   return new Promise<Message>(resolve => {
-    if (!message.guild) return; // typescript. guild will always be defined
-
     try {
       if (inCountingChannel && command.disableInCountingChannel) {
         message.react("💢").catch();
@@ -34,7 +32,7 @@ export default (message: Message, document: GuildDocument): Promise<void> => {
         return;
       }
 
-      message.guild.members.fetch(message.author).then(member => {
+      message.guild?.members.fetch(message.author).then(member => {
         const permissionLevel = getPermissionLevel(member);
         if (permissionLevel < ladder[permissions[commandName] || "ALL"]) {
           message.react("⛔").catch();
