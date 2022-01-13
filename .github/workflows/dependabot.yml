@@ -12,23 +12,19 @@ jobs:
   dependabot:
     name: Dependabot
     runs-on: ubuntu-latest
-
     if: ${{ github.actor == 'dependabot[bot]' }}
-
     steps:
       - name: Get Dependabot metadata
         uses: dependabot/fetch-metadata@v1.1.1
         id: metadata
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
-
       - name: Approve patches automatically
         run: gh pr review --approve "$PR_URL"
         if: ${{ steps.metadata.outputs.update-type == 'version-update:semver-patch' }}
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
       - name: Enable auto-merge for Dependabot PRs
         run: gh pr merge --auto --merge "$PR_URL"
         env:

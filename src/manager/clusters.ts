@@ -7,6 +7,7 @@ import config from "../config";
 export const router = expressRouter();
 export const clusters = new Map<Cluster["id"], ClusterData>();
 
+// require authorization for this route
 router.use((req, res, next) => {
   if (req.headers["authorization"] !== config.client.token) return res.sendStatus(401);
   next();
@@ -32,10 +33,7 @@ router.get("/:clusterId/status", (req, res) => res.json({
   ],
 } as PresenceData));
 
-/*
- * avoid clusters all initializing at once to Discord. start one by one.
- * sequence is not important, as long as they're all started within a reasonable time without overlapping on each other.
- */
+// avoid clusters initializing at once, instead limit to only one cluster. sequence isn't important, as long as they all initialize within a reasonable time without overlapping.
 let clusterInitializing: number | null = null;
 
 router.post("/:clusterId/init", (req, res) => {

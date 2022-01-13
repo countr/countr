@@ -1,4 +1,4 @@
-import limits from "../constants/limits.js";
+import limits from "../constants/limits";
 import tlre from "time-limited-regular-expressions";
 
 const regexTest = tlre({ limit: limits.filters.timeout }).match;

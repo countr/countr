@@ -1,4 +1,4 @@
-name: Linting
+name: Docker Compose
 
 on:
   push:
@@ -9,13 +9,10 @@ on:
       - djs-13
 
 jobs:
-  lint:
-    name: ESLint
+  build:
+    name: Test Build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
-      with:
-        node-version: "16.x"
-    - run: npm install
-    - run: npm run lint
+    - run: cp "example.env" ".env"
+    - run: docker compose build

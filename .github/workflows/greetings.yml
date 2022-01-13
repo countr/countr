@@ -1,12 +1,12 @@
-name: Greetings
+name: Greet
 
 on:
   issues:
 
 jobs:
   greeting:
+    name: Greet new users
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/first-interaction@v1
       with:
