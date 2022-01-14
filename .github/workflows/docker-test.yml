@@ -14,5 +14,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: cp "example.env" ".env"
+    - run: cp "docker/test.env" ".env"
     - run: docker compose build
