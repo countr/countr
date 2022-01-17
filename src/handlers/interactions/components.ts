@@ -32,15 +32,17 @@ export default (interaction: SelectMenuInteraction | ButtonInteraction): void =>
 
 const timeUntilGarbage = new Map<string, number>();
 
-setInterval(() => {
-  components.forEach((_, key) => {
-    if (!timeUntilGarbage.has(key) && !key.includes("_")) timeUntilGarbage.set(key, Date.now() + 3600000);
-  });
+if (process.env.NODE_ENV !== "test") {
+  setInterval(() => {
+    components.forEach((_, key) => {
+      if (!timeUntilGarbage.has(key) && !key.includes("_")) timeUntilGarbage.set(key, Date.now() + 3600000);
+    });
 
-  timeUntilGarbage.forEach((value, key) => {
-    if (value < Date.now()) {
-      components.delete(key);
-      timeUntilGarbage.delete(key);
-    }
-  });
-}, 300000);
+    timeUntilGarbage.forEach((value, key) => {
+      if (value < Date.now()) {
+        components.delete(key);
+        timeUntilGarbage.delete(key);
+      }
+    });
+  }, 300000);
+}
