@@ -24,7 +24,7 @@
     "match-sorter": "^6.3.1",
     "mathjs": "^10.1.0",
     "mongoose": "^6.1.7",
-    "superagent": "^7.0.0",
+    "superagent": "^7.1.0",
     "time-limited-regular-expressions": "^1.0.0",
     "utf-8-validate": "^5.0.8",
     "winston": "^3.4.0",
