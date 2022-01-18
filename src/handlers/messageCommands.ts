@@ -3,6 +3,7 @@ import { SelectedCountingChannel, selectedCountingChannels } from "../constants/
 import { getPermissionLevel, ladder } from "../constants/permissions";
 import { GuildDocument } from "../database/models/Guild";
 import { MentionCommand } from "../@types/command";
+import basics from "../commands/mention/_basic";
 import config from "../config";
 import { countrLogger } from "../utils/logger/countr";
 import fs from "fs";
@@ -16,8 +17,11 @@ export default (message: Message, document: GuildDocument): Promise<void> => {
 
   const args = message.content.split(" ").slice(1);
   const commandOrAlias = (args.shift() || "").toLowerCase();
-  const commandName = aliases.get(commandOrAlias) || commandOrAlias;
 
+  const basic = basics.find(b => b.triggers.includes(commandOrAlias));
+  if (basic) return Promise.resolve(void reply(basic.message, message, existingReply));
+
+  const commandName = aliases.get(commandOrAlias) || commandOrAlias;
   const command = commands.get(commandName);
   const inCountingChannel = document.channels.has(message.channel.id);
 
@@ -70,10 +74,7 @@ export default (message: Message, document: GuildDocument): Promise<void> => {
           return resolve(message);
         }
 
-        command.execute(message, options => reply(options, message, existingReply), args, document, selectedCountingChannel?.channel).then(reply => {
-          replies.set(message.id, reply);
-          resolve(reply);
-        });
+        command.execute(message, options => reply(options, message, existingReply), args, document, selectedCountingChannel?.channel).then(resolve);
       });
     } catch (e) {
       message.react("💥").catch();
@@ -95,7 +96,10 @@ function reply(optionsOrContent: string | MessageOptions, message: Message, exis
     ...typeof optionsOrContent === "string" ? { content: optionsOrContent } : optionsOrContent,
   };
   if (existingReply) return existingReply.edit(options);
-  return message.reply(options);
+  return message.reply(options).then(newReply => {
+    replies.set(message.id, newReply);
+    return newReply;
+  });
 }
 
 // loading commands
