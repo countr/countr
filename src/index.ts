@@ -13,6 +13,7 @@ import interactionsHandler from "./handlers/interactions";
 import messageCommandHandler from "./handlers/messageCommands";
 import { postStats } from "./utils/cluster/stats";
 import prepareGuild from "./handlers/prepareGuild";
+import replaceMessage from "./handlers/counting/lastMessageReplacement";
 import updateLiveboards from "./handlers/liveboard";
 
 const client = new Client({
@@ -111,6 +112,36 @@ client.on("messageCreate", async message => {
       content: "hello",
     });
   }
+});
+
+client.on("messageDelete", async message => {
+  if (
+    !message.guildId ||
+    disabledGuilds?.has(message.guildId) ||
+    message.author?.bot ||
+    message.type !== "DEFAULT"
+  ) return;
+
+  const document = await guilds.get(message.guildId);
+  const channel = document.channels.get(message.channelId);
+  if (channel) replaceMessage(message, document, channel);
+});
+
+client.on("messageUpdate", async (old, message) => {
+  if (
+    !message.guildId ||
+    disabledGuilds?.has(message.guildId) ||
+    message.author?.bot ||
+    message.type !== "DEFAULT"
+  ) return;
+
+  const document = await guilds.get(message.guildId);
+  const channel = document.channels.get(message.channelId);
+  if (channel && (
+    channel.modules.includes("talking") ?
+      (old.content || `${channel.count.number}`).split(" ")[0] !== message.content.split(" ")[0] :
+      (old.content || `${channel.count.number}`) !== message.content
+  )) replaceMessage(message, document, channel);
 });
 
 client
