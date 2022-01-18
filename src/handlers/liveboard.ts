@@ -25,9 +25,9 @@ export default (client: Client): Promise<Array<void>> => Promise.all(client.guil
           author: {
             name: `${guild.name} Scoreboard`,
             iconURL:
-            guild.iconURL({ dynamic: true, size: 128 }) || // guild icon
-            client.user?.avatarURL({ dynamic: true, size: 128 }) || // client avatar
-            `${client.options.http?.cdn || "https://cdn.discordapp.com"}/embed/avatars/0.png`, // fallback default discord avatar
+              guild.iconURL({ dynamic: true, size: 128 }) || // guild icon
+              client.user?.avatarURL({ dynamic: true, size: 128 }) || // client avatar
+              `${client.options.http?.cdn || "https://cdn.discordapp.com"}/embed/avatars/0.png`, // fallback default discord avatar
           },
           description,
           color: config.colors.primary,

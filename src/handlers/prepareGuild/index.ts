@@ -1,13 +1,12 @@
 import * as guilds from "../../database/guilds";
 import { Guild, TextChannel, ThreadChannel } from "discord.js";
-import { CountingChannel } from "../../database/models/Guild";
 import recoverHandler from "./recover";
 import timeoutsHandler from "./timeouts";
 
 export default async (guild: Guild): Promise<void> => {
   const db = await guilds.get(guild.id);
 
-  await Promise.all(Array.from(db.channels as Map<string, CountingChannel>).map(([id, { count: { messageId }, modules, timeoutRole, timeouts }]) => {
+  await Promise.all(Array.from(db.channels).map(([id, { count: { messageId }, modules, timeoutRole, timeouts }]) => {
     const channel = guild.channels.cache.get(id) as TextChannel | ThreadChannel;
     if (channel) {
       const promises: Array<Promise<boolean>> = [];
