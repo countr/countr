@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionChoice, ApplicationCommandOptionData, AutocompleteInteraction, CommandInteraction, ContextMenuInteraction, Message } from "discord.js";
+import { ApplicationCommandOptionChoice, ApplicationCommandOptionData, AutocompleteInteraction, CommandInteraction, ContextMenuInteraction, Message, MessageOptions } from "discord.js";
 import { GuildDocument } from "../database/models/Guild";
 import { SlashArgRecord } from "../handlers/interactions/commands";
 
@@ -24,7 +24,7 @@ export type ContextMenuCommand = Command & {
 }
 
 export type MentionCommand = Command & {
-  execute(message: Message, args: Array<string>, document: GuildDocument, selectedCountingChannel?: string): Promise<Message>;
+  execute(message: Message, reply: (options: string | MessageOptions) => Promise<Message>, args: Array<string>, document: GuildDocument, selectedCountingChannel?: string): Promise<Message>;
   aliases?: Array<string>;
   minArguments?: number;
 };

@@ -136,6 +136,8 @@ client.on("messageUpdate", async (old, message) => {
   ) return;
 
   const document = await guilds.get(message.guildId);
+  if (message.content.match(`^<@!?${client.user?.id}> `)) return messageCommandHandler(message, document);
+
   const channel = document.channels.get(message.channelId);
   if (channel && (
     channel.modules.includes("talking") ?

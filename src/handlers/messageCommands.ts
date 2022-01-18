@@ -1,8 +1,8 @@
+import { Message, MessageOptions } from "discord.js";
 import { SelectedCountingChannel, selectedCountingChannels } from "../constants/selectedCountingChannels";
 import { getPermissionLevel, ladder } from "../constants/permissions";
 import { GuildDocument } from "../database/models/Guild";
 import { MentionCommand } from "../@types/command";
-import { Message } from "discord.js";
 import config from "../config";
 import { countrLogger } from "../utils/logger/countr";
 import fs from "fs";
@@ -11,6 +11,9 @@ import permissions from "../commands/mention/_permissions";
 import { queueDelete } from "./counting";
 
 export default (message: Message, document: GuildDocument): Promise<void> => {
+  const existingReply = replies.get(message.id);
+  if (!existingReply && message.editedTimestamp) return Promise.resolve(); // ignore editing into a command, but allow editing from command to a new command
+
   const args = message.content.split(" ").slice(1);
   const commandOrAlias = (args.shift() || "").toLowerCase();
   const commandName = aliases.get(commandOrAlias) || commandOrAlias;
@@ -67,7 +70,10 @@ export default (message: Message, document: GuildDocument): Promise<void> => {
           return resolve(message);
         }
 
-        return command.execute(message, args, document, selectedCountingChannel?.channel).then(resolve);
+        command.execute(message, options => reply(options, message, existingReply), args, document, selectedCountingChannel?.channel).then(reply => {
+          replies.set(message.id, reply);
+          resolve(reply);
+        });
       });
     } catch (e) {
       message.react("💥").catch();
@@ -81,6 +87,16 @@ export default (message: Message, document: GuildDocument): Promise<void> => {
     }
   });
 };
+
+const replies = new Map<string, Message>();
+function reply(optionsOrContent: string | MessageOptions, message: Message, existingReply?: Message) {
+  const options: MessageOptions = {
+    allowedMentions: { repliedUser: false },
+    ...typeof optionsOrContent === "string" ? { content: optionsOrContent } : optionsOrContent,
+  };
+  if (existingReply) return existingReply.edit(options);
+  return message.reply(options);
+}
 
 // loading commands
 const commands = new Map<string, MentionCommand>(), aliases = new Map<string, string>();
