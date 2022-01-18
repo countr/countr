@@ -10,6 +10,7 @@ import { discordLogger } from "./utils/logger/discord";
 import { getPresence } from "./utils/cluster/presence";
 import { inspect } from "util";
 import interactionsHandler from "./handlers/interactions";
+import { inviteUrl } from "./constants/links";
 import messageCommandHandler from "./handlers/messageCommands";
 import { postStats } from "./utils/cluster/stats";
 import prepareGuild from "./handlers/prepareGuild";
@@ -69,7 +70,7 @@ client.once("ready", async client => {
 
     // finish up
     disabledGuilds = new Set();
-  } else countrLogger.warn("Add the bot with this link: https://todo");
+  } else countrLogger.warn(`Add the bot with this link: ${inviteUrl}`);
 
   // presence
   updatePresence();
