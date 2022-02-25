@@ -3,10 +3,10 @@ name: Analysis and Scans
 on:
   push:
     branches:
-      - djs-13
+    - djs-13
   pull_request:
     branches:
-      - djs-13
+    - djs-13
   schedule:
     - cron: '0 12 * * 3'
 
@@ -14,39 +14,51 @@ jobs:
   codeql:
     name: CodeQL Analysis
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ 'javascript' ]
+
     steps:
-    - uses: actions/checkout@v2
-    - uses: github/codeql-action/init@v1
-    - uses: github/codeql-action/autobuild@v1
-    - uses: github/codeql-action/analyze@v1
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Initialize
+      uses: github/codeql-action/init@v1
+
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v1
+
+    - name: Perform analysis and upload results
+      uses: github/codeql-action/analyze@v1
 
   njsscan:
     name: NJS Scan
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v2
-    - uses: ajinabraham/njsscan-action@master
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Perform scan
+      uses: ajinabraham/njsscan-action@master
       with:
         args: '. --sarif --output results.sarif || true'
-    - uses: github/codeql-action/upload-sarif@v1
+
+    - name: Upload results
+      uses: github/codeql-action/upload-sarif@v1
       with:
         sarif_file: results.sarif
 
   ossar:
     name: OSSAR Analysis
     runs-on: windows-latest
+
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 2
-    - run: git checkout HEAD^2
-      if: ${{ github.event_name == 'pull_request' }}
-    - uses: github/ossar-action@v1
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Perform analysis
+      uses: github/ossar-action@v1
       id: analysis
-    - uses: github/codeql-action/upload-sarif@v1
+
+    - name: Upload results
+      uses: github/codeql-action/upload-sarif@v1
       with:
         sarif_file: ${{ steps.analysis.outputs.sarifFile }}

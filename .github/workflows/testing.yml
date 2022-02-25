@@ -3,19 +3,30 @@ name: Testing
 on:
   push:
     branches:
-      - djs-13
+    - djs-13
   pull_request:
     branches:
-      - djs-13
+    - djs-13
 
 jobs:
   jest:
     name: Jest
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up node
+      uses: actions/setup-node@v1
       with:
         node-version: "16.x"
-    - run: npm install
-    - run: npm run test
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build TypeScript
+      run: npm run build
+
+    - name: Run Jest
+      run: npm test

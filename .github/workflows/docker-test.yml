@@ -7,12 +7,19 @@ on:
   pull_request:
     branches:
       - djs-13
+  workflow_dispatch:
 
 jobs:
   build:
     name: Test Build
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v2
-    - run: cp "docker/test.env" ".env"
-    - run: docker compose build
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Copy docker test environment
+      run: cp "docker/test.env" ".env"
+
+    - name: Test docker compose build
+      run: docker compose build
