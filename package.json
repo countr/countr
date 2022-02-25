@@ -27,7 +27,7 @@
     "superagent": "^7.1.1",
     "time-limited-regular-expressions": "^1.0.0",
     "utf-8-validate": "^5.0.8",
-    "winston": "^3.4.0",
+    "winston": "^3.6.0",
     "winston-daily-rotate-file": "^4.5.5",
     "zlib-sync": "^0.1.7"
   },
