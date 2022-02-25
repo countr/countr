@@ -14,10 +14,6 @@ jobs:
   codeql:
     name: CodeQL Analysis
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ 'javascript' ]
     steps:
     - uses: actions/checkout@v2
     - uses: github/codeql-action/init@v1
@@ -41,10 +37,6 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-      with:
-        fetch-depth: 2
-    - run: git checkout HEAD^2
-      if: ${{ github.event_name == 'pull_request' }}
     - uses: github/ossar-action@v1
       id: analysis
     - uses: github/codeql-action/upload-sarif@v1

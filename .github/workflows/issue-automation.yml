@@ -1,4 +1,4 @@
-name: Greet
+name: Issue Automation
 
 on:
   issues:
