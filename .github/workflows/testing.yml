@@ -3,10 +3,10 @@ name: Testing
 on:
   push:
     branches:
-    - master
+    - djs-13
   pull_request:
     branches:
-    - master
+    - djs-13
 
 jobs:
   jest:
