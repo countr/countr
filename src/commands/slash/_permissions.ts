@@ -5,7 +5,11 @@ const permissions: Record<string, CommandPermissionLevel> = {
   data: "OWNER",
   filters: "MOD",
   flows: "ADMIN",
-  modules: "ADMIN",
+  liveboard: "ADMIN",
+  module: "ADMIN",
+  scores: "ADMIN",
+  set: "ADMIN",
+  timeoutrole: "ADMIN",
 };
 
 export default permissions;
