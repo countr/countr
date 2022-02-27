@@ -1,3 +1,4 @@
+import { homepage, inviteUrl, supportServerUrl } from "../../constants/links";
 import { release, type } from "os";
 import { ManagerStatus } from "../../@types/manager";
 import { SlashCommand } from "../../@types/command";
@@ -75,14 +76,14 @@ export default {
             {
               name: "🔗 Links",
               value: [
-                `**Invite me:** [https://discord.com/api/oauth2/authorize?...](https://discord.com/api/oauth2/authorize?client_id=${interaction.client.user?.id}&permissions=805334032&scope=bot%20applications.commands)`,
-                "**Support Server**: https://promise.solutions/support",
-                "**Website**: https://countr.xyz",
+                `**Invite me:** [https://discord.com/api/oauth2/authorize?...](${inviteUrl})`,
+                `**Support Server**: ${supportServerUrl}`,
+                `**Website**: ${homepage}`,
               ].join("\n"),
               inline: true,
             },
             {
-              name: "🎰 Global Stats", // "guilds", "users", "weekly count"
+              name: "🎰 Global Stats",
               value: [
                 `**Weekly Count:** \`${manager.weeklyCount}\``,
                 `**Total Guilds:** \`${manager.totalGuilds}\``,
