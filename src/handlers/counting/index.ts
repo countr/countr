@@ -37,7 +37,8 @@ export default async (message: Message, document: GuildDocument, countingChannel
   if (
     regexMatch ||
     !converted ||
-    !modules.includes("allow-spam") && message.author.id === count.userId
+    !modules.includes("allow-spam") && message.author.id === count.userId ||
+    converted !== count.number + 1
   ) {
     const countingData: CountingData = {
       channel,
@@ -55,8 +56,12 @@ export default async (message: Message, document: GuildDocument, countingChannel
     return queueDelete([message]);
   }
 
-  // update counts
-  count.number += 1;
+  // update database
+  countingChannel.count = {
+    number: converted,
+    userId: message.author.id,
+    messageId: message.id,
+  };
   countingChannel.scores.set(message.author.id, (countingChannel.scores.get(message.author.id) || 0) + 1);
   addToCount(1);
 
@@ -106,6 +111,9 @@ export default async (message: Message, document: GuildDocument, countingChannel
       countrLogger.verbose(`Failed to replace message ${message.url} with webhook module: ${inspect(e)}`);
     }
   }
+
+  if (countingChannel.count.messageId === message.id) countingChannel.count.messageId = countingMessageId;
+  document.safeSave();
 
   const countingData: CountingData = {
     channel,
