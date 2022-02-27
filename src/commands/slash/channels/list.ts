@@ -22,7 +22,7 @@ export default {
         fields: [
           {
             name: "Count",
-            value: `**${channel.count.number}** ${channel.count.userId ? `(counted by <@${channel.count.userId}>) ${channel.count.messageId ? `- [**Go to message**](https://discord.com/channels/${[interaction.guildId, channelId, channel.count.messageId].join("/")})` : ""}` : ""}`,
+            value: channel.count.number ? `**${channel.count.number}** ${channel.count.userId ? `(counted by <@${channel.count.userId}>) ${channel.count.messageId ? `- [**Go to message**](https://discord.com/channels/${[interaction.guildId, channelId, channel.count.messageId].join("/")})` : ""}` : ""}` : "0",
             inline: true,
           },
           {
@@ -32,17 +32,17 @@ export default {
           },
           {
             name: "Filters",
-            value: `**${channel.filters.length === 1 ? "1 filter" : `${channel.filters.length} filters`}**.`,
+            value: channel.filters.length ? `**${channel.filters.length === 1 ? "1 filter" : `${channel.filters.length} filters`}**.` : "None.",
             inline: true,
           },
           {
             name: "Scores",
-            value: `**${channel.scores.size === 1 ? "1 user" : `${channel.scores.size} users`}**.`,
+            value: channel.scores.size ? `**${channel.scores.size === 1 ? "1 user" : `${channel.scores.size} users`}**.` : "None.",
             inline: true,
           },
           {
             name: "Flows",
-            value: `**${channel.flows.size === 1 ? "1 flow" : `${channel.flows.size} flows`}**.`,
+            value: channel.flows.size ? `**${channel.flows.size === 1 ? "1 flow" : `${channel.flows.size} flows`}**.` : "None.",
             inline: true,
           },
           {
@@ -52,19 +52,19 @@ export default {
           },
           {
             name: "Notifications",
-            value: `**${channel.notifications.size === 1 ? "1 notification" : `${channel.notifications.size} notifications`}**.`,
+            value: channel.notifications.size ? `**${channel.notifications.size === 1 ? "1 notification" : `${channel.notifications.size} notifications`}**.` : "None.",
             inline: true,
           },
           {
             name: "Timeouts",
-            value: `**${channel.timeouts.size === 1 ? "1 timeout" : `${channel.timeouts.size} timeouts`}**.`,
+            value: channel.timeouts.size ? `**${channel.timeouts.size === 1 ? "1 timeout" : `${channel.timeouts.size} timeouts`}**.` : "None.",
             inline: true,
           },
           ...config.isPremium ?
             [
               {
                 name: "Liveboard",
-                value: channel.liveboard?.channelId ? `[**Go to liveboard**](https://discord.com/channels/${[interaction.guildId, channel.liveboard.channelId, channel.liveboard.messageId].join("/")})` : "Not set up.",
+                value: channel.liveboard?.channelId ? `[**Go to liveboard**](https://discord.com/channels/${[interaction.guildId, channel.liveboard.channelId, channel.liveboard.messageId].join("/")})` : "None.",
                 inline: true,
               },
             ] :
