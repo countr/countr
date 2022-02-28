@@ -7,7 +7,7 @@ export default {
     {
       type: "STRING",
       name: "regex",
-      description: `The regex to use. See ${regexHelpUrl} for help.`,
+      description: `The regex to use. See ${regexHelpUrl} for help`,
       required: true,
     },
   ],
