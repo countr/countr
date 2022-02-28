@@ -8,7 +8,5 @@ updates:
       timezone: "Europe/Oslo"
     labels:
       - "dependencies"
-    open-pull-requests-limit: 3
-    rebase-strategy: "disabled"
     reviewers:
       - "@biaw/dependencies"
