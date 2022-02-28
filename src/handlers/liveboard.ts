@@ -3,10 +3,10 @@ import { Client } from "discord.js";
 import config from "../config";
 import { formatScore } from "../constants/scores";
 
-export default (client: Client): Promise<Array<void>> => Promise.all(client.guilds.cache.map(async guild => {
-  const gdb = await guilds.get(guild.id), channels = Array.from(gdb.channels).filter(channel => channel[1].liveboard && channel[1].liveboard.channelId && channel[1].liveboard.messageId);
-  for (const [id, { liveboard, scores }] of channels) {
-    const channel = client.channels.resolve(id);
+export default (client: Client) => Promise.all(client.guilds.cache.map(async guild => {
+  const gdb = await guilds.get(guild.id), channels = Array.from(gdb.channels).filter(channel => channel[1].liveboard);
+  for (const [, { liveboard, scores }] of channels) {
+    const channel = client.channels.resolve(liveboard?.channelId as string);
     if (!channel || !channel.isText() || !liveboard) return;
 
     const message = await channel.messages.fetch(liveboard.messageId).catch(() => null);
@@ -19,7 +19,7 @@ export default (client: Client): Promise<Array<void>> => Promise.all(client.guil
       description = leaderboard.join("\n");
 
     message.edit({
-      content: "",
+      content: null,
       embeds: [
         {
           author: {
