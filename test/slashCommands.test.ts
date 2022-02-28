@@ -20,12 +20,14 @@ test.each(commandPaths)("test %s", (relativePath: string) => {
 
   expect(relativePath.split("/").pop()?.replace(".ts", "")).toMatch(/^[\w-]{1,32}$/);
   expect(commandFile.description).toMatch(/^.{1,100}$/);
+  expect(commandFile.description.endsWith(".")).toBe(false);
   expect(commandFile.options?.length || 0).toBeLessThanOrEqual(25);
 
   if (commandFile.options) {
     for (const option of commandFile.options) {
       expect(option.name).toMatch(/^[\w-]{1,32}$/);
       expect(option.description).toMatch(/^.{1,100}$/);
+      expect(option.description.endsWith(".")).toBe(false);
       if ("choices" in option) {
         for (const choice of option.choices as Array<ApplicationCommandOptionChoice>) {
           expect(choice.name).toMatch(/^.{1,100}$/);
