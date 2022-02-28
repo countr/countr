@@ -1,5 +1,6 @@
 import { defaultExpirationValue, selectedCountingChannels } from "../../constants/selectedCountingChannels";
 import { SlashCommand } from "../../@types/command";
+import { countingChannelAllowedChannelTypes } from "../../constants/discord";
 
 export default {
   description: "Select a counting channel to edit",
@@ -8,7 +9,7 @@ export default {
       type: "CHANNEL",
       name: "channel",
       description: "The channel to select",
-      channelTypes: ["GUILD_TEXT", "GUILD_PRIVATE_THREAD", "GUILD_PUBLIC_THREAD"],
+      channelTypes: countingChannelAllowedChannelTypes,
       required: true,
     },
   ],

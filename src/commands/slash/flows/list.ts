@@ -3,7 +3,7 @@ import { Flow } from "../../../database/models/Guild";
 import { SlashCommand } from "../../../@types/command";
 import actions from "../../../constants/flows/actions";
 import { components } from "../../../handlers/interactions/components";
-import { embedsPerMessage } from "../../../constants/discordLimits";
+import { embedsPerMessage } from "../../../constants/discord";
 import triggers from "../../../constants/triggers";
 
 export default {

@@ -2,7 +2,7 @@ import { GuildMember, MessageEmbedOptions } from "discord.js";
 import { CountingData } from "../../@types/flows/countingData";
 import config from "../../config";
 import { countrLogger } from "../../utils/logger/countr";
-import { embedsPerMessage } from "../../constants/discordLimits";
+import { embedsPerMessage } from "../../constants/discord";
 import { inspect } from "util";
 import triggers from "../../constants/triggers";
 

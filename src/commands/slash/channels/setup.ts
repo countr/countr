@@ -1,4 +1,4 @@
-import { countingChannelPermissions, countingThreadParentChannelPermissions } from "../../../constants/discordPermissions";
+import { countingChannelPermissions, countingThreadParentChannelPermissions } from "../../../constants/discord";
 import { ClientUser } from "discord.js";
 import { CountingChannel } from "../../../database/models/Guild";
 import { SlashCommand } from "../../../@types/command";

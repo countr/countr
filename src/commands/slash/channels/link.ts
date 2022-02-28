@@ -1,4 +1,4 @@
-import { countingChannelPermissions, countingThreadParentChannelPermissions } from "../../../constants/discordPermissions";
+import { countingChannelAllowedChannelTypes, countingChannelPermissions, countingThreadParentChannelPermissions } from "../../../constants/discord";
 import { ClientUser } from "discord.js";
 import { CountingChannel } from "../../../database/models/Guild";
 import { SlashCommand } from "../../../@types/command";
@@ -12,7 +12,7 @@ export default {
       type: "CHANNEL",
       name: "channel",
       description: "The channel to link",
-      channelTypes: ["GUILD_TEXT", "GUILD_PRIVATE_THREAD", "GUILD_PUBLIC_THREAD"],
+      channelTypes: countingChannelAllowedChannelTypes,
       required: true,
     },
     {

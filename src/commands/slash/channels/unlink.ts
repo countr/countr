@@ -1,4 +1,5 @@
 import { SlashCommand } from "../../../@types/command";
+import { countingChannelAllowedChannelTypes } from "../../../constants/discord";
 
 export default {
   description: "Link an existing channel to Countr",
@@ -7,7 +8,7 @@ export default {
       type: "CHANNEL",
       name: "channel",
       description: "The counting channel to unlink",
-      channelTypes: ["GUILD_TEXT", "GUILD_PRIVATE_THREAD", "GUILD_PUBLIC_THREAD"],
+      channelTypes: countingChannelAllowedChannelTypes,
     },
     {
       type: "STRING",
