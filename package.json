@@ -22,7 +22,7 @@
     "express": "^4.17.3",
     "express-winston": "^4.2.0",
     "match-sorter": "^6.3.1",
-    "mathjs": "^10.2.0",
+    "mathjs": "^10.3.0",
     "mongoose": "^6.2.4",
     "superagent": "^7.1.1",
     "time-limited-regular-expressions": "^1.0.0",
