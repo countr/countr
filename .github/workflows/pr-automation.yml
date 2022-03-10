@@ -1,16 +1,10 @@
 # https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/automating-dependabot-with-github-actions#enable-auto-merge-on-a-pull-request
 name: PR Automation
-
-on:
-  pull_request_target:
-
-permissions:
-  pull-requests: write
-  contents: write
+on: pull_request_target
 
 jobs:
   dependencies:
-    name: Dependency Upgrades
+    name: Dependabot
     runs-on: ubuntu-latest
 
     if: ${{ github.actor == 'dependabot[bot]' }}
@@ -20,7 +14,7 @@ jobs:
         uses: dependabot/fetch-metadata@v1.1.1
         id: metadata
         with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Approve patches automatically
         run: gh pr review --approve "$PR_URL"
@@ -30,7 +24,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Enable auto-merge for Dependabot PRs
-        run: gh pr merge --auto --merge "$PR_URL"
+        run: gh pr merge --auto --merge "$PR_URL" --squash
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
