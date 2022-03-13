@@ -1,5 +1,5 @@
 FROM node:16-alpine
-RUN apk add python3 make gcc g++ dumb-init
+RUN apk add dumb-init g++ gcc make python3
 
 WORKDIR /app
 
