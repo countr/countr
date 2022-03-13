@@ -2,27 +2,23 @@ import { MentionCommand } from "../../@types/command";
 import { inspect } from "util";
 
 export default {
-  execute: async (message, reply, args) => {
+  execute: (message, reply, args) => {
     try {
       const code = args.join(" ");
       const evaled = eval(code);
 
       if (evaled instanceof Promise) {
+        const botMsg = reply("♨️ Running...");
         const start = Date.now();
-        return await Promise.all([reply("♨️ Running..."), evaled]).then(([botMsg, output]) => {
-          botMsg.edit(`🆗 Evaluated successfully (\`${Date.now() - start}ms\`).\n\`\`\`js\n${
-            typeof output !== "string" ? inspect(output) : output
-          }\`\`\``);
-          return botMsg;
+        evaled.then(async result => {
+          const end = Date.now();
+          (await botMsg).edit(`🆗 Evaluated in \`${end - start}ms\`: \`\`\`js\n${typeof result === "string" ? result : inspect(result)}\`\`\``);
         });
-      } return await reply(`🆗 Evaluated successfully.\n\`\`\`js\n${
-        typeof evaled !== "string" ? inspect(evaled) : evaled
-      }\`\`\``);
-
+        return botMsg;
+      }
+      return reply(`🆗 Evaluated successfully: \`\`\`js\n${typeof evaled === "string" ? evaled : inspect(evaled)}\`\`\``);
     } catch (e) {
-      return reply(`🆘 JavaScript failed.\n\`\`\`fix\n${
-        typeof e == "string" ? e.replace(/`/g, `\`${String.fromCharCode(8203)}`).replace(/@/g, `@${String.fromCharCode(8203)}`) : e
-      }\`\`\``);
+      return reply(`🆘 JavaScript failed: \`\`\`fix\n${inspect(e)}\`\`\``);
     }
   },
   minArguments: 1,
