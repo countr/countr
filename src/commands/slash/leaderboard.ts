@@ -24,7 +24,7 @@ export default {
         {
           author: {
             name: "Counting Leaderboard",
-            ...interaction.guild && { iconURL: interaction.guild?.iconURL({ dynamic: true, size: 64 }) },
+            ...interaction.guild && { iconURL: interaction.guild.iconURL({ dynamic: true, size: 64 }) },
           },
           description,
           color: config.colors.primary,
