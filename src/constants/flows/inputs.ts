@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionData } from "discord.js";
+import type { ApplicationCommandOptionData } from "discord.js";
 
 export const ChannelInput: ApplicationCommandOptionData = {
   type: "CHANNEL",

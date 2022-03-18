@@ -1,4 +1,4 @@
-import { PermissionResolvable, TextBasedChannelTypes } from "discord.js";
+import type { PermissionResolvable, TextBasedChannelTypes } from "discord.js";
 
 // channels
 export const countingChannelAllowedChannelTypes: Array<TextBasedChannelTypes> = ["GUILD_TEXT", "GUILD_PRIVATE_THREAD", "GUILD_PUBLIC_THREAD"];

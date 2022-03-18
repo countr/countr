@@ -1,4 +1,4 @@
-import { SlashCommand } from "../../../@types/command";
+import type { SlashCommand } from "../../../@types/command";
 import { regexHelpUrl } from "../../../constants/links";
 
 export default {

@@ -1,8 +1,8 @@
-import { Message, MessageOptions } from "discord.js";
+import type { Message, MessageOptions } from "discord.js";
 import { SelectedCountingChannel, selectedCountingChannels } from "../constants/selectedCountingChannels";
 import { getPermissionLevel, ladder } from "../constants/permissions";
-import { GuildDocument } from "../database/models/Guild";
-import { MentionCommand } from "../@types/command";
+import type { GuildDocument } from "../database/models/Guild";
+import type { MentionCommand } from "../@types/command";
 import basics from "../commands/mention/_basic";
 import config from "../config";
 import { countrLogger } from "../utils/logger/countr";

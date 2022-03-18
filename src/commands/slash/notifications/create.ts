@@ -1,5 +1,5 @@
-import { Guild } from "discord.js";
-import { SlashCommand } from "../../../@types/command";
+import type { Guild } from "discord.js";
+import type { SlashCommand } from "../../../@types/command";
 import { generateId } from "../../../utils/crypto";
 import triggers from "../../../constants/triggers";
 

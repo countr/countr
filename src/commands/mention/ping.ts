@@ -1,4 +1,4 @@
-import { MentionCommand } from "../../@types/command";
+import type { MentionCommand } from "../../@types/command";
 import { msToTime } from "../../utils/time";
 
 export default {

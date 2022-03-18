@@ -1,5 +1,5 @@
-import { EmbedFieldData, MessageComponentInteraction, SelectMenuInteraction } from "discord.js";
-import { Flow, TriggerOrActionDetails } from "../../../../database/models/Guild";
+import type { EmbedFieldData, MessageComponentInteraction, SelectMenuInteraction } from "discord.js";
+import type { Flow, TriggerOrActionDetails } from "../../../../database/models/Guild";
 import { capitalizeFirst, trim } from "../../../../utils/text";
 import actions from "../../actions";
 import { components } from "../../../../handlers/interactions/components";
@@ -22,7 +22,7 @@ export function editTriggerOrAction(triggerOrAction: "trigger" | "action", inter
     });
     components.set(`${interaction.id}:done`, i => void resolve(i as MessageComponentInteraction));
     components.set(`${interaction.id}:delete`, i => {
-      flow[`${triggerOrAction}s`] = flow[`${triggerOrAction}s`].filter((t, i) => i !== index);
+      flow[`${triggerOrAction}s`] = flow[`${triggerOrAction}s`].filter((_, i) => i !== index);
       return void resolve(i as MessageComponentInteraction);
     });
 
@@ -32,7 +32,7 @@ export function editTriggerOrAction(triggerOrAction: "trigger" | "action", inter
       embeds: [
         {
           title: `${capitalizeFirst(triggerOrAction)} details • ${short}`,
-          description: long || (fields.length ? undefined : `*There are no more details for this type of ${triggerOrAction}.*`),
+          ...(long || fields.length) && { description: long || `*There are no more details for this type of ${triggerOrAction}.*` },
           fields,
           color: config.colors.info,
         },

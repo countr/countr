@@ -1,5 +1,5 @@
-import { SelectMenuInteraction } from "discord.js";
-import { SlashCommand } from "../../../@types/command";
+import type { SelectMenuInteraction } from "discord.js";
+import type { SlashCommand } from "../../../@types/command";
 import { components } from "../../../handlers/interactions/components";
 import config from "../../../config";
 import triggers from "../../../constants/triggers";

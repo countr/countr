@@ -1,6 +1,6 @@
 import { ChannelInput, NumberInput, RegexInput, RolesInput, TextInput } from "./inputs";
 import { getChannel, getRole } from "../resolvers";
-import { Property } from "../../@types/flows/properties";
+import type { Property } from "../../@types/flows/properties";
 import { joinListWithAnd } from "../../utils/text";
 
 export const propertyTypes: Record<string, Property> = {

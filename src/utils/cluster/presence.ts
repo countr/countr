@@ -1,4 +1,4 @@
-import { Client, PresenceData } from "discord.js";
+import type { Client, PresenceData } from "discord.js";
 import config from "../../config";
 import superagent from "superagent";
 

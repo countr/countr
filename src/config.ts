@@ -1,4 +1,4 @@
-import { Config } from "./@types/config";
+import type { Config } from "./@types/config";
 import { config } from "dotenv";
 config(); // load env variables
 

@@ -1,12 +1,11 @@
 {
   "include": [ "./src" ],
+  "extends": "@tsconfig/node16-strictest",
   "compilerOptions": {
-    "target": "es5",
-    "experimentalDecorators": true,
-    "module": "commonjs",
     "outDir": "./build",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true
+    "experimentalDecorators": true,
+    "noImplicitReturns": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedIndexedAccess": false
   }
 }

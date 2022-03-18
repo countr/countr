@@ -1,4 +1,4 @@
-import { SlashCommand } from "../../@types/command";
+import type { SlashCommand } from "../../@types/command";
 import config from "../../config";
 import { msToTime } from "../../utils/time";
 

@@ -1,6 +1,6 @@
-import { Flow, TriggerOrActionDetails } from "../../../../database/models/Guild";
-import { PropertyValue } from "../../../../@types/flows/properties";
-import { SlashCommand } from "../../../../@types/command";
+import type { Flow, TriggerOrActionDetails } from "../../../../database/models/Guild";
+import type { PropertyValue } from "../../../../@types/flows/properties";
+import type { SlashCommand } from "../../../../@types/command";
 import actions from "../../../../constants/flows/actions";
 import { generateId } from "../../../../utils/crypto";
 import superagent from "superagent";

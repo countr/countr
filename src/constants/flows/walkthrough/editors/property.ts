@@ -1,6 +1,6 @@
-import { Guild, MessageComponentInteraction } from "discord.js";
-import { Property, PropertyValue } from "../../../../@types/flows/properties";
-import { TriggerOrActionDetails } from "../../../../database/models/Guild";
+import type { Guild, MessageComponentInteraction } from "discord.js";
+import type { Property, PropertyValue } from "../../../../@types/flows/properties";
+import type { TriggerOrActionDetails } from "../../../../database/models/Guild";
 import { awaitingInput } from "../../../../commands/slash/flows/input";
 import { components } from "../../../../handlers/interactions/components";
 import config from "../../../../config";

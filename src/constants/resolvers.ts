@@ -1,4 +1,4 @@
-import { Guild, GuildChannel, GuildMember, Role, ThreadChannel } from "discord.js";
+import type { Guild, GuildChannel, GuildMember, Role, ThreadChannel } from "discord.js";
 
 const idRegex = /[0-9]+/;
 
