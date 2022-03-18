@@ -57,7 +57,7 @@ const triggers: Record<string, Trigger> = {
     long: "This will get triggered whenever a user counts a number that is greater than or equal to the number X.",
     properties: [propertyTypes.numberPositive],
     explanation: ([[number]]: Array<Array<number>>) => `When someone counts the number ${number} or more`,
-    check: ({ count }, [[number]]: Array<Array<number>>) => Promise.resolve(typeof count === typeof number && count >= number),
+    check: ({ count }, [[number]]: Array<Array<number>>) => Promise.resolve(count >= number),
     supports: ["flows", "notifications"],
   },
 };
