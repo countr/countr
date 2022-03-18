@@ -1,4 +1,4 @@
-import { CommandPermissionLevel } from "../../constants/permissions";
+import type { CommandPermissionLevel } from "../../constants/permissions";
 
 const permissions: Record<string, CommandPermissionLevel> = {
   eval: "DEVELOPER",

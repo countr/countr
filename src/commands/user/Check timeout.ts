@@ -1,4 +1,4 @@
-import { ContextMenuCommand } from "../../@types/command";
+import type { ContextMenuCommand } from "../../@types/command";
 
 export default {
   execute: (interaction, ephemeral, target, document, selectedCountingChannel) => {

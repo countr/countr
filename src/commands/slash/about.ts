@@ -1,7 +1,7 @@
 import { homepage, inviteUrl, supportServerUrl } from "../../constants/links";
 import { release, type } from "os";
-import { ManagerStatus } from "../../@types/manager";
-import { SlashCommand } from "../../@types/command";
+import type { ManagerStatus } from "../../@types/manager";
+import type { SlashCommand } from "../../@types/command";
 import { bytesToHumanReadableFormat } from "../../utils/human";
 import config from "../../config";
 import { getManagerStats } from "../../utils/cluster/stats";

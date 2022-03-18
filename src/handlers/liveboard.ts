@@ -1,5 +1,5 @@
 import * as guilds from "../database/guilds";
-import { Client } from "discord.js";
+import type { Client } from "discord.js";
 import config from "../config";
 import { formatScore } from "../constants/scores";
 

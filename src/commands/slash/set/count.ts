@@ -1,4 +1,4 @@
-import { SlashCommand } from "../../../@types/command";
+import type { SlashCommand } from "../../../@types/command";
 
 export default {
   description: "Set the count",

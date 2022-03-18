@@ -1,6 +1,6 @@
-import { ButtonInteraction, InteractionReplyOptions, SelectMenuInteraction } from "discord.js";
-import { GuildDocument } from "../../database/models/Guild";
-import { SlashCommand } from "../../@types/command";
+import type { ButtonInteraction, InteractionReplyOptions, SelectMenuInteraction } from "discord.js";
+import type { GuildDocument } from "../../database/models/Guild";
+import type { SlashCommand } from "../../@types/command";
 import { components } from "../../handlers/interactions/components";
 import config from "../../config";
 import modules from "../../constants/modules";
@@ -128,9 +128,7 @@ function generateModuleMenuReply(name: string, enabledModules: Array<string>, un
       {
         title: `Module Information • ${name}`,
         description: long || short + (incompatible ? `\n\n*Incompatible with modules ${incompatible.map(m => `\`${m}\``).join(", ")}*` : ""),
-        image: {
-          url: image,
-        },
+        ...image && { image: { url: image }},
         color: config.colors.primary,
       },
     ],

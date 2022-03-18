@@ -1,6 +1,6 @@
-import { InteractionReplyOptions, SelectMenuInteraction } from "discord.js";
-import { Flow } from "../../../database/models/Guild";
-import { SlashCommand } from "../../../@types/command";
+import type { InteractionReplyOptions, SelectMenuInteraction } from "discord.js";
+import type { Flow } from "../../../database/models/Guild";
+import type { SlashCommand } from "../../../@types/command";
 import actions from "../../../constants/flows/actions";
 import { components } from "../../../handlers/interactions/components";
 import { embedsPerMessage } from "../../../constants/discord";

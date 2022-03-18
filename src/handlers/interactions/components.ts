@@ -1,4 +1,4 @@
-import { ButtonInteraction, SelectMenuInteraction } from "discord.js";
+import type { ButtonInteraction, SelectMenuInteraction } from "discord.js";
 
 type ComponentInteractionCallback = (interaction: SelectMenuInteraction | ButtonInteraction) => void;
 interface ComponentInteractionDetails {

@@ -1,7 +1,7 @@
 import { SelectedCountingChannel, defaultExpirationValue, selectedCountingChannels } from "../../constants/selectedCountingChannels";
-import { ContextMenuCommand } from "../../@types/command";
-import { ContextMenuInteraction } from "discord.js";
-import { GuildDocument } from "../../database/models/Guild";
+import type { ContextMenuCommand } from "../../@types/command";
+import type { ContextMenuInteraction } from "discord.js";
+import type { GuildDocument } from "../../database/models/Guild";
 import config from "../../config";
 
 export default async (interaction: ContextMenuInteraction, document: GuildDocument): Promise<void> => {

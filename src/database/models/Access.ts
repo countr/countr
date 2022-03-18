@@ -1,5 +1,5 @@
 import { DocumentType, getModelForClass, prop } from "@typegoose/typegoose";
-import { BeAnObject } from "@typegoose/typegoose/lib/types";
+import type { BeAnObject } from "@typegoose/typegoose/lib/types";
 import { WhatIsIt } from "@typegoose/typegoose/lib/internal/constants";
 
 export class Access {

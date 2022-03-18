@@ -1,6 +1,6 @@
-import { Component, SelectMenuComponentCallback } from "../../../@types/flows/components";
-import { Flow, TriggerOrActionDetails } from "../../../database/models/Guild";
-import { MessageComponentInteraction, MessageSelectMenuOptions, SelectMenuInteraction } from "discord.js";
+import type { Component, SelectMenuComponentCallback } from "../../../@types/flows/components";
+import type { Flow, TriggerOrActionDetails } from "../../../database/models/Guild";
+import type { MessageComponentInteraction, MessageSelectMenuOptions, SelectMenuInteraction } from "discord.js";
 import actions from "../actions";
 import { components } from "../../../handlers/interactions/components";
 import { editProperty } from "./editors/property";
@@ -80,7 +80,7 @@ export function getTriggerOrActionComponents(triggerOrAction: "trigger" | "actio
                       options: Object.entries(allOptions).filter(([type, { limit }]) => limit ? flowOptions.filter(flowOption => flowOption.type === type).length < limit : true).map(([type, { short, long }]) => ({
                         label: short,
                         value: type,
-                        description: long ? trim(long, 100) : undefined,
+                        ...long && { description: trim(long, 100) },
                       })),
                     },
                   ],

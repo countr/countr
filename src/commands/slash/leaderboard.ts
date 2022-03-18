@@ -1,10 +1,11 @@
-import { SlashCommand } from "../../@types/command";
+import type { MessageEmbedOptions } from "discord.js";
+import type { SlashCommand } from "../../@types/command";
 import config from "../../config";
 import { formatScore } from "../../constants/scores";
 
 export default {
   description: "Get the top 25 users of the counting channel",
-  execute: (interaction, ephemeral, _, document, selectedCountingChannel) => {
+  execute: (interaction, _, __, document, selectedCountingChannel) => {
     const scores = Array.from(document.channels.get(selectedCountingChannel as string)?.scores.entries() || []);
     if (!scores.length) {
       return interaction.reply({
@@ -23,12 +24,12 @@ export default {
         {
           author: {
             name: "Counting Leaderboard",
-            iconURL: interaction.guild?.iconURL({ dynamic: true, size: 64 }) || undefined,
+            ...interaction.guild && { iconURL: interaction.guild?.iconURL({ dynamic: true, size: 64 }) },
           },
           description,
           color: config.colors.primary,
           timestamp: Date.now(),
-        },
+        } as MessageEmbedOptions,
       ],
     });
   },

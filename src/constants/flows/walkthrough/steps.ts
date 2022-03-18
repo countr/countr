@@ -1,6 +1,6 @@
 import { flowHelpUrl, supportServerUrl } from "../../links";
-import { ButtonComponentCallback } from "../../../@types/flows/components";
-import { Step } from "../../../@types/flows/steps";
+import type { ButtonComponentCallback } from "../../../@types/flows/components";
+import type { Step } from "../../../@types/flows/steps";
 import actions from "../actions";
 import { awaitingInput } from "../../../commands/slash/flows/input";
 import { components } from "../../../handlers/interactions/components";
@@ -79,7 +79,7 @@ const steps: Array<Step> = [
             },
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             callback: ((interaction, flow, designMessage, _) => {
-              flow.name = undefined;
+              delete flow.name;
               interaction.update(designMessage());
             }) as ButtonComponentCallback,
           } :
@@ -151,7 +151,7 @@ const steps: Array<Step> = [
                   ephemeral: true,
                 });
               }
-              flow.disabled = undefined;
+              delete flow.disabled;
               interaction.update(designMessage());
             }) as ButtonComponentCallback,
           } :

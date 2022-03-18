@@ -1,5 +1,5 @@
 import * as guilds from "../../database/guilds";
-import { Guild, TextChannel, ThreadChannel } from "discord.js";
+import type { Guild, TextChannel, ThreadChannel } from "discord.js";
 import recoverHandler from "./recover";
 import timeoutsHandler from "./timeouts";
 

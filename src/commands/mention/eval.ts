@@ -1,8 +1,8 @@
-import { MentionCommand } from "../../@types/command";
+import type { MentionCommand } from "../../@types/command";
 import { inspect } from "util";
 
 export default {
-  execute: (message, reply, args) => {
+  execute: (_, reply, args) => {
     try {
       const code = args.join(" ");
       const evaled = eval(code);

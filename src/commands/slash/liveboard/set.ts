@@ -1,4 +1,4 @@
-import { SlashCommand } from "../../../@types/command";
+import type { SlashCommand } from "../../../@types/command";
 import { countrLogger } from "../../../utils/logger/countr";
 import { inspect } from "util";
 

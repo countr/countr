@@ -1,8 +1,8 @@
 import { ApplicationCommandSubCommand, ApplicationCommandSubGroup, CommandInteraction, CommandInteractionOption, CommandInteractionOptionResolver, GuildMember } from "discord.js";
 import { SelectedCountingChannel, defaultExpirationValue, selectedCountingChannels } from "../../constants/selectedCountingChannels";
 import { getPermissionLevel, ladder } from "../../constants/permissions";
-import { GuildDocument } from "../../database/models/Guild";
-import { SlashCommand } from "../../@types/command";
+import type { GuildDocument } from "../../database/models/Guild";
+import type { SlashCommand } from "../../@types/command";
 import commandPermissions from "../../commands/slash/_permissions";
 import config from "../../config";
 

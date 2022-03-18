@@ -1,6 +1,6 @@
 import * as guilds from "../../database/guilds";
-import { AutocompleteInteraction } from "discord.js";
-import { SlashCommand } from "../../@types/command";
+import type { AutocompleteInteraction } from "discord.js";
+import type { SlashCommand } from "../../@types/command";
 import { selectedCountingChannels } from "../../constants/selectedCountingChannels";
 
 export default async (interaction: AutocompleteInteraction): Promise<void> => {

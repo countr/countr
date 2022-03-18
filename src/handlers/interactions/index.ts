@@ -1,5 +1,5 @@
-import { ApplicationCommandData, ApplicationCommandOption, ApplicationCommandOptionData, ApplicationCommandSubCommandData, ButtonInteraction, ChatInputApplicationCommandData, Client, CommandInteraction, ContextMenuInteraction, MessageApplicationCommandData, SelectMenuInteraction, UserApplicationCommandData } from "discord.js";
-import { Command } from "../../@types/command";
+import type { ApplicationCommandData, ApplicationCommandOption, ApplicationCommandOptionData, ApplicationCommandSubCommandData, ButtonInteraction, ChatInputApplicationCommandData, Client, CommandInteraction, ContextMenuInteraction, MessageApplicationCommandData, SelectMenuInteraction, UserApplicationCommandData } from "discord.js";
+import type { Command } from "../../@types/command";
 import autocompleteHandler from "./autocompletes";
 import commandHandler from "./commands";
 import componentHandler from "./components";

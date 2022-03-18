@@ -1,6 +1,6 @@
-import { Cluster, ClusterData, ClusterUpdate } from "../@types/cluster";
+import type { Cluster, ClusterData, ClusterUpdate } from "../@types/cluster";
 import { Router as expressRouter, json } from "express";
-import { PresenceData } from "discord.js";
+import type { PresenceData } from "discord.js";
 import { addToCount } from "./global";
 import config from "../config";
 
@@ -23,7 +23,7 @@ router.post("/:clusterId/stats", (req, res) => {
   return res.sendStatus(200);
 });
 
-router.get("/:clusterId/status", (req, res) => res.json({
+router.get("/:clusterId/status", (_, res) => res.json({
   status: "online",
   activities: [
     {
@@ -42,7 +42,7 @@ router.post("/:clusterId/init", (req, res) => {
   res.sendStatus(200);
 });
 
-router.post("/:clusterId/done", (req, res) => {
+router.post("/:clusterId/done", (_, res) => {
   clusterInitializing = null; // reset so a new cluster can initialize
   res.sendStatus(200);
 });

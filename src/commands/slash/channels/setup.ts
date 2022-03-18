@@ -1,7 +1,7 @@
 import { countingChannelPermissions, countingThreadParentChannelPermissions } from "../../../constants/discord";
-import { ClientUser } from "discord.js";
-import { CountingChannel } from "../../../database/models/Guild";
-import { SlashCommand } from "../../../@types/command";
+import type { ClientUser } from "discord.js";
+import type { CountingChannel } from "../../../database/models/Guild";
+import type { SlashCommand } from "../../../@types/command";
 import limits from "../../../constants/limits";
 import numberSystems from "../../../constants/numberSystems";
 
@@ -72,8 +72,9 @@ export default {
       }));
     } else { // regular text channel
       const permissions = countingChannelPermissions;
+      const parent = interaction.guild?.channels.cache.get(interaction.channelId)?.parentId;
       interaction.guild?.channels.create(name, {
-        parent: interaction.guild.channels.cache.get(interaction.channelId)?.parentId || undefined,
+        ...parent && { parent },
         rateLimitPerUser: 2,
         permissionOverwrites: interaction.guild.me ?
           [

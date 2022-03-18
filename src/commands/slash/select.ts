@@ -1,5 +1,5 @@
 import { defaultExpirationValue, selectedCountingChannels } from "../../constants/selectedCountingChannels";
-import { SlashCommand } from "../../@types/command";
+import type { SlashCommand } from "../../@types/command";
 import { countingChannelAllowedChannelTypes } from "../../constants/discord";
 
 export default {

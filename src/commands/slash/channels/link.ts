@@ -1,7 +1,7 @@
 import { countingChannelAllowedChannelTypes, countingChannelPermissions, countingThreadParentChannelPermissions } from "../../../constants/discord";
-import { ClientUser } from "discord.js";
-import { CountingChannel } from "../../../database/models/Guild";
-import { SlashCommand } from "../../../@types/command";
+import type { ClientUser } from "discord.js";
+import type { CountingChannel } from "../../../database/models/Guild";
+import type { SlashCommand } from "../../../@types/command";
 import limits from "../../../constants/limits";
 import numberSystems from "../../../constants/numberSystems";
 

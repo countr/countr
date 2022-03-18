@@ -1,5 +1,5 @@
-import { CountingChannel, GuildDocument } from "../../database/models/Guild";
-import { Message, PartialMessage } from "discord.js";
+import type { CountingChannel, GuildDocument } from "../../database/models/Guild";
+import type { Message, PartialMessage } from "discord.js";
 
 export default async function replaceMessage(message: Message | PartialMessage, document: GuildDocument, channel: CountingChannel) {
   if (

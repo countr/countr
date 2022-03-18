@@ -1,4 +1,4 @@
-import { Action } from "../../@types/flows/actions";
+import type { Action } from "../../@types/flows/actions";
 import { TextChannel } from "discord.js";
 import { cacheHelpUrl } from "../links";
 import { joinListWithAnd } from "../../utils/text";

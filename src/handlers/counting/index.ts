@@ -1,7 +1,7 @@
-import { CountingChannel, GuildDocument } from "../../database/models/Guild";
-import { GuildMember, Message, TextBasedChannel, TextChannel, ThreadChannel } from "discord.js";
+import type { CountingChannel, GuildDocument } from "../../database/models/Guild";
+import type { GuildMember, Message, TextBasedChannel, TextChannel, ThreadChannel } from "discord.js";
 import handleFlows, { onFail as handleFlowsOnFail } from "./flows";
-import { CountingData } from "../../@types/flows/countingData";
+import type { CountingData } from "../../@types/flows/countingData";
 import { addToCount } from "../../utils/cluster/stats";
 import { countrLogger } from "../../utils/logger/countr";
 import { getPermissionLevel } from "../../constants/permissions";
@@ -98,7 +98,7 @@ export default async (message: Message, document: GuildDocument, countingChannel
         countingMessageId = await webhook.send({
           content,
           username: member.displayName,
-          avatarURL: member.avatarURL({ dynamic: true }) || undefined,
+          avatarURL: member.avatarURL({ dynamic: true }) || member.user.defaultAvatarURL,
           allowedMentions: {
             parse: [],
             roles: [],
