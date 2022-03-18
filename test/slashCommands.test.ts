@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { lstatSync, readdirSync } from "fs";
-import { ApplicationCommandOptionChoice } from "discord.js";
-import { SlashCommand } from "../src/@types/command";
+import type { ApplicationCommandOptionChoice } from "discord.js";
+import type { SlashCommand } from "../src/@types/command";
 import { join } from "path";
 
 const commandPaths: Array<string> = [];
