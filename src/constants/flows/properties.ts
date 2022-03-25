@@ -1,5 +1,4 @@
 import { ChannelInput, NumberInput, RegexInput, RolesInput, TextInput } from "./inputs";
-import { getChannel, getRole } from "../resolvers";
 import type { Property } from "../../@types/flows/properties";
 import { joinListWithAnd } from "../../utils/text";
 
@@ -41,7 +40,7 @@ export const propertyTypes: Record<string, Property> = {
     input: RolesInput,
     isMultiple: true,
     convert: async (userInput: string, guild): Promise<string | null> => {
-      const result = await getRole(userInput, guild);
+      const result = await guild.roles.fetch(userInput).catch(() => null);
       if (result && result.id !== guild.roles.everyone.id) return result.id; return null;
     },
     format: roleIds => Promise.resolve(joinListWithAnd(roleIds.map(roleId => `<@&${roleId}>`))),
@@ -51,7 +50,7 @@ export const propertyTypes: Record<string, Property> = {
     help: "Any channel. Make sure Countr has access to the channel, and that it is a text based channel. (news channels and threads also work)",
     input: ChannelInput,
     convert: async (userInput: string, guild): Promise<string | null> => {
-      const result = await getChannel(userInput, guild);
+      const result = await guild.channels.fetch(userInput).catch(() => null);
       if (result) return result.id; return null;
     },
     format: ([channelId]) => Promise.resolve(`<#${channelId}>`),
