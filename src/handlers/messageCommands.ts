@@ -1,12 +1,12 @@
 import type { Message, MessageOptions } from "discord.js";
 import { SelectedCountingChannel, selectedCountingChannels } from "../constants/selectedCountingChannels";
-import { getPermissionLevel, ladder } from "../constants/permissions";
 import type { GuildDocument } from "../database/models/Guild";
 import type { MentionCommand } from "../@types/command";
 import basics from "../commands/mention/_basic";
 import config from "../config";
 import { countrLogger } from "../utils/logger/countr";
 import fs from "fs";
+import { getPermissionLevel } from "../constants/permissions";
 import { join } from "path";
 import permissions from "../commands/mention/_permissions";
 import { queueDelete } from "./counting";
@@ -41,7 +41,7 @@ export default (message: Message, document: GuildDocument): Promise<void> => {
 
       message.guild?.members.fetch(message.author).then(member => {
         const permissionLevel = getPermissionLevel(member);
-        if (permissionLevel < ladder[permissions[commandName] || "ALL"]) {
+        if (permissionLevel < permissions[commandName] || 0) {
           message.react("⛔").catch();
           return resolve(message);
         }

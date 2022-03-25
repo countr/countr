@@ -1,5 +1,5 @@
-import type { CommandPermissionLevel } from "../../constants/permissions";
+import type { PermissionLevel } from "../../constants/permissions";
 
-const permissions: Record<string, CommandPermissionLevel> = {};
+const permissions: Record<string, PermissionLevel> = {};
 
 export default permissions;

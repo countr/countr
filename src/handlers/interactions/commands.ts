@@ -1,10 +1,10 @@
 import { ApplicationCommandSubCommand, ApplicationCommandSubGroup, CommandInteraction, CommandInteractionOption, CommandInteractionOptionResolver, GuildMember } from "discord.js";
 import { SelectedCountingChannel, defaultExpirationValue, selectedCountingChannels } from "../../constants/selectedCountingChannels";
-import { getPermissionLevel, ladder } from "../../constants/permissions";
 import type { GuildDocument } from "../../database/models/Guild";
 import type { SlashCommand } from "../../@types/command";
 import commandPermissions from "../../commands/slash/_permissions";
 import config from "../../config";
+import { getPermissionLevel } from "../../constants/permissions";
 
 // eslint-disable-next-line complexity
 export default async (interaction: CommandInteraction, document: GuildDocument): Promise<void> => {
@@ -16,7 +16,7 @@ export default async (interaction: CommandInteraction, document: GuildDocument):
     const member = interaction.member && interaction.member instanceof GuildMember ? interaction.member : await interaction.guild?.members.fetch(interaction.user.id);
     const permissionLevel = member ? getPermissionLevel(member) : 0;
 
-    if (permissionLevel < ladder[commandPermissions[command.name] || "ALL"]) {
+    if (permissionLevel < commandPermissions[command.name] || 0) {
       return interaction.reply({
         content: "⛔ You do not have permission to use this command.",
         ephemeral: true,
