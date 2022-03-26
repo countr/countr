@@ -47,25 +47,11 @@ client.once("ready", async client => {
     countrLogger.info(`${client.guilds.cache.size} guilds cached in ${Math.ceil((Date.now() - cacheStart) / 1000)}s. Processing available guilds...`);
 
     // process guilds
-    let completed = 0;
-    const processingStart = Date.now(), presenceInterval = setInterval(() => {
-      const percentage = completed / client.guilds.cache.size * 100;
-      client.user.setPresence({
-        status: "idle",
-        activities: [
-          {
-            type: "WATCHING",
-            name: `${Math.round(percentage)}% ${"|".repeat(Math.round(percentage / 5))}`,
-          },
-        ],
-      });
-    }, 1000);
+    const processingStart = Date.now();
     await Promise.all(client.guilds.cache.map(async guild => {
       await prepareGuild(guild);
       disabledGuilds.delete(guild.id);
-      completed += 1;
     }));
-    clearInterval(presenceInterval);
     countrLogger.info(`${client.guilds.cache.size} guilds processed in ${Math.ceil((Date.now() - processingStart) / 1000)}s.`);
 
     // finish up
@@ -74,7 +60,7 @@ client.once("ready", async client => {
 
   // presence
   updatePresence();
-  setInterval(updatePresence, 1000 * 60);
+  setInterval(updatePresence, 300_000);
 
   // premium
   if (config.isPremium) {
