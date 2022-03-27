@@ -1,6 +1,6 @@
-import Global from "../database/models/Global";
 import config from "../config";
 import { getWeek } from "../utils/time";
+import { global } from "../database";
 import superagent from "superagent";
 
 let newCounts = 0, globalCounts = 0;
@@ -14,8 +14,7 @@ export function getGlobalCount(): number {
 }
 
 setInterval(async () => {
-  let g = await Global.findOne();
-  if (!g) g = new Global();
+  const g = await global.get();
 
   const week = getWeek();
   if (week !== g.week) {

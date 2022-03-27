@@ -6,7 +6,7 @@ import commandHandler from "./commands";
 import componentHandler from "./components";
 import config from "../../config";
 import contextMenuHandler from "./contextMenus";
-import { get } from "../../database/guilds";
+import { guilds } from "../../database";
 import { join } from "path";
 import { readdir } from "fs/promises";
 
@@ -27,7 +27,7 @@ export default async (client: Client): Promise<void> => {
 
     if (interaction.isApplicationCommand()) {
       if (!interaction.guildId) return; // ignore DM interactions
-      const document = await get(interaction.guildId);
+      const document = await guilds.get(interaction.guildId);
 
       if (interaction.isCommand()) return commandHandler(interaction, document);
       if (interaction.isContextMenu()) return contextMenuHandler(interaction, document);

@@ -1,9 +1,8 @@
-import * as guilds from "./database/guilds";
 import { Client, Options } from "discord.js";
 import { askForPermissionToInitialize, markClusterAsReady } from "./utils/cluster";
+import { connection, guilds } from "./database";
 import accessHandler from "./handlers/access";
 import config from "./config";
-import { connection } from "./database";
 import countingHandler from "./handlers/counting";
 import { countrLogger } from "./utils/logger/countr";
 import { discordLogger } from "./utils/logger/discord";

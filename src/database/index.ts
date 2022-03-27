@@ -4,6 +4,10 @@ import { mongooseLogger } from "../utils/logger/mongoose";
 
 mongoose.set("debug", (collectionName, method, query, doc) => mongooseLogger.debug(JSON.stringify({ collectionName, method, query, doc })));
 
+export * as access from "./access";
+export * as guilds from "./guilds";
+export * as global from "./global";
+
 export const connection = mongoose.connect(config.databaseUri);
 
 connection
