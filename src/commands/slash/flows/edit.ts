@@ -1,4 +1,4 @@
-import type { SlashCommand } from "../../../@types/command";
+import type { SlashCommand } from "..";
 import { flowList } from "../../../constants/autocompleters";
 import walkthrough from "../../../constants/flows/walkthrough";
 
@@ -17,7 +17,7 @@ export default {
     flow: flowList,
   },
   execute: (interaction, _, { flow }: { flow: string }, document, selectedCountingChannel) => {
-    const channel = document.channels.get(selectedCountingChannel as string);
+    const channel = document.channels.get(selectedCountingChannel);
 
     const existingFlow = channel?.flows.get(flow);
     if (!existingFlow) {
@@ -27,7 +27,7 @@ export default {
       });
     } // this should never trigger considering we're using autocomplete, but we're adding a fallback message just in case
 
-    return walkthrough(interaction, document, selectedCountingChannel as string, existingFlow, flow);
+    return walkthrough(interaction, document, selectedCountingChannel, existingFlow, flow);
   },
   disableInCountingChannel: true,
   requireSelectedCountingChannel: true,

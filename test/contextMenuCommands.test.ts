@@ -3,9 +3,9 @@ import { join } from "path";
 import { readdirSync } from "fs";
 
 const commandPaths: Array<string> = [];
-for (const relativePath of ["../src/commands/user"]) { // expandable
+for (const relativePath of ["../src/commands/menu"]) { // expandable
   const files = readdirSync(join(__dirname, relativePath));
-  for (const file of files) if (!file.startsWith("_")) commandPaths.push(`${relativePath}/${file}`);
+  for (const file of files) if (!file.startsWith("_") && file !== "index.ts") commandPaths.push(`${relativePath}/${file}`);
 }
 
 test.each(commandPaths)("test %s", (relativePath: string) => {

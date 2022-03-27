@@ -1,6 +1,6 @@
 import type { InteractionReplyOptions, SelectMenuInteraction } from "discord.js";
 import type { Flow } from "../../../database/models/Guild";
-import type { SlashCommand } from "../../../@types/command";
+import type { SlashCommand } from "..";
 import actions from "../../../constants/flows/actions";
 import { components } from "../../../handlers/interactions/components";
 import { embedsPerMessage } from "../../../constants/discord";
@@ -9,7 +9,7 @@ import triggers from "../../../constants/triggers";
 export default {
   description: "List all the flows configured",
   execute: (interaction, _, __, document, selectedCountingChannel) => {
-    const flows = document.channels.get(selectedCountingChannel as string)?.flows;
+    const flows = document.channels.get(selectedCountingChannel)?.flows;
     if (!flows) return; // always defined
 
     if (!flows.size) {
@@ -19,7 +19,7 @@ export default {
       });
     }
 
-    interaction.reply(createMessage(interaction.id, Array.from(flows.entries()), selectedCountingChannel as string));
+    interaction.reply(createMessage(interaction.id, Array.from(flows.entries()), selectedCountingChannel));
   },
   disableInCountingChannel: true,
   requireSelectedCountingChannel: true,

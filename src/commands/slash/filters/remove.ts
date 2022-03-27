@@ -1,4 +1,4 @@
-import type { SlashCommand } from "../../../@types/command";
+import type { SlashCommand } from "..";
 import { regexHelpUrl } from "../../../constants/links";
 
 export default {
@@ -12,7 +12,7 @@ export default {
     },
   ],
   execute: (interaction, ephemeralPreference, { regex }, document, selectedCountingChannel) => {
-    const filters = document.channels.get(selectedCountingChannel as string)?.filters || [];
+    const filters = document.channels.get(selectedCountingChannel)?.filters || [];
     if (!filters.includes(regex as string)) {
       return interaction.reply({
         content: `❌ That regex isn't set up for channel <#${selectedCountingChannel}>.`,
@@ -20,7 +20,7 @@ export default {
       });
     }
 
-    document.channels.get(selectedCountingChannel as string)?.filters.splice(filters.indexOf(regex as string), 1);
+    document.channels.get(selectedCountingChannel)?.filters.splice(filters.indexOf(regex as string), 1);
     document.safeSave();
 
     return interaction.reply({

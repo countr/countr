@@ -1,4 +1,4 @@
-import type { SlashCommand } from "../../../@types/command";
+import type { SlashCommand } from "..";
 import { countrLogger } from "../../../utils/logger/countr";
 import { inspect } from "util";
 
@@ -21,7 +21,7 @@ export default {
       });
     }
 
-    const countingChannel = document.channels.get(selectedCountingChannel as string);
+    const countingChannel = document.channels.get(selectedCountingChannel);
     if (!countingChannel) return;
 
     const botMessage = await channel.send("💤 Loading liveboard...").catch(e => {

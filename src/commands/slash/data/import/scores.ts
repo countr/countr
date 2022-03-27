@@ -1,4 +1,4 @@
-import type { SlashCommand } from "../../../../@types/command";
+import type { SlashCommand } from "../..";
 import superagent from "superagent";
 
 export default {
@@ -54,7 +54,7 @@ export default {
         });
       }
 
-      const countingChannel = document.channels.get(selectedCountingChannel as string);
+      const countingChannel = document.channels.get(selectedCountingChannel);
       for (const memberId in scores) {
         const newValue = mode === "set" ? scores[memberId] : (countingChannel?.scores.get(memberId) || 0) + scores[memberId];
         countingChannel?.scores.set(memberId, newValue);

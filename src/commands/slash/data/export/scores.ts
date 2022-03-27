@@ -1,9 +1,9 @@
-import type { SlashCommand } from "../../../../@types/command";
+import type { SlashCommand } from "../..";
 
 export default {
   description: "Export all data about flows from the database",
   execute: (interaction, _, __, document, selectedCountingChannel) => {
-    const scores = document.toJSON().channels[selectedCountingChannel as string]?.scores || {};
+    const scores = document.toJSON().channels[selectedCountingChannel]?.scores || {};
 
     return interaction.reply({
       content: `✅ Here's the export from <t:${Math.floor(Date.now() / 1000)}:R> - keep this safe!`,

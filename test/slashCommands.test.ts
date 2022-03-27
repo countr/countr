@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { lstatSync, readdirSync } from "fs";
 import type { ApplicationCommandOptionChoice } from "discord.js";
-import type { SlashCommand } from "../src/@types/command";
+import type { SlashCommand } from "../src/commands/slash";
 import { join } from "path";
 
 const commandPaths: Array<string> = [];
@@ -10,7 +10,7 @@ function nest(relativePath: string): void {
   const filesOrFolders = readdirSync(path);
   for (const fileOrFolder of filesOrFolders) {
     if (lstatSync(join(path, fileOrFolder)).isDirectory()) nest(`${relativePath}/${fileOrFolder}`);
-    else if (!fileOrFolder.startsWith("_")) commandPaths.push(`${relativePath}/${fileOrFolder}`);
+    else if (!fileOrFolder.startsWith("_") && fileOrFolder !== "index.ts") commandPaths.push(`${relativePath}/${fileOrFolder}`);
   }
 }
 nest("../src/commands/slash");

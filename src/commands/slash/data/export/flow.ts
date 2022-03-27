@@ -1,4 +1,4 @@
-import type { SlashCommand } from "../../../../@types/command";
+import type { SlashCommand } from "../..";
 import { flowList } from "../../../../constants/autocompleters";
 
 export default {
@@ -17,7 +17,7 @@ export default {
   },
   // eslint-disable-next-line camelcase -- slash command options can't be camel case, we make it camel case though
   execute: (interaction, _, { flow: flowId }: { flow: string; }, document, selectedCountingChannel) => {
-    const flow = document.toJSON().channels[selectedCountingChannel as string]?.flows[flowId];
+    const flow = document.toJSON().channels[selectedCountingChannel]?.flows[flowId];
     if (!flow) {
       return interaction.reply({
         content: "❌ That flow doesn't exist.",

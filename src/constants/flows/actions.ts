@@ -1,10 +1,18 @@
-import type { Action } from "../../@types/flows/actions";
+import type { Property, PropertyValue } from "../../constants/flows/walkthrough/editors/property";
+import type { CountingData } from "../../handlers/counting";
 import { TextChannel } from "discord.js";
 import { cacheHelpUrl } from "../links";
 import { joinListWithAnd } from "../../utils/text";
 import { propertyTypes } from "./properties";
 
-const actions: Record<string, Action> = {
+const actions: Record<string, {
+  short: string;
+  long?: string;
+  properties?: Array<Property>;
+  explanation(properties: Array<Array<PropertyValue>>): string;
+  run(data: CountingData, properties: Array<Array<PropertyValue>>): Promise<boolean>,
+  limit?: number;
+}> = {
   giveRole: {
     short: "Give a role (or list of roles) to the user",
     long: "This will add a role, or a list of roles, to the user who triggered this flow.",

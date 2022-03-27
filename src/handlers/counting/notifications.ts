@@ -1,5 +1,5 @@
 import type { GuildMember, MessageEmbedOptions } from "discord.js";
-import type { CountingData } from "../../@types/flows/countingData";
+import type { CountingData } from ".";
 import config from "../../config";
 import { countrLogger } from "../../utils/logger/countr";
 import { embedsPerMessage } from "../../constants/discord";

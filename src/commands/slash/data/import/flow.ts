@@ -1,6 +1,6 @@
 import type { Flow, TriggerOrActionDetails } from "../../../../database/models/Guild";
-import type { PropertyValue } from "../../../../@types/flows/properties";
-import type { SlashCommand } from "../../../../@types/command";
+import type { PropertyValue } from "../../../../constants/flows/walkthrough/editors/property";
+import type { SlashCommand } from "../..";
 import actions from "../../../../constants/flows/actions";
 import { generateId } from "../../../../utils/crypto";
 import superagent from "superagent";
@@ -46,7 +46,7 @@ export default {
       }
 
       const flowId = generateId();
-      document.channels.get(selectedCountingChannel as string)?.flows.set(flowId, flow);
+      document.channels.get(selectedCountingChannel)?.flows.set(flowId, flow);
       document.safeSave();
 
       return interaction.reply({

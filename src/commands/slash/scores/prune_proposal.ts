@@ -1,9 +1,9 @@
-import type { SlashCommand } from "../../../@types/command";
+import type { SlashCommand } from "..";
 
 export default {
   description: "Prune scores from users that have left your server",
   execute: async (interaction, _, __, document, selectedCountingChannel) => {
-    const countingChannel = document.channels.get(selectedCountingChannel as string);
+    const countingChannel = document.channels.get(selectedCountingChannel);
     if (!countingChannel) return;
 
     const members = await interaction.guild?.members.fetch().then(list => list.map(member => member.id)).catch(() => null);

@@ -1,7 +1,6 @@
 import type { CountingChannel, GuildDocument } from "../../database/models/Guild";
 import type { GuildMember, Message, TextBasedChannel, TextChannel, ThreadChannel } from "discord.js";
 import handleFlows, { onFail as handleFlowsOnFail } from "./flows";
-import type { CountingData } from "../../@types/flows/countingData";
 import { addToCount } from "../../utils/cluster/stats";
 import { countrLogger } from "../../utils/logger/countr";
 import { getPermissionLevel } from "../../constants/permissions";
@@ -10,6 +9,17 @@ import handleTimeouts from "./timeout";
 import { inspect } from "util";
 import numberSystems from "../../constants/numberSystems";
 import regexTest from "../../utils/regex";
+
+export type CountingData = {
+  channel: TextChannel | ThreadChannel;
+  count: number;
+  countingChannel: CountingChannel;
+  countingMessageId: string;
+  document: GuildDocument;
+  member: GuildMember;
+  message: Message;
+  score: number;
+};
 
 // eslint-disable-next-line complexity -- it's going to be a pain to refactor this into separate files
 export default async (message: Message, document: GuildDocument, countingChannel: CountingChannel): Promise<void> => {

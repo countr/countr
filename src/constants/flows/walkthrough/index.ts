@@ -1,11 +1,10 @@
 import type { CommandInteraction, InteractionReplyOptions, MessageButtonOptions, MessageEmbedOptions, User } from "discord.js";
 import type { CountingChannel, Flow, GuildDocument } from "../../../database/models/Guild";
-import type { Step } from "../../../@types/flows/steps";
+import steps, { Step } from "./steps";
 import { components } from "../../../handlers/interactions/components";
 import config from "../../../config";
 import { generateId } from "../../../utils/crypto";
 import limits from "../../limits";
-import steps from "./steps";
 
 const inProgress: Map<string, {
   guildId: string;

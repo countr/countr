@@ -1,4 +1,4 @@
-import type { SlashCommand } from "../../../@types/command";
+import type { SlashCommand } from "..";
 import { countingChannelAllowedChannelTypes } from "../../../constants/discord";
 
 export default {

@@ -1,8 +1,17 @@
+import type { ClusterData, ClusterUpdate } from "../../utils/cluster";
 import type { Client } from "discord.js";
-import type { ClusterUpdate } from "../../@types/cluster";
-import type { ManagerStatus } from "../../@types/manager";
 import config from "../../config";
 import superagent from "superagent";
+
+export type ManagerStatus = {
+  clusters: Array<ClusterData>;
+  totalShards: number;
+  totalGuilds: number;
+  totalUsers: number;
+  weeklyCount: number;
+  totalMemory: number;
+  lastUpdate: number;
+}
 
 let newCounts = 0;
 

@@ -1,5 +1,35 @@
+import type { Status } from "discord.js";
 import config from "../../config";
 import superagent from "superagent";
+
+export type Cluster = {
+  id: number;
+  shards: Array<number>;
+}
+
+export type ClusterData = {
+  cluster: Cluster;
+  shards: Array<{
+    id: number;
+    ping: number;
+    status: Status;
+  }>;
+  ping: number;
+  status: Status;
+  guilds: number;
+  users: number;
+  memory: number;
+  loading: boolean;
+  uptime: number;
+  update: number; // last update
+}
+
+export type ClusterUpdate = {
+  type: "cluster-update";
+  payload: ClusterData & {
+    newCounts: number;
+  };
+}
 
 export function askForPermissionToInitialize(): Promise<boolean> {
   if (!config.apiUri) return Promise.resolve(true);

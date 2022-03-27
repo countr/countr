@@ -1,4 +1,4 @@
-import type { SlashCommand } from "../../../@types/command";
+import type { SlashCommand } from "..";
 
 export default {
   description: "Set the count",
@@ -19,7 +19,7 @@ export default {
       });
     }
 
-    const countingChannel = document.channels.get(selectedCountingChannel as string);
+    const countingChannel = document.channels.get(selectedCountingChannel);
     if (!countingChannel) return;
 
     countingChannel.count = { number };

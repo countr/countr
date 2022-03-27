@@ -1,12 +1,21 @@
+import { ButtonComponentCallback, Component, getTriggerOrActionComponents } from "./components";
 import { flowHelpUrl, supportServerUrl } from "../../links";
-import type { ButtonComponentCallback } from "../../../@types/flows/components";
-import type { Step } from "../../../@types/flows/steps";
+import type { EmbedFieldData } from "discord.js";
+import type { Flow } from "../../../database/models/Guild";
 import actions from "../actions";
 import { awaitingInput } from "../../../commands/slash/flows/input";
 import { components } from "../../../handlers/interactions/components";
-import { getTriggerOrActionComponents } from "./components";
 import limits from "../../limits";
 import triggers from "../../triggers";
+
+export interface Step {
+  title: string;
+  description(flow: Flow): string;
+  fields?(flow: Flow): Array<EmbedFieldData>;
+  components?(flow: Flow): Array<Array<Component>>; // action row, components
+  getStatus(flow: Flow): "complete" | "incomplete";
+  skipIfExists?: boolean;
+}
 
 const steps: Array<Step> = [
   {

@@ -1,5 +1,5 @@
 import type { Guild } from "discord.js";
-import type { SlashCommand } from "../../../@types/command";
+import type { SlashCommand } from "..";
 import { generateId } from "../../../utils/crypto";
 import triggers from "../../../constants/triggers";
 
@@ -11,7 +11,7 @@ export default {
     description: short,
   })),
   execute: async (interaction, ephemeralPreference, args, document, selectedCountingChannel) => {
-    const countingChannel = document.channels.get(selectedCountingChannel as string);
+    const countingChannel = document.channels.get(selectedCountingChannel);
     if (!countingChannel) return;
 
     const entries = Object.entries(args);

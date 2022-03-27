@@ -1,4 +1,5 @@
-import type { Config } from "./@types/config";
+import type { CacheWithLimitsOptions } from "discord.js";
+import type { Cluster } from "./utils/cluster";
 import { config } from "dotenv";
 config(); // load env variables
 
@@ -56,3 +57,47 @@ export default {
 
   statusPage: "https://uptime.countr.xyz",
 } as Config;
+
+interface Config {
+  client: {
+    id: string,
+    secret: string,
+    token: string,
+    caches: CacheWithLimitsOptions
+  },
+  cluster: Cluster & { shardCount: number; },
+  databaseUri: string,
+  isPremium?: boolean,
+
+  admins: Array<string>,
+  guild?: string | null,
+
+  apiPort?: number | null,
+  apiUri?: string | null,
+
+  colors: {
+    primary: number,
+    success: number,
+    error: number,
+    warning: number,
+    info: number,
+  },
+
+  integration: {
+    webhookUrl?: string | null,
+  },
+
+  access: {
+    enabled: boolean,
+    interval: number,
+    webhookLog?: string,
+  },
+
+  progressIcons: {
+    complete: string,
+    selected: string,
+    incomplete: string,
+  },
+
+  statusPage?: string | null,
+}

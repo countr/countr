@@ -1,9 +1,10 @@
 import { SelectedCountingChannel, defaultExpirationValue, selectedCountingChannels } from "../../constants/selectedCountingChannels";
-import type { ContextMenuCommand } from "../../@types/command";
+import type { ContextMenuCommand } from "../../commands/menu";
 import type { ContextMenuInteraction } from "discord.js";
 import type { GuildDocument } from "../../database/models/Guild";
 import config from "../../config";
 
+// eslint-disable-next-line complexity
 export default async (interaction: ContextMenuInteraction, document: GuildDocument): Promise<void> => {
   if (!interaction.guild) return;
   const commands = config.guild ? interaction.client.guilds.cache.get(config.guild)?.commands : interaction.client.application?.commands;
@@ -32,24 +33,31 @@ export default async (interaction: ContextMenuInteraction, document: GuildDocume
       selectedCountingChannels.delete([interaction.guildId, interaction.user.id].join("."));
     }
 
-    if (commandFile.requireSelectedCountingChannel && (
-      !selectedCountingChannel ||
-      selectedCountingChannel.expires && selectedCountingChannel.expires < Date.now()
-    )) {
-      if (document.channels.size === 1) {
-        selectedCountingChannel = {
-          channel: document.channels.keys().next().value,
-          expires: Date.now() + defaultExpirationValue,
-        };
-      } else {
-        return interaction.reply({
-          content: "💥 You need a counting channel selected to run this command. Type `/select` to select a counting channel and then run this command again.",
-          ephemeral: true,
-        });
-      }
+    if (commandFile.requireSelectedCountingChannel && !selectedCountingChannel && document.channels.size === 1) {
+      selectedCountingChannel = {
+        channel: document.channels.keys().next().value,
+        expires: Date.now() + defaultExpirationValue,
+      };
       selectedCountingChannels.set([interaction.guildId, interaction.user.id].join("."), selectedCountingChannel);
     }
 
-    commandFile.execute(interaction, inCountingChannel, interaction.targetId, document, selectedCountingChannel?.channel);
+    if (commandFile.requireSelectedCountingChannel && !selectedCountingChannel) {
+      return interaction.reply({
+        content: "💥 You need a counting channel selected to run this command. Type `/select` to select a counting channel and then run this command again.",
+        ephemeral: true,
+      });
+    }
+
+    if (commandFile.type === "MESSAGE" && interaction.isMessageContextMenu()) {
+      const target = await interaction.channel?.messages.fetch(interaction.targetId);
+      if (!target) return;
+      if (commandFile.requireSelectedCountingChannel && selectedCountingChannel) commandFile.execute(interaction, inCountingChannel, target, document, selectedCountingChannel.channel);
+      else if (!commandFile.requireSelectedCountingChannel) commandFile.execute(interaction, inCountingChannel, target, document, selectedCountingChannel?.channel);
+    } else if (commandFile.type === "USER" && interaction.isUserContextMenu()) {
+      const target = await interaction.guild?.members.fetch(interaction.targetId);
+      if (!target) return;
+      if (commandFile.requireSelectedCountingChannel && selectedCountingChannel) commandFile.execute(interaction, inCountingChannel, target, document, selectedCountingChannel.channel);
+      else if (!commandFile.requireSelectedCountingChannel) commandFile.execute(interaction, inCountingChannel, target, document, selectedCountingChannel?.channel);
+    }
   }
 };

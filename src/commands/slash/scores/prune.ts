@@ -1,4 +1,4 @@
-import type { SlashCommand } from "../../../@types/command";
+import type { SlashCommand } from "..";
 import { msToTime } from "../../../utils/time";
 
 const serversPruning = new Set<string>();
@@ -8,7 +8,7 @@ const sleepTime = 1500;
 export default {
   description: "Prune scores from users that have left your server",
   execute: async (interaction, _, __, document, selectedCountingChannel) => {
-    const countingChannel = document.channels.get(selectedCountingChannel as string);
+    const countingChannel = document.channels.get(selectedCountingChannel);
     if (!countingChannel) return;
 
     if (serversPruning.has(interaction.guild?.id as string)) {

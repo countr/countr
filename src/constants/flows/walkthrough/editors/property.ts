@@ -1,10 +1,20 @@
-import type { Guild, MessageComponentInteraction } from "discord.js";
-import type { Property, PropertyValue } from "../../../../@types/flows/properties";
+import type { ApplicationCommandOptionData, Guild, MessageComponentInteraction } from "discord.js";
 import type { TriggerOrActionDetails } from "../../../../database/models/Guild";
 import { awaitingInput } from "../../../../commands/slash/flows/input";
 import { components } from "../../../../handlers/interactions/components";
 import config from "../../../../config";
 import { joinListWithAnd } from "../../../../utils/text";
+
+export type PropertyValue = string | number;
+
+export interface Property {
+  short: string;
+  help: string;
+  input: ApplicationCommandOptionData;
+  isMultiple?: boolean;
+  convert?(userInput: string | number, guild: Guild): Promise<PropertyValue | null>;
+  format?(converted: Array<PropertyValue>, guild: Guild): Promise<string>;
+}
 
 export function editProperty(interaction: MessageComponentInteraction, property: Property, flowOptions: TriggerOrActionDetails, propertyIndex: number | null, data?: Array<PropertyValue>): Promise<MessageComponentInteraction> {
   const newData = data || [...flowOptions.data[propertyIndex || 0] || []]; // copy the data or use data from previous interaction

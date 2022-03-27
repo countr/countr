@@ -1,6 +1,5 @@
-import type { Component, SelectMenuComponentCallback } from "../../../@types/flows/components";
-import type { Flow, TriggerOrActionDetails } from "../../../database/models/Guild";
-import type { MessageComponentInteraction, MessageSelectMenuOptions, SelectMenuInteraction } from "discord.js";
+import type { ButtonInteraction, InteractionButtonOptions, InteractionReplyOptions, MessageComponentInteraction, MessageSelectMenuOptions, SelectMenuInteraction } from "discord.js";
+import type { CountingChannel, Flow, TriggerOrActionDetails } from "../../../database/models/Guild";
 import actions from "../actions";
 import { components } from "../../../handlers/interactions/components";
 import { editProperty } from "./editors/property";
@@ -8,6 +7,21 @@ import { editTriggerOrAction } from "./editors/triggerOrAction";
 import limits from "../../limits";
 import triggers from "../../triggers";
 import { trim } from "../../../utils/text";
+
+export type ButtonComponentCallback = (interaction: ButtonInteraction, flow: Flow, designNewMessage: () => InteractionReplyOptions, channel: CountingChannel) => Promise<void>;
+export type SelectMenuComponentCallback = (interaction: SelectMenuInteraction, flow: Flow, designNewMessage: () => InteractionReplyOptions, channel: CountingChannel) => Promise<void>;
+
+interface ButtonComponent {
+  data: InteractionButtonOptions;
+  callback: ButtonComponentCallback;
+}
+
+interface SelectMenuComponent {
+  data: MessageSelectMenuOptions;
+  callback: SelectMenuComponentCallback;
+}
+
+export type Component = ButtonComponent | SelectMenuComponent;
 
 export function getTriggerOrActionComponents(triggerOrAction: "trigger" | "action", flow: Flow): Array<Array<Component>> {
   const aTriggerOrAnAction = triggerOrAction === "trigger" ? "a trigger" : "an action";

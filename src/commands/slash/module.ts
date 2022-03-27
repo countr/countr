@@ -1,6 +1,6 @@
 import type { ButtonInteraction, InteractionReplyOptions, SelectMenuInteraction } from "discord.js";
 import type { GuildDocument } from "../../database/models/Guild";
-import type { SlashCommand } from "../../@types/command";
+import type { SlashCommand } from ".";
 import { components } from "../../handlers/interactions/components";
 import config from "../../config";
 import modules from "../../constants/modules";
@@ -15,7 +15,7 @@ export default {
     description: `Enable or disable the module ${name}`,
   })),
   execute: (interaction, ephemeralPreference, changes, document, selectedCountingChannel) => {
-    const enabledModules = document.channels.get(selectedCountingChannel as string)?.modules || [];
+    const enabledModules = document.channels.get(selectedCountingChannel)?.modules || [];
     const changingModules = Object.keys(changes);
 
     if (!changingModules.length) return interaction.reply({ ...generateMenu(enabledModules, document, interaction.id), ephemeral: ephemeralPreference });

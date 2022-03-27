@@ -1,4 +1,4 @@
-import type { SlashCommand } from "../../../@types/command";
+import type { SlashCommand } from "..";
 import { regexHelpUrl } from "../../../constants/links";
 
 export default {
@@ -19,7 +19,7 @@ export default {
       });
     }
 
-    document.channels.get(selectedCountingChannel as string)?.filters.push(regex as string);
+    document.channels.get(selectedCountingChannel)?.filters.push(regex as string);
     document.safeSave();
 
     return interaction.reply({

@@ -1,5 +1,8 @@
-import type { Autocomplete } from "../@types/command";
+import type { ApplicationCommandOptionChoice, AutocompleteInteraction } from "discord.js";
+import type { GuildDocument } from "../database/models/Guild";
 import { matchSorter } from "match-sorter";
+
+export type Autocomplete = (query: string | number, interaction: AutocompleteInteraction, document: GuildDocument, selectedCountingChannel?: string) => Promise<Array<ApplicationCommandOptionChoice>>;
 
 export const flowList: Autocomplete = (query, interaction, document, selectedCountingChannel?: string) => {
   const selected = document.channels.has(interaction.channelId) ? interaction.channelId : selectedCountingChannel; // prefer current counting channel, then selected, then undefined and ask them to select

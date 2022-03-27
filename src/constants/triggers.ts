@@ -1,6 +1,17 @@
-import type { Trigger } from "../@types/flows/triggers";
+import type { Property, PropertyValue } from "./flows/walkthrough/editors/property";
+import type { CountingData } from "../handlers/counting";
 import match from "../utils/regex";
 import { propertyTypes } from "./flows/properties";
+
+export interface Trigger {
+  short: string;
+  long?: string;
+  properties?: Array<Property>;
+  explanation(properties: Array<Array<PropertyValue>>): string;
+  check(data: CountingData, properties: Array<Array<PropertyValue>>): Promise<boolean>;
+  supports: Array<"flows" | "notifications">;
+  limitPerFlow?: number;
+}
 
 const triggers: Record<string, Trigger> = {
   each: {

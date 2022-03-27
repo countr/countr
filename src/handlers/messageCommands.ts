@@ -1,14 +1,12 @@
+import { MentionCommand, basics, permissions } from "../commands/mention";
 import type { Message, MessageOptions } from "discord.js";
-import { SelectedCountingChannel, selectedCountingChannels } from "../constants/selectedCountingChannels";
+import { SelectedCountingChannel, defaultExpirationValue, selectedCountingChannels } from "../constants/selectedCountingChannels";
 import type { GuildDocument } from "../database/models/Guild";
-import type { MentionCommand } from "../@types/command";
-import basics from "../commands/mention/_basic";
 import config from "../config";
 import { countrLogger } from "../utils/logger/countr";
 import fs from "fs";
 import { getPermissionLevel } from "../constants/permissions";
 import { join } from "path";
-import permissions from "../commands/mention/_permissions";
 import { queueDelete } from "./counting";
 
 export default (message: Message, document: GuildDocument): Promise<void> => {
@@ -22,10 +20,10 @@ export default (message: Message, document: GuildDocument): Promise<void> => {
   if (basic) return Promise.resolve(void reply(basic.message, message, existingReply));
 
   const commandName = aliases.get(commandOrAlias) || commandOrAlias;
-  const command = commands.get(commandName);
+  const commandFile = commands.get(commandName);
   const inCountingChannel = document.channels.has(message.channel.id);
 
-  if (!command) {
+  if (!commandFile) {
     return message.react("❓").then(() => {
       if (inCountingChannel) setTimeout(message.delete, 5000);
     }).catch();
@@ -33,7 +31,7 @@ export default (message: Message, document: GuildDocument): Promise<void> => {
 
   return new Promise<Message>(resolve => {
     try {
-      if (inCountingChannel && command.disableInCountingChannel) {
+      if (inCountingChannel && commandFile.disableInCountingChannel) {
         message.react("💢").catch();
         resolve(message);
         return;
@@ -46,35 +44,37 @@ export default (message: Message, document: GuildDocument): Promise<void> => {
           return resolve(message);
         }
 
-
         let selectedCountingChannel: SelectedCountingChannel | undefined = inCountingChannel ?
-          {
-            channel: message.channelId,
-            expires: Date.now(),
-          } :
+          { channel: message.channelId } :
           selectedCountingChannels.get([message.guildId, message.author.id].join("."));
 
-        if (selectedCountingChannel?.expires && selectedCountingChannel.expires < Date.now()) {
+        if (selectedCountingChannel && (
+          selectedCountingChannel.expires && selectedCountingChannel.expires < Date.now() ||
+          !document.channels.has(selectedCountingChannel.channel) // check if channel is deleted
+        )) {
           selectedCountingChannel = undefined;
           selectedCountingChannels.delete([message.guildId, message.author.id].join("."));
         }
 
-        if (command.requireSelectedCountingChannel && (
-          !selectedCountingChannel ||
-          selectedCountingChannel.expires && selectedCountingChannel.expires < Date.now()
-        )) {
-          if (document.channels.size === 1) selectedCountingChannel = { channel: document.channels.values().next().value, expires: Date.now() + 1000 * 60 * 60 * 24 };
-          else if (document.channels.has(message.channelId)) selectedCountingChannel = { channel: message.channelId, expires: Date.now() + 1000 * 60 * 60 * 24 };
-          else return resolve(message.reply("💥 You need a counting channel selected to run this command. Type `/select` to select a counting channel and then run this command again."));
+        if (commandFile.requireSelectedCountingChannel && !selectedCountingChannel && document.channels.size === 1) {
+          selectedCountingChannel = {
+            channel: document.channels.values().next().value,
+            expires: Date.now() + defaultExpirationValue,
+          };
           selectedCountingChannels.set([message.guildId, message.author.id].join("."), selectedCountingChannel);
         }
 
-        if (args.length < (command.minArguments || 0)) {
+        if (commandFile.requireSelectedCountingChannel && !selectedCountingChannel) {
+          return resolve(message.reply("💥 You need a counting channel selected to run this command. Type `/select` to select a counting channel and then run this command again."));
+        }
+
+        if (!commandFile.testArgs(args)) {
           message.react("📏").catch();
           return resolve(message);
         }
 
-        command.execute(message, options => reply(options, message, existingReply), args, document, selectedCountingChannel?.channel).then(resolve);
+        if (commandFile.requireSelectedCountingChannel && selectedCountingChannel) commandFile.execute(message, options => reply(options, message, existingReply), args, document, selectedCountingChannel.channel).then(resolve);
+        else if (!commandFile.requireSelectedCountingChannel) commandFile.execute(message, options => reply(options, message, existingReply), args, document, selectedCountingChannel?.channel).then(resolve);
       });
     } catch (e) {
       message.react("💥").catch();
@@ -106,7 +106,7 @@ function reply(optionsOrContent: string | MessageOptions, message: Message, exis
 const commands = new Map<string, MentionCommand>(), aliases = new Map<string, string>();
 fs.readdir(join(__dirname, "../commands/mention"), (err, files) => {
   if (err || !files) return countrLogger.error(err);
-  for (const file of files) if (file.endsWith(".js") && !file.startsWith("_")) loadCommand(file.replace(".js", ""));
+  for (const file of files) if (file.endsWith(".js") && !file.startsWith("_") && file !== "index.js") loadCommand(file.replace(".js", ""));
 });
 
 const loadCommand = async (command: string): Promise<void> => {

@@ -1,4 +1,4 @@
-import type { SlashCommand } from "../../../../@types/command";
+import type { SlashCommand } from "../..";
 
 export default {
   description: "Export all data from the database",

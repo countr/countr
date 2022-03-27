@@ -1,4 +1,4 @@
-import type { SlashCommand } from "../../../@types/command";
+import type { SlashCommand } from "..";
 
 export default {
   description: "Modify a user's score",
@@ -28,7 +28,7 @@ export default {
     },
   ],
   execute: (interaction, ephemeralPreference, { user, method, amount }: { user: string; method: "+" | "-" | "="; amount: number; }, document, selectedCountingChannel) => {
-    const countingChannel = document.channels.get(selectedCountingChannel as string);
+    const countingChannel = document.channels.get(selectedCountingChannel);
     if (!countingChannel) return;
 
     const currentScore = countingChannel.scores.get(user) || 0;

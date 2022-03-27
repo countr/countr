@@ -1,5 +1,5 @@
 import type { CountingChannel, Flow } from "../../database/models/Guild";
-import type { CountingData } from "../../@types/flows/countingData";
+import type { CountingData } from ".";
 import actions from "../../constants/flows/actions";
 import { countrLogger } from "../../utils/logger/countr";
 import { inspect } from "util";

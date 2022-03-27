@@ -1,12 +1,12 @@
 import type { MessageEmbedOptions } from "discord.js";
-import type { SlashCommand } from "../../@types/command";
+import type { SlashCommand } from ".";
 import config from "../../config";
 import { formatScore } from "../../constants/scores";
 
 export default {
   description: "Get the top 25 users of the counting channel",
   execute: (interaction, _, __, document, selectedCountingChannel) => {
-    const scores = Array.from(document.channels.get(selectedCountingChannel as string)?.scores.entries() || []);
+    const scores = Array.from(document.channels.get(selectedCountingChannel)?.scores.entries() || []);
     if (!scores.length) {
       return interaction.reply({
         content: `❌ There are no scoreboard to show for <#${selectedCountingChannel}>.`,
@@ -33,4 +33,5 @@ export default {
       ],
     });
   },
+  requireSelectedCountingChannel: true,
 } as SlashCommand;

@@ -1,9 +1,9 @@
-import type { SlashCommand } from "../../../@types/command";
+import type { SlashCommand } from "..";
 
 export default {
   description: "Remove and disable the liveboard",
   execute: (interaction, ephemeralPreference, _, document, selectedCountingChannel) => {
-    const countingChannel = document.channels.get(selectedCountingChannel as string);
+    const countingChannel = document.channels.get(selectedCountingChannel);
     if (!countingChannel) return;
 
     delete countingChannel.liveboard;

@@ -1,4 +1,4 @@
-import type { MentionCommand } from "../../@types/command";
+import type { MentionCommand } from ".";
 import { inspect } from "util";
 
 export default {
@@ -21,5 +21,7 @@ export default {
       return reply(`🆘 JavaScript failed: \`\`\`fix\n${inspect(e)}\`\`\``);
     }
   },
-  minArguments: 1,
+  testArgs(args) {
+    return args.length > 0;
+  },
 } as MentionCommand;

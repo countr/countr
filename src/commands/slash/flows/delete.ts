@@ -1,4 +1,4 @@
-import type { SlashCommand } from "../../../@types/command";
+import type { SlashCommand } from "..";
 import { flowList } from "../../../constants/autocompleters";
 
 export default {
@@ -16,7 +16,7 @@ export default {
     flow: flowList,
   },
   execute: (interaction, ephemeralPreference, { flow }: { flow: string }, document, selectedCountingChannel) => {
-    const channel = document.channels.get(selectedCountingChannel as string);
+    const channel = document.channels.get(selectedCountingChannel);
 
     if (!channel?.flows.has(flow)) {
       return interaction.reply({

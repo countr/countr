@@ -1,9 +1,9 @@
-import type { SlashCommand } from "../../../@types/command";
+import type { SlashCommand } from "..";
 
 export default {
   description: "List all regex filters set up",
   execute: (interaction, ephemeralPreference, _, document, selectedCountingChannel) => {
-    const filters = document.channels.get(selectedCountingChannel as string)?.filters;
+    const filters = document.channels.get(selectedCountingChannel)?.filters;
     if (!filters?.length) {
       return interaction.reply({
         content: `❌ There are no regex filters set up for channel <#${selectedCountingChannel}>`,

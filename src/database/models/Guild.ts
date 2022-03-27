@@ -1,7 +1,7 @@
 import { DocumentType, getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
 import { Severity, WhatIsIt } from "@typegoose/typegoose/lib/internal/constants";
 import type { BeAnObject } from "@typegoose/typegoose/lib/types";
-import type { PropertyValue } from "../../@types/flows/properties";
+import type { PropertyValue } from "../../constants/flows/walkthrough/editors/property";
 import { Schema } from "mongoose";
 import numberSystems from "../../constants/numberSystems";
 

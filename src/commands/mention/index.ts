@@ -1,6 +1,22 @@
+import type { Message, MessageOptions, Snowflake } from "discord.js";
 import { docsUrl, inviteUrl, premiumHelpUrl, privacyUrl, sourceUrl, supportServerUrl, termsUrl, uptimeUrl } from "../../constants/links";
+import type { GuildDocument } from "../../database/models/Guild";
+import { PermissionLevel } from "../../constants/permissions";
 
-const basics: Array<{
+export type MentionCommand = {
+  aliases?: Array<string>;
+  testArgs(args: Array<string>): boolean;
+  disableInCountingChannel?: true;
+  premiumOnly?: true;
+} & ({
+  requireSelectedCountingChannel?: never;
+  execute(message: Message, reply: (options: string | MessageOptions) => Promise<Message>, args: Array<string>, document: GuildDocument, selectedCountingChannel?: Snowflake): Promise<Message>;
+} | {
+  requireSelectedCountingChannel: true;
+  execute(message: Message, reply: (options: string | MessageOptions) => Promise<Message>, args: Array<string>, document: GuildDocument, selectedCountingChannel: Snowflake): Promise<Message>;
+});
+
+export const basics: Array<{
   triggers: Array<string>;
   message: string;
 }> = [
@@ -38,4 +54,6 @@ const basics: Array<{
   },
 ];
 
-export default basics;
+export const permissions: Record<string, PermissionLevel> = {
+  eval: PermissionLevel.BOT_DEVELOPER,
+};

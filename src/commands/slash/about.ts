@@ -1,10 +1,9 @@
+import { ManagerStatus, getManagerStats } from "../../utils/cluster/stats";
 import { homepage, inviteUrl, supportServerUrl } from "../../constants/links";
 import { release, type } from "os";
-import type { ManagerStatus } from "../../@types/manager";
-import type { SlashCommand } from "../../@types/command";
+import type { SlashCommand } from ".";
 import { bytesToHumanReadableFormat } from "../../utils/human";
 import config from "../../config";
-import { getManagerStats } from "../../utils/cluster/stats";
 import { msToTime } from "../../utils/time";
 import { trim } from "../../utils/text";
 import { version } from "discord.js";

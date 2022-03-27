@@ -1,5 +1,5 @@
 import type { SelectMenuInteraction } from "discord.js";
-import type { SlashCommand } from "../../../@types/command";
+import type { SlashCommand } from "..";
 import { components } from "../../../handlers/interactions/components";
 import config from "../../../config";
 import triggers from "../../../constants/triggers";
@@ -7,7 +7,7 @@ import triggers from "../../../constants/triggers";
 export default {
   description: "List and manage your notifications",
   execute: (interaction, ephemeralPreference, __, document, selectedCountingChannel) => {
-    const countingChannel = document.channels.get(selectedCountingChannel as string);
+    const countingChannel = document.channels.get(selectedCountingChannel);
     if (!countingChannel) return;
 
     const allNotifications = Array.from(countingChannel.notifications.entries());
