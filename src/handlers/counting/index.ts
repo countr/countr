@@ -33,7 +33,7 @@ export default async (message: Message, document: GuildDocument, countingChannel
   const { count, filters, modules, type } = countingChannel;
   const { convert } = numberSystems[type];
 
-  const converted = modules.includes("talking") ? convert(content.split(" ")[0]) : convert(content);
+  const converted = modules.includes("talking") ? convert(content.split(" ")[0].split("<")[0]) : convert(content);
 
   let regexMatch = false;
   for (const regex of filters) {
