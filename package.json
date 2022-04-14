@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@biaw/eslint-config": "^1.0.2",
-    "@tsconfig/node16-strictest": "^1.0.0",
+    "@tsconfig/node16-strictest": "^1.0.1",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.1",
     "@types/node": "^16.11.27",
