@@ -18,7 +18,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Copy docker test environment
-      run: cp "docker/test.env" ".env"
+      run: cp ".docker/test.env" ".env"
 
     - name: Test docker compose build
       run: docker compose build
