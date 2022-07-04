@@ -12,14 +12,14 @@ const sendMessage: Action<[Snowflake, string]> = {
     if (channel?.isTextBased()) {
       await channel.send({
         content: text
-          .replace(/{count}/giu, count.toString())
-          .replace(/{mention}/giu, member.user.toString())
-          .replace(/{tag}/giu, member.user.tag)
-          .replace(/{username}/giu, member.user.username)
-          .replace(/{nickname}/giu, member.displayName || member.user.username)
-          .replace(/{everyone}/giu, guild.roles.everyone.toString())
-          .replace(/{score}/giu, String(scores.get(member.id) ?? 0))
-          .replace(/{content}/giu, content),
+          .replace(/\{count\}/giu, count.toString())
+          .replace(/\{mention\}/giu, member.user.toString())
+          .replace(/\{tag\}/giu, member.user.tag)
+          .replace(/\{username\}/giu, member.user.username)
+          .replace(/\{nickname\}/giu, member.displayName || member.user.username)
+          .replace(/\{everyone\}/giu, guild.roles.everyone.toString())
+          .replace(/\{score\}/giu, String(scores.get(member.id) ?? 0))
+          .replace(/\{content\}/giu, content),
         allowedMentions: { parse: ["everyone", "users", "roles"]},
       }).catch();
     }
