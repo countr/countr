@@ -1,0 +1,5 @@
+/build
+/database
+/logs
+/node_modules
+/.env

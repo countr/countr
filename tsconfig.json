@@ -1,0 +1,8 @@
+{
+  "include": [ "./src" ],
+  "extends": "@tsconfig/node16-strictest",
+  "compilerOptions": {
+    "outDir": "./build",
+    "experimentalDecorators": true
+  }
+}

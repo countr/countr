@@ -1,0 +1,30 @@
+import type { CountingChannelSchema, TimeoutRoleSchema } from "../../database/models/Guild";
+import type { Guild } from "discord.js";
+
+export default async (guild: Guild, timeoutRole: TimeoutRoleSchema, timeouts: CountingChannelSchema["timeouts"], safeSave: () => void): Promise<boolean> => {
+  if (!timeouts.size) return false;
+
+  let needSave = false;
+
+  const members = await guild.members.fetch({ user: Array.from(timeouts.keys()) });
+
+  const now = new Date();
+  for (const [userId, date] of Array.from(timeouts)) {
+    const member = members.get(userId);
+    if (now >= date) {
+      if (member?.roles.cache.has(timeoutRole.roleId)) await member.roles.remove(timeoutRole.roleId).catch(() => null);
+      members.delete(userId);
+      timeouts.delete(userId);
+      needSave = true;
+    } else {
+      setTimeout(() => {
+        if (member?.roles.cache.has(timeoutRole.roleId)) void member.roles.remove(timeoutRole.roleId).catch(() => null);
+        members.delete(userId);
+        timeouts.delete(userId);
+        safeSave();
+      }, date.getTime() - now.getTime());
+    }
+  }
+
+  return needSave;
+};
