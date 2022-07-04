@@ -7,7 +7,7 @@ const command: ChatInputCommand = {
     const raw = document.toJSON();
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars -- remove _id and __v from the export as these are irrelevant to the user
-    const { _id, __v, ...json } = raw;
+    const { _id, __v, ...json } = raw as unknown as Record<string, unknown>;
 
     // uploading might take a while so defer first
     await interaction.deferReply({ ephemeral });
