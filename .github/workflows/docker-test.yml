@@ -2,10 +2,10 @@ name: Docker Compose
 on:
   push:
     branches:
-    - djs-13
+    - djs-14
   pull_request:
     branches:
-    - djs-13
+    - djs-14
   workflow_dispatch:
 
 jobs:
