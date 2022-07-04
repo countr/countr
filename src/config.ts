@@ -1,14 +1,10 @@
 import "dotenv/config";
 import type { CacheWithLimitsOptions } from "discord.js";
 
-// test environment variables
-if (!process.env["BOT_TOKEN"]) throw new Error("BOT_TOKEN is not set");
-if (!process.env["DATABASE_URI"]) throw new Error("DATABASE_URI is not set");
-
 // export config as a constant value
 export default {
   client: {
-    token: process.env["BOT_TOKEN"],
+    token: String(process.env["BOT_TOKEN"]),
     caches: {
       ApplicationCommandManager: 0,
       BaseGuildEmojiManager: 0,
@@ -29,7 +25,7 @@ export default {
       VoiceStateManager: 0,
     } as CacheWithLimitsOptions,
   },
-  databaseUri: process.env["DATABASE_URI"],
+  databaseUri: String(process.env["DATABASE_URI"]),
 
   cluster: {
     id: parseInt(process.env["CLUSTER"] ?? "", 10) || 0,
