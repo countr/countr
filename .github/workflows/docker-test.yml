@@ -1,0 +1,24 @@
+name: Docker Compose
+on:
+  push:
+    branches:
+    - djs-13
+  pull_request:
+    branches:
+    - djs-13
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Test Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Copy docker test environment
+      run: cp "docker/test.env" ".env"
+
+    - name: Test docker compose build
+      run: docker compose build
