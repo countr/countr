@@ -15,10 +15,10 @@ export default async function autocompleteHandler(interaction: AutocompleteInter
   const autocomplete = autocompletes[name];
   if (!autocomplete) return;
 
-  return runAutocomplete(value ?? null, autocomplete, interaction, document).then(choices => interaction.respond(choices));
+  return runAutocomplete(value, autocomplete, interaction, document).then(choices => interaction.respond(choices));
 }
 
-async function runAutocomplete(value: boolean | number | string | null, autocomplete: Autocomplete, interaction: AutocompleteInteraction<"cached">, document: GuildDocument): Promise<ApplicationCommandOptionChoiceData[]> {
+async function runAutocomplete(value: boolean | number | string, autocomplete: Autocomplete, interaction: AutocompleteInteraction<"cached">, document: GuildDocument): Promise<ApplicationCommandOptionChoiceData[]> {
   const inCountingChannel = document.channels.has(interaction.channelId);
   const selectedCountingChannelId = inCountingChannel ? interaction.channelId : selectedCountingChannels.get(interaction.user.id)?.channel;
   const selectedCountingChannel: [Snowflake, CountingChannelSchema] | undefined = selectedCountingChannelId ? [selectedCountingChannelId, document.channels.get(selectedCountingChannelId)!] : document.getDefaultCountingChannel() ?? undefined; // eslint-disable-line no-undefined

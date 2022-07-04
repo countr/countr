@@ -30,5 +30,5 @@ export default async function repostWithWebhook(message: Message & Message<true>
     return repostWithWebhook(message, member, true);
   });
 
-  return webhookMessage instanceof Message ? webhookMessage : channel.messages.fetch(webhookMessage.id as string).catch(() => message);
+  return webhookMessage instanceof Message ? webhookMessage : channel.messages.fetch(webhookMessage.id).catch(() => message);
 }

@@ -5,10 +5,10 @@ import flowList from "./flowList";
 
 export type Autocomplete = {
   requireSelectedCountingChannel: true;
-  execute(query: boolean | number | string | null, interaction: AutocompleteInteraction<"cached">, document: GuildDocument, selectedCountingChannel: [countingChannelId: Snowflake, countingChannel: CountingChannelSchema]): Awaitable<ApplicationCommandOptionChoiceData[]>;
+  execute(query: boolean | number | string, interaction: AutocompleteInteraction<"cached">, document: GuildDocument, selectedCountingChannel: [countingChannelId: Snowflake, countingChannel: CountingChannelSchema]): Awaitable<ApplicationCommandOptionChoiceData[]>;
 } | {
   requireSelectedCountingChannel?: never;
-  execute(query: boolean | number | string | null, interaction: AutocompleteInteraction<"cached">, document: GuildDocument, selectedCountingChannel: [countingChannelId: Snowflake | null, countingChannel: CountingChannelSchema | null]): Awaitable<ApplicationCommandOptionChoiceData[]>;
+  execute(query: boolean | number | string, interaction: AutocompleteInteraction<"cached">, document: GuildDocument, selectedCountingChannel: [countingChannelId: Snowflake | null, countingChannel: CountingChannelSchema | null]): Awaitable<ApplicationCommandOptionChoiceData[]>;
 };
 
 export default { countingChannels, flowList } as const;
