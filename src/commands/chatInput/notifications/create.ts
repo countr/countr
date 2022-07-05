@@ -66,7 +66,7 @@ const command: ChatInputCommand = {
         let currentInteraction: ButtonInteraction<"cached"> | SelectMenuInteraction<"cached"> = selectInteraction;
         if (trigger.properties?.length) {
           for (const property of trigger.properties) {
-            const result = await promptProperty(currentInteraction, property);
+            const result = await promptProperty(currentInteraction, interaction.user.id, property);
             const [data, nextInteraction] = result as [unknown, ButtonInteraction<"cached">];
             currentInteraction = nextInteraction;
             if (data === null) break;

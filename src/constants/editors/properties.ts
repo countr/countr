@@ -1,10 +1,10 @@
-import type { ButtonInteraction, InteractionReplyOptions, InteractionUpdateOptions, ModalSubmitInteraction, SelectMenuInteraction } from "discord.js";
+import type { ButtonInteraction, InteractionReplyOptions, InteractionUpdateOptions, ModalSubmitInteraction, SelectMenuInteraction, Snowflake } from "discord.js";
 import { ButtonStyle, ComponentType, InteractionType } from "discord.js";
 import type { Property } from "../properties";
 import { components } from "../../handlers/interactions/components";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function promptProperty<T extends Property<any, any>, U = T extends Property<infer V, any> ? V : never>(interaction: ButtonInteraction<"cached"> | SelectMenuInteraction<"cached">, property: T, currentValue?: U): Promise<[ data: U | null, nextInteraction: ButtonInteraction<"cached"> ]> {
+export async function promptProperty<T extends Property<any, any>, U = T extends Property<infer V, any> ? V : never>(interaction: ButtonInteraction<"cached"> | SelectMenuInteraction<"cached">, userId: Snowflake, property: T, currentValue?: U): Promise<[ data: U | null, nextInteraction: ButtonInteraction<"cached"> ]> {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const [value, newInteraction] = await property.input(interaction, currentValue);
   const converted = await property.convert(value, interaction.guild) as U | null;
@@ -36,15 +36,15 @@ export async function promptProperty<T extends Property<any, any>, U = T extends
 
       components.set(`${interaction.id}:try_again`, {
         type: "BUTTON",
-        allowedUsers: "creator",
+        allowedUsers: [userId],
         callback(button) {
-          void promptProperty(button, property, currentValue).then(resolve);
+          void promptProperty(button, userId, property, currentValue).then(resolve);
         },
       });
 
       components.set(`${interaction.id}:cancel`, {
         type: "BUTTON",
-        allowedUsers: "creator",
+        allowedUsers: [userId],
         callback(button) {
           resolve([null, button]);
         },
@@ -79,7 +79,7 @@ export async function promptProperty<T extends Property<any, any>, U = T extends
 
     components.set(`${interaction.id}:yes`, {
       type: "BUTTON",
-      allowedUsers: "creator",
+      allowedUsers: [userId],
       callback(button) {
         resolve([converted, button]);
       },
@@ -87,9 +87,9 @@ export async function promptProperty<T extends Property<any, any>, U = T extends
 
     components.set(`${interaction.id}:no`, {
       type: "BUTTON",
-      allowedUsers: "creator",
+      allowedUsers: [userId],
       callback(button) {
-        void promptProperty(button, property, value).then(resolve);
+        void promptProperty(button, userId, property, value).then(resolve);
       },
     });
   });
