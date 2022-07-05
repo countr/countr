@@ -9,7 +9,7 @@ const roles: Property<Snowflake[]> = {
   schema: { type: "array", items: { type: "string", pattern: snowflakeRegex.source }, minItems: 1, uniqueItems: true },
   input: rolesInput,
   convert: userInput => userInput,
-  format: roleIds => roleIds.join(", "),
+  format: roleIds => roleIds.map(roleId => `<@&${roleId}>`).join(", "),
 };
 
 export default roles;

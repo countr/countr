@@ -1,4 +1,5 @@
 import type { Property } from ".";
+import { escapeCodeBlock } from "discord.js";
 import { paragraphInput } from "./inputs";
 
 const text: Property<string> = {
@@ -17,7 +18,7 @@ const text: Property<string> = {
   schema: { type: "string", minLength: 1, maxLength: 2000 },
   input: paragraphInput("text", 1, 2000),
   convert: userInput => userInput,
-  format: userInput => userInput,
+  format: userInput => `\`\`\`\n${escapeCodeBlock(userInput)}\`\`\``,
 };
 
 export default text;

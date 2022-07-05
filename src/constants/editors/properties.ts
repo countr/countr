@@ -89,7 +89,7 @@ export async function promptProperty<T extends Property<any, any>, U = T extends
       type: "BUTTON",
       allowedUsers: "creator",
       callback(button) {
-        void promptProperty(button, property, currentValue).then(resolve);
+        void promptProperty(button, property, value).then(resolve);
       },
     });
   });

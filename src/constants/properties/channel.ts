@@ -9,7 +9,7 @@ const channel: Property<Snowflake> = {
   schema: { type: "string", pattern: snowflakeRegex.source },
   input: channelInput,
   convert: userInput => userInput,
-  format: channelId => channelId,
+  format: channelId => `<#${channelId}>`,
 };
 
 export default channel;

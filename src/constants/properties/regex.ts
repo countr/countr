@@ -1,4 +1,5 @@
 import type { Property } from ".";
+import { escapeInlineCode } from "discord.js";
 import { shortInput } from "./inputs";
 
 const regex: Property<string> = {
@@ -14,7 +15,7 @@ const regex: Property<string> = {
       return null;
     }
   },
-  format: expression => expression,
+  format: expression => `\`${escapeInlineCode(expression)}\``,
 };
 
 export default regex;
