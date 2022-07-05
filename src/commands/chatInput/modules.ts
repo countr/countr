@@ -13,18 +13,18 @@ const command: ChatInputCommand = {
   considerDefaultPermission: false,
   requireSelectedCountingChannel: true,
   execute(interaction, ephemeral, document, [, countingChannel]) {
-    return void interaction.reply(modelListOverview(ephemeral, document, countingChannel, interaction.id));
+    return void interaction.reply(moduleListOverview(ephemeral, document, countingChannel, interaction.id));
   },
 };
 
 export default { ...command } as ChatInputCommand;
 
-function modelListOverview(ephemeral: boolean, document: GuildDocument, countingChannel: CountingChannelSchema, uniqueId: string): InteractionReplyOptions & InteractionUpdateOptions {
+function moduleListOverview(ephemeral: boolean, document: GuildDocument, countingChannel: CountingChannelSchema, uniqueId: string): InteractionReplyOptions & InteractionUpdateOptions {
   components.set(`${uniqueId}:module`, {
     type: "SELECT_MENU",
     allowedUsers: "creator",
     callback(interaction) {
-      return void interaction.update(modelDetails(interaction, ephemeral, document, countingChannel, interaction.id));
+      return void interaction.update(moduleDetails(interaction, ephemeral, document, countingChannel, interaction.id));
     },
   });
 
@@ -63,7 +63,7 @@ function modelListOverview(ephemeral: boolean, document: GuildDocument, counting
   };
 }
 
-function modelDetails(interaction: SelectMenuInteraction, ephemeral: boolean, document: GuildDocument, countingChannel: CountingChannelSchema, uniqueId: string): InteractionReplyOptions & InteractionUpdateOptions {
+function moduleDetails(interaction: SelectMenuInteraction, ephemeral: boolean, document: GuildDocument, countingChannel: CountingChannelSchema, uniqueId: string): InteractionReplyOptions & InteractionUpdateOptions {
   const [name] = interaction.values as [keyof typeof modules];
   const { incompatible } = modules[name];
 
@@ -81,7 +81,7 @@ function modelDetails(interaction: SelectMenuInteraction, ephemeral: boolean, do
       countingChannel.modules.push(name);
       document.safeSave();
 
-      return void button.update(generateModelMenuReply(name, countingChannel, button.id));
+      return void button.update(generateModuleMenuReply(name, countingChannel, button.id));
     },
   });
 
@@ -92,7 +92,7 @@ function modelDetails(interaction: SelectMenuInteraction, ephemeral: boolean, do
       countingChannel.modules = countingChannel.modules.filter(module => module !== name);
       document.safeSave();
 
-      return void button.update(generateModelMenuReply(name, countingChannel, button.id));
+      return void button.update(generateModuleMenuReply(name, countingChannel, button.id));
     },
   });
 
@@ -100,14 +100,14 @@ function modelDetails(interaction: SelectMenuInteraction, ephemeral: boolean, do
     type: "BUTTON",
     allowedUsers: "creator",
     callback(button) {
-      return void button.update(modelListOverview(ephemeral, document, countingChannel, button.id));
+      return void button.update(moduleListOverview(ephemeral, document, countingChannel, button.id));
     },
   });
 
-  return generateModelMenuReply(name, countingChannel, uniqueId);
+  return generateModuleMenuReply(name, countingChannel, uniqueId);
 }
 
-function generateModelMenuReply(name: keyof typeof modules, countingChannel: CountingChannelSchema, uniqueId: string): InteractionReplyOptions & InteractionUpdateOptions {
+function generateModuleMenuReply(name: keyof typeof modules, countingChannel: CountingChannelSchema, uniqueId: string): InteractionReplyOptions & InteractionUpdateOptions {
   const { description, image, incompatible } = modules[name];
   return {
     embeds: [
