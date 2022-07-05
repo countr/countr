@@ -50,7 +50,7 @@ const command: ChatInputCommand = {
 
     components.set(`${interaction.id}:select_trigger`, {
       type: "SELECT_MENU",
-      allowedUsers: [interaction.user.id],
+      allowedUsers: "creator",
       async callback(selectInteraction) {
         const [type] = selectInteraction.values as [keyof typeof triggers];
         const trigger = triggers[type];

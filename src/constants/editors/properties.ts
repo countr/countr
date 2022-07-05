@@ -36,7 +36,7 @@ export async function promptProperty<T extends Property<any, any>, U = T extends
 
       components.set(`${interaction.id}:try_again`, {
         type: "BUTTON",
-        allowedUsers: [interaction.user.id],
+        allowedUsers: "creator",
         callback(button) {
           void promptProperty(button, property, currentValue).then(resolve);
         },
@@ -44,7 +44,7 @@ export async function promptProperty<T extends Property<any, any>, U = T extends
 
       components.set(`${interaction.id}:cancel`, {
         type: "BUTTON",
-        allowedUsers: [interaction.user.id],
+        allowedUsers: "creator",
         callback(button) {
           resolve([null, button]);
         },
@@ -79,7 +79,7 @@ export async function promptProperty<T extends Property<any, any>, U = T extends
 
     components.set(`${interaction.id}:yes`, {
       type: "BUTTON",
-      allowedUsers: [interaction.user.id],
+      allowedUsers: "creator",
       callback(button) {
         resolve([converted, button]);
       },
@@ -87,7 +87,7 @@ export async function promptProperty<T extends Property<any, any>, U = T extends
 
     components.set(`${interaction.id}:no`, {
       type: "BUTTON",
-      allowedUsers: [interaction.user.id],
+      allowedUsers: "creator",
       callback(button) {
         void promptProperty(button, property, currentValue).then(resolve);
       },

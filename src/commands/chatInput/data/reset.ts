@@ -33,7 +33,7 @@ const command: ChatInputCommand = {
 
     components.set(`${interaction.id}:yes`, {
       type: "BUTTON",
-      allowedUsers: [interaction.user.id],
+      allowedUsers: "creator",
       callback: async button => {
         await resetGuildDocument(interaction.guildId);
         return void button.update({
@@ -45,7 +45,7 @@ const command: ChatInputCommand = {
 
     components.set(`${interaction.id}:no`, {
       type: "BUTTON",
-      allowedUsers: [interaction.user.id],
+      allowedUsers: "creator",
       callback: button => void button.update({
         content: "❌ Reset aborted.",
         components: [],
