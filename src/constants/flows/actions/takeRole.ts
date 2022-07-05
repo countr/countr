@@ -12,7 +12,7 @@ const takeRole: Action<[Snowflake[]]> = {
     if (roles.size) await member.roles.remove(roles).catch(() => null);
     return false;
   },
-  limit: 1,
+  limitPerFlow: 1,
 };
 
 export default takeRole;

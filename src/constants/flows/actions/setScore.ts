@@ -10,7 +10,7 @@ const setScore: Action<[number]> = {
     countingChannel.scores.set(member.id, number);
     return true;
   },
-  limit: 1,
+  limitPerFlow: 1,
 };
 
 export default setScore;

@@ -9,7 +9,7 @@ const lock: Action<never> = {
     if (channel instanceof TextChannel) await channel.permissionOverwrites.edit(channel.guild.roles.everyone, { SendMessages: false });
     return false;
   },
-  limit: 1,
+  limitPerFlow: 1,
 };
 
 export default lock;

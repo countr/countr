@@ -18,7 +18,7 @@ const pruneRole: Action<[Snowflake[]]> = {
     }
     return false;
   },
-  limit: 1,
+  limitPerFlow: 1,
 };
 
 export default pruneRole;

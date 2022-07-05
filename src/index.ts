@@ -44,7 +44,6 @@ const client = new Client({
   ws: { compress: true },
 });
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, prefer-const -- // todo
 let disabledGuilds = new Set<Snowflake>();
 
 client.once("ready", async trueClient => {

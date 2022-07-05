@@ -16,7 +16,7 @@ import takeRole from "./takeRole";
 export interface Action<ActionPropertyData extends PropertyValue[] = any> {
   name: string;
   description?: string;
-  limit?: number;
+  limitPerFlow?: number;
   properties?: [Property, ...Property[]];
   explanation(properties: ActionPropertyData): string;
   run(data: CountingData, properties: ActionPropertyData): Awaitable<boolean>;

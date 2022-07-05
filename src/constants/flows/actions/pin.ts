@@ -12,7 +12,7 @@ const pin: Action<never> = {
     } else await countingMessage.pin().catch();
     return false;
   },
-  limit: 1,
+  limitPerFlow: 1,
 };
 
 export default pin;

@@ -10,7 +10,8 @@ const command: ChatInputCommand = {
       name: "user",
       description: "The user to modify the score of",
       required: true,
-    }, {
+    },
+    {
       type: ApplicationCommandOptionType.String,
       name: "method",
       description: "The method to use to modify the score",
@@ -20,7 +21,8 @@ const command: ChatInputCommand = {
         { value: "-", name: "Subtract from the score" },
         { value: "=", name: "Set the score" },
       ],
-    }, {
+    },
+    {
       type: ApplicationCommandOptionType.Integer,
       name: "amount",
       description: "The amount to modify the score by",

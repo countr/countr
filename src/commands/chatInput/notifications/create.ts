@@ -17,13 +17,13 @@ const command: ChatInputCommand = {
     const userNotifications = Array.from(countingChannel.notifications.values()).filter(notification => notification.userId === interaction.user.id);
     if (userNotifications.length >= limits.notifications.amount) {
       return void interaction.reply({
-        content: `You can only have up to **${limits.notifications.amount}** notifications at a time.`,
+        content: `❌ You can only have up to **${limits.notifications.amount}** notifications at a time.`,
         ephemeral: true,
       });
     }
 
     void interaction.reply({
-      content: "When do you want to be notified?",
+      content: "🔻 When do you want to be notified?",
       components: [
         {
           type: ComponentType.ActionRow,

@@ -9,7 +9,7 @@ const setCount: Action<[number]> = {
     countingChannel.count.number = number > 0 ? number : 0;
     return true;
   },
-  limit: 1,
+  limitPerFlow: 1,
 };
 
 export default setCount;
