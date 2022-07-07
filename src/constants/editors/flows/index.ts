@@ -1,4 +1,4 @@
-import type { APIEmbed, ActionRowComponentOptions, CommandInteraction, InteractionReplyOptions, InteractionUpdateOptions, Snowflake } from "discord.js";
+import type { APIEmbed, ActionRowComponentOptions, ButtonInteraction, CommandInteraction, InteractionReplyOptions, InteractionUpdateOptions, Snowflake } from "discord.js";
 import { ButtonStyle, ComponentType } from "discord.js";
 import type { CountingChannelSchema, FlowSchema, GuildDocument } from "../../../database/models/Guild";
 import type { Step } from "./steps";
@@ -8,7 +8,7 @@ import { generateId } from "../../../utils/crypto";
 import limits from "../../limits";
 import steps from "./steps";
 
-export function flowEditor(interaction: CommandInteraction<"cached">, document: GuildDocument, countingChannel: CountingChannelSchema, userId: Snowflake, flowId: string = generateId()): void {
+export function flowEditor(interaction: ButtonInteraction<"cached"> | CommandInteraction<"cached">, document: GuildDocument, countingChannel: CountingChannelSchema, userId: Snowflake, flowId: string = generateId()): void {
   // duplicate existing flow so we don't overwrite the original
   const existingFlow = countingChannel.flows.get(flowId);
   const flow: FlowSchema = {
