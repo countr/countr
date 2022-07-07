@@ -1,6 +1,6 @@
 import { ButtonStyle, ComponentType } from "discord.js";
 import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
-import type { InteractionReplyOptions, InteractionUpdateOptions, SelectMenuInteraction } from "discord.js";
+import type { InteractionReplyOptions, InteractionUpdateOptions, SelectMenuInteraction, Snowflake } from "discord.js";
 import type { ChatInputCommand } from ".";
 import { components } from "../../handlers/interactions/components";
 import config from "../../config";
@@ -13,18 +13,18 @@ const command: ChatInputCommand = {
   considerDefaultPermission: false,
   requireSelectedCountingChannel: true,
   execute(interaction, ephemeral, document, [, countingChannel]) {
-    return void interaction.reply(moduleListOverview(ephemeral, document, countingChannel, interaction.id));
+    return void interaction.reply(moduleListOverview(ephemeral, document, countingChannel, interaction.id, interaction.user.id));
   },
 };
 
 export default { ...command } as ChatInputCommand;
 
-function moduleListOverview(ephemeral: boolean, document: GuildDocument, countingChannel: CountingChannelSchema, uniqueId: string): InteractionReplyOptions & InteractionUpdateOptions {
+function moduleListOverview(ephemeral: boolean, document: GuildDocument, countingChannel: CountingChannelSchema, uniqueId: string, userId: Snowflake): InteractionReplyOptions & InteractionUpdateOptions {
   components.set(`${uniqueId}:module`, {
     type: "SELECT_MENU",
-    allowedUsers: "creator",
+    allowedUsers: [userId],
     callback(interaction) {
-      return void interaction.update(moduleDetails(interaction, ephemeral, document, countingChannel, interaction.id));
+      return void interaction.update(moduleDetails(interaction, ephemeral, document, countingChannel, interaction.id, userId));
     },
   });
 
@@ -63,13 +63,13 @@ function moduleListOverview(ephemeral: boolean, document: GuildDocument, countin
   };
 }
 
-function moduleDetails(interaction: SelectMenuInteraction, ephemeral: boolean, document: GuildDocument, countingChannel: CountingChannelSchema, uniqueId: string): InteractionReplyOptions & InteractionUpdateOptions {
+function moduleDetails(interaction: SelectMenuInteraction, ephemeral: boolean, document: GuildDocument, countingChannel: CountingChannelSchema, uniqueId: string, userId: Snowflake): InteractionReplyOptions & InteractionUpdateOptions {
   const [name] = interaction.values as [keyof typeof modules];
   const { incompatible } = modules[name];
 
   components.set(`${uniqueId}:enable`, {
     type: "BUTTON",
-    allowedUsers: "creator",
+    allowedUsers: [interaction.user.id],
     callback(button) {
       if (incompatible?.some(module => countingChannel.modules.includes(module))) {
         return void button.reply({
@@ -87,7 +87,7 @@ function moduleDetails(interaction: SelectMenuInteraction, ephemeral: boolean, d
 
   components.set(`${uniqueId}:disable`, {
     type: "BUTTON",
-    allowedUsers: "creator",
+    allowedUsers: [interaction.user.id],
     callback(button) {
       countingChannel.modules = countingChannel.modules.filter(module => module !== name);
       document.safeSave();
@@ -98,9 +98,9 @@ function moduleDetails(interaction: SelectMenuInteraction, ephemeral: boolean, d
 
   components.set(`${uniqueId}:back`, {
     type: "BUTTON",
-    allowedUsers: "creator",
+    allowedUsers: [interaction.user.id],
     callback(button) {
-      return void button.update(moduleListOverview(ephemeral, document, countingChannel, button.id));
+      return void button.update(moduleListOverview(ephemeral, document, countingChannel, button.id, userId));
     },
   });
 

@@ -11,7 +11,7 @@ interface ButtonComponentDetails {
 }
 
 type ComponentInteractionDetails = {
-  allowedUsers: "all" | "creator" | [Snowflake, ...Snowflake[]];
+  allowedUsers: "all" | [Snowflake, ...Snowflake[]];
   garbageCollect?: Date | false;
 } & (ButtonComponentDetails | SelectMenuComponentDetails);
 
@@ -21,11 +21,7 @@ export default function componentHandler(interaction: ButtonInteraction<"cached"
   const component = components.get(interaction.customId);
   if (!component) return;
 
-  if (component.allowedUsers !== "all") {
-    if (component.allowedUsers === "creator" && interaction.user.id !== interaction.message.interaction?.user.id) return;
-    if (Array.isArray(component.allowedUsers) && !component.allowedUsers.includes(interaction.user.id)) return;
-  }
-
+  if (component.allowedUsers !== "all" && !component.allowedUsers.includes(interaction.user.id)) return;
   void component.callback(interaction as never);
 }
 

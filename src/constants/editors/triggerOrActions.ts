@@ -77,7 +77,7 @@ export function editTriggerOrAction<T extends "action" | "trigger">(triggerOrAct
 
     components.set(`${interaction.id}:edit_property`, {
       type: "SELECT_MENU",
-      allowedUsers: "creator",
+      allowedUsers: [interaction.user.id],
       async callback(select) {
         const i = parseInt(select.values[0]!, 10);
         const property = properties![i]!;
@@ -90,7 +90,7 @@ export function editTriggerOrAction<T extends "action" | "trigger">(triggerOrAct
 
     components.set(`${interaction.id}:done`, {
       type: "BUTTON",
-      allowedUsers: "creator",
+      allowedUsers: [interaction.user.id],
       callback(button) {
         return resolve(button);
       },
@@ -98,7 +98,7 @@ export function editTriggerOrAction<T extends "action" | "trigger">(triggerOrAct
 
     components.set(`${interaction.id}:delete`, {
       type: "BUTTON",
-      allowedUsers: "creator",
+      allowedUsers: [interaction.user.id],
       callback(button) {
         flow[`${triggerOrAction}s`] = (flow[`${triggerOrAction}s`] as never[]).filter((_, i) => i !== flowOptionIndex);
         return resolve(button);

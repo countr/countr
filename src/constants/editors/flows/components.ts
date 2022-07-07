@@ -101,7 +101,7 @@ export function getTriggerOrActionComponents(triggerOrAction: "action" | "trigge
 
           components.set(`${select.id}:selected`, {
             type: "SELECT_MENU",
-            allowedUsers: "creator",
+            allowedUsers: [select.user.id],
             async callback(selected) {
               const [type] = selected.values as [keyof typeof allOptions];
               const option = allOptions[type] as Action | Trigger;
@@ -126,7 +126,7 @@ export function getTriggerOrActionComponents(triggerOrAction: "action" | "trigge
 
           components.set(`${select.id}:cancel`, {
             type: "BUTTON",
-            allowedUsers: "creator",
+            allowedUsers: [select.user.id],
             callback(button) {
               return void button.update(designNewMessage());
             },
