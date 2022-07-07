@@ -13,3 +13,7 @@ export function formatListToHuman(list: string[]): string {
   // join list with ", " and add "and" before last item
   return list.slice(0, -1).join(", ") + (list.length > 1 ? `, and ${list[list.length - 1]!}` : "");
 }
+
+export function handlePlural(amount: number, name: string): string {
+  return amount === 1 ? `${amount} ${name}` : `${amount} ${name}s`;
+}
