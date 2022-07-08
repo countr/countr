@@ -37,7 +37,7 @@
     "helmet": "^5.1.0",
     "match-sorter": "^6.3.1",
     "mathjs": "^10.6.4",
-    "mongoose": "^6.4.3",
+    "mongoose": "^6.4.4",
     "morgan": "^1.10.0",
     "ordinal": "^1.0.3",
     "superagent": "^8.0.0",
