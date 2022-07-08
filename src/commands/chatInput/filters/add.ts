@@ -19,7 +19,7 @@ const command: ChatInputCommand = {
 
     if (countingChannel.filters.includes(input)) {
       return void interaction.reply({
-        content: `❌ Filter \`${input}\` already exists.`,
+        content: `❌ Filter ${await regex.format(input, interaction.guild)} already exists.`,
         ephemeral,
       });
     }
@@ -34,7 +34,7 @@ const command: ChatInputCommand = {
     countingChannel.filters.push(input);
     document.safeSave();
 
-    return void interaction.reply({ content: `✅ Added filter \`${await regex.format(input, interaction.guild)}\`.`, ephemeral });
+    return void interaction.reply({ content: `✅ Added filter ${await regex.format(input, interaction.guild)}.`, ephemeral });
   },
 };
 

@@ -1,4 +1,4 @@
-import { ButtonStyle, ComponentType } from "discord.js";
+import { ButtonStyle, ComponentType, escapeMarkdown } from "discord.js";
 import type { CountingChannelSchema, GuildDocument } from "../../../database/models/Guild";
 import type { InteractionReplyOptions, InteractionUpdateOptions, Snowflake } from "discord.js";
 import type { ChatInputCommand } from "..";
@@ -36,7 +36,7 @@ function refreshList(document: GuildDocument, [countingChannelId, countingChanne
   const message: InteractionReplyOptions & InteractionUpdateOptions = {
     content: `📝 Showing flows **${page * embedsPerMessage + 1}-${page * embedsPerMessage + flowsInPage.length}** (${flows.length} total flows) for channel <#${countingChannelId}>`,
     embeds: flowsInPage.map(([flowId, flow]) => ({
-      title: `${flow.name ? `${flow.name} (${flowId})` : `\`${flowId}\``} ${flow.disabled ? "(disabled)" : ""}`,
+      title: `${flow.name ? `${escapeMarkdown(flow.name)} (${flowId})` : `\`${flowId}\``} ${flow.disabled ? "(disabled)" : ""}`,
       color: parseInt(flowId, 16),
       description: `This flow contains **${handlePlural(flow.triggers.length, "trigger")}** and **${handlePlural(flow.actions.length, "action")}**.`,
     })),
@@ -74,7 +74,7 @@ function refreshList(document: GuildDocument, [countingChannelId, countingChanne
         content: null,
         embeds: [
           {
-            title: `${flow.name ? `${flow.name} (${flowId})` : `\`${flowId}\``} ${flow.disabled ? "(disabled)" : ""}`,
+            title: `${flow.name ? `${escapeMarkdown(flow.name)} (${flowId})` : `\`${flowId}\``} ${flow.disabled ? "(disabled)" : ""}`,
             color: parseInt(flowId, 16),
           },
           {

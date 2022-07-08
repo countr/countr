@@ -3,6 +3,8 @@ import { DebugCommandLevel, quickResponses } from "../commands/mention";
 import type { Message, MessageEditOptions, MessageOptions, Snowflake } from "discord.js";
 import type { MentionCommand } from "../commands/mention";
 import config from "../config";
+import { escapeInlineCode } from "discord.js";
+import { fitText } from "../utils/text";
 import { inspect } from "util";
 import { join } from "path";
 import { mainLogger } from "../utils/logger/main";
@@ -35,7 +37,7 @@ async function handleCommand(message: Message & Message<true>, document: GuildDo
   const command = commands.get(commandName);
   const inCountingChannel = document.channels.has(message.channelId);
 
-  if (!command) return reply(`❓ Command \`${commandName}\` not found.`, message, existingReply).then(newReply => [message, newReply]);
+  if (!command) return reply(`❓ Command \`${escapeInlineCode(fitText(commandName, 20))}\` not found.`, message, existingReply).then(newReply => [message, newReply]);
   if (inCountingChannel && command.disableInCountingChannel) return reply(`❓ Command \`${commandName}\` is disabled in counting channels. Try this in another channel.`, message, existingReply).then(newReply => [message, newReply]);
 
   if (

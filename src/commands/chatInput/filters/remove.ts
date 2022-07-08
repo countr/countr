@@ -1,5 +1,6 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import type { ChatInputCommand } from "..";
+import regex from "../../../constants/properties/regex";
 
 const command: ChatInputCommand = {
   description: "Remove a regex filter",
@@ -22,12 +23,12 @@ const command: ChatInputCommand = {
     },
   },
   requireSelectedCountingChannel: true,
-  execute(interaction, ephemeral, document, [, countingChannel]) {
+  async execute(interaction, ephemeral, document, [, countingChannel]) {
     const input = interaction.options.getString("regex", true);
 
     if (!countingChannel.filters.includes(input)) {
       return void interaction.reply({
-        content: `❌ Filter \`${input}\` doesn't exist.`,
+        content: `❌ Filter ${await regex.format(input, interaction.guild)} doesn't exist.`,
         ephemeral,
       });
     }
@@ -35,7 +36,7 @@ const command: ChatInputCommand = {
     countingChannel.filters.splice(countingChannel.filters.indexOf(input), 1);
     document.safeSave();
 
-    return void interaction.reply({ content: `✅ Added filter \`${input}\`.`, ephemeral });
+    return void interaction.reply({ content: `✅ Added filter ${await regex.format(input, interaction.guild)}.`, ephemeral });
   },
 };
 

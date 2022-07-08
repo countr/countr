@@ -11,7 +11,7 @@ const command: ChatInputCommand = {
         content: `📋 Regex filters for channel <#${countingChannelId}>:\n${(
           await Promise.all(
             countingChannel.filters.map(
-              async filter => `• \`${await regex.format(filter, interaction.guild)}\``,
+              async filter => `• ${await regex.format(filter, interaction.guild)}`,
             ),
           )
         ).join("\n")}`,

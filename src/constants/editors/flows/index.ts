@@ -1,5 +1,5 @@
 import type { APIEmbed, ActionRowComponentOptions, ButtonInteraction, CommandInteraction, InteractionReplyOptions, InteractionUpdateOptions, Snowflake } from "discord.js";
-import { ButtonStyle, ComponentType } from "discord.js";
+import { ButtonStyle, ComponentType, escapeMarkdown } from "discord.js";
 import type { CountingChannelSchema, FlowSchema, GuildDocument } from "../../../database/models/Guild";
 import type { Step } from "./steps";
 import { components } from "../../../handlers/interactions/components";
@@ -105,7 +105,7 @@ export function designMessage(stepIndex: number, flow: FlowSchema, flowIdentifie
     content: null,
     embeds: [
       {
-        title: flow.name ? `Editing flow "${flow.name}" (\`${flowIdentifier}\`)` : `Editing flow \`${flowIdentifier}\``,
+        title: flow.name ? `Editing flow "${escapeMarkdown(flow.name)}" (\`${flowIdentifier}\`)` : `Editing flow \`${flowIdentifier}\``,
         color: parseInt(flowIdentifier, 16),
         description: steps.map(({ title }, index) => {
           if (stepIndex === index) return `🌀 **Step ${index + 1}: ${title}**`;
