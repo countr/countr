@@ -29,7 +29,7 @@
     "@typegoose/typegoose": "^9.10.1",
     "ajv": "^8.11.0",
     "bufferutil": "^4.0.6",
-    "discord.js": "^14.0.0-dev.1657239101-e78c9c9",
+    "discord.js": "^14.0.0-dev.1657325401-33ae7df",
     "dotenv": "^16.0.0",
     "erlpack": "github:discord/erlpack",
     "express": "^4.18.1",
