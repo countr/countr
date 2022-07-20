@@ -1,5 +1,5 @@
+import type { APIEmbedField, ButtonInteraction, MessageComponentInteraction, SelectMenuInteraction, Snowflake } from "discord.js";
 import type { ActionDetailsSchema, FlowSchema, TriggerDetailsSchema } from "../../database/models/Guild";
-import type { ButtonInteraction, EmbedFieldData, MessageComponentInteraction, SelectMenuInteraction, Snowflake } from "discord.js";
 import { ButtonStyle, ComponentType } from "discord.js";
 import { capitalizeFirst, fitText } from "../../utils/text";
 import type { Action } from "../flows/actions";
@@ -16,7 +16,7 @@ export function editTriggerOrAction<T extends "action" | "trigger">(triggerOrAct
   const { name, description, properties, explanation } = allOptions[flowOptions.type as keyof typeof allOptions] as Action & Trigger;
 
   return new Promise(resolve => {
-    void Promise.all<EmbedFieldData>(properties?.map(async (property, i) => ({
+    void Promise.all<APIEmbedField>(properties?.map(async (property, i) => ({
       name: `• Property ${i + 1}: ${property.name}`,
       value: await property.format(flowOptions.data[i], interaction.guild),
     })) ?? []).then(fields => interaction.update({

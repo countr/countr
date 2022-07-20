@@ -1,6 +1,6 @@
-import type { GuildMember, Webhook } from "discord.js";
-import { Message, TextChannel } from "discord.js";
+import type { GuildMember, Message, Webhook } from "discord.js";
 import type { CountingChannelAllowedChannelType } from "../../../constants/discord";
+import { TextChannel } from "discord.js";
 
 const webhookCache = new Map<TextChannel, Webhook>();
 
@@ -17,7 +17,7 @@ export default async function repostWithWebhook(message: Message & Message<true>
     webhookCache.set(textChannel, webhook);
   }
 
-  const webhookMessage = await webhook.send({
+  return webhook.send({
     content: message.content,
     username: member.displayName,
     avatarURL: member.avatarURL({ forceStatic: false, size: 64 }) ?? member.user.defaultAvatarURL,
@@ -29,6 +29,4 @@ export default async function repostWithWebhook(message: Message & Message<true>
     webhookCache.delete(textChannel);
     return repostWithWebhook(message, member, true);
   });
-
-  return webhookMessage instanceof Message ? webhookMessage : channel.messages.fetch(webhookMessage.id).catch(() => message);
 }
