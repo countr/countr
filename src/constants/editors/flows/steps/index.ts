@@ -1,4 +1,4 @@
-import type { EmbedFieldData, Snowflake } from "discord.js";
+import type { APIEmbedField, Snowflake } from "discord.js";
 import type { FlowEditorComponent } from "../components";
 import type { FlowSchema } from "../../../../database/models/Guild";
 import step1Welcome from "./step1Welcome";
@@ -10,7 +10,7 @@ export interface Step {
   title: string;
   description: string;
   skipIfExists?: true;
-  fields?(flow: FlowSchema): EmbedFieldData[];
+  fields?(flow: FlowSchema): APIEmbedField[];
   components?(flow: FlowSchema, userId: Snowflake): Array<[FlowEditorComponent, ...FlowEditorComponent[]]>;
   getStatus(flow: FlowSchema): "complete" | "incomplete";
 }
