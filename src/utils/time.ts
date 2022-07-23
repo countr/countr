@@ -1,3 +1,5 @@
+import { formatListToHuman } from "./text";
+
 // https://stackoverflow.com/a/6117889
 export function getWeek(date = new Date()): number {
   const dateNoTime = new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -14,7 +16,7 @@ export function getDateTimestamp(date = new Date()): number {
 }
 
 // https://stackoverflow.com/a/19700358
-export function msToHumanTime(ms: number): string {
+export function msToHumanShortTime(ms: number): string {
   const days = Math.floor(ms / 86400000);
   const daysMs = ms % 86400000;
   const hours = Math.floor(daysMs / 3600000);
@@ -29,6 +31,23 @@ export function msToHumanTime(ms: number): string {
   if (minutes) str += `${minutes}m`;
   if (seconds) str += `${seconds}s`;
   return str || "0s";
+}
+
+export function msToHumanTime(ms: number): string {
+  const days = Math.floor(ms / 86400000);
+  const daysMs = ms % 86400000;
+  const hours = Math.floor(daysMs / 3600000);
+  const hoursMs = daysMs % 3600000;
+  const minutes = Math.floor(hoursMs / 60000);
+  const minutesMs = hoursMs % 60000;
+  const seconds = Math.floor(minutesMs / 1000);
+
+  const str = [];
+  if (days) str.push(`${days} days`);
+  if (hours) str.push(`${hours} hours`);
+  if (minutes) str.push(`${minutes} minutes`);
+  if (seconds) str.push(`${seconds} seconds`);
+  return formatListToHuman(str) || "0 seconds";
 }
 
 export function msToHumanSeconds(ms: number): string {

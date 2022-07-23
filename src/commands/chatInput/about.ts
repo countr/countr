@@ -6,7 +6,7 @@ import { bytesToHumanReadable } from "../../utils/human";
 import config from "../../config";
 import { version as djsVersion } from "discord.js";
 import { getAllStats } from "../../utils/cluster";
-import { msToHumanTime } from "../../utils/time";
+import { msToHumanShortTime } from "../../utils/time";
 
 const platform = `${type()} ${fitText(release(), 20)}`;
 
@@ -48,7 +48,7 @@ const command: ChatInputCommand = {
                 `**Guilds:** \`${interaction.client.guilds.cache.size.toLocaleString()}\``,
                 `**Users:** \`${interaction.client.guilds.cache.reduce((a, b) => a + b.memberCount, 0).toLocaleString()}\``,
                 `**Memory:** \`${bytesToHumanReadable(thisCluster.clusterMemory)}\``,
-                `**Uptime:** \`${msToHumanTime(process.uptime() * 1000)}\``,
+                `**Uptime:** \`${msToHumanShortTime(process.uptime() * 1000)}\``,
               ].join("\n"),
               inline: true,
             },
