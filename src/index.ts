@@ -9,6 +9,7 @@ import countingHandler from "./handlers/counting";
 import { discordLogger } from "./utils/logger/discord";
 import handleAccess from "./handlers/access";
 import handleInteractions from "./handlers/interactions";
+import handleLiveboard from "./handlers/liveboard";
 import { initializeWebsocket } from "./utils/cluster";
 import { inspect } from "util";
 import { inviteUrl } from "./constants/links";
@@ -70,14 +71,10 @@ client.once("ready", async trueClient => {
     disabledGuilds = new Set();
   } else mainLogger.warn(`Add the bot with this link: ${inviteUrl(trueClient)}`);
 
-  // premium
-  if (config.isPremium) {
-    // liveboard
-  }
-
   // client handlers
   handleAccess(trueClient);
   handleInteractions(trueClient);
+  handleLiveboard(trueClient);
 });
 
 client.on("messageCreate", async message => {
