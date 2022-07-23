@@ -18,6 +18,14 @@ export const countingChannelAllowedChannelTypes = [
   ...countingChannelThreadChannels,
 ] as const;
 
+export const textBasedChannelTypes = [
+  ChannelType.GuildNews,
+  ChannelType.GuildNewsThread,
+  ChannelType.GuildPrivateThread,
+  ChannelType.GuildPublicThread,
+  ChannelType.GuildText,
+  ChannelType.GuildVoice,
+] as const;
 
 // messages
 export const messageFetchLimit = 100;
