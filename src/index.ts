@@ -75,9 +75,9 @@ client.once("ready", async trueClient => {
     // liveboard
   }
 
-  // interactions handler
-  void handleInteractions(trueClient);
+  // client handlers
   handleAccess(trueClient);
+  handleInteractions(trueClient);
 });
 
 client.on("messageCreate", async message => {

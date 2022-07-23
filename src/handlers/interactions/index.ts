@@ -12,13 +12,13 @@ import { join } from "path";
 import modalHandler from "./modals";
 import { readdir } from "fs/promises";
 
-export default async function handleInteractions(client: Client<true>): Promise<void> {
+export default function handleInteractions(client: Client<true>): void {
   const commands = config.guild ? client.guilds.cache.get(config.guild)!.commands : client.application.commands;
   if (config.cluster.shards.includes(0)) {
-    await commands.set([
-      ...await nestCommands("../../commands/chatInput", "CHAT_INPUT"),
-      ...await nestCommands("../../commands/menu", "MENU"),
-    ]);
+    void Promise.all([
+      nestCommands("../../commands/chatInput", "CHAT_INPUT"),
+      nestCommands("../../commands/menu", "MENU"),
+    ]).then(([chatInputCommands, contextMenuCommands]) => commands.set([...chatInputCommands, ...contextMenuCommands]));
   }
 
   client.on("interactionCreate", async interaction => {
