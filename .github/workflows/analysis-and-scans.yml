@@ -16,16 +16,16 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e # tag=v2
 
     - name: Initialize
-      uses: github/codeql-action/init@v1
+      uses: github/codeql-action/init@f7b6c0021b777684992d895a563fc3a0e425783a # tag=v1
 
     - name: Autobuild
-      uses: github/codeql-action/autobuild@v1
+      uses: github/codeql-action/autobuild@f7b6c0021b777684992d895a563fc3a0e425783a # tag=v1
 
     - name: Perform analysis and upload results
-      uses: github/codeql-action/analyze@v1
+      uses: github/codeql-action/analyze@f7b6c0021b777684992d895a563fc3a0e425783a # tag=v1
 
   njsscan:
     name: NJS Scan
@@ -33,7 +33,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e # tag=v2
 
     - name: Perform scan
       uses: ajinabraham/njsscan-action@master
@@ -41,7 +41,7 @@ jobs:
         args: '. --sarif --output results.sarif || true'
 
     - name: Upload results
-      uses: github/codeql-action/upload-sarif@v1
+      uses: github/codeql-action/upload-sarif@f7b6c0021b777684992d895a563fc3a0e425783a # tag=v1
       with:
         sarif_file: results.sarif
 
@@ -51,13 +51,13 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e # tag=v2
 
     - name: Perform analysis
       uses: github/ossar-action@v1
       id: analysis
 
     - name: Upload results
-      uses: github/codeql-action/upload-sarif@v1
+      uses: github/codeql-action/upload-sarif@f7b6c0021b777684992d895a563fc3a0e425783a # tag=v1
       with:
         sarif_file: ${{ steps.analysis.outputs.sarifFile }}
