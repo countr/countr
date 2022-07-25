@@ -4,7 +4,7 @@ import { format } from "winston";
 export const globalFormat = format.combine(
   format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
   format.align(),
-  format.printf(({ level, timestamp, message }) => `${String(timestamp)} ${level}: ${message}`),
+  format.printf(({ level, timestamp, message }) => `${String(timestamp)} ${level}: ${String(message)}`),
 );
 
 export function createFileTransports(name: string, levels: string[]): DailyRotateFile[] {
