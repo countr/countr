@@ -36,7 +36,7 @@
     "express-rate-limit": "6.5.1",
     "helmet": "5.1.1",
     "match-sorter": "6.3.1",
-    "mathjs": "10.6.4",
+    "mathjs": "11.0.1",
     "mongoose": "6.4.6",
     "morgan": "1.10.0",
     "ordinal": "1.0.3",
