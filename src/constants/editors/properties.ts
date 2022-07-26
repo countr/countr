@@ -56,7 +56,7 @@ export async function promptProperty<T extends Property<any, any>, U = T extends
   const formatted = await property.format(converted, interaction.guild);
   return new Promise(resolve => {
     reply(newInteraction, interaction, {
-      content: `➿ Does this look right?\n> ${formatted}`,
+      content: `➿ Does this look right?\n>>> ${formatted}`,
       components: [
         {
           type: ComponentType.ActionRow,

@@ -43,8 +43,8 @@ const step: Step = {
           const [result, interaction] = await inputHandler(button, name);
 
           if (result) flow.name = result;
-          await interaction.reply(designMessage());
-          return void button.message.delete();
+          void interaction.deferReply().then(() => void interaction.deleteReply());
+          return void button.message.edit(designMessage());
         },
       },
       {
