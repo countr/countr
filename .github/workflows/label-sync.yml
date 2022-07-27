@@ -3,7 +3,7 @@ name: Label sync
 on:
   push:
     branches:
-      - main
+      - djs-14
     paths:
       - './github/labels.yml'
   workflow_dispatch:
