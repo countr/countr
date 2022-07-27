@@ -1,0 +1,18 @@
+# GitHub
+
+repository:
+- "*"
+- ".github/**/*"
+- ".docker/**/*"
+
+
+# countr/countr
+
+countr:
+- any: [
+    "src/**/*",
+    "!src/utils/cluster/manager/**/*"
+  ]
+
+manager:
+- "src/utils/cluster/manager/**/*"

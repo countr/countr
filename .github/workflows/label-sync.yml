@@ -1,0 +1,23 @@
+name: Label sync
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - './github/labels.yml'
+  workflow_dispatch:
+
+jobs:
+  label-sync:
+    name: Sync labels with labels.yml
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
+
+    - name: Label sync
+      uses: crazy-max/ghaction-github-labeler@v4
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
