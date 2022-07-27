@@ -46,9 +46,9 @@
 
 # countr/countr
 
-- name: "bot"
+- name: "countr"
   color: "BFD4F2"
-  description: "Improves or adds to the bot"
+  description: "Improves or adds to Countr's main core code"
 
 - name: "manager"
   color: "BFDADC"
