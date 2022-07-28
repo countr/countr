@@ -15,6 +15,8 @@ Go to the [`djs-12`](https://github.com/countr/countr/tree/djs-12)-branch for a 
 
 Countr is an advanced counting bot which can manage a counting channel in your guild. With a simple setup, your channel is ready.
 
+Read more about Countr on our [website](https://countr.xyz)
+
 ## Suggestions, bugs, feature requests
 
 Want to contribute? Great, we love that! Please take your time on [opening a new issue](https://github.com/countr/countr/issues/new).
