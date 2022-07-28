@@ -14,7 +14,7 @@ const command: MentionCommand = {
       content: `💾 Guild data for server ${guildId} as of <t:${Math.floor(now / 1000)}:R>.`,
       files: [{ attachment: Buffer.from(data), name: `Countr-Dump-${guildId}-${now}.json` }],
     })
-      .then((msg) => reply(`
+      .then(msg => reply(`
         📨 Guild data of ${guildId === message.guildId ? "this server" : `server with ID \`${guildId}\``} has been dumped to your DMs.
         [Jump to Message](${msg.url})
       `))
