@@ -16,7 +16,7 @@ const command: MentionCommand = {
     })
       .then(msg => reply(`
         📨 Guild data of ${guildId === message.guildId ? "this server" : `server with ID \`${guildId}\``} has been dumped to your DMs.
-        [Jump to Message](${msg.url})
+        > ${msg.url}
       `))
       .catch(() => reply("❌ Something went wrong while trying to send you the data in DMs."));
   },
