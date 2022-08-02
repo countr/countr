@@ -24,8 +24,7 @@ export default function handleLiveboard(client: Client<true>): void {
                   {
                     author: {
                       name: `${guild.name} Scoreboard`,
-                      // eslint-disable-next-line camelcase
-                      icon_url:
+                      icon_url: // eslint-disable-line camelcase
                           guild.iconURL({ size: 128 }) ??
                           guild.members.me?.avatarURL({ size: 128 }) ??
                           client.user.avatarURL({ size: 128 }) ??

@@ -12,7 +12,7 @@ import setCount from "./setCount";
 import setScore from "./setScore";
 import takeRole from "./takeRole";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface Action<ActionPropertyData extends PropertyValue[] = any> {
   name: string;
   description?: string;
@@ -21,7 +21,6 @@ export interface Action<ActionPropertyData extends PropertyValue[] = any> {
   explanation(properties: ActionPropertyData): string;
   run(data: CountingData, properties: ActionPropertyData): Awaitable<boolean>;
 }
-/* eslint-enable @typescript-eslint/no-explicit-any */
 
 // ordered in the way they appear when the user configures them
 export default {

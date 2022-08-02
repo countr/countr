@@ -129,7 +129,6 @@ export function designMessage(stepIndex: number, flow: FlowSchema, flowIdentifie
               },
             });
 
-            // eslint-disable-next-line camelcase
             return { ...component, customId };
           }),
         })) :

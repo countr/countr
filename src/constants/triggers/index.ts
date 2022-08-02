@@ -10,7 +10,7 @@ import score from "./score";
 import scoreGreater from "./scoreGreater";
 import timeout from "./timeout";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface Trigger<TriggerPropertyData extends PropertyValue[] = PropertyValue[]> {
   name: string;
   description?: string;
@@ -20,7 +20,6 @@ export interface Trigger<TriggerPropertyData extends PropertyValue[] = PropertyV
   explanation(properties: TriggerPropertyData): string;
   check?(data: CountingData, properties: TriggerPropertyData): Awaitable<boolean>;
 }
-/* eslint-enable @typescript-eslint/no-explicit-any */
 
 // ordered in the way they appear when the user configures them
 export default {

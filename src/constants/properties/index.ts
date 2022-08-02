@@ -12,7 +12,7 @@ import text from "./text";
 
 export type PropertyValue = PropertyValue[] | number | string;
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface Property<T extends PropertyValue = any, U extends PropertyValue = T> {
   name: string;
   description?: string;
@@ -21,6 +21,5 @@ export interface Property<T extends PropertyValue = any, U extends PropertyValue
   convert(userInput: U, guild: Guild): Awaitable<T | null>;
   format(converted: T, guild: Guild): Awaitable<string>;
 }
-/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export default { anyNumber, channel, numberPositive, numberPositiveOrNegative, numberPositiveOrZero, regex, roles, text } as const;
