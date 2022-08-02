@@ -34,7 +34,7 @@ const command: ChatInputCommand = {
               name: "💠 Host",
               value: [
                 `**OS:** \`${platform}\``,
-                `**Library:** \`discord.js^${fitText(djsVersion, "xx.x.x-dev".length, false)}\`[*](https://www.npmjs.com/package/discord.js/v/${djsVersion})`,
+                `**Library:** \`discord.js^${fitText(djsVersion, "xx.x.x-dev".length, false)}\``,
                 `**Clusters:** \`${allClusters.length.toLocaleString()}\``,
                 `**Shards:** \`${allClusters.reduce((a, b) => a + b.clusterShards.length, 0).toLocaleString()}/${config.cluster.shardCount.toLocaleString()}\``,
                 `**Memory:** \`${bytesToHumanReadable(allClusters.reduce((a, b) => a + b.clusterMemory, 0))}\``,
