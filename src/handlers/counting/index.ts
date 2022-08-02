@@ -3,13 +3,13 @@ import type { GuildMember, Message } from "discord.js";
 import { bulkDeleteDelay, messagesPerBulkDeletion } from "../../constants/discord";
 import { handleFlows, handleFlowsOnFail } from "./flows";
 import type { CountingChannelAllowedChannelType } from "../../constants/discord";
+import { addToCount } from "../../utils/cluster";
 import checkBypass from "./bypass";
 import checkRegex from "./regex";
 import { handleNotifications } from "./notifications";
 import { handleTimeouts } from "./timeouts";
 import numberSystems from "../../constants/numberSystems";
 import repostMessage from "./repost";
-import { addToCount } from "../../utils/cluster";
 
 export interface CountingData {
   channel: CountingChannelAllowedChannelType;
