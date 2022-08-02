@@ -1,26 +1,27 @@
 import { defaultExpirationValue, selectedCountingChannels } from "../../constants/selectedCountingChannel";
 import { ApplicationCommandOptionType } from "discord.js";
 import type { ChatInputCommand } from ".";
-import { countingChannelAllowedChannelTypes } from "../../constants/discord";
+import countingChannels from "../../constants/autocompletes/countingChannels";
 
 const command: ChatInputCommand = {
   description: "Select a counting channel to interact with",
   options: [
     {
+      type: ApplicationCommandOptionType.String,
       name: "channel",
-      type: ApplicationCommandOptionType.Channel,
-      description: "The channel you want to select",
-      channelTypes: [...countingChannelAllowedChannelTypes],
+      description: "The counting channel you want to unlink",
       required: true,
+      autocomplete: true,
     },
   ],
+  autocompletes: { channel: countingChannels },
   considerDefaultPermission: true,
   execute(interaction, _, document) {
-    const channel = interaction.options.getChannel("channel", true);
-    if (!document.channels.has(channel.id)) return void interaction.reply({ content: "❌ This channel isn't a configured counting channel.", ephemeral: true });
+    const channel = interaction.options.getString("channel", true);
+    if (!document.channels.has(channel)) return void interaction.reply({ content: "❌ This channel isn't a configured counting channel.", ephemeral: true });
 
-    selectedCountingChannels.set(interaction.user.id, { channel: channel.id, expires: new Date(Date.now() + defaultExpirationValue) });
-    return void interaction.reply({ content: `✅ You have selected <#${channel.id}> as your counting channel.`, ephemeral: true });
+    selectedCountingChannels.set(interaction.user.id, { channel, expires: new Date(Date.now() + defaultExpirationValue) });
+    return void interaction.reply({ content: `✅ You have selected <#${channel}> as your counting channel.`, ephemeral: true });
   },
 };
 
