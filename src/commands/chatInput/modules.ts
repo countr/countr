@@ -81,7 +81,7 @@ function moduleDetails(interaction: SelectMenuInteraction, ephemeral: boolean, d
       countingChannel.modules.push(name);
       document.safeSave();
 
-      return void button.update(generateModuleMenuReply(name, countingChannel, button.id));
+      return void button.update(generateModuleMenuReply(name, countingChannel, uniqueId));
     },
   });
 
@@ -92,7 +92,7 @@ function moduleDetails(interaction: SelectMenuInteraction, ephemeral: boolean, d
       countingChannel.modules = countingChannel.modules.filter(module => module !== name);
       document.safeSave();
 
-      return void button.update(generateModuleMenuReply(name, countingChannel, button.id));
+      return void button.update(generateModuleMenuReply(name, countingChannel, uniqueId));
     },
   });
 

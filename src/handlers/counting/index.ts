@@ -9,6 +9,7 @@ import { handleNotifications } from "./notifications";
 import { handleTimeouts } from "./timeouts";
 import numberSystems from "../../constants/numberSystems";
 import repostMessage from "./repost";
+import { addToCount } from "../../utils/cluster";
 
 export interface CountingData {
   channel: CountingChannelAllowedChannelType;
@@ -57,6 +58,8 @@ export default async function countingHandler(message: Message & Message<true>, 
     userId: message.author.id,
     messageId: message.id,
   };
+  countingChannel.scores.set(message.author.id, (countingChannel.scores.get(message.author.id) ?? 0) + 1);
+  addToCount(1);
 
   // step 5, repost if configured to do so
   const countingMessage = await repostMessage(message, member, countingChannel);

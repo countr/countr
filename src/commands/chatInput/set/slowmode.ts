@@ -2,7 +2,7 @@ import { ApplicationCommandOptionType } from "discord.js";
 import type { ChatInputCommand } from "..";
 
 const command: ChatInputCommand = {
-  description: "Set the slowmode",
+  description: "Set the channel slowmode",
   considerDefaultPermission: false,
   options: [
     {

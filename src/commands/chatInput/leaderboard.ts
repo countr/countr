@@ -8,7 +8,7 @@ const command: ChatInputCommand = {
   requireSelectedCountingChannel: true,
   execute(interaction, ephemeral, _, [countingChannelId, countingChannel]) {
     const scores = Array.from(countingChannel.scores.entries());
-    if (!scores.length) return void interaction.reply({ content: `❌ There are no scoreboard to show for <#${countingChannelId}>.`, ephemeral: true });
+    if (!scores.length) return void interaction.reply({ content: `❌ There is no scoreboard to show for <#${countingChannelId}>.`, ephemeral: true });
 
     const serverIcon = interaction.guild.iconURL({ forceStatic: false, size: 64 });
     return void interaction.reply({
