@@ -2,7 +2,6 @@ import type { ChatInputCommand } from "../..";
 
 const command: ChatInputCommand = {
   description: "Export the entire database",
-  considerDefaultPermission: false,
   async execute(interaction, ephemeral, document) {
     const raw = document.toJSON();
 

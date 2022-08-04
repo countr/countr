@@ -3,7 +3,6 @@ import type { Snowflake } from "discord.js";
 
 const command: ChatInputCommand = {
   description: "Prune scores from users that have left your server",
-  considerDefaultPermission: false,
   serverCooldown: 3600,
   requireSelectedCountingChannel: true,
   async execute(interaction, ephemeral, document, [countingChannelId, countingChannel]) {

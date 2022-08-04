@@ -11,7 +11,6 @@ import triggers from "../../../constants/triggers";
 
 const command: ChatInputCommand = {
   description: "Get notified when the server reaches a certain count",
-  considerDefaultPermission: true,
   requireSelectedCountingChannel: true,
   execute(interaction, ephemeral, document, [countingChannelId, countingChannel]) {
     const userNotifications = Array.from(countingChannel.notifications.values()).filter(notification => notification.userId === interaction.user.id);

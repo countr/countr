@@ -2,7 +2,6 @@ import type { ChatInputCommand } from "..";
 
 const command: ChatInputCommand = {
   description: "List all roles that can bypass message deletion",
-  considerDefaultPermission: false,
   requireSelectedCountingChannel: true,
   execute(interaction, ephemeral, _, [countingChannelId, countingChannel]) {
     const roles = countingChannel.bypassableRoles.map(roleId => `<@&${roleId}>`).join(", ");

@@ -1,6 +1,6 @@
 import type { CountingChannelSchema, GuildDocument } from "../database/models/Guild";
-import { DebugCommandLevel, quickResponses } from "../commands/mention";
 import type { Message, MessageEditOptions, MessageOptions, Snowflake } from "discord.js";
+import { DebugCommandLevel } from "../constants/permissions";
 import type { MentionCommand } from "../commands/mention";
 import config from "../config";
 import { escapeInlineCode } from "discord.js";
@@ -9,6 +9,7 @@ import { inspect } from "util";
 import { join } from "path";
 import { mainLogger } from "../utils/logger/main";
 import { queueDelete } from "./counting";
+import { quickResponses } from "../commands/mention";
 import { readdir } from "fs/promises";
 import { selectedCountingChannels } from "../constants/selectedCountingChannel";
 

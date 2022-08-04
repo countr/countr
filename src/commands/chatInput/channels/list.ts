@@ -9,7 +9,6 @@ import { premiumHelpUrl } from "../../../constants/links";
 
 const command: ChatInputCommand = {
   description: "List all configured counting channels",
-  considerDefaultPermission: false,
   async execute(interaction, ephemeral, document) {
     if (!document.channels.size) {
       return void interaction.reply({

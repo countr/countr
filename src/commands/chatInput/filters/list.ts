@@ -3,7 +3,6 @@ import regex from "../../../constants/properties/regex";
 
 const command: ChatInputCommand = {
   description: "List all regex filters",
-  considerDefaultPermission: false,
   requireSelectedCountingChannel: true,
   async execute(interaction, ephemeral, _, [countingChannelId, countingChannel]) {
     if (countingChannel.filters.length) {

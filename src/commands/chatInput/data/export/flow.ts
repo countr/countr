@@ -4,7 +4,6 @@ import flowList from "../../../../constants/autocompletes/flowList";
 
 const command: ChatInputCommand = {
   description: "Export a flow",
-  considerDefaultPermission: false,
   options: [
     {
       type: ApplicationCommandOptionType.String,

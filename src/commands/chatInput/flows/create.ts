@@ -3,7 +3,6 @@ import { flowEditor } from "../../../constants/editors/flows";
 
 const command: ChatInputCommand = {
   description: "Create a new flow",
-  considerDefaultPermission: false,
   disableInCountingChannel: true,
   requireSelectedCountingChannel: true,
   execute(interaction, _, document, [, countingChannel]) {

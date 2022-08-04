@@ -4,7 +4,6 @@ import { createLeaderboard } from "../../constants/scores";
 
 const command: ChatInputCommand = {
   description: "Get the top 25 users of the counting channel",
-  considerDefaultPermission: true,
   requireSelectedCountingChannel: true,
   execute(interaction, ephemeral, _, [countingChannelId, countingChannel]) {
     const scores = Array.from(countingChannel.scores.entries());

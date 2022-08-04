@@ -3,7 +3,6 @@ import { msToHumanShortTime } from "../../utils/time";
 
 const command: ChatInputCommand = {
   description: "Ping the bot",
-  considerDefaultPermission: true,
   async execute(interaction, ephemeral) {
     const now = Date.now();
     await interaction.deferReply({ ephemeral });

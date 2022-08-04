@@ -5,7 +5,6 @@ import flowList from "../../../constants/autocompletes/flowList";
 
 const command: ChatInputCommand = {
   description: "Edit a flow",
-  considerDefaultPermission: false,
   options: [
     {
       type: ApplicationCommandOptionType.String,

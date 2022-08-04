@@ -9,7 +9,6 @@ import triggers from "../../../constants/triggers";
 
 const command: ChatInputCommand = {
   description: "List all your notifications",
-  considerDefaultPermission: true,
   requireSelectedCountingChannel: true,
   execute(interaction, ephemeral, document, countingChannelDetails) {
     return void interaction.reply({ ...refreshList(interaction, ephemeral, document, countingChannelDetails, interaction.id), ephemeral });

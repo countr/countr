@@ -5,7 +5,6 @@ import superagent from "superagent";
 
 const command: ChatInputCommand = {
   description: "Import scores",
-  considerDefaultPermission: false,
   options: [
     {
       type: ApplicationCommandOptionType.Attachment,

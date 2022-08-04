@@ -15,7 +15,6 @@ const command: ChatInputCommand = {
     },
   ],
   autocompletes: { channel: countingChannels },
-  considerDefaultPermission: true,
   execute(interaction, _, document) {
     const channel = interaction.options.getString("channel", true);
     if (!document.channels.has(channel)) return void interaction.reply({ content: "❌ This channel isn't a configured counting channel.", ephemeral: true });

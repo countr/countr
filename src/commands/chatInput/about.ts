@@ -12,7 +12,6 @@ const platform = `${type()} ${fitText(release(), 20)}`;
 
 const command: ChatInputCommand = {
   description: "Get information about Countr",
-  considerDefaultPermission: true,
   execute(interaction, ephemeral) {
     const allStats = getAllStats();
     if (!allStats) return void interaction.reply({ content: "❌ Stats is currently unavailable for this cluster, please try again later.", ephemeral: true });

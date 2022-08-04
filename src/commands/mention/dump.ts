@@ -1,4 +1,4 @@
-import { DebugCommandLevel } from ".";
+import { DebugCommandLevel } from "../../constants/permissions";
 import type { MentionCommand } from ".";
 import { getGuildDocument } from "../../database";
 

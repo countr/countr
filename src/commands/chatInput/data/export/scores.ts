@@ -2,7 +2,6 @@ import type { ChatInputCommand } from "../..";
 
 const command: ChatInputCommand = {
   description: "Export scores",
-  considerDefaultPermission: false,
   requireSelectedCountingChannel: true,
   async execute(interaction, ephemeral, _, [countingChannelId, countingChannel]) {
     const scores = Object.fromEntries(countingChannel.scores.entries());

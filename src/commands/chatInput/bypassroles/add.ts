@@ -3,7 +3,6 @@ import type { ChatInputCommand } from "..";
 
 const command: ChatInputCommand = {
   description: "Add a role that can bypass message deletion",
-  considerDefaultPermission: false,
   options: [
     {
       type: ApplicationCommandOptionType.Role,

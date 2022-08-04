@@ -2,7 +2,6 @@ import type { ChatInputCommand } from "..";
 
 const command: ChatInputCommand = {
   description: "Remove the timeout role",
-  considerDefaultPermission: false,
   requireSelectedCountingChannel: true,
   execute(interaction, ephemeral, document, [countingChannelId, countingChannel]) {
     countingChannel.timeoutRole = null;

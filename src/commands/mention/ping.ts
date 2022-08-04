@@ -1,4 +1,4 @@
-import { DebugCommandLevel } from ".";
+import { DebugCommandLevel } from "../../constants/permissions";
 import type { MentionCommand } from ".";
 import { msToHumanShortTime } from "../../utils/time";
 

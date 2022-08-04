@@ -4,7 +4,6 @@ import { msToHumanTime } from "../../../utils/time";
 
 const command: ChatInputCommand = {
   description: "Set the timeout role",
-  considerDefaultPermission: false,
   options: [
     {
       type: ApplicationCommandOptionType.Role,

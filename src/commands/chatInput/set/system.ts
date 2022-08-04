@@ -4,7 +4,6 @@ import numberSystems from "../../../constants/numberSystems";
 
 const command: ChatInputCommand = {
   description: "Set the counting system",
-  considerDefaultPermission: false,
   options: [
     {
       type: ApplicationCommandOptionType.String,

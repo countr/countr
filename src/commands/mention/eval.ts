@@ -1,5 +1,5 @@
 import { ButtonStyle, ComponentType } from "discord.js";
-import { DebugCommandLevel } from ".";
+import { DebugCommandLevel } from "../../constants/permissions";
 import type { MentionCommand } from ".";
 import type { ReplyOptions } from "../../handlers/mentionCommands";
 import { charactersPerMessage } from "../../constants/discord";

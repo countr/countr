@@ -9,7 +9,6 @@ import numberSystems from "../../../constants/numberSystems";
 
 const command: ChatInputCommand = {
   description: "Link a counting channel to Countr",
-  considerDefaultPermission: false,
   options: [
     {
       type: ApplicationCommandOptionType.Channel,

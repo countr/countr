@@ -5,7 +5,6 @@ import { resetGuildDocument } from "../../../database";
 
 const command: ChatInputCommand = {
   description: "Factory reset the guild",
-  considerDefaultPermission: false,
   execute(interaction) {
     void interaction.reply({
       content: "⚠ Are you sure you want to reset the guild database? This will delete all data and settings. This action cannot be undone.",

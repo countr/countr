@@ -2,7 +2,6 @@ import type { ChatInputCommand } from "..";
 
 const command: ChatInputCommand = {
   description: "Disable the liveboard",
-  considerDefaultPermission: false,
   requireSelectedCountingChannel: true,
   premiumOnly: true,
   execute(interaction, ephemeral, document, [countingChannelId, countingChannel]) {

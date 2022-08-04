@@ -3,7 +3,6 @@ import numberSystems from "../../constants/numberSystems";
 
 const command: ChatInputCommand = {
   description: "Get the current count",
-  considerDefaultPermission: true,
   requireSelectedCountingChannel: true,
   execute(interaction, ephemeral, _, [countingChannelId, countingChannel]) {
     const { format } = numberSystems[countingChannel.type];

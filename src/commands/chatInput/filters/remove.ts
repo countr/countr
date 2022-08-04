@@ -4,7 +4,6 @@ import regex from "../../../constants/properties/regex";
 
 const command: ChatInputCommand = {
   description: "Remove a regex filter",
-  considerDefaultPermission: false,
   options: [
     {
       type: ApplicationCommandOptionType.String,

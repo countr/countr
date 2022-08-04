@@ -11,7 +11,6 @@ import triggers from "../../../constants/triggers";
 
 const command: ChatInputCommand = {
   description: "List all flows",
-  considerDefaultPermission: false,
   disableInCountingChannel: true,
   requireSelectedCountingChannel: true,
   execute(interaction, _, document, countingChannelDetails) {

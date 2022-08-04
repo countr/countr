@@ -10,7 +10,6 @@ import numberSystems from "../../../constants/numberSystems";
 
 const command: ChatInputCommand = {
   description: "Create a new counting channel",
-  considerDefaultPermission: false,
   serverCooldown: 10,
   options: [
     {

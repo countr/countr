@@ -4,7 +4,6 @@ import countingChannels from "../../../constants/autocompletes/countingChannels"
 
 const command: ChatInputCommand = {
   description: "Unlink a counting channel",
-  considerDefaultPermission: false,
   options: [
     {
       type: ApplicationCommandOptionType.String,

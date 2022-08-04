@@ -1,5 +1,6 @@
 import type { ApplicationCommandData, ApplicationCommandSubCommandData, ApplicationCommandSubGroupData, Client } from "discord.js";
 import { ApplicationCommandOptionType, ApplicationCommandType, InteractionType } from "discord.js";
+import { PermissionLevel, permissionLevels } from "../../constants/permissions";
 import type { ChatInputCommand } from "../../commands/chatInput";
 import type { ContextMenuCommand } from "../../commands/menu";
 import autocompleteHandler from "./autocompletes";
@@ -11,6 +12,7 @@ import { getGuildDocument } from "../../database";
 import { join } from "path";
 import modalHandler from "./modals";
 import { readdir } from "fs/promises";
+import { slashCommandPermissions } from "../../commands/chatInput";
 
 export default function handleInteractions(client: Client<true>): void {
   const commands = config.guild ? client.guilds.cache.get(config.guild)!.commands : client.application.commands;
@@ -54,17 +56,20 @@ async function nestCommands(relativePath: string, type: "CHAT_INPUT" | "MENU"): 
         name: fileName.split(".")[0]!,
         type: command.type,
         description: "",
+        defaultMemberPermissions: permissionLevels[command.permissionRequired],
       });
     }
 
     if (type === "CHAT_INPUT") {
       if (fileName.includes(".")) {
         const { default: command } = await import(`${relativePath}/${fileName}`) as { default: ChatInputCommand };
+        const name = fileName.split(".")[0]!;
         arr.push({
-          name: fileName.split(".")[0]!,
+          name,
           type: ApplicationCommandType.ChatInput,
           description: command.description,
           ...command.options && { options: command.options },
+          defaultMemberPermissions: permissionLevels[slashCommandPermissions[name] ?? PermissionLevel.NONE],
         });
       } else {
         const subCommands = await (async function nestSubCommands(relativeSubPath: string) {
@@ -95,6 +100,7 @@ async function nestCommands(relativePath: string, type: "CHAT_INPUT" | "MENU"): 
           type: ApplicationCommandType.ChatInput,
           description: "Sub-command",
           options: subCommands,
+          defaultMemberPermissions: permissionLevels[slashCommandPermissions[fileName] ?? PermissionLevel.NONE],
         });
       }
     }

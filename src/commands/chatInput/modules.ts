@@ -10,7 +10,6 @@ const moduleList = Object.keys(modules) as Array<keyof typeof modules>;
 
 const command: ChatInputCommand = {
   description: "Get a list of modules",
-  considerDefaultPermission: false,
   requireSelectedCountingChannel: true,
   execute(interaction, ephemeral, document, [, countingChannel]) {
     return void interaction.reply(moduleListOverview(ephemeral, document, countingChannel, interaction.id, interaction.user.id));

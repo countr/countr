@@ -3,7 +3,6 @@ import type { ChatInputCommand } from "..";
 
 const command: ChatInputCommand = {
   description: "Modify a user's score",
-  considerDefaultPermission: false,
   options: [
     {
       type: ApplicationCommandOptionType.User,

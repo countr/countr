@@ -5,7 +5,6 @@ import { textBasedChannelTypes } from "../../../constants/discord";
 
 const command: ChatInputCommand = {
   description: "Enable the liveboard",
-  considerDefaultPermission: false,
   options: [
     {
       type: ApplicationCommandOptionType.Channel,

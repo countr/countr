@@ -3,7 +3,6 @@ import type { ChatInputCommand } from "..";
 
 const command: ChatInputCommand = {
   description: "Set the increment",
-  considerDefaultPermission: false,
   options: [
     {
       type: ApplicationCommandOptionType.Integer,
