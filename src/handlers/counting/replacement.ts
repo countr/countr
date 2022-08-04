@@ -5,7 +5,7 @@ export async function replaceUpdatedOrDeletedMessage(message: Message | PartialM
   const ownerId = message.author?.id ?? message.member?.id ?? countingChannel.count.userId ?? null;
   if (ownerId !== countingChannel.count.userId) return;
 
-  const newMessage = await message.channel.send(`<@${ownerId}>: ${message.content ?? countingChannel.count.number}`);
+  const newMessage = await message.channel.send(`*<@${ownerId}>: ${countingChannel.count.number}*`);
   if (countingChannel.count.messageId === message.id) {
     countingChannel.count.messageId = newMessage.id;
     document.safeSave();
