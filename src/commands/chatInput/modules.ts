@@ -59,6 +59,7 @@ function moduleListOverview(ephemeral: boolean, document: GuildDocument, countin
         ],
       },
     ],
+    ephemeral,
   };
 }
 
