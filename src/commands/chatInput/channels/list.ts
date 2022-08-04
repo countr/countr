@@ -27,10 +27,13 @@ const command: ChatInputCommand = {
 
         const channel = interaction.guild.channels.cache.get(countingChannelId);
         if (channel) {
-          const rootChannel = channel.parent as CountingChannelRootChannel | null ?? channel as CountingChannelRootChannel;
+          const rootChannel = channel.isThread() && channel.parent as CountingChannelRootChannel | null || channel as CountingChannelRootChannel;
           const requiredPermissions = [...countingChannelPermissions, ...rootChannel === channel ? [] : countingChannelRootPermissions];
           const currentPermissions = calculatePermissionsForChannel(rootChannel, me);
-          if (!currentPermissions.has(requiredPermissions, true)) errors.push(`Missing permissions${rootChannel === channel ? "" : " in parent channel"}: ${requiredPermissions.map(bigint => Object.entries(PermissionsBitField.Flags).find(([, permission]) => permission === bigint)?.[0]).join(", ")}`);
+          if (!currentPermissions.has(requiredPermissions, true)) {
+            const missingPermissions = requiredPermissions.filter(permission => !currentPermissions.has(permission));
+            errors.push(`Missing permissions${rootChannel === channel ? "" : ` in <#${rootChannel.id}>`}: ${missingPermissions.map(bigint => Object.entries(PermissionsBitField.Flags).find(([, permission]) => permission === bigint)?.[0]).join(", ")}`);
+          }
         } else errors.push("The channel could not be found by the bot");
 
         if (index >= limits.channels.amount) errors.push("This channel exceeds the limit of counting channels you can have");

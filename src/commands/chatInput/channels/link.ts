@@ -49,7 +49,7 @@ const command: ChatInputCommand = {
       });
     }
 
-    const rootChannel = channel.parent as CountingChannelRootChannel | null ?? channel as CountingChannelRootChannel;
+    const rootChannel = channel.isThread() && channel.parent as CountingChannelRootChannel | null || channel as CountingChannelRootChannel;
     if (!([...countingChannelRootChannels] as ChannelType[]).includes(rootChannel.type)) {
       return void interaction.reply({
         content: "❌ You can't link this channel because the parent is not a valid root channel.",
