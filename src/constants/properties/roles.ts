@@ -8,7 +8,7 @@ const roles: Property<Snowflake[]> = {
   description: "Any role or list of roles. Make sure Countr is above the role(s).",
   schema: { type: "array", items: { type: "string", pattern: snowflakeRegex.source }, minItems: 1, uniqueItems: true },
   input: rolesInput,
-  convert: userInput => userInput,
+  convert: userInput => userInput.filter((entry, index, arr) => arr.indexOf(entry) === index),
   format: roleIds => roleIds.map(roleId => `<@&${roleId}>`).join(", "),
 };
 

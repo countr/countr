@@ -57,6 +57,7 @@ export async function promptProperty<T extends Property<any, any>, U = T extends
   return new Promise(resolve => {
     reply(newInteraction, interaction, {
       content: `➿ Does this look right?\n>>> ${formatted}`,
+      embeds: [],
       components: [
         {
           type: ComponentType.ActionRow,
