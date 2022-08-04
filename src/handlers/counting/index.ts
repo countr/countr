@@ -35,7 +35,7 @@ export default async function countingHandler(message: Message<true>, document: 
   // step 3, handle if it's invalid
   if (
     converted !== countingChannel.count.number + countingChannel.increment ||
-    !countingChannel.modules.includes("allowSpam") && message.author.id === countingChannel.count.userId ||
+    !countingChannel.modules.includes("spam") && message.author.id === countingChannel.count.userId ||
     await checkRegex(message.content, countingChannel.filters)
   ) {
     const countingData: CountingData = {

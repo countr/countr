@@ -4,11 +4,6 @@ interface Module {
   incompatible?: Array<keyof typeof modules>;
 }
 
-const allowSpam: Module = {
-  description: "Allow people to count multiple times in a row.",
-  image: "https://i.promise.solutions/ISe9n5.gif",
-};
-
 const embed: Module = {
   description: "Repost the message in an embed.",
   image: "https://i.promise.solutions/uM2pPX.gif",
@@ -26,6 +21,11 @@ const reposting: Module = {
   image: "https://i.promise.solutions/7HqjEr.gif",
 };
 
+const spam: Module = {
+  description: "Allow people to count multiple times in a row. Previously known as `allowSpam`.",
+  image: "https://i.promise.solutions/ISe9n5.gif",
+};
+
 const talking: Module = {
   description: "Allow people to send text after the count.",
   image: "https://i.promise.solutions/uTpoA9.gif",
@@ -38,5 +38,5 @@ const webhook: Module = {
 };
 
 // make variable to get types. honestly surprised TS allows this but I'm not going to question it
-const modules = { allowSpam, embed, recover, reposting, talking, webhook } as const;
+const modules = { embed, recover, reposting, spam, talking, webhook } as const;
 export default modules;
