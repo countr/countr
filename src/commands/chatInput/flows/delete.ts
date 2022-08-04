@@ -24,7 +24,7 @@ const command: ChatInputCommand = {
     countingChannel.flows.delete(flowId);
     document.safeSave();
 
-    return void interaction.reply({ content: `✅ Deleted flow ${flowId}.`, ephemeral });
+    return void interaction.reply({ content: `✅ Deleted flow \`${flowId}\`.`, ephemeral });
   },
 };
 

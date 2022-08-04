@@ -169,8 +169,9 @@ function refreshList(document: GuildDocument, [countingChannelId, countingChanne
             callback(confirm) {
               countingChannel.flows.delete(flowId);
               document.safeSave();
+              void select.editReply(refreshList(document, [countingChannelId, countingChannel], select.id, userId, page));
               return void confirm.update({
-                content: `✅ Deleted flow ${flowId}.`,
+                content: `✅ Deleted flow \`${flowId}\`.`,
                 components: [],
               });
             },
