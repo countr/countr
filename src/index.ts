@@ -65,7 +65,7 @@ client.once("ready", async trueClient => {
       await prepareGuild(guild);
       disabledGuilds.delete(guild.id);
     }));
-    mainLogger.info(`Processed ${disabledGuilds.size} guilds in ${msToHumanSeconds(Date.now() - processingStart)}.`);
+    mainLogger.info(`Processed guilds in ${msToHumanSeconds(Date.now() - processingStart)}. (missing: ${disabledGuilds.size})`);
 
     // finish up
     disabledGuilds = new Set();
