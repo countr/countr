@@ -186,6 +186,14 @@ function designEmbed({ title, description, fields }: Step, flow: FlowSchema): AP
 }
 
 function saveFlow(flow: FlowSchema, flowIdentifier: string, document: GuildDocument, countingChannel: CountingChannelSchema): InteractionUpdateOptions {
+  if (!countingChannel.flows.get(flowIdentifier) && Array.from(countingChannel.flows.keys()).length >= limits.flows.amount) {
+    return {
+      content: `💢 You can only have up to **${limits.flows.amount}** flows in a counting channel.`,
+      embeds: [],
+      components: [],
+    };
+  }
+
   countingChannel.flows.set(flowIdentifier, flow);
   document.safeSave();
 
