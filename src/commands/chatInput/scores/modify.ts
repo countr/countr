@@ -53,7 +53,7 @@ const command: ChatInputCommand = {
     else countingChannel.scores.set(user.id, newScore);
     document.safeSave();
 
-    return void interaction.reply({ content: `✅ ${user.toString()}'s score in <#${countingChannelId}> is now ${newScore}.`, ephemeral });
+    return void interaction.reply({ content: `✅ ${user.toString()}'s score in <#${countingChannelId}> is now ${Math.max(0, newScore)}.`, ephemeral });
   },
 };
 

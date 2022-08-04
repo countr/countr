@@ -11,6 +11,7 @@ export function capitalizeFirst(string: string): string {
 
 export function formatListToHuman(list: string[]): string {
   // join list with ", " and add "and" before last item
+  if (list.length === 1) return list[0]!;
   return list.slice(0, -1).join(", ") + (list.length > 1 ? `, and ${list[list.length - 1]!}` : "");
 }
 

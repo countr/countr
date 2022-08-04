@@ -5,7 +5,7 @@ const command: ChatInputCommand = {
   considerDefaultPermission: false,
   requireSelectedCountingChannel: true,
   execute(interaction, ephemeral, document, [countingChannelId, countingChannel]) {
-    delete countingChannel.timeoutRole;
+    countingChannel.timeoutRole = null;
     document.safeSave();
 
     return void interaction.reply({ content: `✅ The timeout role of <#${countingChannelId}> has been removed.`, ephemeral });
@@ -13,3 +13,4 @@ const command: ChatInputCommand = {
 };
 
 export default { ...command } as ChatInputCommand;
+// test

@@ -69,13 +69,13 @@ export class CountingChannelSchema {
   @prop({ type: CountSchema, default: { number: 0 } as CountSchema }) count!: CountSchema;
   @prop({ type: [String], default: []}, PropType.ARRAY) modules!: Array<keyof typeof modules>;
   @prop({ type: Number, default: {}}, PropType.MAP) scores!: Map<Snowflake, number>;
-  @prop({ type: TimeoutRoleSchema, default: null }) timeoutRole?: TimeoutRoleSchema;
+  @prop({ type: TimeoutRoleSchema, default: null }) timeoutRole!: TimeoutRoleSchema | null;
   @prop({ type: FlowSchema, default: {}}, PropType.MAP) flows!: Map<string, FlowSchema>;
   @prop({ type: NotificationSchema, default: {}}, PropType.MAP) notifications!: Map<string, NotificationSchema>;
   @prop({ type: Date, default: {}}, PropType.MAP) timeouts!: Map<Snowflake, Date>;
   @prop({ type: [String], default: []}, PropType.ARRAY) filters!: string[];
   @prop({ type: [String], default: []}, PropType.ARRAY) bypassableRoles!: Snowflake[];
-  @prop({ type: LiveboardSchema, default: null }) liveboard?: LiveboardSchema;
+  @prop({ type: LiveboardSchema, default: null }) liveboard!: LiveboardSchema | null;
 }
 
 const saveQueue = new Map<Snowflake, 1 | 2>();

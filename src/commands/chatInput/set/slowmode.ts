@@ -16,9 +16,12 @@ const command: ChatInputCommand = {
   execute(interaction, ephemeral, _, [countingChannelId]) {
     const rateLimitPerUser = interaction.options.getInteger("seconds", true);
 
-    return void interaction.guild.channels.resolve(countingChannelId)?.edit({ rateLimitPerUser })
+    const channel = interaction.guild.channels.resolve(countingChannelId);
+    if (!channel) return void interaction.reply({ content: "❌ The channel could not be found.", ephemeral: true });
+
+    return void channel.edit({ rateLimitPerUser })
       .then(() => interaction.reply({ content: `✅ Counting channel <#${countingChannelId}>'s slowmode is now set to ${rateLimitPerUser} seconds.`, ephemeral }))
-      .catch(() => interaction.reply({ content: `❌ Failed to set slowmode to ${rateLimitPerUser} seconds. Are you sure this is a valid amount of seconds for slowmode?`, ephemeral }));
+      .catch(() => interaction.reply({ content: `❌ Failed to set slowmode to ${rateLimitPerUser} seconds. Are you sure this is a valid amount of seconds for slowmode?`, ephemeral: true }));
   },
 };
 
