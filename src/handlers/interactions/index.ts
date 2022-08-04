@@ -52,25 +52,29 @@ async function nestCommands(relativePath: string, type: "CHAT_INPUT" | "MENU"): 
   for (const fileName of files.filter(file => !file.startsWith("_") && file !== "index.js")) {
     if (type === "MENU") {
       const { default: command } = await import(`${relativePath}/${fileName}`) as { default: ContextMenuCommand };
-      arr.push({
-        name: fileName.split(".")[0]!,
-        type: command.type,
-        description: "",
-        defaultMemberPermissions: permissionLevels[command.permissionRequired],
-      });
+      if (!command.premiumOnly) {
+        arr.push({
+          name: fileName.split(".")[0]!,
+          type: command.type,
+          description: "",
+          defaultMemberPermissions: permissionLevels[command.permissionRequired],
+        });
+      }
     }
 
     if (type === "CHAT_INPUT") {
       if (fileName.includes(".")) {
         const { default: command } = await import(`${relativePath}/${fileName}`) as { default: ChatInputCommand };
         const name = fileName.split(".")[0]!;
-        arr.push({
-          name,
-          type: ApplicationCommandType.ChatInput,
-          description: command.description,
-          ...command.options && { options: command.options },
-          defaultMemberPermissions: permissionLevels[slashCommandPermissions[name] ?? PermissionLevel.NONE],
-        });
+        if (!command.premiumOnly) {
+          arr.push({
+            name,
+            type: ApplicationCommandType.ChatInput,
+            description: command.description,
+            ...command.options && { options: command.options },
+            defaultMemberPermissions: permissionLevels[slashCommandPermissions[name] ?? PermissionLevel.NONE],
+          });
+        }
       } else {
         const subCommands = await (async function nestSubCommands(relativeSubPath: string) {
           const subFiles = await readdir(join(__dirname, relativeSubPath));
@@ -78,30 +82,37 @@ async function nestCommands(relativePath: string, type: "CHAT_INPUT" | "MENU"): 
           for (const subFileName of subFiles.filter(file => !file.startsWith("_"))) {
             if (subFileName.includes(".")) {
               const { default: command } = await import(`${relativeSubPath}/${subFileName}`) as { default: ChatInputCommand };
-              subArr.push({
-                type: ApplicationCommandOptionType.Subcommand,
-                name: subFileName.split(".")[0]!,
-                description: command.description,
-                options: command.options ?? [],
-              });
+              if (!command.premiumOnly) {
+                subArr.push({
+                  type: ApplicationCommandOptionType.Subcommand,
+                  name: subFileName.split(".")[0]!,
+                  description: command.description,
+                  options: command.options ?? [],
+                });
+              }
             } else {
-              subArr.push({
-                type: ApplicationCommandOptionType.SubcommandGroup,
-                name: subFileName,
-                description: "Sub-command",
-                options: await nestSubCommands(join(relativeSubPath, subFileName)) as never,
-              });
+              const subSubCommands = await nestSubCommands(join(relativeSubPath, subFileName));
+              if (subSubCommands.length) {
+                subArr.push({
+                  type: ApplicationCommandOptionType.SubcommandGroup,
+                  name: subFileName,
+                  description: "Sub-command",
+                  options: subSubCommands as never,
+                });
+              }
             }
           }
           return subArr;
         })(`${relativePath}/${fileName}`);
-        arr.push({
-          name: fileName,
-          type: ApplicationCommandType.ChatInput,
-          description: "Sub-command",
-          options: subCommands,
-          defaultMemberPermissions: permissionLevels[slashCommandPermissions[fileName] ?? PermissionLevel.NONE],
-        });
+        if (subCommands.length) {
+          arr.push({
+            name: fileName,
+            type: ApplicationCommandType.ChatInput,
+            description: "Sub-command",
+            options: subCommands,
+            defaultMemberPermissions: permissionLevels[slashCommandPermissions[fileName] ?? PermissionLevel.NONE],
+          });
+        }
       }
     }
   }
