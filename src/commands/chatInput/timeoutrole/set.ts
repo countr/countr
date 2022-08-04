@@ -37,12 +37,14 @@ const command: ChatInputCommand = {
     const timeout = interaction.options.getInteger("seconds", true);
     const duration = interaction.options.getInteger("duration");
 
-    countingChannel.timeoutRole = { roleId: role.id, fails, timeout };
-    if (duration) countingChannel.timeoutRole.duration = duration;
+    countingChannel.timeoutRole = { roleId: role.id, fails, timeout, ...duration && { duration }};
 
     document.safeSave();
 
-    return void interaction.reply({ content: `✅ The timeout role of <#${countingChannelId}> has been set to ${role.toString()}. It will be given out if someone fails ${fails} times within ${msToHumanTime(timeout * 1000)}. ${duration ? `The role will be removed after ${msToHumanTime(duration * 1000)} seconds.` : ""}`, ephemeral });
+    return void interaction.reply({
+      content: `✅ The timeout role of <#${countingChannelId}> has been set to ${role.toString()}. It will be given out if someone fails ${fails} times within ${msToHumanTime(timeout * 1000)}. ${duration ? `The role will be removed after ${msToHumanTime(duration * 1000)}.` : ""}`,
+      ephemeral,
+    });
   },
 };
 
