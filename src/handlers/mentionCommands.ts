@@ -17,7 +17,7 @@ const replies = new Map<Snowflake, Message>();
 const commands = new Map<string, MentionCommand>();
 const aliases = new Map<string, string>();
 
-export default function mentionCommandHandler(message: Message & Message<true>, document: GuildDocument): void {
+export default function mentionCommandHandler(message: Message<true>, document: GuildDocument): void {
   const existingReply = replies.get(message.id);
   if (!existingReply && message.editedTimestamp) return;
 
@@ -27,7 +27,7 @@ export default function mentionCommandHandler(message: Message & Message<true>, 
 }
 
 // eslint-disable-next-line complexity
-async function handleCommand(message: Message & Message<true>, document: GuildDocument, existingReply?: Message): Promise<Message[]> {
+async function handleCommand(message: Message<true>, document: GuildDocument, existingReply?: Message): Promise<Message[]> {
   const args = message.content.split(" ").slice(1);
   const commandOrAlias = (args.shift() ?? "").toLowerCase();
 

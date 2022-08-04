@@ -1,6 +1,6 @@
 import type { Message } from "discord.js";
 
-export default async function repostWithEmbed(message: Message & Message<true>): Promise<Message> {
+export default async function repostWithEmbed(message: Message<true>): Promise<Message> {
   try {
     return await message.channel.send({
       embeds: [

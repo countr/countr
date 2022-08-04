@@ -21,7 +21,7 @@ export interface CountingData {
   message: Message<true>;
 }
 
-export default async function countingHandler(message: Message & Message<true>, document: GuildDocument, countingChannel: CountingChannelSchema): Promise<void> {
+export default async function countingHandler(message: Message<true>, document: GuildDocument, countingChannel: CountingChannelSchema): Promise<void> {
   const member = message.member ?? await message.guild.members.fetch(message.author);
   const channel = message.channel as CountingChannelAllowedChannelType;
 

@@ -4,7 +4,7 @@ import { TextChannel } from "discord.js";
 
 const webhookCache = new Map<TextChannel, Webhook>();
 
-export default async function repostWithWebhook(message: Message & Message<true>, member: GuildMember, secondTry = false): Promise<Message> {
+export default async function repostWithWebhook(message: Message<true>, member: GuildMember, secondTry = false): Promise<Message> {
   const channel = message.channel as CountingChannelAllowedChannelType;
 
   // if the channel is a thread then get the parent channel

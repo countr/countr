@@ -3,7 +3,7 @@ import type { CountingChannelSchema } from "../../../database/models/Guild";
 import repostWithEmbed from "./embed";
 import repostWithWebhook from "./webhook";
 
-export default function repostMessage(message: Message & Message<true>, member: GuildMember, countingChannel: CountingChannelSchema): Awaitable<Message> {
+export default function repostMessage(message: Message<true>, member: GuildMember, countingChannel: CountingChannelSchema): Awaitable<Message> {
   if (countingChannel.modules.includes("embed")) return repostWithEmbed(message);
   if (countingChannel.modules.includes("webhook")) return repostWithWebhook(message, member);
   return message;
