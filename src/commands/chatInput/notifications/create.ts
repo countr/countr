@@ -82,6 +82,16 @@ const command: ChatInputCommand = {
           });
         }
 
+        // check if the user has more notifications than the limit again
+        const userNotificationsBeforeSave = Array.from(countingChannel.notifications.values()).filter(notification => notification.userId === interaction.user.id);
+        if (userNotificationsBeforeSave.length >= limits.notifications.amount) {
+          return void currentInteraction.update({
+            content: `❌ You can only have up to **${limits.notifications.amount}** notifications at a time. Nice try though.`,
+            embeds: [],
+            components: [],
+          });
+        }
+
         const notificationId = generateId();
         countingChannel.notifications.set(notificationId, notificationSchema);
         document.safeSave();
