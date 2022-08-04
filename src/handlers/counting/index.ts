@@ -1,5 +1,5 @@
 import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
-import type { GuildMember, Message } from "discord.js";
+import type { GuildMember, Message, Snowflake } from "discord.js";
 import { bulkDeleteDelay, messagesPerBulkDeletion } from "../../constants/discord";
 import { handleFlows, handleFlowsOnFail } from "./flows";
 import type { CountingChannelAllowedChannelType } from "../../constants/discord";
@@ -75,31 +75,31 @@ export default async function countingHandler(message: Message<true>, document: 
   void handleNotifications(countingData);
 }
 
-const bulks = new Map<CountingChannelAllowedChannelType, Message[]>();
+const bulks = new Map<Snowflake, Message[]>();
 export function queueDelete(messages: Message[]): void {
   if (!messages.length) return;
   const channel = messages[0]!.channel as CountingChannelAllowedChannelType;
 
-  const bulk = bulks.get(channel);
+  const bulk = bulks.get(channel.id);
   if (!bulk && messages.length === 1) {
     void messages[0]?.delete();
-    bulks.set(channel, []);
+    bulks.set(channel.id, []);
   } else if (bulk) return void bulk.push(...messages);
-  else bulks.set(channel, messages);
+  else bulks.set(channel.id, messages);
 
   return void setTimeout(() => bulkDelete(channel), bulkDeleteDelay);
 }
 
 function bulkDelete(channel: CountingChannelAllowedChannelType): void {
-  const bulk = bulks.get(channel);
+  const bulk = bulks.get(channel.id);
   if (!bulk?.length) return;
 
   if (bulk.length > 1) void channel.bulkDelete(bulk.slice(0, messagesPerBulkDeletion));
   else void bulk[0]!.delete();
 
   const newBulk = bulk.slice(messagesPerBulkDeletion);
-  if (!newBulk.length) return void bulks.delete(channel);
+  if (!newBulk.length) return void bulks.delete(channel.id);
 
-  bulks.set(channel, newBulk);
+  bulks.set(channel.id, newBulk);
   return void setTimeout(() => bulkDelete(channel), bulkDeleteDelay);
 }
