@@ -62,7 +62,7 @@ export default {
 
   ...process.env["ACCESS_ENABLED"] && {
     access: {
-      interval: parseInt(process.env["ACCESS_INTERVAL"] ?? "30000", 10),
+      interval: parseInt(process.env["ACCESS_INTERVAL"] ?? "", 10) || 30000,
       webhookLog: process.env["ACCESS_WEBHOOK_LOG"],
     },
   },
