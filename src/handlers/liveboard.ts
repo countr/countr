@@ -20,19 +20,18 @@ export default function handleLiveboard(client: Client<true>): void {
             const message = await channel?.messages.fetch(countingChannel.liveboard.messageId).catch(() => null) ?? null;
             if (message) {
               await message.edit({
+                content: `📊 Leaderboard of <#${countingChannelId}>, as of <t:${Math.floor(Date.now() / 1000)}:R>.`,
                 embeds: [
                   {
                     author: {
-                      name: `${guild.name} Scoreboard`,
+                      name: `${guild.name} Leaderboard`,
                       icon_url: // eslint-disable-line camelcase
                           guild.iconURL({ size: 128 }) ??
-                          guild.members.me?.avatarURL({ size: 128 }) ??
-                          client.user.avatarURL({ size: 128 }) ??
-                          "https://cdn.discordapp.com/embed/avatars/0.png",
+                          guild.members.me?.displayAvatarURL({ size: 128 }) ??
+                          client.user.displayAvatarURL({ size: 128 }),
                     },
                     description: createLeaderboard(Array.from(countingChannel.scores.entries())),
                     color: config.colors.primary,
-                    timestamp: new Date().toISOString(),
                   },
                 ],
               });
