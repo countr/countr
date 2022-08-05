@@ -92,7 +92,7 @@ export function queueDelete(messages: Message[]): void {
 
 function bulkDelete(channel: CountingChannelAllowedChannelType): void {
   const bulk = bulks.get(channel.id);
-  if (!bulk?.length) return;
+  if (!bulk?.length) return void bulks.delete(channel.id);
 
   if (bulk.length > 1) void channel.bulkDelete(bulk.slice(0, messagesPerBulkDeletion));
   else void bulk[0]!.delete();
