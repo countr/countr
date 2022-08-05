@@ -39,7 +39,6 @@ export default {
 
   api: {
     port: parseInt(process.env["API_PORT"] ?? "", 10) || null,
-    uri: process.env["API_URI"] ?? null,
     numberOfProxies: parseInt(process.env["API_NUMBER_OF_PROXIES"] ?? "", 10) || 0,
   },
 
