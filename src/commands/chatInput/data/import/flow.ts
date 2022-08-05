@@ -1,5 +1,7 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, ButtonStyle, ComponentType } from "discord.js";
 import type { ChatInputCommand } from "../..";
+import { components } from "../../../../handlers/interactions/components";
+import { flowEditor } from "../../../../constants/editors/flows";
 import { generateId } from "../../../../utils/crypto";
 import limits from "../../../../constants/limits";
 import { parseFlow } from "../../../../utils/validation/flow";
@@ -32,7 +34,32 @@ const command: ChatInputCommand = {
       countingChannel.flows.set(flowId, flow);
       document.safeSave();
 
-      return void interaction.editReply(`✅ Flow configuration imported and enabled in counting channel <#${countingChannelId}>.`);
+      void interaction.editReply({
+        content: `✅ Flow configuration imported and enabled in counting channel <#${countingChannelId}>.`,
+        components: [
+          {
+            type: ComponentType.ActionRow,
+            components: [
+              {
+                type: ComponentType.Button,
+                label: "Edit flow",
+                customId: `${interaction.id}:edit-flow`,
+                style: ButtonStyle.Primary,
+              },
+            ],
+          },
+        ],
+      });
+
+      components.set(`${interaction.id}:edit-flow`, {
+        type: "BUTTON",
+        allowedUsers: [interaction.user.id],
+        callback(button) {
+          return flowEditor(button, document, countingChannel, interaction.user.id, flowId);
+        },
+      });
+
+      return void 0;
     });
   },
 };
