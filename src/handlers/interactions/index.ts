@@ -9,7 +9,9 @@ import componentHandler from "./components";
 import config from "../../config";
 import contextMenuCommandHandler from "./contextMenuCommands";
 import { getGuildDocument } from "../../database";
+import { inspect } from "util";
 import { join } from "path";
+import { mainLogger } from "../../utils/logger/main";
 import modalHandler from "./modals";
 import { readdir } from "fs/promises";
 import { slashCommandPermissions } from "../../commands/chatInput";
@@ -20,7 +22,10 @@ export default function handleInteractions(client: Client<true>): void {
     void Promise.all([
       nestCommands("../../commands/chatInput", "CHAT_INPUT"),
       nestCommands("../../commands/menu", "MENU"),
-    ]).then(([chatInputCommands, contextMenuCommands]) => commands.set([...chatInputCommands, ...contextMenuCommands]));
+    ])
+      .then(([chatInputCommands, contextMenuCommands]) => commands.set([...chatInputCommands, ...contextMenuCommands]))
+      .then(() => void mainLogger.info("Interaction commands have been set."))
+      .catch(err => void mainLogger.error(`Error while setting interaction commands: ${inspect(err)}`));
   }
 
   client.on("interactionCreate", async interaction => {
@@ -52,7 +57,7 @@ async function nestCommands(relativePath: string, type: "CHAT_INPUT" | "MENU"): 
   for (const fileName of files.filter(file => !file.startsWith("_") && file !== "index.js")) {
     if (type === "MENU") {
       const { default: command } = await import(`${relativePath}/${fileName}`) as { default: ContextMenuCommand };
-      if (!command.premiumOnly) {
+      if (!command.premiumOnly || config.isPremium) {
         arr.push({
           name: fileName.split(".")[0]!,
           type: command.type,
@@ -66,7 +71,7 @@ async function nestCommands(relativePath: string, type: "CHAT_INPUT" | "MENU"): 
       if (fileName.includes(".")) {
         const { default: command } = await import(`${relativePath}/${fileName}`) as { default: ChatInputCommand };
         const name = fileName.split(".")[0]!;
-        if (!command.premiumOnly) {
+        if (!command.premiumOnly || config.isPremium) {
           arr.push({
             name,
             type: ApplicationCommandType.ChatInput,
@@ -82,7 +87,7 @@ async function nestCommands(relativePath: string, type: "CHAT_INPUT" | "MENU"): 
           for (const subFileName of subFiles.filter(file => !file.startsWith("_"))) {
             if (subFileName.includes(".")) {
               const { default: command } = await import(`${relativeSubPath}/${subFileName}`) as { default: ChatInputCommand };
-              if (!command.premiumOnly) {
+              if (!command.premiumOnly || config.isPremium) {
                 subArr.push({
                   type: ApplicationCommandOptionType.Subcommand,
                   name: subFileName.split(".")[0]!,
