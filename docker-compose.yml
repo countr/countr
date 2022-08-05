@@ -7,8 +7,7 @@ services:
     build: .
     restart: unless-stopped
     environment:
-      - DATABASE_URI:mongodb://db/countr
-      - API_URI:http://manager:$API_PORT
+      - DATABASE_URI=mongodb://db/countr
       - WEBSOCKET_INTERNAL_URI=ws://manager
     volumes:
       - ./logs/countr:/app/logs
@@ -20,7 +19,7 @@ services:
     restart: always
     command: ["npm", "run", "start:manager"]
     environment:
-      - DATABASE_URI:mongodb://db/countr
+      - DATABASE_URI=mongodb://db/countr
       - WEBSOCKET_INTERNAL_PORT=80
     volumes:
       - ./logs/manager:/app/logs
