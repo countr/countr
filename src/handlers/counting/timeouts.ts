@@ -8,8 +8,8 @@ const countingFails = new Map<`${CountingChannelAllowedChannelType["id"]}-${Guil
 export async function handleTimeouts(countingData: CountingData): Promise<void> {
   if (!countingData.countingChannel.timeoutRole) return;
 
-  const fails = countingFails.get(`${countingData.channel.id}-${countingData.member.id}`) ?? 0;
-  countingFails.set(`${countingData.channel.id}-${countingData.member.id}`, fails + 1);
+  const fails = (countingFails.get(`${countingData.channel.id}-${countingData.member.id}`) ?? 0) + 1;
+  countingFails.set(`${countingData.channel.id}-${countingData.member.id}`, fails);
 
   setTimeout(() => {
     const newFails = (countingFails.get(`${countingData.channel.id}-${countingData.member.id}`) ?? 0) - 1;
