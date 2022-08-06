@@ -99,7 +99,7 @@ wss.on("connection", ws => {
               type: CommunicationType.MTC_READY_TO_CONNECT,
               payload: {},
             };
-            managerLogger.info(`Sending ready signal to cluster ${clusterId}.`);
+            managerLogger.info(`Sending ready signal to cluster ${nextClusterId}.`);
             nextClusterWs.send(JSON.stringify(nextClusterRequest));
           }
           break;
