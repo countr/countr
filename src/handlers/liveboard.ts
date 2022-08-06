@@ -18,7 +18,7 @@ export default function handleLiveboard(client: Client<true>): void {
           if (countingChannel.liveboard) {
             const channel = client.channels.resolve(countingChannel.liveboard.channelId) as GuildTextBasedChannel | null;
             const message = await channel?.messages.fetch(countingChannel.liveboard.messageId).catch(() => null) ?? null;
-            if (message) {
+            if (message?.author.id === client.user.id) {
               await message.edit({
                 content: `📊 Leaderboard of <#${countingChannelId}>, as of <t:${Math.floor(Date.now() / 1000)}:R>.`,
                 embeds: [
@@ -34,7 +34,7 @@ export default function handleLiveboard(client: Client<true>): void {
                     color: config.colors.primary,
                   },
                 ],
-              });
+              }).catch();
             } else if (unavailableLiveboards.has(countingChannelId)) {
               unavailableLiveboards.delete(countingChannelId);
               countingChannel.liveboard = null;
