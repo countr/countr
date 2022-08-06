@@ -15,7 +15,7 @@ export async function handleTimeouts(countingData: CountingData): Promise<void> 
     const newFails = (countingFails.get(`${countingData.channel.id}-${countingData.member.id}`) ?? 0) - 1;
     if (newFails) countingFails.set(`${countingData.channel.id}-${countingData.member.id}`, newFails);
     else countingFails.delete(`${countingData.channel.id}-${countingData.member.id}`);
-  }, countingData.countingChannel.timeoutRole.timeout * 1000);
+  }, countingData.countingChannel.timeoutRole.timePeriod * 1000);
 
   if (fails >= countingData.countingChannel.timeoutRole.fails) {
     await countingData.member.roles.add(countingData.countingChannel.timeoutRole.roleId).catch();

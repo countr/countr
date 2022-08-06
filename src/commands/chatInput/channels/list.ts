@@ -89,7 +89,7 @@ const command: ChatInputCommand = {
             {
               name: "Timeout role",
               value: countingChannel.timeoutRole ?
-                `Whenever someone fails ${countingChannel.timeoutRole.fails} times within ${countingChannel.timeoutRole.timeout} seconds, they will get the <@&${countingChannel.timeoutRole.roleId}> role${countingChannel.timeoutRole.duration ? `, and it will be removed after ${countingChannel.timeoutRole.duration} seconds` : ""}.` :
+                `Whenever someone fails ${countingChannel.timeoutRole.fails} times within ${countingChannel.timeoutRole.timePeriod} seconds, they will get the <@&${countingChannel.timeoutRole.roleId}> role${countingChannel.timeoutRole.duration ? `, and it will be removed after ${countingChannel.timeoutRole.duration} seconds` : ""}.` :
                 "None.",
               inline: true,
             },

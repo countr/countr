@@ -22,7 +22,7 @@ export class CountSchema {
 export class TimeoutRoleSchema {
   @prop({ type: String, required: true }) roleId!: Snowflake;
   @prop({ type: Number, required: true }) fails!: number;
-  @prop({ type: Number, required: true }) timeout!: number;
+  @prop({ type: Number, required: true }) timePeriod!: number;
   @prop({ type: Number }) duration?: number;
 }
 
