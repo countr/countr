@@ -1,5 +1,6 @@
 import { Client, IntentsBitField, MessageType, Options, Partials } from "discord.js";
 import { connection, getGuildDocument, touchGuildDocument } from "./database";
+import handleInteractions, { registerCommands } from "./handlers/interactions";
 import type { CommunicationMessage } from "./utils/cluster/communication";
 import { CommunicationType } from "./utils/cluster/communication";
 import type { Snowflake } from "discord.js";
@@ -8,7 +9,6 @@ import config from "./config";
 import countingHandler from "./handlers/counting";
 import { discordLogger } from "./utils/logger/discord";
 import handleAccess from "./handlers/access";
-import handleInteractions from "./handlers/interactions";
 import handleLiveboard from "./handlers/liveboard";
 import { initializeWebsocket } from "./utils/cluster";
 import { inspect } from "util";
@@ -50,6 +50,7 @@ let disabledGuilds = new Set<Snowflake>();
 client.once("ready", async trueClient => {
   await sleep(5000);
   mainLogger.info(`Ready as ${trueClient.user.tag} on shards ${trueClient.ws.shards.map(shard => shard.id).join(",") || "0"}. Caching guilds.`);
+  if (config.cluster.id === 0) registerCommands(trueClient);
 
   // perpare guilds
   if (client.guilds.cache.size) {

@@ -17,17 +17,6 @@ import { readdir } from "fs/promises";
 import { slashCommandPermissions } from "../../commands/chatInput";
 
 export default function handleInteractions(client: Client<true>): void {
-  const commands = config.guild ? client.guilds.cache.get(config.guild)!.commands : client.application.commands;
-  if (config.cluster.id === 0) {
-    void Promise.all([
-      nestCommands("../../commands/chatInput", "CHAT_INPUT"),
-      nestCommands("../../commands/menu", "MENU"),
-    ])
-      .then(([chatInputCommands, contextMenuCommands]) => commands.set([...chatInputCommands, ...contextMenuCommands]))
-      .then(() => void mainLogger.info("Interaction commands have been set."))
-      .catch(err => void mainLogger.error(`Error while setting interaction commands: ${inspect(err)}`));
-  }
-
   client.on("interactionCreate", async interaction => {
     if (!interaction.inCachedGuild()) return;
 
@@ -49,6 +38,17 @@ export default function handleInteractions(client: Client<true>): void {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- we should still type check this although it's not necessary
     if (interaction.type === InteractionType.ApplicationCommandAutocomplete) return autocompleteHandler(interaction, document);
   });
+}
+
+export function registerCommands(client: Client<true>): void {
+  const commands = config.guild ? client.guilds.cache.get(config.guild)!.commands : client.application.commands;
+  void Promise.all([
+    nestCommands("../../commands/chatInput", "CHAT_INPUT"),
+    nestCommands("../../commands/menu", "MENU"),
+  ])
+    .then(([chatInputCommands, contextMenuCommands]) => commands.set([...chatInputCommands, ...contextMenuCommands]))
+    .then(() => void mainLogger.info("Interaction commands have been set."))
+    .catch(err => void mainLogger.error(`Error while setting interaction commands: ${inspect(err)}`));
 }
 
 async function nestCommands(relativePath: string, type: "CHAT_INPUT" | "MENU"): Promise<ApplicationCommandData[]> {
