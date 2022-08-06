@@ -1,3 +1,4 @@
+import "./api";
 import { clusterList, getCombinedData, shardList } from "./lists";
 import type { CommunicationMessage } from "../communication";
 import { CommunicationType } from "../communication";
