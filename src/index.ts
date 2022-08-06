@@ -48,6 +48,7 @@ const client = new Client({
 let disabledGuilds = new Set<Snowflake>();
 
 client.once("ready", async trueClient => {
+  await sleep(5000);
   mainLogger.info(`Ready as ${trueClient.user.tag} on shards ${trueClient.ws.shards.map(shard => shard.id).join(",") || "0"}. Caching guilds.`);
 
   // perpare guilds
@@ -56,7 +57,11 @@ client.once("ready", async trueClient => {
 
     // cache guilds
     const cacheStart = Date.now();
-    await touchGuildDocument(Array.from(disabledGuilds.values()));
+    const guildIds = Array.from(disabledGuilds.values());
+    for (let i = 0; i < guildIds.length; i += 500) {
+      await touchGuildDocument(guildIds.slice(i, i + 1000));
+      await sleep(1000);
+    }
     mainLogger.info(`Cached ${disabledGuilds.size} guilds in ${msToHumanSeconds(Date.now() - cacheStart)}. Processing available guilds.`);
 
     // process guilds
@@ -168,3 +173,9 @@ void Promise.all([
 process
   .on("uncaughtException", error => mainLogger.warn(`Uncaught exception: ${inspect(error)}`))
   .on("unhandledRejection", error => mainLogger.warn(`Unhandled rejection: ${inspect(error)}`));
+
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+}
