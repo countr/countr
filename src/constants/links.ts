@@ -7,17 +7,17 @@ export const homepage = "https://countr.xyz";
 
 // documentation
 export const docsUrl = `${homepage}/docs`;
-export const cacheHelpUrl = `${homepage}/caching`;
-export const flowHelpUrl = `${homepage}/flows`;
-export const regexHelpUrl = `${homepage}/regex`;
-export const premiumHelpUrl = `${homepage}/premium`;
+export const cacheHelpUrl = `${docsUrl}/troubleshooting#role-member-caching`;
+export const flowHelpUrl = `${docsUrl}/features/flows`;
+export const regexHelpUrl = `${docsUrl}/features/regex-filters#test`;
+export const premiumHelpUrl = `${docsUrl}/premium`;
 
 // miscellaneous
 export const supportServerUrl = "https://promise.solutions/discord";
 export const privacyUrl = `${homepage}/privacy`;
 export const termsUrl = `${homepage}/terms`;
 export const sourceUrl = "https://github.com/countr";
-export const uptimeUrl = "https://uptime.countr.xyz";
+export const uptimeUrl = "https://status.countr.xyz";
 
 // invite
 export const inviteUrl = (client: Client): string => client.generateInvite({

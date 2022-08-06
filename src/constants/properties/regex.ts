@@ -1,10 +1,11 @@
 import type { Property } from ".";
 import { escapeInlineCode } from "discord.js";
+import { regexHelpUrl } from "../links";
 import { shortInput } from "./inputs";
 
 const regex: Property<string> = {
   name: "Regular expression",
-  description: "Get help on how to create a regex here: todo add regex help link",
+  description: `Get help on how to create a regex [here](${regexHelpUrl}).`,
   schema: { type: "string" },
   input: shortInput("regular expression"),
   convert: userInput => {
