@@ -7,7 +7,7 @@ const command: ChatInputCommand = {
   requireSelectedCountingChannel: true,
   async execute(interaction, ephemeral, document, [countingChannelId, countingChannel]) {
     await interaction.deferReply({ ephemeral });
-    const members = await interaction.guild.members.fetch();
+    const members = await interaction.guild.members.fetch({ time: Infinity });
 
     let amount = 0;
     const total = countingChannel.scores.size;

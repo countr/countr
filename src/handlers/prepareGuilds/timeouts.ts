@@ -6,7 +6,7 @@ export default async (guild: Guild, timeoutRole: TimeoutRoleSchema, timeouts: Co
 
   let needSave = false;
 
-  const members = await guild.members.fetch({ user: Array.from(timeouts.keys()) });
+  const members = await guild.members.fetch({ user: Array.from(timeouts.keys()), time: Infinity });
 
   const now = new Date();
   for (const [userId, date] of Array.from(timeouts)) {

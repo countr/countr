@@ -10,7 +10,7 @@ const pruneRole: Action<[Snowflake[]]> = {
   explanation: ([roles]) => `Remove everyone from ${roles.length === 1 ? "role" : "roles"} ${roles.map(role => `<@&${role}>`).join(", ")}`,
   run: async ({ countingChannel, message: { guild }}, [roleIds]) => {
     const memberIds = Array.from(countingChannel.scores.keys());
-    const members = await guild.members.fetch({ user: memberIds })
+    const members = await guild.members.fetch({ user: memberIds, time: Infinity })
       .then(collection => Array.from(collection.values()))
       .catch(() => null) ?? [];
 

@@ -164,3 +164,7 @@ void Promise.all([
   ws.send(JSON.stringify(initMessage));
   // websocket will login once it's allowed to do so
 });
+
+process
+  .on("uncaughtException", error => mainLogger.warn(`Uncaught exception: ${inspect(error)}`))
+  .on("unhandledRejection", error => mainLogger.warn(`Unhandled rejection: ${inspect(error)}`));
