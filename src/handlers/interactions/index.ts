@@ -18,7 +18,7 @@ import { slashCommandPermissions } from "../../commands/chatInput";
 
 export default function handleInteractions(client: Client<true>): void {
   const commands = config.guild ? client.guilds.cache.get(config.guild)!.commands : client.application.commands;
-  if (config.cluster.shards.includes(0)) {
+  if (config.cluster.id === 0) {
     void Promise.all([
       nestCommands("../../commands/chatInput", "CHAT_INPUT"),
       nestCommands("../../commands/menu", "MENU"),
