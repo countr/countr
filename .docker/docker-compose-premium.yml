@@ -1,0 +1,23 @@
+# this is for the premium bot.
+
+version: '3'
+
+services:
+  cluster0:
+    build: .
+    restart: unless-stopped
+    volumes:
+      - ./logs/countr-cluster0:/app/logs
+    environment:
+      - IS_PREMIUM=true
+      - ACCESS_ENABLED=true
+    depends_on:
+      - manager
+    network_mode: host
+  manager:
+    build: .
+    restart: always
+    command: ["npm", "run", "start:manager"]
+    volumes:
+      - ./logs/manager:/app/logs
+    network_mode: host

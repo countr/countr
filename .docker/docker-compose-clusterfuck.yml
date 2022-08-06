@@ -8,8 +8,6 @@ services:
     build: .
     restart: unless-stopped
     environment:
-      - DATABASE_URI=mongodb://db/countr
-      - WEBSOCKET_INTERNAL_URI=ws://manager
       - CLUSTER=0
       - SHARDS=0,1,2,3,4,5,6,7,8,9
       - SHARD_COUNT=100
@@ -17,12 +15,11 @@ services:
       - ./logs/countr-cluster0:/app/logs
     depends_on:
       - manager
+    network_mode: host
   cluster1:
     build: .
     restart: unless-stopped
     environment:
-      - DATABASE_URI=mongodb://db/countr
-      - WEBSOCKET_INTERNAL_URI=ws://manager
       - CLUSTER=1
       - SHARDS=10,11,12,13,14,15,16,17,18,19
       - SHARD_COUNT=100
@@ -30,12 +27,11 @@ services:
       - ./logs/countr-cluster1:/app/logs
     depends_on:
       - manager
+    network_mode: host
   cluster2:
     build: .
     restart: unless-stopped
     environment:
-      - DATABASE_URI=mongodb://db/countr
-      - WEBSOCKET_INTERNAL_URI=ws://manager
       - CLUSTER=2
       - SHARDS=20,21,22,23,24,25,26,27,28,29
       - SHARD_COUNT=100
@@ -43,12 +39,11 @@ services:
       - ./logs/countr-cluster2:/app/logs
     depends_on:
       - manager
+    network_mode: host
   cluster3:
     build: .
     restart: unless-stopped
     environment:
-      - DATABASE_URI=mongodb://db/countr
-      - WEBSOCKET_INTERNAL_URI=ws://manager
       - CLUSTER=3
       - SHARDS=30,31,32,33,34,35,36,37,38,39
       - SHARD_COUNT=100
@@ -56,12 +51,11 @@ services:
       - ./logs/countr-cluster3:/app/logs
     depends_on:
       - manager
+    network_mode: host
   cluster4:
     build: .
     restart: unless-stopped
     environment:
-      - DATABASE_URI=mongodb://db/countr
-      - WEBSOCKET_INTERNAL_URI=ws://manager
       - CLUSTER=4
       - SHARDS=40,41,42,43,44,45,46,47,48,49
       - SHARD_COUNT=100
@@ -69,12 +63,11 @@ services:
       - ./logs/countr-cluster4:/app/logs
     depends_on:
       - manager
+    network_mode: host
   cluster5:
     build: .
     restart: unless-stopped
     environment:
-      - DATABASE_URI=mongodb://db/countr
-      - WEBSOCKET_INTERNAL_URI=ws://manager
       - CLUSTER=5
       - SHARDS=50,51,52,53,54,55,56,57,58,59
       - SHARD_COUNT=100
@@ -82,12 +75,11 @@ services:
       - ./logs/countr-cluster5:/app/logs
     depends_on:
       - manager
+    network_mode: host
   cluster6:
     build: .
     restart: unless-stopped
     environment:
-      - DATABASE_URI=mongodb://db/countr
-      - WEBSOCKET_INTERNAL_URI=ws://manager
       - CLUSTER=6
       - SHARDS=60,61,62,63,64,65,66,67,68,69
       - SHARD_COUNT=100
@@ -95,12 +87,11 @@ services:
       - ./logs/countr-cluster6:/app/logs
     depends_on:
       - manager
+    network_mode: host
   cluster7:
     build: .
     restart: unless-stopped
     environment:
-      - DATABASE_URI=mongodb://db/countr
-      - WEBSOCKET_INTERNAL_URI=ws://manager
       - CLUSTER=7
       - SHARDS=70,71,72,73,74,75,76,77,78,79
       - SHARD_COUNT=100
@@ -108,12 +99,11 @@ services:
       - ./logs/countr-cluster7:/app/logs
     depends_on:
       - manager
+    network_mode: host
   cluster8:
     build: .
     restart: unless-stopped
     environment:
-      - DATABASE_URI=mongodb://db/countr
-      - WEBSOCKET_INTERNAL_URI=ws://manager
       - CLUSTER=8
       - SHARDS=80,81,82,83,84,85,86,87,88,89
       - SHARD_COUNT=100
@@ -121,12 +111,11 @@ services:
       - ./logs/countr-cluster8:/app/logs
     depends_on:
       - manager
+    network_mode: host
   cluster9:
     build: .
     restart: unless-stopped
     environment:
-      - DATABASE_URI=mongodb://db/countr
-      - WEBSOCKET_INTERNAL_URI=ws://manager
       - CLUSTER=9
       - SHARDS=90,91,92,93,94,95,96,97,98,99
       - SHARD_COUNT=100
@@ -134,14 +123,11 @@ services:
       - ./logs/countr-cluster9:/app/logs
     depends_on:
       - manager
+    network_mode: host
   manager:
     build: .
     restart: always
     command: ["npm", "run", "start:manager"]
-    environment:
-      - DATABASE_URI=mongodb://db/countr
-      - WEBSOCKET_INTERNAL_PORT=80
     volumes:
       - ./logs/manager:/app/logs
-    ports:
-      - $API_PORT:$API_PORT
+    network_mode: host
