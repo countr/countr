@@ -1,0 +1,10 @@
+---
+
+##########################################################################
+# FOR PREMIUM, REMEMBER TO CHANGE THE DOCKER-COMPOSE FILE IN THE COMMAND #
+##########################################################################
+
+Rebuild ONE cluster container:
+docker-compose -f .docker/docker-compose-clusterfuck.yml --project-directory . up -d --no-deps --build clusterX
+
+---
