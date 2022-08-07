@@ -4,8 +4,14 @@ import ordinal from "ordinal";
 export function createLeaderboard(scores: Array<[Snowflake, number]>, highlightUserId?: Snowflake): string {
   const sortedScores = scores.sort((a, b) => b[1] - a[1]);
   const top25 = sortedScores.slice(0, 25);
+  const userIds = top25.map(score => score[0]);
 
-  return top25.map(([userId, score], index) => formatScore(userId, score, index, highlightUserId)).join("\n");
+  let description = top25.map(([userId, score], index) => formatScore(userId, score, index, highlightUserId)).join("\n");
+  
+  if (highlightUserId && !userIds.includes(highlightUserId)) {
+    if (top25.length) description += "\n^^^^^^^^^^^^^^^^^^^^^^^^^\n";
+    description += formatScore(highlightUserId, scores[highlightUserId] ?? 0, sortedScores.indexOf(highlightUserId));
+  }
 }
 
 const medals: Record<number, string> = {
