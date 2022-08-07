@@ -12,6 +12,8 @@ export function createLeaderboard(scores: Array<[Snowflake, number]>, highlightU
     if (top25.length) description += "\n^^^^^^^^^^^^^^^^^^^^^^^^^\n";
     description += formatScore(highlightUserId, scores[highlightUserId] ?? 0, sortedScores.indexOf(highlightUserId));
   }
+  
+  return description;
 }
 
 const medals: Record<number, string> = {
