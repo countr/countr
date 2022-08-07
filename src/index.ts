@@ -67,10 +67,17 @@ client.once("ready", async trueClient => {
 
     // process guilds
     const processingStart = Date.now();
-    await Promise.all(client.guilds.cache.map(async guild => {
-      await prepareGuild(guild);
-      disabledGuilds.delete(guild.id);
-    }));
+    await Promise.all(client.guilds.cache.map(async guild => new Promise(resolve => {
+      void Promise.race([prepareGuild(guild).then(() => false), sleep(30_000).then(() => true)])
+        .then(timeout => {
+          if (timeout) mainLogger.info(`Timed out when preparing guild ${guild.id} (${guild.name}).`);
+          resolve(void disabledGuilds.delete(guild.id));
+        })
+        .catch(err => {
+          mainLogger.info(`Failed to prepare guild ${guild.id} (${guild.name}): ${inspect(err)}`);
+          resolve(void disabledGuilds.delete(guild.id));
+        });
+    })));
     mainLogger.info(`Processed guilds in ${msToHumanSeconds(Date.now() - processingStart)}. (missing: ${disabledGuilds.size})`);
 
     // finish up

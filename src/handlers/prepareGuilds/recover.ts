@@ -21,7 +21,7 @@ export default async (channel: CountingChannelAllowedChannelType, lastMessageId:
       } else processing = false;
     }
 
-    if (fail) await channel.send("❌ Failed to recover the counting channel. Please re-check permissions, and if you need help, contact a staff member in the support server.");
+    if (fail) await channel.send("❌ Failed to recover the counting channel. Please re-check permissions, and if you need help, contact a staff member in the support server.").catch();
   }
   return false;
 };
