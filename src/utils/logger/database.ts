@@ -7,7 +7,7 @@ const prefix = process.argv.join(" ").endsWith("manager") && !process.env["IS_DO
 export const databaseLogger = createLogger({
   format: globalFormat,
   transports: [
-    ...createFileTransports(`${prefix}database`, ["info", "debug"]),
+    ...createFileTransports(`${prefix}database`, ["debug"]),
     new transports.Console({ level: "info" }),
   ],
 });

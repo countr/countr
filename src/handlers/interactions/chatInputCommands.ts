@@ -1,17 +1,19 @@
 import type { ChatInputCommandInteraction, Snowflake } from "discord.js";
 import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 import type { ChatInputCommand } from "../../commands/chatInput";
+import { commandsLogger } from "../../utils/logger/commands";
 import { inspect } from "util";
-import { mainLogger } from "../../utils/logger/main";
 import { selectedCountingChannels } from "../../constants/selectedCountingChannel";
 
 export default async function chatInputCommandHandler(interaction: ChatInputCommandInteraction<"cached">, document: GuildDocument): Promise<void> {
+  const commandSegments = [
+    interaction.commandName,
+    interaction.options.getSubcommandGroup(false),
+    interaction.options.getSubcommand(false),
+  ].filter(Boolean) as string[];
+
   try {
-    const { default: command } = await import(`../../commands/chatInput/${[
-      interaction.commandName,
-      interaction.options.getSubcommandGroup(false),
-      interaction.options.getSubcommand(false),
-    ].filter(Boolean).join("/")}`) as { default: ChatInputCommand };
+    const { default: command } = await import(`../../commands/chatInput/${commandSegments.join("/")}`) as { default: ChatInputCommand };
 
     const countingChannel = document.channels.get(interaction.channelId);
     if (command.disableInCountingChannel && countingChannel) return void interaction.reply({ content: "❌ This command is disabled in counting channels.", ephemeral: true });
@@ -23,6 +25,6 @@ export default async function chatInputCommandHandler(interaction: ChatInputComm
 
     return await command.execute(interaction, Boolean(countingChannel), document, (selectedCountingChannel ?? [null, null]) as never);
   } catch (err) {
-    mainLogger.error(`Failed to run command ${interaction.commandName}: ${inspect(err)}`);
+    commandsLogger.debug(`Failed to run interaction command /${commandSegments.join(" ")}: ${inspect(err)}`);
   }
 }

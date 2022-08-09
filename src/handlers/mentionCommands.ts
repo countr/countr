@@ -2,12 +2,12 @@ import type { CountingChannelSchema, GuildDocument } from "../database/models/Gu
 import type { Message, MessageEditOptions, MessageOptions, Snowflake } from "discord.js";
 import { DebugCommandLevel } from "../constants/permissions";
 import type { MentionCommand } from "../commands/mention";
+import { commandsLogger } from "../utils/logger/commands";
 import config from "../config";
 import { escapeInlineCode } from "discord.js";
 import { fitText } from "../utils/text";
 import { inspect } from "util";
 import { join } from "path";
-import { mainLogger } from "../utils/logger/main";
 import { queueDelete } from "./counting";
 import { quickResponses } from "../commands/mention";
 import { readdir } from "fs/promises";
@@ -23,7 +23,7 @@ export default function mentionCommandHandler(message: Message<true>, document: 
 
   return void handleCommand(message, document, existingReply)
     .then(messages => { if (document.channels.has(message.channelId)) queueDelete(messages); })
-    .catch(err => mainLogger.warn(`Error handling mention command from message ID ${message.id}, author ID ${message.author.id}: ${inspect(err)}`));
+    .catch(err => commandsLogger.debug(`Error handling mention command from message ID ${message.id}, author ID ${message.author.id}: ${inspect(err)}`));
 }
 
 // eslint-disable-next-line complexity
@@ -84,4 +84,4 @@ readdir(join(__dirname, "../commands/mention")).then(async files => {
     }
   }
 })
-  .catch(err => mainLogger.error(`Failed to load mention commands: ${inspect(err)}`));
+  .catch(err => commandsLogger.error(`Failed to load mention commands: ${inspect(err)}`));

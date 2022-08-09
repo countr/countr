@@ -38,7 +38,7 @@ export default function handleLiveboard(client: Client<true>): void {
             } else if (unavailableLiveboards.has(countingChannelId)) {
               unavailableLiveboards.delete(countingChannelId);
               countingChannel.liveboard = null;
-              mainLogger.verbose(`Liveboard for counting channel ${countingChannelId} is unavailable, I've removed it from the database.`);
+              mainLogger.info(`Liveboard for counting channel ${countingChannelId} is unavailable, I've removed it from the database.`);
             } else unavailableLiveboards.add(countingChannelId);
           }
         }

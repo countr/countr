@@ -5,20 +5,21 @@ import type { ChatInputCommand } from "../../commands/chatInput";
 import type { ContextMenuCommand } from "../../commands/menu";
 import autocompleteHandler from "./autocompletes";
 import chatInputCommandHandler from "./chatInputCommands";
+import { commandsLogger } from "../../utils/logger/commands";
 import componentHandler from "./components";
 import config from "../../config";
 import contextMenuCommandHandler from "./contextMenuCommands";
 import { getGuildDocument } from "../../database";
 import { inspect } from "util";
 import { join } from "path";
-import { mainLogger } from "../../utils/logger/main";
 import modalHandler from "./modals";
 import { readdir } from "fs/promises";
 import { slashCommandPermissions } from "../../commands/chatInput";
 
 export default function handleInteractions(client: Client<true>): void {
   client.on("interactionCreate", async interaction => {
-    if (!interaction.inCachedGuild()) return;
+    if (!interaction.inGuild()) return void commandsLogger.debug(`Interaction ${interaction.id} is not in a guild`);
+    if (!interaction.inCachedGuild()) return void commandsLogger.debug(`Interaction ${interaction.id} is not in a cached guild (guild ID ${interaction.guildId})`);
 
     if (interaction.type === InteractionType.ModalSubmit) return modalHandler(interaction);
 
@@ -38,6 +39,8 @@ export default function handleInteractions(client: Client<true>): void {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- we should still type check this although it's not necessary
     if (interaction.type === InteractionType.ApplicationCommandAutocomplete) return autocompleteHandler(interaction, document);
   });
+
+  commandsLogger.debug("Interaction command listener registered.");
 }
 
 export function registerCommands(client: Client<true>): void {
@@ -47,8 +50,8 @@ export function registerCommands(client: Client<true>): void {
     nestCommands("../../commands/menu", "MENU"),
   ])
     .then(([chatInputCommands, contextMenuCommands]) => commands.set([...chatInputCommands, ...contextMenuCommands]))
-    .then(() => void mainLogger.info("Interaction commands have been set."))
-    .catch(err => void mainLogger.error(`Error while setting interaction commands: ${inspect(err)}`));
+    .then(() => void commandsLogger.info("Interaction commands have been set."))
+    .catch(err => void commandsLogger.error(`Error while setting interaction commands: ${inspect(err)}`));
 }
 
 async function nestCommands(relativePath: string, type: "CHAT_INPUT" | "MENU"): Promise<ApplicationCommandData[]> {

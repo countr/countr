@@ -1,9 +1,9 @@
 import type { CountingChannelSchema, FlowSchema } from "../../database/models/Guild";
 import type { CountingData } from ".";
 import actions from "../../constants/flows/actions";
+import { commandsLogger } from "../../utils/logger/commands";
 import { inspect } from "util";
 import limits from "../../constants/limits";
-import { mainLogger } from "../../utils/logger/main";
 import triggers from "../../constants/triggers";
 
 export async function handleFlows(countingData: CountingData): Promise<void> {
@@ -49,7 +49,7 @@ async function runFlows(flows: FlowSchema[], countingData: CountingData): Promis
         if (await actions[action.type].run(countingData, action.data as never)) save = true;
       }
     } catch (err) {
-      mainLogger.verbose(`Failed to run flow on message ${countingData.countingMessage.url}: ${inspect(err)}`);
+      commandsLogger.debug(`Failed to run flow on message ${countingData.countingMessage.url}: ${inspect(err)}`);
     }
   }
   if (save) countingData.document.safeSave();

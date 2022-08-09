@@ -1,5 +1,6 @@
 import type { ActionRowData, Awaitable, ModalSubmitInteraction, TextInputComponentData, TextInputModalData } from "discord.js";
 import { ComponentType } from "discord.js";
+import { commandsLogger } from "../../utils/logger/commands";
 
 interface ModalInteractionDetails {
   garbageCollect?: Date | false;
@@ -10,7 +11,7 @@ export const modals = new Map<string, ModalInteractionDetails>();
 
 export default function modalHandler(interaction: ModalSubmitInteraction<"cached">): void {
   const modal = modals.get(interaction.customId);
-  if (!modal) return;
+  if (!modal) return void commandsLogger.debug(`Modal interaction ${interaction.customId} not found`);
 
   void modal.callback(interaction);
 }

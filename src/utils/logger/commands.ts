@@ -1,10 +1,10 @@
 import { createFileTransports, globalFormat } from "./";
 import { createLogger, transports } from "winston";
 
-export const discordLogger = createLogger({
+export const commandsLogger = createLogger({
   format: globalFormat,
   transports: [
-    ...createFileTransports("discord", ["info", "debug"]),
+    ...createFileTransports("commands", ["debug"]),
     new transports.Console({ level: "info" }),
   ],
 });
