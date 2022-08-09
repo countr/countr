@@ -11,7 +11,7 @@ export const modals = new Map<string, ModalInteractionDetails>();
 
 export default function modalHandler(interaction: ModalSubmitInteraction<"cached">): void {
   const modal = modals.get(interaction.customId);
-  if (!modal) return void commandsLogger.debug(`Modal interaction ${interaction.customId} not found`);
+  if (!modal) return void commandsLogger.debug(`Modal interaction ${interaction.customId} not found for interaction ${interaction.id}, channel ${interaction.channelId ?? "null"}, guild ${interaction.guildId}`);
 
   void modal.callback(interaction);
 }

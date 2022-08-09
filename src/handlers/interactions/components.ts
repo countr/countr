@@ -20,7 +20,7 @@ export const components = new Map<string, ComponentInteractionDetails>();
 
 export default function componentHandler(interaction: ButtonInteraction<"cached"> | SelectMenuInteraction<"cached">): void {
   const component = components.get(interaction.customId);
-  if (!component) return void commandsLogger.debug(`Component interaction ${interaction.customId} not found`);
+  if (!component) return void commandsLogger.debug(`Component interaction ${interaction.customId} not found for interaction ${interaction.id}, channel ${interaction.channelId}, guild ${interaction.guildId}`);
 
   if (component.allowedUsers !== "all" && !component.allowedUsers.includes(interaction.user.id)) return;
   void component.callback(interaction as never);

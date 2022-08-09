@@ -23,7 +23,7 @@ export default function mentionCommandHandler(message: Message<true>, document: 
 
   return void handleCommand(message, document, existingReply)
     .then(messages => { if (document.channels.has(message.channelId)) queueDelete(messages); })
-    .catch(err => commandsLogger.debug(`Error handling mention command from message ID ${message.id}, author ID ${message.author.id}: ${inspect(err)}`));
+    .catch(err => commandsLogger.debug(`Error handling mention command from message ${message.url}, member ${message.author.id}: ${inspect(err)}`));
 }
 
 // eslint-disable-next-line complexity
