@@ -35,7 +35,7 @@ const command: ChatInputCommand = {
     countingChannel.filters.splice(countingChannel.filters.indexOf(input), 1);
     document.safeSave();
 
-    return void interaction.reply({ content: `✅ Added filter ${await regex.format(input, interaction.guild)}.`, ephemeral });
+    return void interaction.reply({ content: `✅ Removed filter ${await regex.format(input, interaction.guild)}.`, ephemeral });
   },
 };
 
