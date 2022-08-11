@@ -22,7 +22,7 @@ jobs:
         node-version: "16.x"
 
     - name: Set up module cache
-      uses: actions/cache@f4278025ab0f432ce369118909e46deec636f50c # tag=v3
+      uses: actions/cache@a7c34adf76222e77931dedbf4a45b2e4648ced19 # tag=v3
       id: cache-packages
       with:
         path: node_modules
