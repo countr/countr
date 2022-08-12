@@ -5,7 +5,7 @@ export default async function repostWithEmbed(message: Message<true>): Promise<M
     return await message.channel.send({
       embeds: [
         {
-          description: `${message.author.toString()}: ${message.content}`,
+          description: `${message.author}: ${message.content}`,
           color: message.member?.displayColor ?? 3553598,
         },
       ],
