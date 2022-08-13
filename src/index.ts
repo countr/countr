@@ -95,7 +95,8 @@ client.on("messageCreate", async message => {
     !message.inGuild() ||
     disabledGuilds.has(message.guildId) ||
     message.author.bot ||
-    message.type !== MessageType.Default
+    message.type !== MessageType.Default &&
+    message.type !== MessageType.Reply
   ) return;
 
   const document = await getGuildDocument(message.guildId);
