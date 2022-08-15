@@ -6,7 +6,7 @@ const setCount: Action<[number]> = {
   properties: [properties.numberPositiveOrZero],
   explanation: ([number]) => `Set the channel count to ${number}`,
   run: ({ countingChannel }, [number]) => {
-    countingChannel.count.number = number > 0 ? number : 0;
+    countingChannel.count = { number: number > 0 ? number : 0 };
     return true;
   },
   limitPerFlow: 1,
