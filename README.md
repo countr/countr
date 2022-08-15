@@ -31,7 +31,7 @@ Once you're done filling the values, you can do `npm run docker:up`. You can sto
 
 ## Local development
 
-You can set it up however you'd like, however we like to use[`nodemon`](https://nodemon.io/) to automatically restart our bot when changes are made. Doing local development in our way is a little complicated as you need three terminals open, as well as a mongo instance, but it should be fine.
+You can set it up however you'd like, however we like to use [`nodemon`](https://nodemon.io/) to automatically restart our bot when changes are made. Doing local development in our way is a little complicated as you need three terminals open, as well as a mongo instance, but it should be fine.
 
 You can set up a temporary mongo instance using Docker: `docker run --name countr-dev-db -d mongo:4 --ports 27000:27000` - keep in mind this won't store your data when you stop the container. You can start and stop this instance with `docker start/stop countr-dev-db`. Your`DATABASE_URI` will be `mongodb://localhost:27000/countr`.
 
