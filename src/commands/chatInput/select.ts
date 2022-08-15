@@ -4,12 +4,12 @@ import type { ChatInputCommand } from ".";
 import countingChannels from "../../constants/autocompletes/countingChannels";
 
 const command: ChatInputCommand = {
-  description: "Select a counting channel to interact with",
+  description: "Select a preexisting counting channel to interact with",
   options: [
     {
       type: ApplicationCommandOptionType.String,
       name: "channel",
-      description: "The counting channel you want to unlink",
+      description: "The counting channel you want to select",
       required: true,
       autocomplete: true,
     },
