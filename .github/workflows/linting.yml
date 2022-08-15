@@ -2,10 +2,10 @@ name: Linting
 on:
   push:
     branches:
-    - djs-14
+    - main
   pull_request:
     branches:
-    - djs-14
+    - main
 
 jobs:
   eslint:

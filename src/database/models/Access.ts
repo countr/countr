@@ -1,5 +1,5 @@
 // should be the same as this file from the countr/access-manager repository:
-// https://github.com/countr/access-manager/blob/djs-14/src/database/models/Access.ts
+// https://github.com/countr/access-manager/blob/main/src/database/models/Access.ts
 
 import { getModelForClass, prop } from "@typegoose/typegoose";
 import type { DocumentType } from "@typegoose/typegoose";
