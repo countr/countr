@@ -13,7 +13,7 @@ Countr is an advanced counting bot which can manage a counting channel in your g
 
 Read more about Countr on our [website](https://countr.xyz)
 
-## Setup for private use
+## Setup for self hosting
 
 Copy the `example.env` to `.env` and fill in the values. Below is a table with a description for each environment variable. We've excluded some variables that are not needed for private use.
 
