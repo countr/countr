@@ -17,6 +17,7 @@ setInterval(() => void getGlobalDocument().then(globalDb => {
   const currentWeek = getWeek();
   if (globalDb.week !== currentWeek) {
     integrations(globalDb.counts, globalDb.week);
+    globalDb.counts = 0;
     globalDb.week = currentWeek;
   }
 
