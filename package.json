@@ -58,7 +58,7 @@
   "devDependencies": {
     "@tsconfig/node16-strictest": "1.0.3",
     "@types/express": "4.17.13",
-    "@types/jest": "28.1.7",
+    "@types/jest": "28.1.8",
     "@types/morgan": "1.9.3",
     "@types/node": "16.11.56",
     "@types/superagent": "4.1.15",
