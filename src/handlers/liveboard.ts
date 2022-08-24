@@ -43,6 +43,6 @@ export default function handleLiveboard(client: Client<true>): void {
           }
         }
       }
-    })(), 300_000);
+    })(), 30000);
   }
 }
