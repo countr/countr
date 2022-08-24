@@ -1,14 +1,19 @@
-import type { ApplicationCommandAutocompleteOption, ApplicationCommandChannelOptionData, ApplicationCommandChoicesData, ApplicationCommandNonOptionsData, ApplicationCommandNumericOptionData, Awaitable, ChatInputCommandInteraction, Snowflake } from "discord.js";
+import type { ApplicationCommandAutocompleteNumericOptionData, ApplicationCommandAutocompleteStringOptionData, ApplicationCommandBooleanOptionData, ApplicationCommandChannelOptionData, ApplicationCommandMentionableOptionData, ApplicationCommandNonOptionsData, ApplicationCommandNumericOptionData, ApplicationCommandRoleOptionData, ApplicationCommandStringOptionData, ApplicationCommandUserOptionData, Awaitable, ChatInputCommandInteraction, Snowflake } from "discord.js";
 import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 import type { Autocomplete } from "../../constants/autocompletes";
 import { PermissionLevel } from "../../constants/permissions";
 
 type ApplicationCommandAllowedOptions =
-  | ApplicationCommandAutocompleteOption
+  | ApplicationCommandAutocompleteNumericOptionData
+  | ApplicationCommandAutocompleteStringOptionData
+  | ApplicationCommandBooleanOptionData
   | ApplicationCommandChannelOptionData
-  | ApplicationCommandChoicesData
+  | ApplicationCommandMentionableOptionData
   | ApplicationCommandNonOptionsData
   | ApplicationCommandNumericOptionData
+  | ApplicationCommandRoleOptionData
+  | ApplicationCommandStringOptionData
+  | ApplicationCommandUserOptionData
 ;
 
 export type ChatInputCommand = {
