@@ -4,6 +4,7 @@ import type { CountingChannelSchema, GuildDocument } from "../../../database/mod
 import type { ChatInputCommand } from "..";
 import { components } from "../../../handlers/interactions/components";
 import config from "../../../config";
+import { fitText } from "../../../utils/text";
 import limits from "../../../constants/limits";
 import triggers from "../../../constants/triggers";
 
@@ -45,7 +46,7 @@ function refreshList(interaction: ChatInputCommandInteraction<"cached">, ephemer
             options: userNotifications.map(([id, notification], index) => ({
               label: `${index + 1}: ${id}`,
               value: id,
-              description: triggers[notification.trigger.type].explanation(notification.trigger.data as never),
+              description: fitText(triggers[notification.trigger.type].explanation(notification.trigger.data as never), 100),
             })),
           },
         ],
