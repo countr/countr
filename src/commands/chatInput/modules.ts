@@ -46,7 +46,7 @@ function moduleListOverview(ephemeral: boolean, document: GuildDocument, countin
         components: [
           {
             type: ComponentType.SelectMenu,
-            placeholder: "Toggle Module...",
+            placeholder: "Configure modules...",
             minValues: 1,
             maxValues: 1,
             options: moduleList.map(name => ({
