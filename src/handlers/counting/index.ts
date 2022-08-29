@@ -1,8 +1,9 @@
 import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
+import { ChannelType } from "discord.js";
 import type { GuildMember, Message, Snowflake } from "discord.js";
-import { bulkDeleteDelay, messagesPerBulkDeletion } from "../../constants/discord";
+import { bulkDeleteDelay, calculatePermissionsForChannel, messagesPerBulkDeletion } from "../../constants/discord";
 import { handleFlows, handleFlowsOnFail } from "./flows";
-import type { CountingChannelAllowedChannelType } from "../../constants/discord";
+import type { CountingChannelAllowedChannelType, CountingChannelRootChannel } from "../../constants/discord";
 import { addToCount } from "../../utils/cluster";
 import checkBypass from "./bypass";
 import checkRegex from "./regex";
@@ -82,15 +83,21 @@ export function queueDelete(messages: Message[]): void {
 
   const bulk = bulks.get(channel.id);
   if (!bulk && messages.length === 1) {
-    void messages[0]?.delete();
+    void channel.guild.members.fetchMe().then(me => {
+      const currentPermissions = calculatePermissionsForChannel(channel.type === ChannelType.GuildText ? channel : channel.parent as CountingChannelRootChannel, me);
+      if (currentPermissions.has("ManageMessages")) void messages[0]?.delete();
+    });
     bulks.set(channel.id, []);
   } else if (bulk) return void bulk.push(...messages);
   else bulks.set(channel.id, messages);
 
-  return void setTimeout(() => bulkDelete(channel), bulkDeleteDelay);
+  return void setTimeout(() => void bulkDelete(channel), bulkDeleteDelay);
 }
 
-function bulkDelete(channel: CountingChannelAllowedChannelType): void {
+async function bulkDelete(channel: CountingChannelAllowedChannelType): Promise<void> {
+  const currentPermissions = calculatePermissionsForChannel(channel.type === ChannelType.GuildText ? channel : channel.parent as CountingChannelRootChannel, await channel.guild.members.fetchMe({ force: false }));
+  if (!currentPermissions.has("ManageMessages")) return void bulks.delete(channel.id);
+
   const bulk = bulks.get(channel.id);
   if (!bulk?.length) return void bulks.delete(channel.id);
 
@@ -101,5 +108,5 @@ function bulkDelete(channel: CountingChannelAllowedChannelType): void {
   if (!newBulk.length) return void bulks.delete(channel.id);
 
   bulks.set(channel.id, newBulk);
-  return void setTimeout(() => bulkDelete(channel), bulkDeleteDelay);
+  return void setTimeout(() => void bulkDelete(channel), bulkDeleteDelay);
 }
