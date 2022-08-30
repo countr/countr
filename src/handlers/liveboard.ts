@@ -1,10 +1,7 @@
-import type { Client, GuildTextBasedChannel, Snowflake } from "discord.js";
+import type { Client, GuildTextBasedChannel } from "discord.js";
 import config from "../config";
 import { createLeaderboard } from "../constants/scores";
 import { getGuildDocument } from "../database";
-import { mainLogger } from "../utils/logger/main";
-
-const unavailableLiveboards = new Set<Snowflake>();
 
 export default function handleLiveboard(client: Client<true>): void {
   if (config.isPremium) {
@@ -35,11 +32,7 @@ export default function handleLiveboard(client: Client<true>): void {
                   },
                 ],
               }).catch();
-            } else if (unavailableLiveboards.has(countingChannelId)) {
-              unavailableLiveboards.delete(countingChannelId);
-              countingChannel.liveboard = null;
-              mainLogger.info(`Liveboard for counting channel ${countingChannelId} is unavailable, I've removed it from the database.`);
-            } else unavailableLiveboards.add(countingChannelId);
+            }
           }
         }
       }
