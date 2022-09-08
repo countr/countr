@@ -11,6 +11,7 @@ import sendMessage from "./sendMessage";
 import setCount from "./setCount";
 import setScore from "./setScore";
 import takeRole from "./takeRole";
+import uniqueRole from "./uniqueRole";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface Action<ActionPropertyData extends PropertyValue[] = any> {
@@ -27,6 +28,7 @@ export default {
   giveRole,
   takeRole,
   pruneRole,
+  uniqueRole,
   pin,
   sendMessage,
   lock,
