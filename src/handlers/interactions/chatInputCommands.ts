@@ -21,7 +21,7 @@ export default async function chatInputCommandHandler(interaction: ChatInputComm
       const key = `${interaction.guildId}:${commandSegments.join(" ")}` as const;
       if (cooldowns.has(key)) {
         return void interaction.reply({
-          content: `♨ This command is on a cooldown! Please wait <t:${Math.floor(Date.now() / 1000) + command.serverCooldown}:R> before using it again.`,
+          content: `♨ This command is on cooldown! Please wait <t:${Math.floor(Date.now() / 1000) + command.serverCooldown}:R> before using it again.`,
           ephemeral: true,
         });
       }
