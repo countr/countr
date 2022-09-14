@@ -44,7 +44,7 @@
     "express-rate-limit": "6.6.0",
     "helmet": "6.0.0",
     "match-sorter": "6.3.1",
-    "mongoose": "6.6.0",
+    "mongoose": "6.6.1",
     "morgan": "1.10.0",
     "ordinal": "1.0.3",
     "superagent": "8.0.0",
