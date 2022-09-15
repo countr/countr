@@ -61,7 +61,7 @@ export class LiveboardSchema {
   @prop({ type: String, required: true }) messageId!: Snowflake;
 }
 
-@modelOptions({ schemaOptions: { _id: false } })
+@modelOptions({ schemaOptions: { _id: false }, options: { allowMixed: Severity.ALLOW } })
 export class CountingChannelSchema {
   @prop({ type: Boolean, default: false }) isThread!: boolean;
   @prop({ type: String, default: Object.keys(numberSystems)[0] }) type!: keyof typeof numberSystems;
@@ -76,6 +76,10 @@ export class CountingChannelSchema {
   @prop({ type: [String], default: []}, PropType.ARRAY) filters!: string[];
   @prop({ type: [String], default: []}, PropType.ARRAY) bypassableRoles!: Snowflake[];
   @prop({ type: LiveboardSchema, default: null }) liveboard!: LiveboardSchema | null;
+
+  // extra metadata for individual features
+  @prop({ type: Schema.Types.Mixed, default: {}}, PropType.MAP) metadata!:
+  & Map<`uniqueRole-${Snowflake}`, Snowflake>;
 }
 
 const saveQueue = new Map<Snowflake, 1 | 2>();
