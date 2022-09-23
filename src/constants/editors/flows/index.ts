@@ -102,7 +102,7 @@ export function designMessage(stepIndex: number, flow: FlowSchema, flowIdentifie
   });
 
   return {
-    content: null,
+    content: "",
     embeds: [
       {
         title: flow.name ? `Editing flow "${escapeMarkdown(flow.name)}" (\`${flowIdentifier}\`)` : `Editing flow \`${flowIdentifier}\``,
