@@ -6,7 +6,7 @@ const command: ChatInputCommand = {
   async execute(interaction, ephemeral) {
     const now = Date.now();
     await interaction.deferReply({ ephemeral });
-    return void interaction.editReply(`🏓 Server latency is \`${Date.now() - now}ms\`, shard latency is \`${Math.ceil(interaction.guild.shard.ping)}ms\` and my uptime is \`${msToHumanShortTime(interaction.client.uptime ?? 0)}\`.`);
+    return void interaction.editReply(`🏓 Server latency is \`${Date.now() - now}ms\`, shard latency is \`${Math.ceil(interaction.guild.shard.ping)}ms\` and my uptime is \`${msToHumanShortTime(interaction.client.uptime)}\`.`);
   },
 };
 

@@ -17,7 +17,7 @@ const command: ChatInputCommand = {
       });
     }
 
-    const me = await interaction.guild.members.fetch({ user: interaction.client.user!, force: false });
+    const me = await interaction.guild.members.fetch({ user: interaction.client.user, force: false });
 
     return void interaction.reply({
       content: `📋 The server has **${document.channels.size}/${limits.channels.amount}** counting channels.`,
