@@ -17,6 +17,8 @@ const command: ChatInputCommand = {
       type: ApplicationCommandOptionType.Integer,
       name: "position",
       description: "The scoreboard position you want to give the role out at",
+      minValue: 1,
+      maxValue: limits.positionRole.max,
       required: true,
     },
   ],
@@ -29,13 +31,6 @@ const command: ChatInputCommand = {
     if (me && role.comparePositionTo(me.roles.highest) > 0) {
       return void interaction.reply({
         content: "❌ The role must be lower than the bot's highest role.",
-        ephemeral: true,
-      });
-    }
-
-    if (position < 1 || position > limits.positionRole.max) {
-      return void interaction.reply({
-        content: `❌ The position must be between 1 and ${limits.positionRole.max}.`,
         ephemeral: true,
       });
     }
