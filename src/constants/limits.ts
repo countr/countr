@@ -5,6 +5,7 @@ const premiumLimits = {
   filters: { amount: 25, timeout: 500 },
   flows: { amount: 25, triggers: 25, actions: 25 },
   notifications: { amount: 10 },
+  positionRole: { max: 100 },
 };
 
 const normalLimits = {
@@ -12,6 +13,7 @@ const normalLimits = {
   filters: { amount: 10, timeout: 100 },
   flows: { amount: 15, triggers: 3, actions: 10 },
   notifications: { amount: 3 },
+  positionRole: { max: 25 },
 };
 
 export default { ...config.isPremium ? premiumLimits : normalLimits } as const;
