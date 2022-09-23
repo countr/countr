@@ -9,7 +9,7 @@ const command: MentionCommand = {
   async execute(message, reply) {
     const now = Date.now();
     const botMessage = await reply("〽️ Pinging...");
-    return botMessage.edit(`🏓 Server latency is \`${Date.now() - now}ms\`, shard latency is \`${Math.ceil(message.guild.shard.ping)}ms\` and my uptime is \`${msToHumanShortTime(message.client.uptime ?? 0)}\`.`);
+    return botMessage.edit(`🏓 Server latency is \`${Date.now() - now}ms\`, shard latency is \`${Math.ceil(message.guild.shard.ping)}ms\` and my uptime is \`${msToHumanShortTime(message.client.uptime)}\`.`);
   },
 };
 

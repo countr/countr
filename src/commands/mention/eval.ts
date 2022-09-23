@@ -1,7 +1,7 @@
 import { ButtonStyle, ComponentType } from "discord.js";
 import { DebugCommandLevel } from "../../constants/permissions";
 import type { MentionCommand } from ".";
-import type { ReplyOptions } from "../../handlers/mentionCommands";
+import type { MessageReplyOptions } from "discord.js";
 import { charactersPerMessage } from "../../constants/discord";
 import { components } from "../../handlers/interactions/components";
 import config from "../../config";
@@ -30,7 +30,7 @@ const command: MentionCommand = {
 
 export default { ...command } as MentionCommand;
 
-async function generateMessage(result: unknown, time: number | null, success = true, hastebin = false): Promise<ReplyOptions> {
+async function generateMessage(result: unknown, time: number | null, success = true, hastebin = false): Promise<MessageReplyOptions> {
   if (hastebin) {
     const res = await superagent.post(`${config.hastebinLink}/documents`)
       .send(inspect(result, { depth: Infinity, maxArrayLength: Infinity, maxStringLength: Infinity }))

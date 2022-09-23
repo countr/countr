@@ -42,7 +42,7 @@ const command: ChatInputCommand = {
     const threadParent = interaction.options.getChannel("thread_in") as CountingChannelRootChannel | null;
     const countingSystem = (interaction.options.getString("counting_system") ?? "decimal") as keyof typeof numberSystems;
 
-    const me = await interaction.guild.members.fetch({ user: interaction.client.user!, force: false });
+    const me = await interaction.guild.members.fetch({ user: interaction.client.user, force: false });
 
     if (threadParent) {
       const requiredPermissions = [...countingChannelPermissions, ...countingChannelRootPermissions];

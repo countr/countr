@@ -25,7 +25,7 @@ const command: ChatInputCommand = {
     return void interaction.reply({
       embeds: [
         {
-          title: `Bot Information - ${interaction.client.user!.tag}`,
+          title: `Bot Information - ${interaction.client.user.tag}`,
           description: "Countr is an advanced counting bot which can manage a counting channel in your guild. With a simple setup, your channel is ready.",
           fields: [
             // max 5 lines each

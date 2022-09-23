@@ -1,5 +1,5 @@
 import type { CountingChannelSchema, GuildDocument } from "../database/models/Guild";
-import type { Message, MessageEditOptions, MessageOptions, Snowflake } from "discord.js";
+import type { Message, MessageReplyOptions, Snowflake } from "discord.js";
 import { DebugCommandLevel } from "../constants/permissions";
 import type { MentionCommand } from "../commands/mention";
 import { commandsLogger } from "../utils/logger/commands";
@@ -56,18 +56,15 @@ async function handleCommand(message: Message<true>, document: GuildDocument, ex
   return [message, await command.execute(message, options => reply(options, message, existingReply), args, document, (selectedCountingChannel ?? [null, null]) as never)];
 }
 
-export type ReplyOptions = Omit<MessageEditOptions, "embeds" | "flags"> & Pick<MessageOptions, "embeds">;
-async function reply(optionsOrContent: ReplyOptions | string, message: Message, existingReply?: Message): Promise<Message> {
-  const options: ReplyOptions = {
+async function reply(optionsOrContent: MessageReplyOptions | string, message: Message, existingReply?: Message): Promise<Message> {
+  const options: MessageReplyOptions = {
     allowedMentions: { repliedUser: true },
-    attachments: [],
     components: [],
-    content: null,
     embeds: [],
     files: [],
     ...typeof optionsOrContent === "string" ? { content: optionsOrContent } : optionsOrContent,
   };
-  if (existingReply) return existingReply.edit(options);
+  if (existingReply) return existingReply.edit({ content: null, ...options });
   const newReply = await message.reply(options);
   replies.set(message.id, newReply);
   return newReply;
