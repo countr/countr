@@ -4,12 +4,13 @@ import type { ChatInputCommand } from "..";
 import type { CountingChannelSchema } from "../../../database/models/Guild";
 import { components } from "../../../handlers/interactions/components";
 import config from "../../../config";
+import { formatListToHuman } from "../../../utils/text";
 import ordinal from "ordinal";
 
 const command: ChatInputCommand = {
   description: "Get a list of position roles",
   requireSelectedCountingChannel: true,
-  execute(interaction, ephemeral, _, [countingChannelId, countingChannel]) {
+  execute(interaction, ephemeral, document, [countingChannelId, countingChannel]) {
     const roles = Array.from(countingChannel.positionRoles.entries())
       .map(([positionString, roleId]) => [Number(positionString), roleId] as [number, Snowflake])
       .sort((a, b) => a[0] - b[0]);
@@ -34,6 +35,67 @@ const command: ChatInputCommand = {
       allowedUsers: [interaction.user.id],
       callback(button) {
         return void button.update(mobileView(roles, countingChannel, interaction.id));
+      },
+    });
+
+    components.set(`${interaction.id}:delete_position_roles`, {
+      type: "SELECT_MENU",
+      allowedUsers: [interaction.user.id],
+      callback(select) {
+        const positions = select.values;
+
+        components.set(`${select.id}:confirm`, {
+          type: "BUTTON",
+          allowedUsers: [interaction.user.id],
+          callback(confirm) {
+            for (const position of positions) {
+              countingChannel.positionRoles.delete(String(position) as never);
+              const roleId = roles[Number(position)]?.[1];
+              if (roleId) countingChannel.metadata.delete(`positionRole-${roleId}`);
+            }
+
+            document.safeSave();
+
+            return void confirm.update({
+              content: `✅ Successfully deleted ${positions.length} position role${positions.length === 1 ? "" : "s"}.`,
+              components: [],
+            });
+          },
+        });
+
+        components.set(`${select.id}:cancel`, {
+          type: "BUTTON",
+          allowedUsers: [interaction.user.id],
+          callback(cancel) {
+            return void cancel.update({
+              content: "💨 Cancelled deletion.",
+              components: [],
+            });
+          },
+        });
+
+        return void select.reply({
+          content: `💢 Are you sure you want to delete position roles for position${positions.length === 1 ? "" : "s"} ${formatListToHuman(positions)}?`,
+          components: [
+            {
+              type: ComponentType.ActionRow,
+              components: [
+                {
+                  type: ComponentType.Button,
+                  label: "No, cancel",
+                  customId: `${select.id}:cancel`,
+                  style: ButtonStyle.Secondary,
+                },
+                {
+                  type: ComponentType.Button,
+                  label: "Yes, I'm sure",
+                  customId: `${select.id}:confirm`,
+                  style: ButtonStyle.Danger,
+                },
+              ],
+            },
+          ],
+        });
       },
     });
 
@@ -84,6 +146,22 @@ function desktopView(roles: Array<[number, Snowflake]>, countingChannel: Countin
           },
         ],
       },
+      {
+        type: ComponentType.ActionRow,
+        components: [
+          {
+            type: ComponentType.SelectMenu,
+            placeholder: "Delete position roles ...",
+            minValues: 1,
+            maxValues: roles.length,
+            customId: `${uniqueIdentifier}:delete_position_roles`,
+            options: roles.map(([position, roleId]) => ({
+              label: `Position ${position}, role with ID ${roleId}`,
+              value: String(position),
+            })),
+          },
+        ],
+      },
     ],
   };
 }
@@ -108,6 +186,22 @@ function mobileView(roles: Array<[number, Snowflake]>, countingChannel: Counting
             label: "Change to desktop view",
             customId: `${uniqueIdentifier}:view_desktop`,
             style: ButtonStyle.Secondary,
+          },
+        ],
+      },
+      {
+        type: ComponentType.ActionRow,
+        components: [
+          {
+            type: ComponentType.SelectMenu,
+            placeholder: "Delete position roles ...",
+            minValues: 1,
+            maxValues: roles.length,
+            customId: `${uniqueIdentifier}:delete_position_roles`,
+            options: roles.map(([position, roleId]) => ({
+              label: `Position ${position}, role with ID ${roleId}`,
+              value: String(position),
+            })),
           },
         ],
       },
