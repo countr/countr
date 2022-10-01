@@ -75,7 +75,7 @@ const command: ChatInputCommand = {
         });
 
         return void select.reply({
-          content: `💢 Are you sure you want to delete position roles for position${positions.length === 1 ? "" : "s"} ${formatListToHuman(positions)}?`,
+          content: `💢 Are you sure you want to delete the ${positions.length === 1 ? "position role of position" : "position roles of positions"} ${formatListToHuman(positions)}?`,
           components: [
             {
               type: ComponentType.ActionRow,
