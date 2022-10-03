@@ -1,4 +1,4 @@
-import { formatListToHuman } from "./text";
+import { formatListToHuman, handlePlural } from "./text";
 
 // https://stackoverflow.com/a/6117889
 export function getWeek(date = new Date()): number {
@@ -43,10 +43,10 @@ export function msToHumanTime(ms: number): string {
   const seconds = Math.floor(minutesMs / 1000);
 
   const str = [];
-  if (days) str.push(`${days} days`);
-  if (hours) str.push(`${hours} hours`);
-  if (minutes) str.push(`${minutes} minutes`);
-  if (seconds) str.push(`${seconds} seconds`);
+  if (days) str.push(handlePlural(days, "day"));
+  if (hours) str.push(handlePlural(hours, "hour"));
+  if (minutes) str.push(handlePlural(minutes, "minute"));
+  if (seconds) str.push(handlePlural(seconds, "second"));
   return formatListToHuman(str) || "0 seconds";
 }
 
