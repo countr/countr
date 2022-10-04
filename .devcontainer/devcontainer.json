@@ -1,20 +1,11 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.245.2/containers/javascript-node
 {
 	"name": "Countr Dev Container",
 	"build": {
-		"dockerfile": "Dockerfile",
-		// Update 'VARIANT' to pick a Node version: 18, 16, 14.
-		// Append -bullseye or -buster to pin to an OS version.
-		// Use -bullseye variants on local arm64/Apple Silicon.
-		"args": { "VARIANT": "18" }
+		"dockerfile": "Dockerfile"
 	},
 
-	// Configure tool-specific properties.
 	"customizations": {
-		// Configure properties specific to VS Code.
 		"vscode": {
-			// Add the IDs of extensions you want installed when the container is created.
 			"extensions": [
 				"dbaeumer.vscode-eslint",
 				"christian-kohler.npm-intellisense"
@@ -22,13 +13,12 @@
 		}
 	},
 
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [9123],
 
-	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "npm ci && docker run -d -p 27017:27017 --name db mongo:4 && cp ./.devcontainer/development.env ./.env",
+	"onCreateCommand": "docker run -p 27017:27017 -v /workspaces/countr/database:/data/db --name db -d mongo:4 && docker stop db && cp ./.devcontainer/development.env ./.env",
+	"updateContentCommand": "npm ci",
+	"postStartCommand": "docker start db",
 
-	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "node",
 	"features": {
 		"docker-in-docker": "latest"
