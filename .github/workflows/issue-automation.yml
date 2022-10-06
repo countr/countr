@@ -7,7 +7,7 @@ jobs:
     name: Greet new users
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/first-interaction@bd33205aa5c96838e10fd65df0d01efd613677c1 # tag=v1
+    - uses: actions/first-interaction@32fe40493379a9aa1c43d3aaf0e20b7b2079e3c2 # tag=v1
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         issue-message: 'If this is an issue you''re having, please close the issue and go to our support server instead: https://promise.solutions/support'
