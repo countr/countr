@@ -9,7 +9,7 @@ export default {
       ApplicationCommandManager: 0,
       BaseGuildEmojiManager: 0,
       GuildEmojiManager: 0,
-      GuildMemberManager: { maxSize: 0, keepOverLimit: member => member.id === process.env["BOT_ID"] },
+      GuildMemberManager: { maxSize: 1, keepOverLimit: member => member.id === process.env["BOT_ID"] },
       GuildBanManager: 0,
       GuildInviteManager: 0,
       GuildScheduledEventManager: 0,
