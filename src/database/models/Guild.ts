@@ -76,9 +76,11 @@ export class CountingChannelSchema {
   @prop({ type: [String], default: []}, PropType.ARRAY) filters!: string[];
   @prop({ type: [String], default: []}, PropType.ARRAY) bypassableRoles!: Snowflake[];
   @prop({ type: LiveboardSchema, default: null }) liveboard!: LiveboardSchema | null;
+  @prop({ type: String, default: {}}, PropType.MAP) positionRoles!: Map<`${number}`, Snowflake>;
 
   // extra metadata for individual features
   @prop({ type: Schema.Types.Mixed, default: {}}, PropType.MAP) metadata!:
+  & Map<`positionRole-${Snowflake}`, Snowflake>
   & Map<`uniqueRole-${Snowflake}`, Snowflake>;
 }
 
