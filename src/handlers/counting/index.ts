@@ -8,6 +8,7 @@ import { addToCount } from "../../utils/cluster";
 import checkBypass from "./bypass";
 import checkRegex from "./regex";
 import { handleNotifications } from "./notifications";
+import { handlePositionRoles } from "./positionRoles";
 import { handleTimeouts } from "./timeouts";
 import numberSystems from "../../constants/numberSystems";
 import repostMessage from "./repost";
@@ -48,8 +49,10 @@ export default async function countingHandler(message: Message<true>, document: 
       member,
       message,
     };
-    void handleFlowsOnFail(countingData);
-    void handleTimeouts(countingData);
+    void Promise.all([
+      handleFlowsOnFail(countingData),
+      handleTimeouts(countingData),
+    ]).then(() => void handlePositionRoles(countingData));
     return queueDelete([message]);
   }
 
@@ -70,10 +73,10 @@ export default async function countingHandler(message: Message<true>, document: 
   countingChannel.count.messageId = countingMessage.id;
   document.safeSave();
 
-  // step 7, handle flows and notifications
+  // step 7, handle notifications, flows and position roles
   const countingData: CountingData = { channel, count: converted, countingChannel, countingMessage, document, member, message };
-  void handleFlows(countingData);
   void handleNotifications(countingData);
+  void handleFlows(countingData).then(() => void handlePositionRoles(countingData));
 }
 
 const bulks = new Map<Snowflake, Message[]>();

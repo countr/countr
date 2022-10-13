@@ -32,6 +32,6 @@ export async function handleTimeouts(countingData: CountingData): Promise<void> 
       }, countingData.countingChannel.timeoutRole.duration * 1000);
     }
 
-    void handleFlowsOnTimeout(countingData);
+    await handleFlowsOnTimeout(countingData);
   }
 }

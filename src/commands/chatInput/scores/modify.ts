@@ -1,5 +1,6 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import type { ChatInputCommand } from "..";
+import { handlePositionRoles } from "../../../handlers/counting/positionRoles";
 
 const command: ChatInputCommand = {
   description: "Modify a user's score",
@@ -51,6 +52,8 @@ const command: ChatInputCommand = {
     if (newScore <= 0) countingChannel.scores.delete(user.id);
     else countingChannel.scores.set(user.id, newScore);
     document.safeSave();
+
+    void handlePositionRoles({ countingChannel, document, member: interaction.member });
 
     return void interaction.reply({ content: `✅ ${user.toString()}'s score in <#${countingChannelId}> is now ${Math.max(0, newScore)}.`, ephemeral });
   },

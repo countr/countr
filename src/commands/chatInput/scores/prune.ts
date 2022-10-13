@@ -1,5 +1,6 @@
 import type { ChatInputCommand } from "..";
 import type { Snowflake } from "discord.js";
+import { handlePositionRoles } from "../../../handlers/counting/positionRoles";
 
 const command: ChatInputCommand = {
   description: "Prune scores from users that have left your server",
@@ -22,6 +23,8 @@ const command: ChatInputCommand = {
     });
 
     document.safeSave();
+
+    void handlePositionRoles({ countingChannel, document, member: interaction.member });
 
     return void interaction.editReply({
       content: `✅ Successfully pruned scores of counting channel <#${countingChannelId}>: removed ${amount}/${total} users from the list. Attached is a backup of their scores, in case this was a mistake.`,

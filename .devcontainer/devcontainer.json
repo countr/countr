@@ -25,7 +25,7 @@
 		"onAutoForward": "ignore"
 	},
 
-	"onCreateCommand": "docker run -p 27017:27017 -v /workspaces/countr/database:/data/db --name db -d mongo:4 && docker stop db && cp ./.devcontainer/development.env ./.env",
+	"onCreateCommand": "docker run -p 27017:27017 -v /workspaces/countr/database:/data/db --name db -d mongo:4 && cp ./.devcontainer/development.env ./.env",
 	"updateContentCommand": "npm ci",
 	"postStartCommand": "docker start db",
 
