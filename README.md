@@ -29,7 +29,9 @@ Copy the `example.env` to `.env` and fill in the values. Below is a table with a
 
 Once you're done filling the values, you can do `npm run docker:up`. You can stop it using `npm run docker:down` and view logs using `npm run docker:logs` or by going to the `logs` directory.
 
-## Local development
+## Contributing and development
+
+### Local development
 
 You can set it up however you'd like, however we like to use [`nodemon`](https://nodemon.io/) to automatically restart our bot when changes are made. Doing local development in our way is a little complicated as you need three terminals open, as well as a mongo instance, but it should be fine.
 
@@ -56,6 +58,14 @@ You still need your envoironment variables set up and stuff though, however ther
   - This will start the bot, and will watch for any changes in the `build` folder.
 
 Once your code is finished, make sure it's all linted. You can run `npm run lint:fix` to see any non-autofixable linting errors.
+
+### GitHub Codespaces (Devcontainer)
+
+For those of you that have GitHub Pro, or in other ways have access to [GitHub Codespaces](https://github.com/codespaces), you can use a Codespace to work on Countr. We use this ourselves, and it's quite easy to set up. Just [click here](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=171858090) to create a new Codespace of this repository.
+
+It will take a few minutes to set up, but once it's done, you can start working on Countr, but all your necessary tools will be installed automatically, including a Mongo database. A pre-configured `.env` file will be created for you, all you need to do is fill in the missing values.
+
+You will still need to set up the three terminals mentioned in the local development section.
 
 ## Suggestions, bugs, feature requests
 
