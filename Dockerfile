@@ -1,6 +1,6 @@
 # compile typescript to normal javascript
 
-FROM node:18-alpine@sha256:38f184d0c4fb07836f9408af0f6b493c54da862f49532ab9ca8d282488587749 AS builder
+FROM node:18-alpine@sha256:828424b660b8274e7dcf6c7447f014406610facf663f38df92c3162a3d29a1db AS builder
 RUN apk --no-cache add g++ gcc make python3
 
 WORKDIR /app
@@ -15,7 +15,7 @@ RUN npm run build
 
 # production image
 
-FROM node:18-alpine@sha256:38f184d0c4fb07836f9408af0f6b493c54da862f49532ab9ca8d282488587749 AS final
+FROM node:18-alpine@sha256:828424b660b8274e7dcf6c7447f014406610facf663f38df92c3162a3d29a1db AS final
 RUN apk --no-cache add dumb-init g++ gcc make python3
 
 WORKDIR /app
