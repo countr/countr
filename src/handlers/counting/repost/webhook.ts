@@ -23,7 +23,9 @@ export default async function repostWithWebhook(message: Message<true>, member: 
     avatarURL: member.displayAvatarURL({ forceStatic: false, size: 64 }),
     allowedMentions: { parse: [], roles: [], users: []},
     ...channel.isThread() && { threadId: channel.id },
-  }).catch(() => {
+  }).catch(e => {
+    console.log(e);
+    
     // if it fails then assume the webhook is broken and delete it. if it's the second try however, just skip it.
     if (secondTry) return message;
     webhookCache.delete(textChannel.id);
