@@ -17,7 +17,7 @@ services:
   manager:
     build: .
     restart: always
-    command: ["npm", "run", "start:manager"]
+    command: "start:manager"
     environment:
       - DATABASE_URI=mongodb://db/countr
       - WEBSOCKET_INTERNAL_PORT=80

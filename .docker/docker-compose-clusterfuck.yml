@@ -127,7 +127,7 @@ services:
   manager:
     build: .
     restart: always
-    command: ["npm", "run", "start:manager"]
+    command: "start:manager"
     volumes:
       - ./logs/manager:/app/logs
     network_mode: host
