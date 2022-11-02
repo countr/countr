@@ -1,8 +1,8 @@
 import type { CountingChannelAllowedChannelType, CountingChannelRootChannel } from "../../../constants/discord";
-import type { GuildMember, Message, Snowflake, Webhook } from "discord.js";
-import { TextChannel } from "discord.js";
-import { inspect } from "util";
 import { countingLogger } from "../../../utils/logger/counting";
+import type { GuildMember, Message, Snowflake, Webhook } from "discord.js";
+import { inspect } from "util";
+import { TextChannel } from "discord.js";
 
 const webhookCache = new Map<Snowflake, Webhook>();
 
