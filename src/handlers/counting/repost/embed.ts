@@ -13,7 +13,8 @@ export default async function repostWithEmbed(message: Message<true>): Promise<M
       ],
     });
   } catch (err) {
-    countingLogger.error(inspect(err));
+    const { guildId, channelId, id: messageId, author: { id: authorId }} = message;
+    countingLogger.error(inspect({ messageId, authorId, guildId, channelId, err }));
     return message;
   }
 }
