@@ -29,7 +29,7 @@ export default async function repostWithWebhook(message: Message<true>, member: 
     // if it fails then assume the webhook is broken and delete it. if it's the second try however, just skip it.
     if (secondTry) return message;
     const { guildId, channelId, id: messageId, author: { id: authorId }} = message;
-    countingLogger.error(inspect({ messageId, authorId, guildId, channelId, err }));
+    countingLogger.error(`Failed to repost message in guild (${guildId}) [EMBED]:\n${inspect({ messageId, authorId, guildId, channelId, err })}`);
     webhookCache.delete(textChannel.id);
     return repostWithWebhook(message, member, true);
   });

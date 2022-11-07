@@ -14,7 +14,7 @@ export default async function repostWithEmbed(message: Message<true>): Promise<M
     });
   } catch (err) {
     const { guildId, channelId, id: messageId, author: { id: authorId }} = message;
-    countingLogger.error(inspect({ messageId, authorId, guildId, channelId, err }));
+    countingLogger.error(`Failed to repost message in guild (${guildId}) [EMBED]:\n${inspect({ messageId, authorId, guildId, channelId, err })}`);
     return message;
   }
 }
