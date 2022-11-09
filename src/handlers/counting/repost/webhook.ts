@@ -1,5 +1,5 @@
 import type { CountingChannelAllowedChannelType, CountingChannelRootChannel } from "../../../constants/discord";
-import type { DiscordAPIError, GuildMember, Message, Snowflake, Webhook } from "discord.js";
+import type { GuildMember, Message, Snowflake, Webhook } from "discord.js";
 import { TextChannel } from "discord.js";
 import { countingLogger } from "../../../utils/logger/counting";
 import { inspect } from "util";
@@ -25,11 +25,10 @@ export default async function repostWithWebhook(message: Message<true>, member: 
     avatarURL: member.displayAvatarURL({ forceStatic: false, size: 64 }),
     allowedMentions: { parse: [], roles: [], users: []},
     ...channel.isThread() && { threadId: channel.id },
-  }).catch((err: DiscordAPIError) => {
+  }).catch(err => {
     // if it fails then assume the webhook is broken and delete it. if it's the second try however, just skip it.
     if (secondTry) return message;
-    const { guildId, channelId, id: messageId, author: { id: authorId }} = message;
-    countingLogger.error(`Failed to repost message in guild (${guildId}) [EMBED]:\n${inspect({ messageId, authorId, guildId, channelId, err })}`);
+    countingLogger.error(`Failed to repost (webhook) message ${message.id}, channel ${message.channel.id}, guild ${message.guild.id}, member ${message.author.id}: ${inspect(err)}`);
     webhookCache.delete(textChannel.id);
     return repostWithWebhook(message, member, true);
   });

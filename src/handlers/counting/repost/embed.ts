@@ -13,8 +13,7 @@ export default async function repostWithEmbed(message: Message<true>): Promise<M
       ],
     });
   } catch (err) {
-    const { guildId, channelId, id: messageId, author: { id: authorId }} = message;
-    countingLogger.error(`Failed to repost message in guild (${guildId}) [EMBED]:\n${inspect({ messageId, authorId, guildId, channelId, err })}`);
+    countingLogger.error(`Failed to repost (embed) message ${message.id}, channel ${message.channel.id}, guild ${message.guild.id}, member ${message.author.id}: ${inspect(err)}`);
     return message;
   }
 }
