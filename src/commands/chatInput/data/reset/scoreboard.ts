@@ -4,7 +4,7 @@ import { components } from "../../../../handlers/interactions/components";
 import { databaseLogger } from "../../../../utils/logger/database";
 
 const command: ChatInputCommand = {
-  description: "Reset the server scoreboard",
+  description: "Reset the guild scoreboard",
   execute(interaction, _, document, [countingChannelId, countingChannel]) {
     void interaction.reply({
       content: `⚠ Are you sure you want to reset the scoreboard of <#${countingChannelId!}>? This action cannot be undone.`,
