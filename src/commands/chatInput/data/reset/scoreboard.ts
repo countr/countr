@@ -8,7 +8,7 @@ const command: ChatInputCommand = {
   requireSelectedCountingChannel: true,
   execute(interaction, _, document, [countingChannelId, countingChannel]) {
     void interaction.reply({
-      content: `⚠ Are you sure you want to reset the scoreboard of <#${countingChannelId!}>? This action cannot be undone.`,
+      content: `⚠ Are you sure you want to reset the scoreboard of <#${countingChannelId}>? This action cannot be undone.`,
       components: [
         {
           type: ComponentType.ActionRow,
@@ -34,11 +34,11 @@ const command: ChatInputCommand = {
       type: "BUTTON",
       allowedUsers: [interaction.user.id],
       callback: button => {
-        databaseLogger.verbose(`Cleared scoreboard of guild ${interaction.guildId}, contents were ${JSON.stringify(countingChannel?.scores)}`);
-        countingChannel?.scores.clear();
+        databaseLogger.verbose(`Cleared scoreboard of guild ${interaction.guildId}, contents were ${JSON.stringify(countingChannel.scores)}`);
+        countingChannel.scores.clear();
         document.safeSave();
         return void button.update({
-          content: `✅ Successfully reset the scoreboard of <#${countingChannelId!}>.`,
+          content: `✅ Successfully reset the scoreboard of <#${countingChannelId}>.`,
           components: [],
         });
       },
