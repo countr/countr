@@ -1,6 +1,6 @@
 # base image
 
-FROM node:18-alpine@sha256:ae6cf743c4c290423e163d8a85db7a08b831aace7e2486e857147f78f0cc34d3 AS base
+FROM node:18-alpine@sha256:7bd754b52b9a2634a5060b4f737409a3e771b5d062e2e860b9c74363614759e2 AS base
 RUN apk --no-cache add dumb-init g++ gcc make python3
 
 WORKDIR /app
