@@ -5,6 +5,7 @@ import { databaseLogger } from "../../../../utils/logger/database";
 
 const command: ChatInputCommand = {
   description: "Reset the guild scoreboard",
+  requireSelectedCountingChannel: true,
   execute(interaction, _, document, [countingChannelId, countingChannel]) {
     void interaction.reply({
       content: `⚠ Are you sure you want to reset the scoreboard of <#${countingChannelId!}>? This action cannot be undone.`,
