@@ -41,6 +41,7 @@ export const slashCommandPermissions: Record<string, PermissionLevel> = {
   flows: PermissionLevel.ADMIN,
   liveboard: PermissionLevel.ADMIN,
   notifications: PermissionLevel.NONE,
+  positionroles: PermissionLevel.ADMIN,
   scores: PermissionLevel.ADMIN,
   set: PermissionLevel.ADMIN,
   timeoutrole: PermissionLevel.ADMIN,
@@ -50,4 +51,5 @@ export const slashCommandPermissions: Record<string, PermissionLevel> = {
   modules: PermissionLevel.ADMIN,
   ping: PermissionLevel.NONE,
   select: PermissionLevel.NONE,
+  user: PermissionLevel.ADMIN,
 };
