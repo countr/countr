@@ -5,7 +5,7 @@ version: '3'
 services:
   cluster0:
     build: .
-    restart: unless-stopped
+    restart: always
     volumes:
       - ./logs/countr-cluster0:/app/logs
     environment:
