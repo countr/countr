@@ -10,7 +10,7 @@ import { randomBytes } from "crypto";
 import superagent from "superagent";
 
 const command: MentionCommand = {
-  debugLevel: DebugCommandLevel.OWNER,
+  debugLevel: DebugCommandLevel.Owner,
   testArgs(args) { return args.length !== 0; },
   execute(_, reply, args) {
     try {

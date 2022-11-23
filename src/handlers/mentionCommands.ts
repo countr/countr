@@ -42,8 +42,8 @@ async function handleCommand(message: Message<true>, document: GuildDocument, ex
   if (inCountingChannel && command.disableInCountingChannel) return reply(`❓ Command \`${commandName}\` is disabled in counting channels. Try this in another channel.`, message, existingReply).then(newReply => [message, newReply]);
 
   if (
-    command.debugLevel === DebugCommandLevel.OWNER && config.owner !== message.author.id ||
-    command.debugLevel === DebugCommandLevel.ADMIN && !config.admins.includes(message.author.id)
+    command.debugLevel === DebugCommandLevel.Owner && config.owner !== message.author.id ||
+    command.debugLevel === DebugCommandLevel.Admin && !config.admins.includes(message.author.id)
   ) return reply("⛔ This command is not available.", message, existingReply).then(newReply => [message, newReply]);
 
   const selectedCountingChannelId = inCountingChannel ? message.channelId : selectedCountingChannels.get(message.author.id)?.channel;

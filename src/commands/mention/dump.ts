@@ -3,7 +3,7 @@ import type { MentionCommand } from ".";
 import { getGuildDocument } from "../../database";
 
 const command: MentionCommand = {
-  debugLevel: DebugCommandLevel.ADMIN,
+  debugLevel: DebugCommandLevel.Admin,
   testArgs(args) { return args.length === 0 || args.length === 1; },
   async execute(message, reply, [guildId = message.guildId]) {
     const document = await getGuildDocument(guildId);

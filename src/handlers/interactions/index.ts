@@ -80,7 +80,7 @@ async function nestCommands(relativePath: string, type: "CHAT_INPUT" | "MENU"): 
             type: ApplicationCommandType.ChatInput,
             description: command.description,
             ...command.options && { options: command.options },
-            defaultMemberPermissions: permissionLevels[slashCommandPermissions[name] ?? PermissionLevel.NONE],
+            defaultMemberPermissions: permissionLevels[slashCommandPermissions[name] ?? PermissionLevel.None],
           });
         }
       } else {
@@ -118,7 +118,7 @@ async function nestCommands(relativePath: string, type: "CHAT_INPUT" | "MENU"): 
             type: ApplicationCommandType.ChatInput,
             description: "Sub-command",
             options: subCommands,
-            defaultMemberPermissions: permissionLevels[slashCommandPermissions[fileName] ?? PermissionLevel.NONE],
+            defaultMemberPermissions: permissionLevels[slashCommandPermissions[fileName] ?? PermissionLevel.None],
           });
         }
       }

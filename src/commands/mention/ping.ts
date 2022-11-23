@@ -4,7 +4,7 @@ import { msToHumanShortTime } from "../../utils/time";
 
 const command: MentionCommand = {
   aliases: ["pong", ""],
-  debugLevel: DebugCommandLevel.NONE,
+  debugLevel: DebugCommandLevel.None,
   testArgs(args) { return args.length === 0; },
   async execute(message, reply) {
     const now = Date.now();
