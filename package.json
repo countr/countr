@@ -61,7 +61,7 @@
     "@types/jest": "29.2.3",
     "@types/morgan": "1.9.3",
     "@types/node": "18.11.9",
-    "@types/superagent": "4.1.15",
+    "@types/superagent": "4.1.16",
     "@types/time-limited-regular-expressions": "1.0.0",
     "@types/ws": "8.5.3",
     "eslint": "8.28.0",
