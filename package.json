@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@emmetio/math-expression": "1.0.4",
-    "@typegoose/typegoose": "9.12.1",
+    "@typegoose/typegoose": "9.13.1",
     "ajv": "8.11.0",
     "bufferutil": "4.0.7",
     "discord.js": "14.6.0",
@@ -44,7 +44,7 @@
     "express-rate-limit": "6.7.0",
     "helmet": "6.0.0",
     "match-sorter": "6.3.1",
-    "mongoose": "6.6.3",
+    "mongoose": "6.7.4",
     "morgan": "1.10.0",
     "ordinal": "1.0.3",
     "superagent": "8.0.4",
