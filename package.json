@@ -47,7 +47,7 @@
     "mongoose": "6.7.5",
     "morgan": "1.10.0",
     "ordinal": "1.0.3",
-    "superagent": "8.0.4",
+    "superagent": "8.0.5",
     "time-limited-regular-expressions": "1.0.0",
     "utf-8-validate": "5.0.10",
     "winston": "3.8.2",
