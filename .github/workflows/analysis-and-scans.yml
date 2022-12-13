@@ -16,7 +16,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@7dd9e2a3dc350cf687eb1b2a4fadfee8c8e49675 # v3
+      uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3
 
     - name: Initialize
       uses: github/codeql-action/init@a669cc5936cc5e1b6a362ec1ff9e410dc570d190 # v2
@@ -33,7 +33,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@7dd9e2a3dc350cf687eb1b2a4fadfee8c8e49675 # v3
+      uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3
 
     - name: Perform scan
       uses: ajinabraham/njsscan-action@master
@@ -51,7 +51,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@7dd9e2a3dc350cf687eb1b2a4fadfee8c8e49675 # v3
+      uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3
 
     - name: Perform analysis
       uses: github/ossar-action@v1
