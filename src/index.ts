@@ -9,6 +9,7 @@ import config from "./config";
 import countingHandler from "./handlers/counting";
 import { discordLogger } from "./utils/logger/discord";
 import handleAccess from "./handlers/access";
+import handleAutomaticTokenReset from "./handlers/automaticTokenReset";
 import handleLiveboard from "./handlers/liveboard";
 import { initializeWebsocket } from "./utils/cluster";
 import { inspect } from "util";
@@ -86,6 +87,7 @@ client.once("ready", async trueClient => {
 
   // client handlers
   handleAccess(trueClient);
+  handleAutomaticTokenReset(trueClient);
   handleInteractions(trueClient);
   handleLiveboard(trueClient);
 });
