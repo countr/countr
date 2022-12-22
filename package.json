@@ -37,6 +37,7 @@
     "@typegoose/typegoose": "9.13.2",
     "ajv": "8.11.0",
     "bufferutil": "4.0.7",
+    "discord-token-reset": "github:promise/discord-tokens",
     "discord.js": "14.6.0",
     "dotenv": "16.0.3",
     "erlpack": "github:discord/erlpack",
