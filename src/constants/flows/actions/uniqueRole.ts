@@ -8,9 +8,6 @@ const uniqueRole: Action<[Snowflake[]]> = {
   properties: [properties.roles],
   explanation: ([roles]) => `Remove previous users' roles and add the user to ${roles.length === 1 ? "role" : "roles"} ${roles.map(role => `<@&${role}>`).join(", ")}`,
   run: async ({ member, countingChannel }, [roleIds]) => {
-    const roles = roleIds.filter(roleId => !member.roles.cache.has(roleId));
-    if (roles.length) await member.roles.add(roles).catch(() => null);
-
     const previousUserIds = roleIds.map(roleId => countingChannel.metadata.get(`uniqueRole-${roleId}`) ?? null).filter((user, index, self) => user && self.indexOf(user) === index) as Snowflake[];
     if (previousUserIds.length) {
       const previousUsers = await member.guild.members.fetch({ user: previousUserIds, force: false }).catch(() => null);
@@ -19,11 +16,13 @@ const uniqueRole: Action<[Snowflake[]]> = {
         if (previousUserId) {
           const previousUser = previousUsers?.find(user => user.id === previousUserId);
           if (previousUser?.roles.cache.has(roleId)) {
-            void previousUser.roles.remove(roleId).catch(() => null);
+            await previousUser.roles.remove(roleId).catch(() => null);
           }
         }
       }
     }
+    const roles = roleIds.filter(roleId => !member.roles.cache.has(roleId));
+    if (roles.length) await member.roles.add(roles).catch(() => null);
 
     for (const roleId of roleIds) countingChannel.metadata.set(`uniqueRole-${roleId}`, member.id);
     return true;
