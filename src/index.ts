@@ -165,21 +165,27 @@ client
 const ws = initializeWebsocket(client);
 void Promise.all([
   connection,
-  new Promise(resolve => {
+  new Promise((resolve, reject) => {
     ws.on("open", resolve);
+    ws.on("error", reject);
   }),
-]).then(() => {
-  const initMessage: CommunicationMessage = {
-    type: CommunicationType.CTM_INITIALIZE,
-    payload: {
-      clusterId: config.cluster.id,
-      clusterShards: config.cluster.shards,
-      timestamp: Date.now(),
-    },
-  };
-  ws.send(JSON.stringify(initMessage));
+])
+  .then(() => {
+    const initMessage: CommunicationMessage = {
+      type: CommunicationType.CTM_INITIALIZE,
+      payload: {
+        clusterId: config.cluster.id,
+        clusterShards: config.cluster.shards,
+        timestamp: Date.now(),
+      },
+    };
+    ws.send(JSON.stringify(initMessage));
   // websocket will login once it's allowed to do so
-});
+  })
+  .catch(() => {
+    mainLogger.error("Failed to initialize. Is the manager and the database running?");
+    process.exit(1);
+  });
 
 process
   .on("uncaughtException", error => mainLogger.warn(`Uncaught exception: ${inspect(error)}`))
