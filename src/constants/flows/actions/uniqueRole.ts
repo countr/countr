@@ -14,7 +14,7 @@ const uniqueRole: Action<[Snowflake[]]> = {
     const previousUserIds = roleIds
       .map(roleId => countingChannel.metadata.get(`uniqueRole-${roleId}`) ?? null)
       .filter((user, index, self) => user && user !== member.id && self.indexOf(user) === index) as Snowflake[];
-    
+
     if (previousUserIds.length) {
       const previousUsers = await member.guild.members.fetch({ user: previousUserIds, force: false }).catch(() => null);
       for (const roleId of roleIds) {
