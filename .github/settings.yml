@@ -1,0 +1,21 @@
+_extends: biaw/.github
+
+repository:
+  name: countr
+  description: "The source code of Countr bot"
+  homepage: "https://countr.xyz"
+  private: false
+  topics: "discord, discord-bot, hacktoberfest"
+
+branches:
+  - name: main
+    protection:
+      required_status_checks:
+        checks:
+          - context: CodeQL Analysis
+          - context: ESLint
+          - context: OSSAR Analysis
+          - context: NJS Scan
+          - context: DeepScan
+          - context: Jest
+          - context: Test Build
