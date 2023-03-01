@@ -26,17 +26,17 @@ export class TimeoutRoleSchema {
   @prop({ type: Number }) duration?: number;
 }
 
-type ExtractFromTrigger<Type extends keyof typeof triggers, T = typeof triggers[Type]> = T extends Trigger<infer U> ? U : never;
-type ExtractFromAction<Type extends keyof typeof actions, T = typeof actions[Type]> = T extends Action<infer U> ? U : never;
+type ExtractFromTrigger<Type extends keyof typeof triggers = keyof typeof triggers, T = typeof triggers[Type]> = T extends Trigger<infer U> ? U : never;
+type ExtractFromAction<Type extends keyof typeof actions = keyof typeof actions, T = typeof actions[Type]> = T extends Action<infer U> ? U : never;
 
 @modelOptions({ schemaOptions: { _id: false }, options: { allowMixed: Severity.ALLOW } })
-export class TriggerDetailsSchema<Type extends keyof typeof triggers> {
+export class TriggerDetailsSchema<Type extends keyof typeof triggers = keyof typeof triggers> {
   @prop({ type: String, required: true }) type!: Type;
   @prop({ type: [Schema.Types.Mixed], default: [] }, PropType.ARRAY) data!: ExtractFromTrigger<Type>;
 }
 
 @modelOptions({ schemaOptions: { _id: false }, options: { allowMixed: Severity.ALLOW } })
-export class ActionDetailsSchema<Type extends keyof typeof actions> {
+export class ActionDetailsSchema<Type extends keyof typeof actions = keyof typeof actions> {
   @prop({ type: String, required: true }) type!: Type;
   @prop({ type: [Schema.Types.Mixed], default: [] }, PropType.ARRAY) data!: ExtractFromAction<Type>;
 }
@@ -45,14 +45,14 @@ export class ActionDetailsSchema<Type extends keyof typeof actions> {
 export class FlowSchema {
   @prop({ type: String }) name?: string;
   @prop({ type: Boolean, default: false }) disabled!: boolean;
-  @prop({ type: [TriggerDetailsSchema], default: [] }, PropType.ARRAY) triggers!: Array<TriggerDetailsSchema<keyof typeof triggers>>;
-  @prop({ type: [ActionDetailsSchema], default: [] }, PropType.ARRAY) actions!: Array<ActionDetailsSchema<keyof typeof actions>>;
+  @prop({ type: [TriggerDetailsSchema], default: [] }, PropType.ARRAY) triggers!: TriggerDetailsSchema[];
+  @prop({ type: [ActionDetailsSchema], default: [] }, PropType.ARRAY) actions!: ActionDetailsSchema[];
 }
 
 @modelOptions({ schemaOptions: { _id: false } })
 export class NotificationSchema {
   @prop({ type: String, required: true }) userId!: Snowflake;
-  @prop({ type: TriggerDetailsSchema, required: true }) trigger!: TriggerDetailsSchema<keyof typeof triggers>;
+  @prop({ type: TriggerDetailsSchema, required: true }) trigger!: TriggerDetailsSchema;
 }
 
 @modelOptions({ schemaOptions: { _id: false } })

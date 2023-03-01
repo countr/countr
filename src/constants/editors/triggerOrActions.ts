@@ -10,7 +10,7 @@ import type { Trigger } from "../triggers";
 import triggers from "../triggers";
 import promptProperty from "./properties";
 
-export default function editTriggerOrAction<T extends "action" | "trigger">(triggerOrAction: T, interaction: ButtonInteraction<"cached"> | SelectMenuInteraction<"cached">, userId: Snowflake, flowOptions: T extends "trigger" ? TriggerDetailsSchema<any> : ActionDetailsSchema<any>, flowOptionIndex: number, flow: FlowSchema): Promise<MessageComponentInteraction> {
+export default function editTriggerOrAction<T extends "action" | "trigger">(triggerOrAction: T, interaction: ButtonInteraction<"cached"> | SelectMenuInteraction<"cached">, userId: Snowflake, flowOptions: T extends "trigger" ? TriggerDetailsSchema : ActionDetailsSchema, flowOptionIndex: number, flow: FlowSchema): Promise<MessageComponentInteraction> {
   const allOptions = triggerOrAction === "trigger" ? triggers : actions;
   const { name, description, properties, explanation } = allOptions[flowOptions.type as keyof typeof allOptions] as Action & Trigger;
 

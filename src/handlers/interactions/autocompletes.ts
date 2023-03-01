@@ -5,7 +5,7 @@ import { selectedCountingChannels } from "../../constants/selectedCountingChanne
 import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 
 export default async function autocompleteHandler(interaction: AutocompleteInteraction<"cached">, document: GuildDocument): Promise<void> {
-  const path = [interaction.commandName, interaction.options.getSubcommandGroup(false), interaction.options.getSubcommand(false)].filter(Boolean) as string[];
+  const path = [interaction.commandName, interaction.options.getSubcommandGroup(false), interaction.options.getSubcommand(false)].filter(Boolean);
 
   const { default: command } = await import(`../../commands/chatInput/${path.join("/")}`) as { default?: ChatInputCommand };
   if (!command) return;

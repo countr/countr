@@ -12,7 +12,7 @@ export default async function chatInputCommandHandler(interaction: ChatInputComm
     interaction.commandName,
     interaction.options.getSubcommandGroup(false),
     interaction.options.getSubcommand(false),
-  ].filter(Boolean) as string[];
+  ].filter(Boolean);
 
   try {
     const { default: command } = await import(`../../commands/chatInput/${commandSegments.join("/")}`) as { default: ChatInputCommand };
