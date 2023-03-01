@@ -1,6 +1,5 @@
 [![Docker test](https://img.shields.io/github/actions/workflow/status/countr/countr/docker-test.yml)](https://github.com/countr/countr/actions/workflows/docker-test.yml)
 [![Linting](https://img.shields.io/github/actions/workflow/status/countr/countr/linting.yml?label=quality)](https://github.com/countr/countr/actions/workflows/linting.yml)
-[![Analysis and Scans](https://img.shields.io/github/actions/workflow/status/countr/countr/analysis-and-scans.yml?label=scan)](https://github.com/countr/countr/actions/workflows/analysis-and-scans.yml)
 [![Testing](https://img.shields.io/github/actions/workflow/status/countr/countr/testing.yml?label=test)](https://github.com/countr/countr/actions/workflows/testing.yml)
 [![DeepScan grade](https://deepscan.io/api/teams/16173/projects/19382/branches/641642/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=16173&pid=19382&bid=641642)
 [![discord.js version](https://img.shields.io/github/package-json/dependency-version/countr/countr/discord.js)](https://www.npmjs.com/package/discord.js)
