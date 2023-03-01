@@ -1,6 +1,6 @@
+import type { Snowflake, TextBasedChannel } from "discord.js";
 import { cleanContent, escapeCodeBlock } from "discord.js";
 import type { Action } from ".";
-import type { Snowflake } from "discord.js";
 import properties from "../../properties";
 
 const sendMessage: Action<[Snowflake, string]> = {
@@ -24,7 +24,7 @@ const sendMessage: Action<[Snowflake, string]> = {
             .replace(/\{nickname\}/giu, member.displayName || member.user.username)
             .replace(/\{everyone\}/giu, guild.roles.everyone.toString())
             .replace(/\{score\}/giu, String(scores.get(member.id) ?? 0))
-            .replace(/\{content\}/giu, cleanContent(content, channel)),
+            .replace(/\{content\}/giu, escapeMentions(content, channel)),
           allowedMentions: { parse: ["everyone", "users", "roles"]},
         })
         .catch();
@@ -32,5 +32,14 @@ const sendMessage: Action<[Snowflake, string]> = {
     return false;
   },
 };
+
+function escapeMentions(str: string, channel: TextBasedChannel) {
+  return cleanContent(
+    str
+      .replace(/@everyone/giu, "@\u200beveryone")
+      .replace(/@here/giu, "@\u200bhere"),
+    channel,
+  );
+}
 
 export default sendMessage;
