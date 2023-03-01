@@ -1,7 +1,7 @@
-import type { Trigger } from ".";
 import { escapeInlineCode } from "discord.js";
 import { matchRegex } from "../../utils/regex";
 import properties from "../properties";
+import type { Trigger } from ".";
 
 const regex: Trigger<[string]> = {
   name: "Regex match",

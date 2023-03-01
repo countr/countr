@@ -1,6 +1,6 @@
 import type { Client, GuildTextBasedChannel } from "discord.js";
 import config from "../config";
-import { createLeaderboard } from "../constants/scores";
+import createLeaderboard from "../constants/scores";
 import { getGuildDocument } from "../database";
 
 export default function handleLiveboard(client: Client<true>): void {

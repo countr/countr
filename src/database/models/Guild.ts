@@ -1,14 +1,14 @@
 /* eslint-disable max-classes-per-file */
-import { PropType, Severity } from "@typegoose/typegoose/lib/internal/constants";
-import { getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
-import type { Action } from "../../constants/flows/actions";
 import type { DocumentType } from "@typegoose/typegoose";
-import { Schema } from "mongoose";
+import { getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
+import { PropType, Severity } from "@typegoose/typegoose/lib/internal/constants";
 import type { Snowflake } from "discord.js";
-import type { Trigger } from "../../constants/triggers";
+import { Schema } from "mongoose";
+import type { Action } from "../../constants/flows/actions";
 import type actions from "../../constants/flows/actions";
 import type modules from "../../constants/modules";
 import numberSystems from "../../constants/numberSystems";
+import type { Trigger } from "../../constants/triggers";
 import type triggers from "../../constants/triggers";
 
 @modelOptions({ schemaOptions: { _id: false } })
@@ -32,21 +32,21 @@ type ExtractFromAction<Type extends keyof typeof actions, T = typeof actions[Typ
 @modelOptions({ schemaOptions: { _id: false }, options: { allowMixed: Severity.ALLOW } })
 export class TriggerDetailsSchema<Type extends keyof typeof triggers> {
   @prop({ type: String, required: true }) type!: Type;
-  @prop({ type: [Schema.Types.Mixed], default: []}, PropType.ARRAY) data!: ExtractFromTrigger<Type>;
+  @prop({ type: [Schema.Types.Mixed], default: [] }, PropType.ARRAY) data!: ExtractFromTrigger<Type>;
 }
 
 @modelOptions({ schemaOptions: { _id: false }, options: { allowMixed: Severity.ALLOW } })
 export class ActionDetailsSchema<Type extends keyof typeof actions> {
   @prop({ type: String, required: true }) type!: Type;
-  @prop({ type: [Schema.Types.Mixed], default: []}, PropType.ARRAY) data!: ExtractFromAction<Type>;
+  @prop({ type: [Schema.Types.Mixed], default: [] }, PropType.ARRAY) data!: ExtractFromAction<Type>;
 }
 
 @modelOptions({ schemaOptions: { _id: false } })
 export class FlowSchema {
   @prop({ type: String }) name?: string;
   @prop({ type: Boolean, default: false }) disabled!: boolean;
-  @prop({ type: [TriggerDetailsSchema], default: []}, PropType.ARRAY) triggers!: Array<TriggerDetailsSchema<keyof typeof triggers>>;
-  @prop({ type: [ActionDetailsSchema], default: []}, PropType.ARRAY) actions!: Array<ActionDetailsSchema<keyof typeof actions>>;
+  @prop({ type: [TriggerDetailsSchema], default: [] }, PropType.ARRAY) triggers!: Array<TriggerDetailsSchema<keyof typeof triggers>>;
+  @prop({ type: [ActionDetailsSchema], default: [] }, PropType.ARRAY) actions!: Array<ActionDetailsSchema<keyof typeof actions>>;
 }
 
 @modelOptions({ schemaOptions: { _id: false } })
@@ -67,19 +67,19 @@ export class CountingChannelSchema {
   @prop({ type: String, default: Object.keys(numberSystems)[0] }) type!: keyof typeof numberSystems;
   @prop({ type: Number, default: 1 }) increment!: number;
   @prop({ type: CountSchema, default: { number: 0 } as CountSchema }) count!: CountSchema;
-  @prop({ type: [String], default: []}, PropType.ARRAY) modules!: Array<keyof typeof modules>;
-  @prop({ type: Number, default: {}}, PropType.MAP) scores!: Map<Snowflake, number>;
+  @prop({ type: [String], default: [] }, PropType.ARRAY) modules!: Array<keyof typeof modules>;
+  @prop({ type: Number, default: {} }, PropType.MAP) scores!: Map<Snowflake, number>;
   @prop({ type: TimeoutRoleSchema, default: null }) timeoutRole!: TimeoutRoleSchema | null;
-  @prop({ type: FlowSchema, default: {}}, PropType.MAP) flows!: Map<string, FlowSchema>;
-  @prop({ type: NotificationSchema, default: {}}, PropType.MAP) notifications!: Map<string, NotificationSchema>;
-  @prop({ type: Date, default: {}}, PropType.MAP) timeouts!: Map<Snowflake, Date>;
-  @prop({ type: [String], default: []}, PropType.ARRAY) filters!: string[];
-  @prop({ type: [String], default: []}, PropType.ARRAY) bypassableRoles!: Snowflake[];
+  @prop({ type: FlowSchema, default: {} }, PropType.MAP) flows!: Map<string, FlowSchema>;
+  @prop({ type: NotificationSchema, default: {} }, PropType.MAP) notifications!: Map<string, NotificationSchema>;
+  @prop({ type: Date, default: {} }, PropType.MAP) timeouts!: Map<Snowflake, Date>;
+  @prop({ type: [String], default: [] }, PropType.ARRAY) filters!: string[];
+  @prop({ type: [String], default: [] }, PropType.ARRAY) bypassableRoles!: Snowflake[];
   @prop({ type: LiveboardSchema, default: null }) liveboard!: LiveboardSchema | null;
-  @prop({ type: String, default: {}}, PropType.MAP) positionRoles!: Map<`${number}`, Snowflake>;
+  @prop({ type: String, default: {} }, PropType.MAP) positionRoles!: Map<`${number}`, Snowflake>;
 
   // extra metadata for individual features
-  @prop({ type: Schema.Types.Mixed, default: {}}, PropType.MAP) metadata!:
+  @prop({ type: Schema.Types.Mixed, default: {} }, PropType.MAP) metadata!:
   & Map<`positionRole-${Snowflake}`, Snowflake>
   & Map<`uniqueRole-${Snowflake}`, Snowflake>;
 }
@@ -88,7 +88,7 @@ const saveQueue = new Map<Snowflake, 1 | 2>();
 
 export class GuildSchema {
   @prop({ type: String, unique: true, required: true }) guildId!: Snowflake;
-  @prop({ type: CountingChannelSchema, default: {}}, PropType.MAP) channels!: Map<Snowflake, CountingChannelSchema>;
+  @prop({ type: CountingChannelSchema, default: {} }, PropType.MAP) channels!: Map<Snowflake, CountingChannelSchema>;
 
   // if we ever need the "default" counting channel, we use this function to avoid repetitive code.
   getDefaultCountingChannel(this: GuildDocument): [Snowflake, CountingChannelSchema] | null {

@@ -24,7 +24,7 @@ const command: ChatInputCommand = {
         timeout > Date.now() ? `\n💨 ${user.id === interaction.user.id ? "Your" : "The user's"} timeout expires <t:${Math.ceil(timeout / 1000)}:R>.` : "",
       ].filter(Boolean).join("\n"),
       ephemeral,
-      allowedMentions: { users: []},
+      allowedMentions: { users: [] },
     });
   },
 };

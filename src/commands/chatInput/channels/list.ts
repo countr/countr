@@ -1,11 +1,11 @@
-import { calculatePermissionsForChannel, countingChannelPermissions, countingChannelRootPermissions } from "../../../constants/discord";
-import type { ChatInputCommand } from "..";
-import type { CountingChannelRootChannel } from "../../../constants/discord";
 import { PermissionsBitField } from "discord.js";
+import type { ChatInputCommand } from "..";
 import config from "../../../config";
+import type { CountingChannelRootChannel } from "../../../constants/discord";
+import { calculatePermissionsForChannel, countingChannelPermissions, countingChannelRootPermissions } from "../../../constants/discord";
 import limits from "../../../constants/limits";
-import numberSystems from "../../../constants/numberSystems";
 import { premiumHelpUrl } from "../../../constants/links";
+import numberSystems from "../../../constants/numberSystems";
 
 const command: ChatInputCommand = {
   description: "List all configured counting channels",

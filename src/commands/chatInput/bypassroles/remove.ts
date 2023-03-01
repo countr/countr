@@ -27,7 +27,7 @@ const command: ChatInputCommand = {
     return void interaction.reply({
       content: `✅ Removed role ${role.toString()} to the list of roles that can bypass message deletion in <#${countingChannelId}>.`,
       ephemeral,
-      allowedMentions: { roles: []},
+      allowedMentions: { roles: [] },
     });
   },
 };

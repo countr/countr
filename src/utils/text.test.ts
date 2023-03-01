@@ -30,9 +30,9 @@ describe("text", () => {
 
   describe("capitalize", () => {
     it("should capitalize the first letter of a string", () => {
-      expect(capitalizeFirst("hello")).toEqual("Hello");
-      expect(capitalizeFirst("Hello")).toEqual("Hello");
-      expect(capitalizeFirst("")).toEqual("");
+      expect(capitalizeFirst("hello")).toBe("Hello");
+      expect(capitalizeFirst("Hello")).toBe("Hello");
+      expect(capitalizeFirst("")).toBe("");
     });
   });
 

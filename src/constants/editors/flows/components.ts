@@ -1,15 +1,15 @@
 import type { APIButtonComponentWithCustomId, APISelectMenuComponent, Awaitable, ButtonInteraction, InteractionReplyOptions, InteractionUpdateOptions, SelectMenuInteraction, Snowflake } from "discord.js";
-import type { ActionDetailsSchema, CountingChannelSchema, FlowSchema, TriggerDetailsSchema } from "../../../database/models/Guild";
 import { ButtonStyle, ComponentType } from "discord.js";
-import type { Action } from "../../flows/actions";
-import type { Trigger } from "../../triggers";
-import actions from "../../flows/actions";
+import type { ActionDetailsSchema, CountingChannelSchema, FlowSchema, TriggerDetailsSchema } from "../../../database/models/Guild";
 import { components } from "../../../handlers/interactions/components";
-import { editTriggerOrAction } from "../triggerOrActions";
 import { fitText } from "../../../utils/text";
+import type { Action } from "../../flows/actions";
+import actions from "../../flows/actions";
 import limits from "../../limits";
-import { promptProperty } from "../properties";
+import type { Trigger } from "../../triggers";
 import triggers from "../../triggers";
+import promptProperty from "../properties";
+import editTriggerOrAction from "../triggerOrActions";
 
 export type FlowEditorComponent = FlowEditorButtonComponent | FlowEditorSelectMenuComponent;
 
@@ -106,7 +106,7 @@ export function getTriggerOrActionComponents(triggerOrAction: "action" | "trigge
               const [type] = selected.values as [keyof typeof allOptions];
               const option = allOptions[type] as Action | Trigger;
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              const newOption = { type, data: []} as ActionDetailsSchema<any> | TriggerDetailsSchema<any>;
+              const newOption = { type, data: [] } as ActionDetailsSchema<any> | TriggerDetailsSchema<any>;
 
               let interaction: ButtonInteraction<"cached"> | SelectMenuInteraction<"cached"> = selected;
               if (option.properties) {

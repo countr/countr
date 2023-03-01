@@ -1,7 +1,7 @@
 import { ButtonStyle, ComponentType } from "discord.js";
 import type { ChatInputCommand } from "../..";
 import { components } from "../../../../handlers/interactions/components";
-import { databaseLogger } from "../../../../utils/logger/database";
+import databaseLogger from "../../../../utils/logger/database";
 
 const command: ChatInputCommand = {
   description: "Reset the guild scoreboard",

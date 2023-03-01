@@ -1,7 +1,9 @@
-import { createFileTransports, globalFormat } from "./";
 import { createLogger } from "winston";
+import { createFileTransports, globalFormat } from ".";
 
-export const countingLogger = createLogger({
+const countingLogger = createLogger({
   format: globalFormat,
   transports: [...createFileTransports("counting", ["info", "debug"])],
 });
+
+export default countingLogger;

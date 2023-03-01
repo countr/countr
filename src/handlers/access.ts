@@ -2,7 +2,7 @@ import type { Client, Guild } from "discord.js";
 import { WebhookClient } from "discord.js";
 import config from "../config";
 import { filterGuildsWithAccess } from "../database";
-import { mainLogger } from "../utils/logger/main";
+import mainLogger from "../utils/logger/main";
 
 const webhook = config.access?.webhookLog ? new WebhookClient({ url: config.access.webhookLog }) : null;
 

@@ -10,7 +10,7 @@ describe("regex", () => {
 
     it("should time out when ReDOS'd", async () => {
       const testRegex = "((a+)+)+$";
-      await matchRegex(testRegex, `${"a".repeat(10_000)}!`).then(result => expect(result).toBe(null));
+      await matchRegex(testRegex, `${"a".repeat(10_000)}!`).then(result => expect(result).toBeNull());
     }, 10_000);
   });
 });

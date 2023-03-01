@@ -1,5 +1,5 @@
-import type { Action } from ".";
 import { TextChannel } from "discord.js";
+import type { Action } from ".";
 
 const lock: Action<never> = {
   name: "Lock the counting channel",

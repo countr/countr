@@ -1,7 +1,7 @@
-import type { Property } from ".";
 import { escapeInlineCode } from "discord.js";
 import { regexHelpUrl } from "../links";
 import { shortInput } from "./inputs";
+import type { Property } from ".";
 
 const regex: Property<string> = {
   name: "Regular expression",

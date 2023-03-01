@@ -1,7 +1,7 @@
 import type { Snowflake } from "discord.js";
 import ordinal from "ordinal";
 
-export function createLeaderboard(scores: Array<[Snowflake, number]>, highlightUserId?: Snowflake): string {
+export default function createLeaderboard(scores: Array<[Snowflake, number]>, highlightUserId?: Snowflake): string {
   const sortedScores = scores.sort((a, b) => b[1] - a[1]);
   const top25 = sortedScores.slice(0, 25);
 

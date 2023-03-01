@@ -1,5 +1,5 @@
-import type { CountingChannelAllowedChannelType } from "../../constants/discord";
 import type { Guild } from "discord.js";
+import type { CountingChannelAllowedChannelType } from "../../constants/discord";
 import { getGuildDocument } from "../../database";
 import recoverHandler from "./recover";
 import timeoutsHandler from "./timeouts";

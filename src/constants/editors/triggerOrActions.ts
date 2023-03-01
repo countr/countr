@@ -1,17 +1,16 @@
 import type { APIEmbedField, ButtonInteraction, MessageComponentInteraction, SelectMenuInteraction, Snowflake } from "discord.js";
-import type { ActionDetailsSchema, FlowSchema, TriggerDetailsSchema } from "../../database/models/Guild";
 import { ButtonStyle, ComponentType } from "discord.js";
+import config from "../../config";
+import type { ActionDetailsSchema, FlowSchema, TriggerDetailsSchema } from "../../database/models/Guild";
+import { components } from "../../handlers/interactions/components";
 import { capitalizeFirst, fitText } from "../../utils/text";
 import type { Action } from "../flows/actions";
-import type { Trigger } from "../triggers";
 import actions from "../flows/actions";
-import { components } from "../../handlers/interactions/components";
-import config from "../../config";
-import { promptProperty } from "./properties";
+import type { Trigger } from "../triggers";
 import triggers from "../triggers";
+import promptProperty from "./properties";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function editTriggerOrAction<T extends "action" | "trigger">(triggerOrAction: T, interaction: ButtonInteraction<"cached"> | SelectMenuInteraction<"cached">, userId: Snowflake, flowOptions: T extends "trigger" ? TriggerDetailsSchema<any> : ActionDetailsSchema<any>, flowOptionIndex: number, flow: FlowSchema): Promise<MessageComponentInteraction> {
+export default function editTriggerOrAction<T extends "action" | "trigger">(triggerOrAction: T, interaction: ButtonInteraction<"cached"> | SelectMenuInteraction<"cached">, userId: Snowflake, flowOptions: T extends "trigger" ? TriggerDetailsSchema<any> : ActionDetailsSchema<any>, flowOptionIndex: number, flow: FlowSchema): Promise<MessageComponentInteraction> {
   const allOptions = triggerOrAction === "trigger" ? triggers : actions;
   const { name, description, properties, explanation } = allOptions[flowOptions.type as keyof typeof allOptions] as Action & Trigger;
 

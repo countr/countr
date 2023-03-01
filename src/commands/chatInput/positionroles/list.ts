@@ -1,11 +1,11 @@
-import { ButtonStyle, ComponentType } from "discord.js";
 import type { InteractionReplyOptions, InteractionUpdateOptions, Snowflake } from "discord.js";
+import { ButtonStyle, ComponentType } from "discord.js";
+import ordinal from "ordinal";
 import type { ChatInputCommand } from "..";
+import config from "../../../config";
 import type { CountingChannelSchema } from "../../../database/models/Guild";
 import { components } from "../../../handlers/interactions/components";
-import config from "../../../config";
 import { formatListToHuman } from "../../../utils/text";
-import ordinal from "ordinal";
 
 const command: ChatInputCommand = {
   description: "Get a list of position roles",

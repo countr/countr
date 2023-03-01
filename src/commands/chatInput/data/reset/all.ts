@@ -1,7 +1,7 @@
 import { ButtonStyle, ComponentType } from "discord.js";
 import type { ChatInputCommand } from "../..";
-import { components } from "../../../../handlers/interactions/components";
 import { resetGuildDocument } from "../../../../database";
+import { components } from "../../../../handlers/interactions/components";
 
 const command: ChatInputCommand = {
   description: "Factory reset the guild",

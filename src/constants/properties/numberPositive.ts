@@ -1,5 +1,5 @@
-import type { Property } from ".";
 import { shortInput } from "./inputs";
+import type { Property } from ".";
 
 const numberPositive: Property<number, string> = {
   name: "Number (Positive)",

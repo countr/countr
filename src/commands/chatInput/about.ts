@@ -1,12 +1,12 @@
-import { fitText, trail } from "../../utils/text";
-import { homepage, inviteUrl, supportServerUrl } from "../../constants/links";
 import { release, type } from "os";
-import type { ChatInputCommand } from ".";
-import { bytesToHumanReadable } from "../../utils/human";
-import config from "../../config";
 import { version as djsVersion } from "discord.js";
+import config from "../../config";
+import { homepage, inviteUrl, supportServerUrl } from "../../constants/links";
 import { getAllStats } from "../../utils/cluster";
+import { bytesToHumanReadable } from "../../utils/human";
+import { fitText, trail } from "../../utils/text";
 import { msToHumanShortTime } from "../../utils/time";
+import type { ChatInputCommand } from ".";
 
 const platform = `${type()} ${fitText(release(), 20)}`;
 

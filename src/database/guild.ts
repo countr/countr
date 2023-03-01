@@ -1,7 +1,7 @@
-import { Guild } from "./models/Guild";
-import type { GuildDocument } from "./models/Guild";
 import type { Snowflake } from "discord.js";
-import { databaseLogger } from "../utils/logger/database";
+import databaseLogger from "../utils/logger/database";
+import type { GuildDocument } from "./models/Guild";
+import { Guild } from "./models/Guild";
 
 export const guildCache = new Map<Snowflake, GuildDocument>();
 export const guildCacheQueue = new Map<Snowflake, Promise<GuildDocument>>();

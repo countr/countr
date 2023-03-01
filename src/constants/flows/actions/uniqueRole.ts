@@ -1,6 +1,6 @@
-import type { Action } from ".";
 import type { Snowflake } from "discord.js";
 import properties from "../../properties";
+import type { Action } from ".";
 
 const uniqueRole: Action<[Snowflake[]]> = {
   name: "Give a unique role (or list of roles) to the user",

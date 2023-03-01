@@ -1,5 +1,5 @@
 import type { Awaitable, ButtonInteraction, SelectMenuInteraction, Snowflake } from "discord.js";
-import { commandsLogger } from "../../utils/logger/commands";
+import commandsLogger from "../../utils/logger/commands";
 
 interface SelectMenuComponentDetails {
   type: "SELECT_MENU";

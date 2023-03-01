@@ -1,5 +1,5 @@
-import { ChannelType, OverwriteType, PermissionFlagsBits, PermissionsBitField } from "discord.js";
 import type { GuildChannel, GuildMember, TextChannel, ThreadChannel } from "discord.js";
+import { ChannelType, OverwriteType, PermissionFlagsBits, PermissionsBitField } from "discord.js";
 
 
 // channels

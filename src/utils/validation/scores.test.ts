@@ -1,6 +1,6 @@
 import { parseScores } from "./scores";
 
-it("should accept valid scores", () => {
+test("should accept valid scores", () => {
   expect(parseScores(`{
     "110090225929191424": 123
   }`)).toBeTruthy();
@@ -11,7 +11,7 @@ it("should accept valid scores", () => {
   }`)).toBeTruthy();
 });
 
-it("should reject invalid scores", () => {
+test("should reject invalid scores", () => {
   expect(parseScores(`{
     "110090225929191424": "10000"
   }`)).toBeFalsy();

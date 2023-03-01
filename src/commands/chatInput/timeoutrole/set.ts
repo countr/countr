@@ -36,7 +36,7 @@ const command: ChatInputCommand = {
     const timePeriod = interaction.options.getInteger("seconds", true);
     const duration = interaction.options.getInteger("duration");
 
-    countingChannel.timeoutRole = { roleId: role.id, fails, timePeriod, ...duration && { duration }};
+    countingChannel.timeoutRole = { roleId: role.id, fails, timePeriod, ...duration && { duration } };
 
     document.safeSave();
 

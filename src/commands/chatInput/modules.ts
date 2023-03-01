@@ -1,10 +1,10 @@
-import { ButtonStyle, ComponentType } from "discord.js";
-import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 import type { InteractionReplyOptions, InteractionUpdateOptions, SelectMenuInteraction, Snowflake } from "discord.js";
-import type { ChatInputCommand } from ".";
-import { components } from "../../handlers/interactions/components";
+import { ButtonStyle, ComponentType } from "discord.js";
 import config from "../../config";
 import modules from "../../constants/modules";
+import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
+import { components } from "../../handlers/interactions/components";
+import type { ChatInputCommand } from ".";
 
 const moduleList = Object.keys(modules) as Array<keyof typeof modules>;
 
@@ -114,7 +114,7 @@ function generateModuleMenuReply(name: keyof typeof modules, countingChannel: Co
       {
         title: `Module Information • ${name}`,
         description: description + (incompatible ? `\n\n*Incompatible with modules ${incompatible.map(module => `\`${module}\``).join(", ")}*` : ""),
-        ...image && { image: { url: image }},
+        ...image && { image: { url: image } },
         color: config.colors.primary,
       },
     ],

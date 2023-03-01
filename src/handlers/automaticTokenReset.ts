@@ -1,5 +1,5 @@
-import type{ Client } from "discord.js";
 import TokenReset from "discord-token-reset";
+import type{ Client } from "discord.js";
 import config from "../config";
 
 export default function handleAutomaticTokenReset(client: Client<true>): void {

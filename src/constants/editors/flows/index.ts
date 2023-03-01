@@ -1,11 +1,11 @@
 import type { APIEmbed, ActionRowComponentOptions, ButtonInteraction, CommandInteraction, InteractionReplyOptions, InteractionUpdateOptions, Snowflake } from "discord.js";
 import { ButtonStyle, ComponentType, escapeMarkdown } from "discord.js";
-import type { CountingChannelSchema, FlowSchema, GuildDocument } from "../../../database/models/Guild";
-import type { Step } from "./steps";
-import { components } from "../../../handlers/interactions/components";
 import config from "../../../config";
+import type { CountingChannelSchema, FlowSchema, GuildDocument } from "../../../database/models/Guild";
+import { components } from "../../../handlers/interactions/components";
 import { generateId } from "../../../utils/crypto";
 import limits from "../../limits";
+import type { Step } from "./steps";
 import steps from "./steps";
 
 export function flowEditor(interaction: ButtonInteraction<"cached"> | CommandInteraction<"cached">, document: GuildDocument, countingChannel: CountingChannelSchema, userId: Snowflake, flowId: string = generateId()): void {
@@ -19,7 +19,7 @@ export function flowEditor(interaction: ButtonInteraction<"cached"> | CommandInt
   };
 
   // update flow.disabled if it exceeds the amount of flows allowed
-  flow.disabled = flow.disabled || (Array.from(countingChannel.flows.keys()).indexOf(flowId) + 1 || countingChannel.flows.size + 1) > limits.flows.amount;
+  flow.disabled ||= (Array.from(countingChannel.flows.keys()).indexOf(flowId) + 1 || countingChannel.flows.size + 1) > limits.flows.amount;
 
   const step = existingFlow ? steps.findIndex(({ skipIfExists }) => !skipIfExists) || 0 : 0;
 
@@ -95,7 +95,7 @@ export function designMessage(stepIndex: number, flow: FlowSchema, flowIdentifie
         type: "BUTTON",
         allowedUsers: [userId],
         callback(confirmation) {
-          return void confirmation.update({ content: "🕳 Flow editing has been cancelled.", components: []});
+          return void confirmation.update({ content: "🕳 Flow editing has been cancelled.", components: [] });
         },
       });
     },

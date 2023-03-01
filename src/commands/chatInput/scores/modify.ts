@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import type { ChatInputCommand } from "..";
-import { handlePositionRoles } from "../../../handlers/counting/positionRoles";
+import handlePositionRoles from "../../../handlers/counting/positionRoles";
 
 const command: ChatInputCommand = {
   description: "Modify a user's score",

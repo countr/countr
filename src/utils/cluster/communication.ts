@@ -1,5 +1,5 @@
-import type { CombinedData, ShardData } from "./manager/lists";
 import type { PresenceData } from "discord.js";
+import type { CombinedData, ShardData } from "./manager/lists";
 
 // prefixed MTC = Manager to Cluster, prefixed CTM = Cluster to Manager
 export enum CommunicationType {
@@ -18,15 +18,7 @@ interface Communication<T extends CommunicationType, P extends object> { type: T
 
 export type CommunicationMessage =
   // eslint-disable-next-line @typescript-eslint/sort-type-union-intersection-members
-  | Communication<CommunicationType.CTM_INITIALIZE, ClusterInitializeData>
-  | Communication<CommunicationType.MTC_NOTICE, ManagerNoticeData>
-  | Communication<CommunicationType.MTC_READY_TO_CONNECT, NoPayload>
-  | Communication<CommunicationType.CTM_SHARD_CONNECTED, ShardConnectedData>
-  | Communication<CommunicationType.CTM_CLIENT_READY, ClusterStatsData>
-  | Communication<CommunicationType.MTC_REQUEST_STATS, NoPayload>
-  | Communication<CommunicationType.CTM_POST_STATS, ClusterStatsData>
-  | Communication<CommunicationType.MTC_DELIVER_ALL_STATS, CombinedData>
-  | Communication<CommunicationType.MTC_POST_PRESENCE, PresenceData>;
+  Communication<CommunicationType.CTM_CLIENT_READY, ClusterStatsData> | Communication<CommunicationType.CTM_INITIALIZE, ClusterInitializeData> | Communication<CommunicationType.CTM_POST_STATS, ClusterStatsData> | Communication<CommunicationType.CTM_SHARD_CONNECTED, ShardConnectedData> | Communication<CommunicationType.MTC_DELIVER_ALL_STATS, CombinedData> | Communication<CommunicationType.MTC_NOTICE, ManagerNoticeData> | Communication<CommunicationType.MTC_POST_PRESENCE, PresenceData> | Communication<CommunicationType.MTC_READY_TO_CONNECT, NoPayload> | Communication<CommunicationType.MTC_REQUEST_STATS, NoPayload>;
 
 // type CTM_INITIALIZE
 export interface ClusterInitializeData {

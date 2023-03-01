@@ -1,6 +1,6 @@
+import { TextInputStyle } from "discord.js";
 import { createModalTextInput, getModalTextInput, modals } from "../../../handlers/interactions/modals";
 import type { PropertyInput } from ".";
-import { TextInputStyle } from "discord.js";
 
 const shortInput = (description: string, minLength = 1, maxLength = 1000): PropertyInput<string> => (interaction, currentValue) => new Promise(resolve => {
   void interaction.showModal({

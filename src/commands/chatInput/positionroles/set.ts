@@ -1,8 +1,8 @@
 import { ApplicationCommandOptionType } from "discord.js";
-import type { ChatInputCommand } from "..";
-import { handlePositionRoles } from "../../../handlers/counting/positionRoles";
-import limits from "../../../constants/limits";
 import ordinal from "ordinal";
+import type { ChatInputCommand } from "..";
+import limits from "../../../constants/limits";
+import handlePositionRoles from "../../../handlers/counting/positionRoles";
 
 const command: ChatInputCommand = {
   description: "Set a position role",

@@ -1,13 +1,13 @@
 import type { ButtonInteraction, SelectMenuInteraction } from "discord.js";
-import type { ChatInputCommand } from "..";
 import { ComponentType } from "discord.js";
+import type { ChatInputCommand } from "..";
+import promptProperty from "../../../constants/editors/properties";
+import limits from "../../../constants/limits";
+import triggers from "../../../constants/triggers";
 import type { NotificationSchema } from "../../../database/models/Guild";
 import { components } from "../../../handlers/interactions/components";
-import { fitText } from "../../../utils/text";
 import { generateId } from "../../../utils/crypto";
-import limits from "../../../constants/limits";
-import { promptProperty } from "../../../constants/editors/properties";
-import triggers from "../../../constants/triggers";
+import { fitText } from "../../../utils/text";
 
 const command: ChatInputCommand = {
   description: "Get notified when the server reaches a certain count",

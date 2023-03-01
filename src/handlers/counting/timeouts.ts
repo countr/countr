@@ -1,11 +1,11 @@
-import type { CountingChannelAllowedChannelType } from "../../constants/discord";
-import type { CountingData } from ".";
 import type { GuildMember } from "discord.js";
+import type { CountingChannelAllowedChannelType } from "../../constants/discord";
 import { handleFlowsOnTimeout } from "./flows";
+import type { CountingData } from ".";
 
 const countingFails = new Map<`${CountingChannelAllowedChannelType["id"]}-${GuildMember["id"]}`, number>();
 
-export async function handleTimeouts(countingData: CountingData): Promise<void> {
+export default async function handleTimeouts(countingData: CountingData): Promise<void> {
   if (!countingData.countingChannel.timeoutRole) return;
 
   const fails = (countingFails.get(`${countingData.channel.id}-${countingData.member.id}`) ?? 0) + 1;

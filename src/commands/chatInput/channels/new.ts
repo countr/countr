@@ -1,12 +1,12 @@
+import { inspect } from "util";
 import { ApplicationCommandOptionType, OverwriteType, PermissionsBitField } from "discord.js";
-import { calculatePermissionsForChannel, countingChannelPermissions, countingChannelRootChannels, countingChannelRootPermissions } from "../../../constants/discord";
 import type { ChatInputCommand } from "..";
 import type { CountingChannelRootChannel } from "../../../constants/discord";
-import type { CountingChannelSchema } from "../../../database/models/Guild";
-import { inspect } from "util";
+import { calculatePermissionsForChannel, countingChannelPermissions, countingChannelRootChannels, countingChannelRootPermissions } from "../../../constants/discord";
 import limits from "../../../constants/limits";
-import { mainLogger } from "../../../utils/logger/main";
 import numberSystems from "../../../constants/numberSystems";
+import type { CountingChannelSchema } from "../../../database/models/Guild";
+import mainLogger from "../../../utils/logger/main";
 
 const command: ChatInputCommand = {
   description: "Create a new counting channel",

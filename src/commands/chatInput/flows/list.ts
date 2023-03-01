@@ -1,13 +1,13 @@
-import { ButtonStyle, ComponentType, escapeMarkdown } from "discord.js";
-import type { CountingChannelSchema, GuildDocument } from "../../../database/models/Guild";
 import type { InteractionReplyOptions, InteractionUpdateOptions, Snowflake } from "discord.js";
+import { ButtonStyle, ComponentType, escapeMarkdown } from "discord.js";
 import type { ChatInputCommand } from "..";
-import actions from "../../../constants/flows/actions";
-import { components } from "../../../handlers/interactions/components";
 import { embedsPerMessage } from "../../../constants/discord";
 import { flowEditor } from "../../../constants/editors/flows";
-import { handlePlural } from "../../../utils/text";
+import actions from "../../../constants/flows/actions";
 import triggers from "../../../constants/triggers";
+import type { CountingChannelSchema, GuildDocument } from "../../../database/models/Guild";
+import { components } from "../../../handlers/interactions/components";
+import { handlePlural } from "../../../utils/text";
 
 const command: ChatInputCommand = {
   description: "List all flows",

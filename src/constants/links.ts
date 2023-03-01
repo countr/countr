@@ -1,6 +1,6 @@
-import { countingChannelPermissions, countingChannelRootPermissions } from "./discord";
 import type { Client } from "discord.js";
 import { OAuth2Scopes } from "discord.js";
+import { countingChannelPermissions, countingChannelRootPermissions } from "./discord";
 
 // general
 export const homepage = "https://countr.xyz";

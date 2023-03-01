@@ -1,6 +1,6 @@
 import type { Awaitable, Message, MessageReplyOptions, Snowflake } from "discord.js";
-import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 import type { DebugCommandLevel } from "../../constants/permissions";
+import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 
 export type MentionCommand = {
   aliases?: [string, ...string[]];

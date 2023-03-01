@@ -1,6 +1,6 @@
+import type { TextBasedChannel } from "discord.js";
 import { ApplicationCommandOptionType } from "discord.js";
 import type { ChatInputCommand } from "..";
-import type { TextBasedChannel } from "discord.js";
 import { textBasedChannelTypes } from "../../../constants/discord";
 
 const command: ChatInputCommand = {

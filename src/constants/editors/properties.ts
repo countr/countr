@@ -1,10 +1,9 @@
 import type { ButtonInteraction, InteractionReplyOptions, InteractionUpdateOptions, ModalSubmitInteraction, SelectMenuInteraction, Snowflake } from "discord.js";
 import { ButtonStyle, ComponentType, InteractionType } from "discord.js";
-import type { Property } from "../properties";
 import { components } from "../../handlers/interactions/components";
+import type { Property } from "../properties";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function promptProperty<T extends Property<any, any>, U = T extends Property<infer V, any> ? V : never>(interaction: ButtonInteraction<"cached"> | SelectMenuInteraction<"cached">, userId: Snowflake, property: T, currentValue?: U): Promise<[ data: U | null, nextInteraction: ButtonInteraction<"cached"> ]> {
+export default async function promptProperty<T extends Property, U = T extends Property<infer V> ? V : never>(interaction: ButtonInteraction<"cached"> | SelectMenuInteraction<"cached">, userId: Snowflake, property: T, currentValue?: U): Promise<[ data: U | null, nextInteraction: ButtonInteraction<"cached"> ]> {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const [value, newInteraction] = await property.input(interaction, currentValue);
   const converted = await property.convert(value, interaction.guild) as U | null;

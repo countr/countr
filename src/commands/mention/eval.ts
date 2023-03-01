@@ -1,13 +1,13 @@
-import { ButtonStyle, ComponentType } from "discord.js";
-import { DebugCommandLevel } from "../../constants/permissions";
-import type { MentionCommand } from ".";
-import type { MessageReplyOptions } from "discord.js";
-import { charactersPerMessage } from "../../constants/discord";
-import { components } from "../../handlers/interactions/components";
-import config from "../../config";
-import { inspect } from "util";
 import { randomBytes } from "crypto";
+import { inspect } from "util";
+import type { MessageReplyOptions } from "discord.js";
+import { ButtonStyle, ComponentType } from "discord.js";
 import superagent from "superagent";
+import config from "../../config";
+import { charactersPerMessage } from "../../constants/discord";
+import { DebugCommandLevel } from "../../constants/permissions";
+import { components } from "../../handlers/interactions/components";
+import type { MentionCommand } from ".";
 
 const command: MentionCommand = {
   debugLevel: DebugCommandLevel.Owner,
@@ -21,7 +21,7 @@ const command: MentionCommand = {
         const start = Date.now();
         return evaluated.then(async (result: unknown) => (await botMsg).edit(await generateMessage(result, Date.now() - start)));
       }
-      return generateMessage(evaluated, null).then(messageOptions => reply({ ...messageOptions, allowedMentions: { repliedUser: false }}));
+      return generateMessage(evaluated, null).then(messageOptions => reply({ ...messageOptions, allowedMentions: { repliedUser: false } }));
     } catch (err) {
       return generateMessage(err, null, false).then(reply);
     }
