@@ -32,10 +32,10 @@ specifiers:
   time-limited-regular-expressions: 1.0.0
   ts-jest: 29.0.5
   typescript: 4.6.4
-  utf-8-validate: 5.0.10
+  utf-8-validate: 6.0.3
   winston: 3.8.2
   winston-daily-rotate-file: 4.7.1
-  ws: 8.11.0
+  ws: 8.12.1
   zlib-sync: 0.1.8
 
 dependencies:
@@ -44,7 +44,7 @@ dependencies:
   ajv: 8.11.0
   bufferutil: 4.0.7
   discord-token-reset: github.com/promise/discord-tokens/78e659487fdb2de9658f00c515d231fdcf6c645f_bnijgxhk6soszn4dlvgazzkdvi
-  discord.js: 14.6.0_3cxu5zja4e2r5wmvge7mdcljwq
+  discord.js: 14.6.0_2adebc2xdjqbcvbjxkodkhadp4
   dotenv: 16.0.3
   erlpack: github.com/discord/erlpack/cbe76be04c2210fc9cb6ff95910f0937c1011d04
   express: 4.18.2
@@ -56,10 +56,10 @@ dependencies:
   ordinal: 1.0.3
   superagent: 8.0.9
   time-limited-regular-expressions: 1.0.0
-  utf-8-validate: 5.0.10
+  utf-8-validate: 6.0.3
   winston: 3.8.2
   winston-daily-rotate-file: 4.7.1_winston@3.8.2
-  ws: 8.11.0_3cxu5zja4e2r5wmvge7mdcljwq
+  ws: 8.12.1_2adebc2xdjqbcvbjxkodkhadp4
   zlib-sync: 0.1.8
 
 devDependencies:
@@ -2763,7 +2763,7 @@ packages:
     resolution: {integrity: sha512-SMBP4V6/A9mE7shBQAiTxNWnQlYTdiKMGvc7G23neayxaTJeFYh5FviJSWUa0BTdXcph1h/jT03Nbyv5XgZkzw==}
     dev: false
 
-  /discord.js/14.6.0_3cxu5zja4e2r5wmvge7mdcljwq:
+  /discord.js/14.6.0_2adebc2xdjqbcvbjxkodkhadp4:
     resolution: {integrity: sha512-On1K7xpJZRe0KsziIaDih2ksYPhgxym/ZqV45i1f3yig4vUotikqs7qp5oXiTzQ/UTiNRCixUWFTh7vA1YBCqw==}
     engines: {node: '>=16.9.0'}
     dependencies:
@@ -2778,7 +2778,7 @@ packages:
       lodash.snakecase: 4.1.1
       tslib: 2.5.0
       undici: 5.11.0
-      ws: 8.11.0_3cxu5zja4e2r5wmvge7mdcljwq
+      ws: 8.12.1_2adebc2xdjqbcvbjxkodkhadp4
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -5738,8 +5738,8 @@ packages:
     dependencies:
       punycode: 2.1.1
 
-  /utf-8-validate/5.0.10:
-    resolution: {integrity: sha512-Z6czzLq4u8fPOyx7TU6X3dvUZVvoJmxSQ+IcrlmagKhilxlhZgxPK6C5Jqbkw1IDUmFTM+cz9QDnnLTwDz/2gQ==}
+  /utf-8-validate/6.0.3:
+    resolution: {integrity: sha512-uIuGf9TWQ/y+0Lp+KGZCMuJWc3N9BHA+l/UmHd/oUHwJJDeysyTRxNQVkbzsIWfGFbRe3OcgML/i0mvVRPOyDA==}
     engines: {node: '>=6.14.2'}
     requiresBuild: true
     dependencies:
@@ -5899,12 +5899,12 @@ packages:
       signal-exit: 3.0.7
     dev: true
 
-  /ws/8.11.0_3cxu5zja4e2r5wmvge7mdcljwq:
-    resolution: {integrity: sha512-HPG3wQd9sNQoT9xHyNCXoDUa+Xw/VevmY9FoHyQ+g+rrMn4j6FB4np7Z0OhdTgjx6MgQLK7jwSy1YecU1+4Asg==}
+  /ws/8.12.1_2adebc2xdjqbcvbjxkodkhadp4:
+    resolution: {integrity: sha512-1qo+M9Ba+xNhPB+YTWUlK6M17brTut5EXbcBaMRN5pH5dFrXz7lzz1ChFSUq3bOUl8yEvSenhHmYUNJxFzdJew==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
-      utf-8-validate: ^5.0.2
+      utf-8-validate: '>=5.0.2'
     peerDependenciesMeta:
       bufferutil:
         optional: true
@@ -5912,7 +5912,7 @@ packages:
         optional: true
     dependencies:
       bufferutil: 4.0.7
-      utf-8-validate: 5.0.10
+      utf-8-validate: 6.0.3
     dev: false
 
   /y18n/5.0.8:
@@ -5973,7 +5973,7 @@ packages:
       discord.js: ^14
     dependencies:
       '@octokit/rest': 19.0.7
-      discord.js: 14.6.0_3cxu5zja4e2r5wmvge7mdcljwq
+      discord.js: 14.6.0_2adebc2xdjqbcvbjxkodkhadp4
     dev: false
 
   github.com/promise/eslint-config/ec167af44722e4a8da67e3a2897680f7708cff2e_dnraj3q5zlrehm5jfedec5mdmy:
