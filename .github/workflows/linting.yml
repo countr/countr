@@ -1,11 +1,12 @@
 name: Linting
+
 on:
   push:
     branches:
-    - main
+      - main
   pull_request:
     branches:
-    - main
+      - main
 
 jobs:
   eslint:
@@ -16,21 +17,19 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
 
+    - name: Set up pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 7
+
     - name: Set up node
       uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3
       with:
-        node-version: "18.x"
-
-    - name: Set up module cache
-      uses: actions/cache@69d9d449aced6a2ede0bc19182fadc3a0a42d2b0 # v3
-      id: cache-packages
-      with:
-        path: node_modules
-        key: ${{ hashFiles('**/package-lock.json') }}
+        node-version-file: ".nvmrc"
+        cache: "pnpm"
 
     - name: Install dependencies
-      run: npm ci
-      if: steps.cache-packages.outputs.cache-hit != 'true'
+      run: pnpm install --frozen-lockfile
 
     - name: Run ESLint
-      run: npm run lint
+      run: pnpm lint
