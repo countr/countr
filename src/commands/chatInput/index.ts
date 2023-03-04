@@ -51,5 +51,5 @@ export const slashCommandPermissions: Record<string, PermissionLevel> = {
   modules: PermissionLevel.Admin,
   ping: PermissionLevel.None,
   select: PermissionLevel.None,
-  user: PermissionLevel.Admin,
+  user: PermissionLevel.None,
 };
