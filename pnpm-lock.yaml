@@ -35,7 +35,7 @@ specifiers:
   utf-8-validate: 6.0.3
   winston: 3.8.2
   winston-daily-rotate-file: 4.7.1
-  ws: 8.12.1
+  ws: 8.13.0
   zlib-sync: 0.1.8
 
 dependencies:
@@ -43,7 +43,7 @@ dependencies:
   '@typegoose/typegoose': 10.3.0_mongoose@6.10.2
   ajv: 8.11.0
   bufferutil: 4.0.7
-  discord-token-reset: github.com/promise/discord-tokens/4d296f2d4944119ddc7bc52d62eca74534a6f34e_bnijgxhk6soszn4dlvgazzkdvi
+  discord-token-reset: github.com/promise/discord-tokens/f6388a305309a522083f8d1859cbbb209b26523b_bnijgxhk6soszn4dlvgazzkdvi
   discord.js: 14.6.0_2adebc2xdjqbcvbjxkodkhadp4
   dotenv: 16.0.3
   erlpack: github.com/discord/erlpack/cbe76be04c2210fc9cb6ff95910f0937c1011d04
@@ -59,7 +59,7 @@ dependencies:
   utf-8-validate: 6.0.3
   winston: 3.8.2
   winston-daily-rotate-file: 4.7.1_winston@3.8.2
-  ws: 8.12.1_2adebc2xdjqbcvbjxkodkhadp4
+  ws: 8.13.0_2adebc2xdjqbcvbjxkodkhadp4
   zlib-sync: 0.1.8
 
 devDependencies:
@@ -2800,7 +2800,7 @@ packages:
       lodash.snakecase: 4.1.1
       tslib: 2.5.0
       undici: 5.11.0
-      ws: 8.12.1_2adebc2xdjqbcvbjxkodkhadp4
+      ws: 8.13.0_2adebc2xdjqbcvbjxkodkhadp4
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -5986,8 +5986,8 @@ packages:
       signal-exit: 3.0.7
     dev: true
 
-  /ws/8.12.1_2adebc2xdjqbcvbjxkodkhadp4:
-    resolution: {integrity: sha512-1qo+M9Ba+xNhPB+YTWUlK6M17brTut5EXbcBaMRN5pH5dFrXz7lzz1ChFSUq3bOUl8yEvSenhHmYUNJxFzdJew==}
+  /ws/8.13.0_2adebc2xdjqbcvbjxkodkhadp4:
+    resolution: {integrity: sha512-x9vcZYTrFPC7aSIbj7sRCYo7L/Xb8Iy+pW0ng0wt2vCJv7M9HOMy0UoN3rr+IFC7hb7vXoqS+P9ktyLLLhO+LA==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -6050,9 +6050,9 @@ packages:
       nan: 2.17.0
     dev: false
 
-  github.com/promise/discord-tokens/4d296f2d4944119ddc7bc52d62eca74534a6f34e_bnijgxhk6soszn4dlvgazzkdvi:
-    resolution: {tarball: https://codeload.github.com/promise/discord-tokens/tar.gz/4d296f2d4944119ddc7bc52d62eca74534a6f34e}
-    id: github.com/promise/discord-tokens/4d296f2d4944119ddc7bc52d62eca74534a6f34e
+  github.com/promise/discord-tokens/f6388a305309a522083f8d1859cbbb209b26523b_bnijgxhk6soszn4dlvgazzkdvi:
+    resolution: {tarball: https://codeload.github.com/promise/discord-tokens/tar.gz/f6388a305309a522083f8d1859cbbb209b26523b}
+    id: github.com/promise/discord-tokens/f6388a305309a522083f8d1859cbbb209b26523b
     name: discord-token-reset
     version: 0.0.0
     peerDependencies:
