@@ -4,7 +4,7 @@ specifiers:
   '@emmetio/math-expression': 1.0.4
   '@total-typescript/ts-reset': 0.4.2
   '@tsconfig/node18-strictest': 1.0.0
-  '@typegoose/typegoose': 10.3.3
+  '@typegoose/typegoose': 10.3.4
   '@types/express': 4.17.17
   '@types/jest': 29.5.0
   '@types/morgan': 1.9.4
@@ -40,7 +40,7 @@ specifiers:
 
 dependencies:
   '@emmetio/math-expression': 1.0.4
-  '@typegoose/typegoose': 10.3.3_mongoose@6.10.4
+  '@typegoose/typegoose': 10.3.4_mongoose@6.10.4
   ajv: 8.11.0
   bufferutil: 4.0.7
   discord-token-reset: github.com/promise/discord-tokens/f156bf6195cf770d99793655b18ce95f25c6baa0_bnijgxhk6soszn4dlvgazzkdvi
@@ -1829,8 +1829,8 @@ packages:
     resolution: {integrity: sha512-bOuNKwO4Fzbt+Su5wqI9zNHwx5C25gLnutwVQA1sBZk0cW8UjVPVcwzIUhJIIJDUx7zDEbAwdCD2HfvIsV8dYg==}
     dev: true
 
-  /@typegoose/typegoose/10.3.3_mongoose@6.10.4:
-    resolution: {integrity: sha512-pbgaPytydBqL3Pcl1ak7QScBXynnrcw1UAW74s0oSRQi7MPkBEU3Bc9b+W5ds3mgNGFw6M7Gcjl6NETDYoU1Pg==}
+  /@typegoose/typegoose/10.3.4_mongoose@6.10.4:
+    resolution: {integrity: sha512-C27lxLnfdYnVJM96EbE/ocRIWyuufqFMZQI4q4e1TD6rXSyeDxNGQpBdv0FxGE9emQ6Mk6h2mBFJq7uGRp14Cw==}
     engines: {node: '>=14.17.0'}
     peerDependencies:
       mongoose: ~6.10.0

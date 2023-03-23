@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@emmetio/math-expression": "1.0.4",
-    "@typegoose/typegoose": "10.3.3",
+    "@typegoose/typegoose": "10.3.4",
     "ajv": "8.11.0",
     "bufferutil": "4.0.7",
     "discord-token-reset": "github:promise/discord-tokens",
