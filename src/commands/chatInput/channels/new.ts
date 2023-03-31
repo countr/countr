@@ -1,7 +1,6 @@
 import { inspect } from "util";
 import { ApplicationCommandOptionType, OverwriteType, PermissionsBitField } from "discord.js";
 import type { ChatInputCommand } from "..";
-import type { CountingChannelRootChannel } from "../../../constants/discord";
 import { calculatePermissionsForChannel, countingChannelPermissions, countingChannelRootChannels, countingChannelRootPermissions } from "../../../constants/discord";
 import limits from "../../../constants/limits";
 import numberSystems from "../../../constants/numberSystems";
@@ -39,7 +38,7 @@ const command: ChatInputCommand = {
     }
 
     const name = interaction.options.getString("name") ?? "Counting";
-    const threadParent = interaction.options.getChannel("thread_in") as CountingChannelRootChannel | null;
+    const threadParent = interaction.options.getChannel("thread_in", false, [...countingChannelRootChannels]);
     const countingSystem = (interaction.options.getString("counting_system") ?? "decimal") as keyof typeof numberSystems;
 
     const me = await interaction.guild.members.fetch({ user: interaction.client.user, force: false });

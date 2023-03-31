@@ -24,7 +24,7 @@ export default function handleInteractions(client: Client<true>): void {
     if (interaction.type === InteractionType.ModalSubmit) return modalHandler(interaction);
 
     if (interaction.type === InteractionType.MessageComponent) {
-      if (interaction.isButton() || interaction.isSelectMenu()) componentHandler(interaction);
+      if (interaction.isButton() || interaction.isAnySelectMenu()) componentHandler(interaction);
       return;
     }
 

@@ -1,7 +1,7 @@
 import { readdir } from "fs/promises";
 import { join } from "path";
 import { inspect } from "util";
-import type { Message, MessageReplyOptions, Snowflake } from "discord.js";
+import type { Message, MessageEditOptions, MessageReplyOptions, Snowflake } from "discord.js";
 import { escapeInlineCode } from "discord.js";
 import type { MentionCommand } from "../commands/mention";
 import { quickResponses } from "../commands/mention";
@@ -56,8 +56,8 @@ async function handleCommand(message: Message<true>, document: GuildDocument, ex
   return [message, await command.execute(message, options => reply(options, message, existingReply), args, document, (selectedCountingChannel ?? [null, null]) as never)];
 }
 
-async function reply(optionsOrContent: MessageReplyOptions | string, message: Message, existingReply?: Message): Promise<Message> {
-  const options: MessageReplyOptions = {
+async function reply(optionsOrContent: string | MessageEditOptions & MessageReplyOptions, message: Message, existingReply?: Message): Promise<Message> {
+  const options: MessageEditOptions & MessageReplyOptions = {
     allowedMentions: { repliedUser: true },
     components: [],
     embeds: [],

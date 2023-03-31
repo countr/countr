@@ -1,7 +1,7 @@
 import { ButtonStyle, ComponentType } from "discord.js";
 import type { ChatInputCommand } from "../..";
 import { resetGuildDocument } from "../../../../database";
-import { components } from "../../../../handlers/interactions/components";
+import { buttonComponents } from "../../../../handlers/interactions/components";
 
 const command: ChatInputCommand = {
   description: "Factory reset the guild",
@@ -30,8 +30,7 @@ const command: ChatInputCommand = {
     });
 
 
-    components.set(`${interaction.id}:yes`, {
-      type: "BUTTON",
+    buttonComponents.set(`${interaction.id}:yes`, {
       allowedUsers: [interaction.user.id],
       callback: async button => {
         await resetGuildDocument(interaction.guildId);
@@ -42,8 +41,7 @@ const command: ChatInputCommand = {
       },
     });
 
-    components.set(`${interaction.id}:no`, {
-      type: "BUTTON",
+    buttonComponents.set(`${interaction.id}:no`, {
       allowedUsers: [interaction.user.id],
       callback: button => void button.update({
         content: "❌ Reset aborted.",
