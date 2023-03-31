@@ -1,8 +1,8 @@
-import type { APIEmbedField, ButtonInteraction, MessageComponentInteraction, SelectMenuInteraction, Snowflake } from "discord.js";
+import type { AnySelectMenuInteraction, APIEmbedField, ButtonInteraction, MessageComponentInteraction, Snowflake } from "discord.js";
 import { ButtonStyle, ComponentType } from "discord.js";
 import config from "../../config";
 import type { ActionDetailsSchema, FlowSchema, TriggerDetailsSchema } from "../../database/models/Guild";
-import { components } from "../../handlers/interactions/components";
+import { buttonComponents, selectMenuComponents } from "../../handlers/interactions/components";
 import { capitalizeFirst, fitText } from "../../utils/text";
 import type { Action } from "../flows/actions";
 import actions from "../flows/actions";
@@ -10,7 +10,7 @@ import type { Trigger } from "../triggers";
 import triggers from "../triggers";
 import promptProperty from "./properties";
 
-export default function editTriggerOrAction<T extends "action" | "trigger">(triggerOrAction: T, interaction: ButtonInteraction<"cached"> | SelectMenuInteraction<"cached">, userId: Snowflake, flowOptions: T extends "trigger" ? TriggerDetailsSchema : ActionDetailsSchema, flowOptionIndex: number, flow: FlowSchema): Promise<MessageComponentInteraction> {
+export default function editTriggerOrAction<T extends "action" | "trigger">(triggerOrAction: T, interaction: AnySelectMenuInteraction<"cached"> | ButtonInteraction<"cached">, userId: Snowflake, flowOptions: T extends "trigger" ? TriggerDetailsSchema : ActionDetailsSchema, flowOptionIndex: number, flow: FlowSchema): Promise<MessageComponentInteraction> {
   const allOptions = triggerOrAction === "trigger" ? triggers : actions;
   const { name, description, properties, explanation } = allOptions[flowOptions.type as keyof typeof allOptions] as Action & Trigger;
 
@@ -74,8 +74,8 @@ export default function editTriggerOrAction<T extends "action" | "trigger">(trig
       ],
     }));
 
-    components.set(`${interaction.id}:edit_property`, {
-      type: "SELECT_MENU",
+    selectMenuComponents.set(`${interaction.id}:edit_property`, {
+      selectType: "string",
       allowedUsers: [interaction.user.id],
       async callback(select) {
         const i = parseInt(select.values[0]!, 10);
@@ -87,16 +87,14 @@ export default function editTriggerOrAction<T extends "action" | "trigger">(trig
       },
     });
 
-    components.set(`${interaction.id}:done`, {
-      type: "BUTTON",
+    buttonComponents.set(`${interaction.id}:done`, {
       allowedUsers: [interaction.user.id],
       callback(button) {
         return resolve(button);
       },
     });
 
-    components.set(`${interaction.id}:delete`, {
-      type: "BUTTON",
+    buttonComponents.set(`${interaction.id}:delete`, {
       allowedUsers: [interaction.user.id],
       callback(button) {
         flow[`${triggerOrAction}s`] = (flow[`${triggerOrAction}s`] as never[]).filter((_, i) => i !== flowOptionIndex);

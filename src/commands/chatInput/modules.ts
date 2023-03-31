@@ -1,9 +1,9 @@
-import type { InteractionReplyOptions, InteractionUpdateOptions, SelectMenuInteraction, Snowflake } from "discord.js";
+import type { InteractionReplyOptions, InteractionUpdateOptions, Snowflake, StringSelectMenuInteraction } from "discord.js";
 import { ButtonStyle, ComponentType } from "discord.js";
 import config from "../../config";
 import modules from "../../constants/modules";
 import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
-import { components } from "../../handlers/interactions/components";
+import { buttonComponents, selectMenuComponents } from "../../handlers/interactions/components";
 import type { ChatInputCommand } from ".";
 
 const moduleList = Object.keys(modules) as Array<keyof typeof modules>;
@@ -19,8 +19,8 @@ const command: ChatInputCommand = {
 export default { ...command } as ChatInputCommand;
 
 function moduleListOverview(ephemeral: boolean, document: GuildDocument, countingChannel: CountingChannelSchema, uniqueId: string, userId: Snowflake): InteractionReplyOptions & InteractionUpdateOptions {
-  components.set(`${uniqueId}:module`, {
-    type: "SELECT_MENU",
+  selectMenuComponents.set(`${uniqueId}:module`, {
+    selectType: "string",
     allowedUsers: [userId],
     callback(interaction) {
       return void interaction.update(moduleDetails(interaction, ephemeral, document, countingChannel, interaction.id, userId));
@@ -63,12 +63,11 @@ function moduleListOverview(ephemeral: boolean, document: GuildDocument, countin
   };
 }
 
-function moduleDetails(interaction: SelectMenuInteraction, ephemeral: boolean, document: GuildDocument, countingChannel: CountingChannelSchema, uniqueId: string, userId: Snowflake): InteractionReplyOptions & InteractionUpdateOptions {
+function moduleDetails(interaction: StringSelectMenuInteraction, ephemeral: boolean, document: GuildDocument, countingChannel: CountingChannelSchema, uniqueId: string, userId: Snowflake): InteractionReplyOptions & InteractionUpdateOptions {
   const [name] = interaction.values as [keyof typeof modules];
   const { incompatible } = modules[name];
 
-  components.set(`${uniqueId}:enable`, {
-    type: "BUTTON",
+  buttonComponents.set(`${uniqueId}:enable`, {
     allowedUsers: [interaction.user.id],
     callback(button) {
       if (incompatible?.some(module => countingChannel.modules.includes(module))) {
@@ -85,8 +84,7 @@ function moduleDetails(interaction: SelectMenuInteraction, ephemeral: boolean, d
     },
   });
 
-  components.set(`${uniqueId}:disable`, {
-    type: "BUTTON",
+  buttonComponents.set(`${uniqueId}:disable`, {
     allowedUsers: [interaction.user.id],
     callback(button) {
       countingChannel.modules = countingChannel.modules.filter(module => module !== name);
@@ -96,8 +94,7 @@ function moduleDetails(interaction: SelectMenuInteraction, ephemeral: boolean, d
     },
   });
 
-  components.set(`${uniqueId}:back`, {
-    type: "BUTTON",
+  buttonComponents.set(`${uniqueId}:back`, {
     allowedUsers: [interaction.user.id],
     callback(button) {
       return void button.update(moduleListOverview(ephemeral, document, countingChannel, button.id, userId));

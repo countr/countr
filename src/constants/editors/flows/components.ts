@@ -1,7 +1,7 @@
-import type { APIButtonComponentWithCustomId, APISelectMenuComponent, Awaitable, ButtonInteraction, InteractionReplyOptions, InteractionUpdateOptions, SelectMenuInteraction, Snowflake } from "discord.js";
+import type { AnySelectMenuInteraction, APIButtonComponentWithCustomId, APISelectMenuComponent, Awaitable, ButtonInteraction, InteractionReplyOptions, InteractionUpdateOptions, RoleSelectMenuInteraction, Snowflake, APIRoleSelectComponent, ChannelSelectMenuInteraction, APIChannelSelectComponent, UserSelectMenuInteraction, APIUserSelectComponent, StringSelectMenuInteraction, APIStringSelectComponent, MentionableSelectMenuInteraction, APIMentionableSelectComponent } from "discord.js";
 import { ButtonStyle, ComponentType } from "discord.js";
 import type { ActionDetailsSchema, CountingChannelSchema, FlowSchema, TriggerDetailsSchema } from "../../../database/models/Guild";
-import { components } from "../../../handlers/interactions/components";
+import { buttonComponents, selectMenuComponents } from "../../../handlers/interactions/components";
 import { fitText } from "../../../utils/text";
 import type { Action } from "../../flows/actions";
 import actions from "../../flows/actions";
@@ -17,9 +17,16 @@ export interface FlowEditorButtonComponent extends APIButtonComponentWithCustomI
   callback(interaction: ButtonInteraction<"cached">, designNewMessage: () => InteractionReplyOptions & InteractionUpdateOptions, flow: FlowSchema, countingChannel: CountingChannelSchema): Awaitable<void>;
 }
 
-export interface FlowEditorSelectMenuComponent extends APISelectMenuComponent {
-  callback(interaction: SelectMenuInteraction<"cached">, designNewMessage: () => InteractionReplyOptions & InteractionUpdateOptions, flow: FlowSchema, countingChannel: CountingChannelSchema): Awaitable<void>;
-}
+type FlowEditorSpecificSelectMenuComponent<SelectMenuInteraction extends AnySelectMenuInteraction, SelectMenuComponent extends APISelectMenuComponent> = SelectMenuComponent & {
+  callback(interaction: SelectMenuInteraction, designNewMessage: () => InteractionReplyOptions & InteractionUpdateOptions, flow: FlowSchema, countingChannel: CountingChannelSchema): Awaitable<void>;
+};
+
+export type FlowEditorSelectMenuComponent =
+| FlowEditorSpecificSelectMenuComponent<ChannelSelectMenuInteraction<"cached">, APIChannelSelectComponent>
+| FlowEditorSpecificSelectMenuComponent<MentionableSelectMenuInteraction<"cached">, APIMentionableSelectComponent>
+| FlowEditorSpecificSelectMenuComponent<RoleSelectMenuInteraction<"cached">, APIRoleSelectComponent>
+| FlowEditorSpecificSelectMenuComponent<StringSelectMenuInteraction<"cached">, APIStringSelectComponent>
+| FlowEditorSpecificSelectMenuComponent<UserSelectMenuInteraction<"cached">, APIUserSelectComponent>;
 
 export function getTriggerOrActionComponents(triggerOrAction: "action" | "trigger", flow: FlowSchema, userId: Snowflake): Array<[FlowEditorComponent, ...FlowEditorComponent[]]> {
   const aTriggerOrAnAction = triggerOrAction === "trigger" ? "a trigger" : "an action";
@@ -99,8 +106,8 @@ export function getTriggerOrActionComponents(triggerOrAction: "action" | "trigge
             ],
           });
 
-          components.set(`${select.id}:selected`, {
-            type: "SELECT_MENU",
+          selectMenuComponents.set(`${select.id}:selected`, {
+            selectType: "string",
             allowedUsers: [select.user.id],
             async callback(selected) {
               const [type] = selected.values as [keyof typeof allOptions];
@@ -108,7 +115,7 @@ export function getTriggerOrActionComponents(triggerOrAction: "action" | "trigge
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               const newOption = { type, data: [] } as ActionDetailsSchema<any> | TriggerDetailsSchema<any>;
 
-              let interaction: ButtonInteraction<"cached"> | SelectMenuInteraction<"cached"> = selected;
+              let interaction: AnySelectMenuInteraction<"cached"> | ButtonInteraction<"cached"> = selected;
               if (option.properties) {
                 for (const property of option.properties) {
                   const [value, newInteraction] = await promptProperty(interaction, userId, property) as Awaited<ReturnType<typeof promptProperty>>;
@@ -124,8 +131,7 @@ export function getTriggerOrActionComponents(triggerOrAction: "action" | "trigge
             },
           });
 
-          components.set(`${select.id}:cancel`, {
-            type: "BUTTON",
+          buttonComponents.set(`${select.id}:cancel`, {
             allowedUsers: [select.user.id],
             callback(button) {
               return void button.update(designNewMessage());

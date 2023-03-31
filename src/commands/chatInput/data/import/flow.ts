@@ -3,7 +3,7 @@ import superagent from "superagent";
 import type { ChatInputCommand } from "../..";
 import { flowEditor } from "../../../../constants/editors/flows";
 import limits from "../../../../constants/limits";
-import { components } from "../../../../handlers/interactions/components";
+import { buttonComponents } from "../../../../handlers/interactions/components";
 import { generateId } from "../../../../utils/crypto";
 import { parseFlow } from "../../../../utils/validation/flow";
 
@@ -51,8 +51,7 @@ const command: ChatInputCommand = {
         ],
       });
 
-      components.set(`${interaction.id}:edit-flow`, {
-        type: "BUTTON",
+      buttonComponents.set(`${interaction.id}:edit-flow`, {
         allowedUsers: [interaction.user.id],
         callback(button) {
           return flowEditor(button, document, countingChannel, interaction.user.id, flowId);

@@ -1,47 +1,84 @@
-import type { Awaitable, ButtonInteraction, SelectMenuInteraction, Snowflake } from "discord.js";
-import commandsLogger from "../../utils/logger/commands";
+import type { AnySelectMenuInteraction, Awaitable, ButtonInteraction, ChannelSelectMenuInteraction, MentionableSelectMenuInteraction, RoleSelectMenuInteraction, Snowflake, StringSelectMenuInteraction, UserSelectMenuInteraction } from "discord.js";
+import { ComponentType } from "discord.js";
 
-interface SelectMenuComponentDetails {
-  type: "SELECT_MENU";
-  callback(interaction: SelectMenuInteraction<"cached">): Awaitable<void>;
+interface BaseComponent {
+  allowedUsers: "all" | [Snowflake, ...Snowflake[]];
+  garbageCollect?: Date | false;
 }
 
-interface ButtonComponentDetails {
-  type: "BUTTON";
+interface ButtonComponent extends BaseComponent {
   callback(interaction: ButtonInteraction<"cached">): Awaitable<void>;
 }
 
-type ComponentInteractionDetails = {
-  allowedUsers: "all" | [Snowflake, ...Snowflake[]];
-  garbageCollect?: Date | false;
-} & (ButtonComponentDetails | SelectMenuComponentDetails);
+interface ChannelSelectMenuComponent extends BaseComponent {
+  selectType: "channel";
+  callback(interaction: ChannelSelectMenuInteraction<"cached">): Awaitable<void>;
+}
 
-export const components = new Map<string, ComponentInteractionDetails>();
+interface MentionableSelectMenuComponent extends BaseComponent {
+  selectType: "mentionable";
+  callback(interaction: MentionableSelectMenuInteraction<"cached">): Awaitable<void>;
+}
 
-export default function componentHandler(interaction: ButtonInteraction<"cached"> | SelectMenuInteraction<"cached">): void {
-  const component = components.get(interaction.customId);
-  if (!component) return void commandsLogger.debug(`Component interaction ${interaction.customId} not found for interaction ${interaction.id}, channel ${interaction.channelId}, guild ${interaction.guildId}`);
+interface RoleSelectMenuComponent extends BaseComponent {
+  selectType: "role";
+  callback(interaction: RoleSelectMenuInteraction<"cached">): Awaitable<void>;
+}
 
-  if (component.allowedUsers !== "all" && !component.allowedUsers.includes(interaction.user.id)) return;
-  void component.callback(interaction as never);
+interface StringSelectMenuComponent extends BaseComponent {
+  selectType: "string";
+  callback(interaction: StringSelectMenuInteraction<"cached">): Awaitable<void>;
+}
+
+interface UserSelectMenuComponent extends BaseComponent {
+  selectType: "user";
+  callback(interaction: UserSelectMenuInteraction<"cached">): Awaitable<void>;
+}
+
+export const buttonComponents = new Map<string, ButtonComponent>();
+export const selectMenuComponents = new Map<string, ChannelSelectMenuComponent | MentionableSelectMenuComponent | RoleSelectMenuComponent | StringSelectMenuComponent | UserSelectMenuComponent>();
+
+export default function componentHandler(interaction: AnySelectMenuInteraction<"cached"> | ButtonInteraction<"cached">): void {
+  if (interaction.isButton()) {
+    const component = buttonComponents.get(interaction.customId);
+    if (component && (component.allowedUsers === "all" || component.allowedUsers.includes(interaction.user.id))) void component.callback(interaction);
+  } else if (interaction.isAnySelectMenu()) {
+    const component = selectMenuComponents.get(interaction.customId);
+    if (component && (component.allowedUsers === "all" || component.allowedUsers.includes(interaction.user.id)) && selectComponentMatchesInteractionType(interaction, component)) void component.callback(interaction as never);
+  }
+}
+
+export const selectTypes: Record<(ChannelSelectMenuComponent | MentionableSelectMenuComponent | RoleSelectMenuComponent | StringSelectMenuComponent | UserSelectMenuComponent)["selectType"], ComponentType> = {
+  channel: ComponentType.ChannelSelect,
+  mentionable: ComponentType.MentionableSelect,
+  role: ComponentType.RoleSelect,
+  string: ComponentType.StringSelect,
+  user: ComponentType.UserSelect,
+} as const;
+
+function selectComponentMatchesInteractionType(interaction: AnySelectMenuInteraction<"cached">, component: ChannelSelectMenuComponent | MentionableSelectMenuComponent | RoleSelectMenuComponent | StringSelectMenuComponent | UserSelectMenuComponent): boolean {
+  return selectTypes[component.selectType] === interaction.componentType;
+}
+
+export function getSelectTypeFromComponentType(componentType: ComponentType): keyof typeof selectTypes {
+  return Object.entries(selectTypes).find(([, type]) => type === componentType)![0] as never;
 }
 
 const pendingGarbage = new Map<string, Date>();
-if (process.env["NODE_ENV"] !== "test") {
-  setInterval(() => {
-    const now = new Date();
-    pendingGarbage.forEach((date, key) => {
-      if (now < date) return;
+setInterval(() => {
+  const now = new Date();
+  pendingGarbage.forEach((date, key) => {
+    if (now < date) return;
 
-      components.delete(key);
-      pendingGarbage.delete(key);
-    });
+    buttonComponents.delete(key);
+    selectMenuComponents.delete(key);
+    pendingGarbage.delete(key);
+  });
 
-    components.forEach(({ garbageCollect }, key) => {
-      if (garbageCollect === false || pendingGarbage.has(key)) return;
+  [...Array.from(buttonComponents.entries()), ...Array.from(selectMenuComponents.entries())].forEach(([key, { garbageCollect }]) => {
+    if (garbageCollect === false || pendingGarbage.has(key)) return;
 
-      const date = garbageCollect ?? new Date(now.getTime() + 3600000);
-      pendingGarbage.set(key, date);
-    });
-  }, 300000);
-}
+    const date = garbageCollect ?? new Date(now.getTime() + 3600000);
+    pendingGarbage.set(key, date);
+  });
+}, 300000);

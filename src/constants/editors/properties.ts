@@ -1,9 +1,9 @@
-import type { ButtonInteraction, InteractionReplyOptions, InteractionUpdateOptions, ModalSubmitInteraction, SelectMenuInteraction, Snowflake } from "discord.js";
+import type { AnySelectMenuInteraction, ButtonInteraction, InteractionReplyOptions, InteractionUpdateOptions, ModalSubmitInteraction, Snowflake } from "discord.js";
 import { ButtonStyle, ComponentType, InteractionType } from "discord.js";
-import { components } from "../../handlers/interactions/components";
+import { buttonComponents } from "../../handlers/interactions/components";
 import type { Property } from "../properties";
 
-export default async function promptProperty<T extends Property, U = T extends Property<infer V> ? V : never>(interaction: ButtonInteraction<"cached"> | SelectMenuInteraction<"cached">, userId: Snowflake, property: T, currentValue?: U): Promise<[ data: U | null, nextInteraction: ButtonInteraction<"cached"> ]> {
+export default async function promptProperty<T extends Property, U = T extends Property<infer V> ? V : never>(interaction: AnySelectMenuInteraction<"cached"> | ButtonInteraction<"cached">, userId: Snowflake, property: T, currentValue?: U): Promise<[ data: U | null, nextInteraction: ButtonInteraction<"cached"> ]> {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const [value, newInteraction] = await property.input(interaction, currentValue);
   const converted = await property.convert(value, interaction.guild) as U | null;
@@ -33,16 +33,14 @@ export default async function promptProperty<T extends Property, U = T extends P
         ],
       });
 
-      components.set(`${interaction.id}:try_again`, {
-        type: "BUTTON",
+      buttonComponents.set(`${interaction.id}:try_again`, {
         allowedUsers: [userId],
         callback(button) {
           void promptProperty(button, userId, property, currentValue).then(resolve);
         },
       });
 
-      components.set(`${interaction.id}:cancel`, {
-        type: "BUTTON",
+      buttonComponents.set(`${interaction.id}:cancel`, {
         allowedUsers: [userId],
         callback(button) {
           resolve([null, button]);
@@ -77,16 +75,14 @@ export default async function promptProperty<T extends Property, U = T extends P
       ],
     });
 
-    components.set(`${interaction.id}:yes`, {
-      type: "BUTTON",
+    buttonComponents.set(`${interaction.id}:yes`, {
       allowedUsers: [userId],
       callback(button) {
         resolve([converted, button]);
       },
     });
 
-    components.set(`${interaction.id}:no`, {
-      type: "BUTTON",
+    buttonComponents.set(`${interaction.id}:no`, {
       allowedUsers: [userId],
       callback(button) {
         void promptProperty(button, userId, property, value).then(resolve);
@@ -95,7 +91,7 @@ export default async function promptProperty<T extends Property, U = T extends P
   });
 }
 
-function reply(interaction: ButtonInteraction<"cached"> | ModalSubmitInteraction<"cached"> | SelectMenuInteraction<"cached">, original: ButtonInteraction<"cached"> | SelectMenuInteraction<"cached">, options: InteractionReplyOptions & InteractionUpdateOptions): void {
+function reply(interaction: AnySelectMenuInteraction<"cached"> | ButtonInteraction<"cached"> | ModalSubmitInteraction<"cached">, original: AnySelectMenuInteraction<"cached"> | ButtonInteraction<"cached">, options: InteractionReplyOptions & InteractionUpdateOptions): void {
   if (interaction.type === InteractionType.MessageComponent) return void interaction.update(options);
   void interaction.deferReply().then(() => void interaction.deleteReply());
   return void original.message.edit(options);

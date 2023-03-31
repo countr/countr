@@ -5,7 +5,7 @@ import config from "../../../config";
 import limits from "../../../constants/limits";
 import triggers from "../../../constants/triggers";
 import type { CountingChannelSchema, GuildDocument } from "../../../database/models/Guild";
-import { components } from "../../../handlers/interactions/components";
+import { buttonComponents, selectMenuComponents } from "../../../handlers/interactions/components";
 import { fitText } from "../../../utils/text";
 
 const command: ChatInputCommand = {
@@ -55,8 +55,8 @@ function refreshList(interaction: ChatInputCommandInteraction<"cached">, ephemer
     ephemeral,
   };
 
-  components.set(`${uniqueIdentifier}:select_for_delete`, {
-    type: "SELECT_MENU",
+  selectMenuComponents.set(`${uniqueIdentifier}:select_for_delete`, {
+    selectType: "string",
     allowedUsers: [interaction.user.id],
     callback(select) {
       void select.reply({
@@ -83,8 +83,7 @@ function refreshList(interaction: ChatInputCommandInteraction<"cached">, ephemer
         ephemeral,
       });
 
-      components.set(`${select.id}:confirm`, {
-        type: "BUTTON",
+      buttonComponents.set(`${select.id}:confirm`, {
         allowedUsers: [interaction.user.id],
         callback(confirm) {
           const [notificationId] = select.values as [string];
@@ -100,8 +99,7 @@ function refreshList(interaction: ChatInputCommandInteraction<"cached">, ephemer
         },
       });
 
-      components.set(`${select.id}:cancel`, {
-        type: "BUTTON",
+      buttonComponents.set(`${select.id}:cancel`, {
         allowedUsers: [interaction.user.id],
         callback(cancel) {
           void cancel.update({
