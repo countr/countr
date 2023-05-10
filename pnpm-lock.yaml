@@ -2,8 +2,8 @@ lockfileVersion: '6.0'
 
 dependencies:
   '@emmetio/math-expression':
-    specifier: 1.0.4
-    version: 1.0.4
+    specifier: 1.0.5
+    version: 1.0.5
   '@typegoose/typegoose':
     specifier: 10.4.0
     version: 10.4.0(mongoose@6.11.1)
@@ -1334,14 +1334,14 @@ packages:
     engines: {node: '>=16.9.0'}
     dev: false
 
-  /@emmetio/math-expression@1.0.4:
-    resolution: {integrity: sha512-1m7y8/VeXCAfgFoPGTerbqCIadApcIINujd3TaM/LRLPPKiod8aT1PPmh542spnsUSsSnZJjbuF7xiO4WFA42g==}
+  /@emmetio/math-expression@1.0.5:
+    resolution: {integrity: sha512-qf5SXD/ViS04rXSeDg9CRGM10xLC9dVaKIbMHrrwxYr5LNB/C0rOfokhGSBwnVQKcidLmdRJeNWH1V1tppZ84Q==}
     dependencies:
-      '@emmetio/scanner': 1.0.0
+      '@emmetio/scanner': 1.0.4
     dev: false
 
-  /@emmetio/scanner@1.0.0:
-    resolution: {integrity: sha512-8HqW8EVqjnCmWXVpqAOZf+EGESdkR27odcMMMGefgKXtar00SoYNSryGv//TELI4T3QFsECo78p+0lmalk/CFA==}
+  /@emmetio/scanner@1.0.4:
+    resolution: {integrity: sha512-IqRuJtQff7YHHBk4G8YZ45uB9BaAGcwQeVzgj/zj8/UdOhtQpEIupUhSk8dys6spFIWVZVeK20CzGEnqR5SbqA==}
     dev: false
 
   /@eslint-community/eslint-utils@4.4.0(eslint@8.40.0):
