@@ -33,7 +33,7 @@
     "docker:premium:up": "docker-compose -f .docker/docker-compose-premium.yml --project-directory . up -d"
   },
   "dependencies": {
-    "@emmetio/math-expression": "1.0.4",
+    "@emmetio/math-expression": "1.0.5",
     "@typegoose/typegoose": "10.4.0",
     "ajv": "8.11.0",
     "bufferutil": "4.0.7",
