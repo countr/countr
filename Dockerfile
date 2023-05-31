@@ -8,7 +8,7 @@ ENV IS_DOCKER=true
 # install prod dependencies
 
 FROM base AS deps
-RUN npm install -g pnpm
+RUN npm install -g pnpm@8
 
 COPY package.json ./
 COPY pnpm-lock.yaml ./
