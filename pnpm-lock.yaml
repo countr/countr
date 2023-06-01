@@ -19,7 +19,7 @@ dependencies:
     version: 4.0.7
   discord-token-reset:
     specifier: github:promise/discord-tokens
-    version: github.com/promise/discord-tokens/816b2099af47c1682aa04fd61172885b565efd9b(@octokit/rest@19.0.11)(discord.js@14.9.0)
+    version: github.com/promise/discord-tokens/32f8de3c5c2bf165b0e9a2d37b31a2d3e8164e12(@octokit/rest@19.0.11)(discord.js@14.9.0)
   discord.js:
     specifier: 14.9.0
     version: 14.9.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
@@ -105,7 +105,7 @@ devDependencies:
     version: 8.41.0
   eslint-config-promise:
     specifier: github:promise/eslint-config
-    version: github.com/promise/eslint-config/d686d265976fe00f728b695156c5e4da87d30b4c(@typescript-eslint/eslint-plugin@5.59.8)(@typescript-eslint/parser@5.59.8)(eslint-import-resolver-typescript@3.5.5)(eslint-plugin-import@2.27.5)(eslint-plugin-jest@27.2.1)(eslint-plugin-react@7.32.2)(eslint@8.41.0)
+    version: github.com/promise/eslint-config/746d30adedea28b89e2a6d1d25686c812f2e80b1(@typescript-eslint/eslint-plugin@5.59.8)(@typescript-eslint/parser@5.59.8)(eslint-import-resolver-typescript@3.5.5)(eslint-plugin-import@2.27.5)(eslint-plugin-jest@27.2.1)(eslint-plugin-react@7.32.2)(eslint@8.41.0)
   jest:
     specifier: 29.5.0
     version: 29.5.0(@types/node@18.16.16)
@@ -6194,9 +6194,9 @@ packages:
       nan: 2.17.0
     dev: false
 
-  github.com/promise/discord-tokens/816b2099af47c1682aa04fd61172885b565efd9b(@octokit/rest@19.0.11)(discord.js@14.9.0):
-    resolution: {tarball: https://codeload.github.com/promise/discord-tokens/tar.gz/816b2099af47c1682aa04fd61172885b565efd9b}
-    id: github.com/promise/discord-tokens/816b2099af47c1682aa04fd61172885b565efd9b
+  github.com/promise/discord-tokens/32f8de3c5c2bf165b0e9a2d37b31a2d3e8164e12(@octokit/rest@19.0.11)(discord.js@14.9.0):
+    resolution: {tarball: https://codeload.github.com/promise/discord-tokens/tar.gz/32f8de3c5c2bf165b0e9a2d37b31a2d3e8164e12}
+    id: github.com/promise/discord-tokens/32f8de3c5c2bf165b0e9a2d37b31a2d3e8164e12
     name: discord-token-reset
     version: 0.0.0
     peerDependencies:
@@ -6207,9 +6207,9 @@ packages:
       discord.js: 14.9.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     dev: false
 
-  github.com/promise/eslint-config/d686d265976fe00f728b695156c5e4da87d30b4c(@typescript-eslint/eslint-plugin@5.59.8)(@typescript-eslint/parser@5.59.8)(eslint-import-resolver-typescript@3.5.5)(eslint-plugin-import@2.27.5)(eslint-plugin-jest@27.2.1)(eslint-plugin-react@7.32.2)(eslint@8.41.0):
-    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/d686d265976fe00f728b695156c5e4da87d30b4c}
-    id: github.com/promise/eslint-config/d686d265976fe00f728b695156c5e4da87d30b4c
+  github.com/promise/eslint-config/746d30adedea28b89e2a6d1d25686c812f2e80b1(@typescript-eslint/eslint-plugin@5.59.8)(@typescript-eslint/parser@5.59.8)(eslint-import-resolver-typescript@3.5.5)(eslint-plugin-import@2.27.5)(eslint-plugin-jest@27.2.1)(eslint-plugin-react@7.32.2)(eslint@8.41.0):
+    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/746d30adedea28b89e2a6d1d25686c812f2e80b1}
+    id: github.com/promise/eslint-config/746d30adedea28b89e2a6d1d25686c812f2e80b1
     name: eslint-config-promise
     version: 0.0.0
     peerDependencies:
