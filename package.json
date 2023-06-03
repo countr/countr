@@ -66,7 +66,7 @@
     "@types/superagent": "4.1.18",
     "@types/time-limited-regular-expressions": "1.0.0",
     "@types/ws": "8.5.4",
-    "eslint": "8.41.0",
+    "eslint": "8.42.0",
     "eslint-config-promise": "github:promise/eslint-config",
     "jest": "29.5.0",
     "ts-jest": "29.1.0",
