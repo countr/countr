@@ -43,7 +43,6 @@ const client = new Client({
   rest: { userAgentAppendix: "Countr (countr.xyz)" },
   shards: config.cluster.shards,
   shardCount: config.cluster.shardCount,
-  ws: { compress: true },
 });
 
 let disabledGuilds = new Set<Snowflake>();
