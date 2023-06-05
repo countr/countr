@@ -19,13 +19,13 @@ dependencies:
     version: 4.0.7
   discord-token-reset:
     specifier: github:promise/discord-tokens
-    version: github.com/promise/discord-tokens/5f05ec8a64618fc5e34165f49be2d019b249e873(@octokit/rest@19.0.11)(discord.js@14.9.0)
+    version: github.com/promise/discord-tokens/23514d8989f5cb66ec77b41a9db6dabf306df0b9(@octokit/rest@19.0.11)(discord.js@14.9.0)
   discord.js:
     specifier: 14.9.0
     version: 14.9.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
   dotenv:
-    specifier: 16.0.3
-    version: 16.0.3
+    specifier: 16.1.4
+    version: 16.1.4
   erlpack:
     specifier: github:discord/erlpack
     version: github.com/discord/erlpack/cbe76be04c2210fc9cb6ff95910f0937c1011d04
@@ -2955,8 +2955,8 @@ packages:
       esutils: 2.0.3
     dev: true
 
-  /dotenv@16.0.3:
-    resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
+  /dotenv@16.1.4:
+    resolution: {integrity: sha512-m55RtE8AsPeJBpOIFKihEmqUcoVncQIwo7x9U8ZwLEZw9ZpXboz2c+rvog+jUaJvVrZ5kBOeYQBX5+8Aa/OZQw==}
     engines: {node: '>=12'}
     dev: false
 
@@ -6194,9 +6194,9 @@ packages:
       nan: 2.17.0
     dev: false
 
-  github.com/promise/discord-tokens/5f05ec8a64618fc5e34165f49be2d019b249e873(@octokit/rest@19.0.11)(discord.js@14.9.0):
-    resolution: {tarball: https://codeload.github.com/promise/discord-tokens/tar.gz/5f05ec8a64618fc5e34165f49be2d019b249e873}
-    id: github.com/promise/discord-tokens/5f05ec8a64618fc5e34165f49be2d019b249e873
+  github.com/promise/discord-tokens/23514d8989f5cb66ec77b41a9db6dabf306df0b9(@octokit/rest@19.0.11)(discord.js@14.9.0):
+    resolution: {tarball: https://codeload.github.com/promise/discord-tokens/tar.gz/23514d8989f5cb66ec77b41a9db6dabf306df0b9}
+    id: github.com/promise/discord-tokens/23514d8989f5cb66ec77b41a9db6dabf306df0b9
     name: discord-token-reset
     version: 0.0.0
     peerDependencies:
