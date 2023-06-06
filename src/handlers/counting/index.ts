@@ -53,7 +53,8 @@ export default async function countingHandler(message: Message<true>, document: 
       handleFlowsOnFail(countingData),
       handleTimeouts(countingData),
     ]).then(() => void handlePositionRoles(countingData));
-    return queueDelete([message]);
+    if (!countingChannel.modules.includes("nodelete")) queueDelete([message]);
+    return;
   }
 
   // step 4, partially update the database cache with new information
