@@ -1,5 +1,5 @@
 import { inspect } from "util";
-import type { Snowflake } from "discord.js";
+import type { Message, PartialMessage, Snowflake } from "discord.js";
 import { Client, IntentsBitField, MessageType, Options, Partials } from "discord.js";
 import config from "./config";
 import { inviteUrl } from "./constants/links";
@@ -107,7 +107,8 @@ client.on("messageCreate", async message => {
   if (RegExp(`^<@!?${client.user!.id}>`, "u").exec(message.content)) return mentionCommandHandler(message, document);
 });
 
-client.on("messageUpdate", async (_, potentialPartialMessage) => {
+client.on("messageUpdate", async (_, _potentialPartialMessage) => {
+  const potentialPartialMessage = _potentialPartialMessage as Message<true> | PartialMessage;
   if (!potentialPartialMessage.guildId || disabledGuilds.has(potentialPartialMessage.guildId)) return;
 
   const document = await getGuildDocument(potentialPartialMessage.guildId);
