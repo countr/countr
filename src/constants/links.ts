@@ -8,6 +8,7 @@ export const homepage = "https://countr.xyz";
 // documentation
 export const docsUrl = `${homepage}/docs`;
 export const cacheHelpUrl = `${docsUrl}/troubleshooting#role-member-caching`;
+export const emojiHelpUrl = `${docsUrl}/features/flows#how-to-use-emojis-in-flows`;
 export const flowHelpUrl = `${docsUrl}/features/flows`;
 export const regexHelpUrl = `${docsUrl}/features/regex-filters#test`;
 export const premiumHelpUrl = `${docsUrl}/premium`;

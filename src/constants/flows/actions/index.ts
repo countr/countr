@@ -7,6 +7,7 @@ import modifyCount from "./modifyCount";
 import modifyScore from "./modifyScore";
 import pin from "./pin";
 import pruneRole from "./pruneRole";
+import react from "./react";
 import sendMessage from "./sendMessage";
 import setCount from "./setCount";
 import setScore from "./setScore";
@@ -36,4 +37,5 @@ export default {
   modifyCount,
   setScore,
   modifyScore,
+  react,
 } as const;
