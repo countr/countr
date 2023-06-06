@@ -5,7 +5,7 @@ import type { Action } from ".";
 
 const react: Action<[string]> = {
   name: "Message reaction",
-  description: "React to the counting message with an emoji",
+  description: "This will react to the counting message with an emoji. It also supports the `nodelete` module for failed counts.",
   properties: [properties.emoji],
   explanation: ([emoji]) => `React with ${emoji} to the counting message`,
   run: async ({ countingMessage }, [emoji]) => {
