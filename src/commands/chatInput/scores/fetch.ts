@@ -13,7 +13,7 @@ const sleep = promisify(setTimeout);
 
 const command: ChatInputCommand = {
   description: "Fetch scores from the counting channel and return an importable JSON of all the scores",
-  // todo: serverCooldown: 3600,
+  serverCooldown: 3600,
   requireSelectedCountingChannel: true,
   async execute(interaction, ephemeral, _, [countingChannelId]) {
     await interaction.deferReply({ ephemeral });
