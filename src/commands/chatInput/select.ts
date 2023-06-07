@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import countingChannels from "../../constants/autocompletes/countingChannels";
-import { defaultExpirationValue, selectedCountingChannels } from "../../constants/selectedCountingChannel";
+import { selectedCountingChannels } from "../../constants/selectedCountingChannel";
 import type { ChatInputCommand } from ".";
 
 const command: ChatInputCommand = {
@@ -19,7 +19,7 @@ const command: ChatInputCommand = {
     const channel = interaction.options.getString("channel", true);
     if (!document.channels.has(channel)) return void interaction.reply({ content: "❌ This channel isn't a configured counting channel.", ephemeral: true });
 
-    selectedCountingChannels.set(interaction.user.id, { channel, expires: new Date(Date.now() + defaultExpirationValue) });
+    selectedCountingChannels.set(interaction.user.id, channel);
     return void interaction.reply({ content: `✅ You have selected <#${channel}> as your counting channel.`, ephemeral: true });
   },
 };

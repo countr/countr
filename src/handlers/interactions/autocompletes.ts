@@ -20,8 +20,8 @@ export default async function autocompleteHandler(interaction: AutocompleteInter
 
 async function runAutocomplete(value: boolean | number | string, autocomplete: Autocomplete, interaction: AutocompleteInteraction<"cached">, document: GuildDocument): Promise<ApplicationCommandOptionChoiceData[]> {
   const inCountingChannel = document.channels.has(interaction.channelId);
-  const selectedCountingChannelId = inCountingChannel ? interaction.channelId : selectedCountingChannels.get(interaction.user.id)?.channel;
-  const selectedCountingChannel: [Snowflake, CountingChannelSchema] | undefined = selectedCountingChannelId ? [selectedCountingChannelId, document.channels.get(selectedCountingChannelId)!] : document.getDefaultCountingChannel() ?? undefined; // eslint-disable-line no-undefined
+  const selectedCountingChannelId = inCountingChannel ? interaction.channelId : selectedCountingChannels.get(interaction.user.id);
+  const selectedCountingChannel: [Snowflake, CountingChannelSchema] | undefined = selectedCountingChannelId && document.channels.has(selectedCountingChannelId) ? [selectedCountingChannelId, document.channels.get(selectedCountingChannelId)!] : document.getDefaultCountingChannel() ?? undefined; // eslint-disable-line no-undefined
 
   if (autocomplete.requireSelectedCountingChannel) {
     if (!selectedCountingChannel) return [{ name: "No counting channel selected. Use /select to select a counting channel.", value: "NO_COUNTING_CHANNEL_SELECTED" }];
