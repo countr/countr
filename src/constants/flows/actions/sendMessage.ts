@@ -1,6 +1,6 @@
-import type { Snowflake, TextBasedChannel } from "discord.js";
-import { cleanContent, escapeCodeBlock } from "discord.js";
 import type { Action } from ".";
+import type { Snowflake } from "discord.js";
+import { escapeCodeBlock } from "discord.js";
 import properties from "../../properties";
 
 const sendMessage: Action<[Snowflake, string]> = {
@@ -14,32 +14,26 @@ const sendMessage: Action<[Snowflake, string]> = {
   ) => {
     const channel = guild.channels.resolve(channelId);
     if (channel?.isTextBased()) {
-      await channel
-        .send({
-          content: text
-            .replace(/\{count\}/giu, count.toString())
-            .replace(/\{mention\}/giu, member.user.toString())
-            .replace(/\{tag\}/giu, member.user.tag)
-            .replace(/\{username\}/giu, member.user.username)
-            .replace(/\{nickname\}/giu, member.displayName || member.user.username)
-            .replace(/\{everyone\}/giu, guild.roles.everyone.toString())
-            .replace(/\{score\}/giu, String(scores.get(member.id) ?? 0))
-            .replace(/\{content\}/giu, escapeMentions(content, channel)),
-          allowedMentions: { parse: ["everyone", "users", "roles"]},
-        })
+      await channel.send({
+        content: text
+          .replace(/\{count\}/giu, count.toString())
+          .replace(/\{mention\}/giu, member.user.toString())
+          .replace(/\{tag\}/giu, member.user.tag)
+          .replace(/\{username\}/giu, member.user.username)
+          .replace(/\{nickname\}/giu, member.displayName || member.user.username)
+          .replace(/\{everyone\}/giu, guild.roles.everyone.toString())
+          .replace(/\{score\}/giu, String(scores.get(member.id) ?? 0))
+          .replace(/\{content\}/giu, content),
+        allowedMentions: {
+          users: [...text.matchAll(/<@(\d*)>/gu)] as unknown as string[],
+          roles: [...text.matchAll(/<@&(\d*)>/gu)] as unknown as string[],
+          parse: text.includes("{everyone}") ? ["everyone"] : [],
+        },
+      })
         .catch();
     }
     return false;
   },
 };
-
-function escapeMentions(str: string, channel: TextBasedChannel) {
-  return cleanContent(
-    str
-      .replace(/@everyone/giu, "@\u200beveryone")
-      .replace(/@here/giu, "@\u200bhere"),
-    channel,
-  );
-}
 
 export default sendMessage;
