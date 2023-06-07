@@ -61,7 +61,7 @@ const command: ChatInputCommand = {
     const currentPermissions = calculatePermissionsForChannel(rootChannel, await interaction.guild.members.fetch({ user: interaction.client.user, force: false }));
     if (!currentPermissions.has(requiredPermissions, true)) {
       return void interaction.reply({
-        content: `⚠ I am missing permissions in the channel <#${rootChannel.id}>: ${requiredPermissions.map(bigint => Object.entries(PermissionsBitField.Flags).find(([, permission]) => permission === bigint)?.[0]).join(", ")}`,
+        content: `⚠ I am missing permissions in the channel <#${rootChannel.id}>: ${requiredPermissions.map(bigint => Object.entries(PermissionsBitField.Flags).find(([, permission]) => permission === bigint && !currentPermissions.has(permission))?.[0]).join(", ")}`,
         ephemeral: true,
       });
     }
