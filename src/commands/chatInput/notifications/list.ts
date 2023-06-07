@@ -1,12 +1,12 @@
-import { ButtonStyle, ComponentType } from "discord.js";
 import type { ChatInputCommandInteraction, InteractionReplyOptions, InteractionUpdateOptions, Snowflake } from "discord.js";
-import type { CountingChannelSchema, GuildDocument } from "../../../database/models/Guild";
+import { ButtonStyle, ComponentType } from "discord.js";
 import type { ChatInputCommand } from "..";
-import { components } from "../../../handlers/interactions/components";
 import config from "../../../config";
-import { fitText } from "../../../utils/text";
 import limits from "../../../constants/limits";
 import triggers from "../../../constants/triggers";
+import type { CountingChannelSchema, GuildDocument } from "../../../database/models/Guild";
+import { buttonComponents, selectMenuComponents } from "../../../handlers/interactions/components";
+import { fitText } from "../../../utils/text";
 
 const command: ChatInputCommand = {
   description: "List all your notifications",
@@ -20,7 +20,7 @@ function refreshList(interaction: ChatInputCommandInteraction<"cached">, ephemer
   const allNotifications = Array.from(countingChannel.notifications.entries());
   const userNotifications = allNotifications.filter(([, { userId }]) => userId === interaction.user.id);
 
-  if (!userNotifications.length) return { content: "❌ You have no notifications.", embeds: [], components: []};
+  if (!userNotifications.length) return { content: "❌ You have no notifications.", embeds: [], components: [] };
 
   const message: InteractionReplyOptions & InteractionUpdateOptions = {
     content: `📋 Your notifications for channel <#${countingChannelId}>: (${userNotifications.length}/${limits.notifications.amount})`,
@@ -55,8 +55,8 @@ function refreshList(interaction: ChatInputCommandInteraction<"cached">, ephemer
     ephemeral,
   };
 
-  components.set(`${uniqueIdentifier}:select_for_delete`, {
-    type: "SELECT_MENU",
+  selectMenuComponents.set(`${uniqueIdentifier}:select_for_delete`, {
+    selectType: "string",
     allowedUsers: [interaction.user.id],
     callback(select) {
       void select.reply({
@@ -83,8 +83,7 @@ function refreshList(interaction: ChatInputCommandInteraction<"cached">, ephemer
         ephemeral,
       });
 
-      components.set(`${select.id}:confirm`, {
-        type: "BUTTON",
+      buttonComponents.set(`${select.id}:confirm`, {
         allowedUsers: [interaction.user.id],
         callback(confirm) {
           const [notificationId] = select.values as [string];
@@ -100,8 +99,7 @@ function refreshList(interaction: ChatInputCommandInteraction<"cached">, ephemer
         },
       });
 
-      components.set(`${select.id}:cancel`, {
-        type: "BUTTON",
+      buttonComponents.set(`${select.id}:cancel`, {
         allowedUsers: [interaction.user.id],
         callback(cancel) {
           void cancel.update({

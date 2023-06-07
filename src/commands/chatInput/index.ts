@@ -1,7 +1,7 @@
 import type { ApplicationCommandAutocompleteNumericOptionData, ApplicationCommandAutocompleteStringOptionData, ApplicationCommandBooleanOptionData, ApplicationCommandChannelOptionData, ApplicationCommandMentionableOptionData, ApplicationCommandNonOptionsData, ApplicationCommandNumericOptionData, ApplicationCommandRoleOptionData, ApplicationCommandStringOptionData, ApplicationCommandUserOptionData, Awaitable, ChatInputCommandInteraction, Snowflake } from "discord.js";
-import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 import type { Autocomplete } from "../../constants/autocompletes";
 import { PermissionLevel } from "../../constants/permissions";
+import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 
 type ApplicationCommandAllowedOptions =
   | ApplicationCommandAutocompleteNumericOptionData
@@ -51,5 +51,5 @@ export const slashCommandPermissions: Record<string, PermissionLevel> = {
   modules: PermissionLevel.Admin,
   ping: PermissionLevel.None,
   select: PermissionLevel.None,
-  user: PermissionLevel.Admin,
+  user: PermissionLevel.None,
 };

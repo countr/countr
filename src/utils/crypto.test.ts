@@ -11,8 +11,8 @@ describe("crypto", () => {
     it("should return a string of the correct length", () => {
       const id1 = generateId();
       const id2 = generateId(10);
-      expect(id1.length).toBe(6);
-      expect(id2.length).toBe(10);
+      expect(id1).toHaveLength(6);
+      expect(id2).toHaveLength(10);
     });
   });
 });

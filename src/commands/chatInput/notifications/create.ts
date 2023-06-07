@@ -1,13 +1,13 @@
-import type { ButtonInteraction, SelectMenuInteraction } from "discord.js";
-import type { ChatInputCommand } from "..";
+import type { AnySelectMenuInteraction, ButtonInteraction } from "discord.js";
 import { ComponentType } from "discord.js";
-import type { NotificationSchema } from "../../../database/models/Guild";
-import { components } from "../../../handlers/interactions/components";
-import { fitText } from "../../../utils/text";
-import { generateId } from "../../../utils/crypto";
+import type { ChatInputCommand } from "..";
+import promptProperty from "../../../constants/editors/properties";
 import limits from "../../../constants/limits";
-import { promptProperty } from "../../../constants/editors/properties";
 import triggers from "../../../constants/triggers";
+import type { NotificationSchema } from "../../../database/models/Guild";
+import { selectMenuComponents } from "../../../handlers/interactions/components";
+import { generateId } from "../../../utils/crypto";
+import { fitText } from "../../../utils/text";
 
 const command: ChatInputCommand = {
   description: "Get notified when the server reaches a certain count",
@@ -47,8 +47,8 @@ const command: ChatInputCommand = {
       ephemeral,
     });
 
-    components.set(`${interaction.id}:select_trigger`, {
-      type: "SELECT_MENU",
+    selectMenuComponents.set(`${interaction.id}:select_trigger`, {
+      selectType: "string",
       allowedUsers: [interaction.user.id],
       async callback(selectInteraction) {
         const [type] = selectInteraction.values as [keyof typeof triggers];
@@ -62,7 +62,7 @@ const command: ChatInputCommand = {
           },
         };
 
-        let currentInteraction: ButtonInteraction<"cached"> | SelectMenuInteraction<"cached"> = selectInteraction;
+        let currentInteraction: AnySelectMenuInteraction<"cached"> | ButtonInteraction<"cached"> = selectInteraction;
         if (trigger.properties?.length) {
           for (const property of trigger.properties) {
             const result = await promptProperty(currentInteraction, interaction.user.id, property);

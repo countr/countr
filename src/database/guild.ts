@@ -1,7 +1,7 @@
-import { Guild } from "./models/Guild";
-import type { GuildDocument } from "./models/Guild";
 import type { Snowflake } from "discord.js";
-import { databaseLogger } from "../utils/logger/database";
+import databaseLogger from "../utils/logger/database";
+import type { GuildDocument } from "./models/Guild";
+import { Guild } from "./models/Guild";
 
 export const guildCache = new Map<Snowflake, GuildDocument>();
 export const guildCacheQueue = new Map<Snowflake, Promise<GuildDocument>>();
@@ -36,6 +36,6 @@ export function touchGuildDocument(guildIds: Snowflake[]): Promise<void> {
 
 export async function resetGuildDocument(guildId: Snowflake): Promise<boolean> {
   const guild = await getGuildDocument(guildId, false);
-  void guild.remove().then(deletedGuild => databaseLogger.verbose(`Removed database of guild ${guildId}, contents were ${JSON.stringify(deletedGuild.toJSON())}`));
+  void guild.deleteOne().then(deletedGuild => databaseLogger.verbose(`Removed database of guild ${guildId}, contents were ${JSON.stringify(deletedGuild.toJSON())}`));
   return guildCache.delete(guildId) && guildCacheQueue.delete(guildId);
 }

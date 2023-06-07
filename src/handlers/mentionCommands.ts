@@ -1,17 +1,17 @@
-import type { CountingChannelSchema, GuildDocument } from "../database/models/Guild";
-import type { Message, MessageReplyOptions, Snowflake } from "discord.js";
-import { DebugCommandLevel } from "../constants/permissions";
-import type { MentionCommand } from "../commands/mention";
-import { commandsLogger } from "../utils/logger/commands";
-import config from "../config";
-import { escapeInlineCode } from "discord.js";
-import { fitText } from "../utils/text";
-import { inspect } from "util";
-import { join } from "path";
-import { queueDelete } from "./counting";
-import { quickResponses } from "../commands/mention";
 import { readdir } from "fs/promises";
+import { join } from "path";
+import { inspect } from "util";
+import type { Message, MessageEditOptions, MessageReplyOptions, Snowflake } from "discord.js";
+import { escapeInlineCode } from "discord.js";
+import type { MentionCommand } from "../commands/mention";
+import { quickResponses } from "../commands/mention";
+import config from "../config";
+import { DebugCommandLevel } from "../constants/permissions";
 import { selectedCountingChannels } from "../constants/selectedCountingChannel";
+import type { CountingChannelSchema, GuildDocument } from "../database/models/Guild";
+import commandsLogger from "../utils/logger/commands";
+import { fitText } from "../utils/text";
+import { queueDelete } from "./counting";
 
 const replies = new Map<Snowflake, Message>();
 const commands = new Map<string, MentionCommand>();
@@ -56,8 +56,8 @@ async function handleCommand(message: Message<true>, document: GuildDocument, ex
   return [message, await command.execute(message, options => reply(options, message, existingReply), args, document, (selectedCountingChannel ?? [null, null]) as never)];
 }
 
-async function reply(optionsOrContent: MessageReplyOptions | string, message: Message, existingReply?: Message): Promise<Message> {
-  const options: MessageReplyOptions = {
+async function reply(optionsOrContent: string | MessageEditOptions & MessageReplyOptions, message: Message, existingReply?: Message): Promise<Message> {
+  const options: MessageEditOptions & MessageReplyOptions = {
     allowedMentions: { repliedUser: true },
     components: [],
     embeds: [],

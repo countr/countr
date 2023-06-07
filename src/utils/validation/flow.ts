@@ -1,9 +1,9 @@
-import Ajv from "ajv";
-import type { FlowSchema } from "../../database/models/Guild";
 import type { JSONSchemaType } from "ajv";
+import Ajv from "ajv";
 import actions from "../../constants/flows/actions";
 import limits from "../../constants/limits";
 import triggers from "../../constants/triggers";
+import type { FlowSchema } from "../../database/models/Guild";
 
 const ajv = new Ajv({ strictTuples: false });
 
@@ -11,7 +11,8 @@ const schema: JSONSchemaType<FlowSchema> = {
   type: "object",
   properties: {
     name: { type: "string", minLength: 2, maxLength: 32, nullable: true },
-    disabled: { type: "boolean", nullable: true },
+    // disabled can either be true or false, if not defined then default to false
+    disabled: { type: "boolean" },
     triggers: {
       type: "array",
       minItems: 1,
@@ -22,7 +23,7 @@ const schema: JSONSchemaType<FlowSchema> = {
           type: "object",
           properties: {
             type: { type: "string", const: type as keyof typeof triggers },
-            data: { type: "array", ...properties ? { items: properties.map(property => property.schema) } : { minItems: 0, maxItems: 0 }},
+            data: { type: "array", ...properties ? { items: properties.map(property => property.schema) } : { minItems: 0, maxItems: 0 } },
           },
         })),
         required: ["type", "data"],
@@ -38,7 +39,7 @@ const schema: JSONSchemaType<FlowSchema> = {
           type: "object",
           properties: {
             type: { type: "string", const: type as keyof typeof actions },
-            data: { type: "array", ...properties ? { items: properties.map(property => property.schema) } : { minItems: 0, maxItems: 0 }},
+            data: { type: "array", ...properties ? { items: properties.map(property => property.schema) } : { minItems: 0, maxItems: 0 } },
           },
         })),
         required: ["type", "data"],

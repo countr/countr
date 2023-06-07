@@ -1,6 +1,6 @@
-import type { Awaitable, Message, MessageReplyOptions, Snowflake } from "discord.js";
-import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
+import type { Awaitable, Message, MessageEditOptions, MessageReplyOptions, Snowflake } from "discord.js";
 import type { DebugCommandLevel } from "../../constants/permissions";
+import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 
 export type MentionCommand = {
   aliases?: [string, ...string[]];
@@ -11,10 +11,10 @@ export type MentionCommand = {
 } & (
   {
     requireSelectedCountingChannel: true;
-    execute(message: Message<true>, reply: (options: MessageReplyOptions | string) => Promise<Message>, args: string[], document: GuildDocument, selectedCountingChannel: [countingChannelId: Snowflake, countingChannel: CountingChannelSchema]): Awaitable<Message>;
+    execute(message: Message<true>, reply: (options: string | MessageEditOptions & MessageReplyOptions) => Promise<Message>, args: string[], document: GuildDocument, selectedCountingChannel: [countingChannelId: Snowflake, countingChannel: CountingChannelSchema]): Awaitable<Message>;
   } | {
     requireSelectedCountingChannel?: never;
-    execute(message: Message<true>, reply: (options: MessageReplyOptions | string) => Promise<Message>, args: string[], document: GuildDocument, selectedCountingChannel: [countingChannelId: Snowflake | null, countingChannel: CountingChannelSchema | null]): Awaitable<Message>;
+    execute(message: Message<true>, reply: (options: string | MessageEditOptions & MessageReplyOptions) => Promise<Message>, args: string[], document: GuildDocument, selectedCountingChannel: [countingChannelId: Snowflake | null, countingChannel: CountingChannelSchema | null]): Awaitable<Message>;
   }
 );
 

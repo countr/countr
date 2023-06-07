@@ -1,6 +1,6 @@
 import type { APIEmbedField, Snowflake } from "discord.js";
-import type { FlowEditorComponent } from "../components";
 import type { FlowSchema } from "../../../../database/models/Guild";
+import type { FlowEditorComponent } from "../components";
 import step1Welcome from "./step1Welcome";
 import step2Triggers from "./step2Triggers";
 import step3Actions from "./step3Actions";

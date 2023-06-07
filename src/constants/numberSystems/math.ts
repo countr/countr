@@ -1,5 +1,5 @@
-import type { NumberSystem } from ".";
 import evaluate from "@emmetio/math-expression";
+import type { NumberSystem } from ".";
 
 const hexadecimal: NumberSystem = {
   name: "Math Expressions (4*4 = 16)",

@@ -1,13 +1,13 @@
-import { ButtonStyle, ComponentType, escapeMarkdown } from "discord.js";
-import type { CountingChannelSchema, GuildDocument } from "../../../database/models/Guild";
 import type { InteractionReplyOptions, InteractionUpdateOptions, Snowflake } from "discord.js";
+import { ButtonStyle, ComponentType, escapeMarkdown } from "discord.js";
 import type { ChatInputCommand } from "..";
-import actions from "../../../constants/flows/actions";
-import { components } from "../../../handlers/interactions/components";
 import { embedsPerMessage } from "../../../constants/discord";
 import { flowEditor } from "../../../constants/editors/flows";
-import { handlePlural } from "../../../utils/text";
+import actions from "../../../constants/flows/actions";
 import triggers from "../../../constants/triggers";
+import type { CountingChannelSchema, GuildDocument } from "../../../database/models/Guild";
+import { buttonComponents, selectMenuComponents } from "../../../handlers/interactions/components";
+import { handlePlural } from "../../../utils/text";
 
 const command: ChatInputCommand = {
   description: "List all flows",
@@ -59,8 +59,8 @@ function refreshList(document: GuildDocument, [countingChannelId, countingChanne
     ],
   };
 
-  components.set(`${uniqueIdentifier}:flow-details`, {
-    type: "SELECT_MENU",
+  selectMenuComponents.set(`${uniqueIdentifier}:flow-details`, {
+    selectType: "string",
     allowedUsers: [userId],
     callback(select) {
       const [flowId] = select.values as [string];
@@ -120,24 +120,21 @@ function refreshList(document: GuildDocument, [countingChannelId, countingChanne
         ],
       });
 
-      components.set(`${select.id}:back`, {
-        type: "BUTTON",
+      buttonComponents.set(`${select.id}:back`, {
         allowedUsers: [userId],
         callback(button) {
           return void button.update(refreshList(document, [countingChannelId, countingChannel], select.id, userId, page));
         },
       });
 
-      components.set(`${select.id}:edit`, {
-        type: "BUTTON",
+      buttonComponents.set(`${select.id}:edit`, {
         allowedUsers: [userId],
         callback(button) {
           return flowEditor(button, document, countingChannel, button.user.id, flowId);
         },
       });
 
-      components.set(`${select.id}:delete`, {
-        type: "BUTTON",
+      buttonComponents.set(`${select.id}:delete`, {
         allowedUsers: [userId],
         callback(button) {
           void button.reply({
@@ -163,8 +160,7 @@ function refreshList(document: GuildDocument, [countingChannelId, countingChanne
             ],
           });
 
-          components.set(`${button.id}:confirm`, {
-            type: "BUTTON",
+          buttonComponents.set(`${button.id}:confirm`, {
             allowedUsers: [userId],
             callback(confirm) {
               countingChannel.flows.delete(flowId);
@@ -177,8 +173,7 @@ function refreshList(document: GuildDocument, [countingChannelId, countingChanne
             },
           });
 
-          components.set(`${button.id}:cancel`, {
-            type: "BUTTON",
+          buttonComponents.set(`${button.id}:cancel`, {
             allowedUsers: [userId],
             callback(cancel) {
               return void cancel.update({
@@ -195,16 +190,14 @@ function refreshList(document: GuildDocument, [countingChannelId, countingChanne
   });
 
   if (totalPages > 1) {
-    components.set(`${uniqueIdentifier}:prev`, {
-      type: "BUTTON",
+    buttonComponents.set(`${uniqueIdentifier}:prev`, {
       allowedUsers: [userId],
       callback(button) {
         return void button.update(refreshList(document, [countingChannelId, countingChannel], button.id, userId, page - 1));
       },
     });
 
-    components.set(`${uniqueIdentifier}:next`, {
-      type: "BUTTON",
+    buttonComponents.set(`${uniqueIdentifier}:next`, {
       allowedUsers: [userId],
       callback(button) {
         return void button.update(refreshList(document, [countingChannelId, countingChannel], button.id, userId, page + 1));

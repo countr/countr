@@ -1,7 +1,7 @@
 import { ButtonStyle, ComponentType } from "discord.js";
-import type { Step } from ".";
 import limits from "../../../limits";
 import { shortInput } from "../../../properties/inputs";
+import type { Step } from ".";
 
 const step: Step = {
   title: "Optional details",

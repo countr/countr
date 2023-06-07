@@ -1,6 +1,6 @@
 import type { ActionRowData, Awaitable, ModalSubmitInteraction, TextInputComponentData, TextInputModalData } from "discord.js";
 import { ComponentType } from "discord.js";
-import { commandsLogger } from "../../utils/logger/commands";
+import commandsLogger from "../../utils/logger/commands";
 
 interface ModalInteractionDetails {
   garbageCollect?: Date | false;

@@ -1,7 +1,7 @@
 import { ButtonStyle, ComponentType } from "discord.js";
 import type { ChatInputCommand } from "../..";
-import { components } from "../../../../handlers/interactions/components";
-import { databaseLogger } from "../../../../utils/logger/database";
+import { buttonComponents } from "../../../../handlers/interactions/components";
+import databaseLogger from "../../../../utils/logger/database";
 
 const command: ChatInputCommand = {
   description: "Reset the guild scoreboard",
@@ -30,8 +30,7 @@ const command: ChatInputCommand = {
       ],
     });
 
-    components.set(`${interaction.id}:yes`, {
-      type: "BUTTON",
+    buttonComponents.set(`${interaction.id}:yes`, {
       allowedUsers: [interaction.user.id],
       callback: button => {
         databaseLogger.verbose(`Cleared scoreboard of guild ${interaction.guildId}, contents were ${JSON.stringify(countingChannel.scores)}`);
@@ -44,8 +43,7 @@ const command: ChatInputCommand = {
       },
     });
 
-    components.set(`${interaction.id}:no`, {
-      type: "BUTTON",
+    buttonComponents.set(`${interaction.id}:no`, {
       allowedUsers: [interaction.user.id],
       callback: button => void button.update({
         content: "❌ Reset aborted.",

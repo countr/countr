@@ -1,9 +1,9 @@
 import type { ContextMenuCommandInteraction, Snowflake } from "discord.js";
-import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 import { ApplicationCommandType } from "discord.js";
 import type { ContextMenuCommand } from "../../commands/menu";
 import config from "../../config";
 import { selectedCountingChannels } from "../../constants/selectedCountingChannel";
+import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 
 export default async function contextMenuCommandHandler(interaction: ContextMenuCommandInteraction<"cached">, document: GuildDocument): Promise<void> {
   const commands = config.guild ? interaction.client.guilds.cache.get(config.guild)?.commands : interaction.client.application.commands;

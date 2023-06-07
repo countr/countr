@@ -1,5 +1,5 @@
-import Ajv from "ajv";
 import type { JSONSchemaType } from "ajv";
+import Ajv from "ajv";
 import type { Snowflake } from "discord.js";
 
 const ajv = new Ajv({ strictTuples: false });
@@ -7,7 +7,7 @@ const ajv = new Ajv({ strictTuples: false });
 const schema: JSONSchemaType<Record<Snowflake, number>> = {
   type: "object",
   properties: {},
-  patternProperties: { "^\\d{17,19}$": { type: "integer", minimum: 0 }},
+  patternProperties: { "^\\d{17,19}$": { type: "integer", minimum: 0 } },
   additionalProperties: false,
   required: [],
 };

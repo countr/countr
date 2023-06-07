@@ -1,5 +1,5 @@
-import type { ChatInputCommand } from ".";
 import numberSystems from "../../constants/numberSystems";
+import type { ChatInputCommand } from ".";
 
 const command: ChatInputCommand = {
   description: "Get the current count",

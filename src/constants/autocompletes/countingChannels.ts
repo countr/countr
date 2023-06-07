@@ -1,8 +1,8 @@
+import type { CategoryChannel } from "discord.js";
+import { matchSorter } from "match-sorter";
+import { fitText } from "../../utils/text";
 import type { CountingChannelAllowedChannelType, CountingChannelRootChannel } from "../discord";
 import type { Autocomplete } from ".";
-import type { CategoryChannel } from "discord.js";
-import { fitText } from "../../utils/text";
-import { matchSorter } from "match-sorter";
 
 const autocomplete: Autocomplete = {
   execute(query, interaction, document) {
@@ -17,7 +17,7 @@ const autocomplete: Autocomplete = {
         parent: (countingChannel.isThread ? channel?.parent?.parent : channel?.parent as CategoryChannel | null) ?? null,
         root: countingChannel.isThread && channel?.parent as CountingChannelRootChannel | null || null,
       };
-    }), search, { keys: ["id", "name"]});
+    }), search, { keys: ["id", "name"] });
 
     return countingChannelsFilteredAndSortedByRelevance.map(({ id, name, parent, root }) => ({
       name: fitText([

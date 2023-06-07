@@ -1,6 +1,6 @@
-import type { Property, PropertyValue } from "../properties";
 import type { Awaitable } from "discord.js";
 import type { CountingData } from "../../handlers/counting";
+import type { Property, PropertyValue } from "../properties";
 import countFail from "./countFail";
 import each from "./each";
 import greater from "./greater";

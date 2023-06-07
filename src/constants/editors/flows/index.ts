@@ -1,11 +1,11 @@
 import type { APIEmbed, ActionRowComponentOptions, ButtonInteraction, CommandInteraction, InteractionReplyOptions, InteractionUpdateOptions, Snowflake } from "discord.js";
 import { ButtonStyle, ComponentType, escapeMarkdown } from "discord.js";
-import type { CountingChannelSchema, FlowSchema, GuildDocument } from "../../../database/models/Guild";
-import type { Step } from "./steps";
-import { components } from "../../../handlers/interactions/components";
 import config from "../../../config";
+import type { CountingChannelSchema, FlowSchema, GuildDocument } from "../../../database/models/Guild";
+import { buttonComponents, getSelectTypeFromComponentType, selectMenuComponents } from "../../../handlers/interactions/components";
 import { generateId } from "../../../utils/crypto";
 import limits from "../../limits";
+import type { Step } from "./steps";
 import steps from "./steps";
 
 export function flowEditor(interaction: ButtonInteraction<"cached"> | CommandInteraction<"cached">, document: GuildDocument, countingChannel: CountingChannelSchema, userId: Snowflake, flowId: string = generateId()): void {
@@ -19,7 +19,7 @@ export function flowEditor(interaction: ButtonInteraction<"cached"> | CommandInt
   };
 
   // update flow.disabled if it exceeds the amount of flows allowed
-  flow.disabled = flow.disabled || (Array.from(countingChannel.flows.keys()).indexOf(flowId) + 1 || countingChannel.flows.size + 1) > limits.flows.amount;
+  flow.disabled ||= (Array.from(countingChannel.flows.keys()).indexOf(flowId) + 1 || countingChannel.flows.size + 1) > limits.flows.amount;
 
   const step = existingFlow ? steps.findIndex(({ skipIfExists }) => !skipIfExists) || 0 : 0;
 
@@ -31,32 +31,28 @@ export function designMessage(stepIndex: number, flow: FlowSchema, flowIdentifie
 
   const randomIdentifier = generateId();
 
-  components.set(`${randomIdentifier}:back`, {
-    type: "BUTTON",
+  buttonComponents.set(`${randomIdentifier}:back`, {
     allowedUsers: [userId],
     callback(button) {
       return void button.update(designMessage(stepIndex - 1, flow, flowIdentifier, document, countingChannel, userId));
     },
   });
 
-  components.set(`${randomIdentifier}:next`, {
-    type: "BUTTON",
+  buttonComponents.set(`${randomIdentifier}:next`, {
     allowedUsers: [userId],
     callback(button) {
       return void button.update(designMessage(stepIndex + 1, flow, flowIdentifier, document, countingChannel, userId));
     },
   });
 
-  components.set(`${randomIdentifier}:save`, {
-    type: "BUTTON",
+  buttonComponents.set(`${randomIdentifier}:save`, {
     allowedUsers: [userId],
     callback(button) {
       return void button.update(saveFlow(flow, flowIdentifier, document, countingChannel));
     },
   });
 
-  components.set(`${randomIdentifier}:cancel`, {
-    type: "BUTTON",
+  buttonComponents.set(`${randomIdentifier}:cancel`, {
     allowedUsers: [userId],
     callback(button) {
       void button.update({
@@ -83,19 +79,17 @@ export function designMessage(stepIndex: number, flow: FlowSchema, flowIdentifie
         ],
       });
 
-      components.set(`cancel:${randomIdentifier}:no`, {
-        type: "BUTTON",
+      buttonComponents.set(`cancel:${randomIdentifier}:no`, {
         allowedUsers: [userId],
         callback(confirmation) {
           return void confirmation.update(designMessage(stepIndex, flow, flowIdentifier, document, countingChannel, userId));
         },
       });
 
-      components.set(`cancel:${randomIdentifier}:yes`, {
-        type: "BUTTON",
+      buttonComponents.set(`cancel:${randomIdentifier}:yes`, {
         allowedUsers: [userId],
         callback(confirmation) {
-          return void confirmation.update({ content: "🕳 Flow editing has been cancelled.", components: []});
+          return void confirmation.update({ content: "🕳 Flow editing has been cancelled.", components: [] });
         },
       });
     },
@@ -121,8 +115,8 @@ export function designMessage(stepIndex: number, flow: FlowSchema, flowIdentifie
           type: ComponentType.ActionRow,
           components: group.map<ActionRowComponentOptions>(({ callback, ...component }) => {
             const customId = `${randomIdentifier}:${component.custom_id}`;
-            components.set(customId, {
-              type: component.type === ComponentType.Button ? "BUTTON" : "SELECT_MENU",
+            (component.type === ComponentType.Button ? buttonComponents : selectMenuComponents).set(customId, {
+              ...component.type === ComponentType.Button ? {} : { selectType: getSelectTypeFromComponentType(component.type) },
               allowedUsers: [userId],
               callback(interaction: never) {
                 return void callback(interaction, () => designMessage(stepIndex, flow, flowIdentifier, document, countingChannel, userId), flow, countingChannel);

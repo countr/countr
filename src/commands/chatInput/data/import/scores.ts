@@ -1,7 +1,7 @@
 import { ApplicationCommandOptionType } from "discord.js";
+import superagent from "superagent";
 import type { ChatInputCommand } from "../..";
 import { parseScores } from "../../../../utils/validation/scores";
-import superagent from "superagent";
 
 const command: ChatInputCommand = {
   description: "Import scores",

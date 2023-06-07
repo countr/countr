@@ -1,7 +1,7 @@
-import type { Property } from ".";
 import type { Snowflake } from "discord.js";
-import { channelInput } from "./inputs";
 import { snowflakeRegex } from "../discord";
+import { channelInput } from "./inputs";
+import type { Property } from ".";
 
 const channel: Property<Snowflake> = {
   name: "Channel",

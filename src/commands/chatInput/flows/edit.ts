@@ -1,7 +1,7 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import type { ChatInputCommand } from "..";
-import { flowEditor } from "../../../constants/editors/flows";
 import flowList from "../../../constants/autocompletes/flowList";
+import { flowEditor } from "../../../constants/editors/flows";
 
 const command: ChatInputCommand = {
   description: "Edit a flow",

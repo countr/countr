@@ -1,10 +1,12 @@
-import { createFileTransports, globalFormat } from "./";
 import { createLogger, transports } from "winston";
+import { createFileTransports, globalFormat } from ".";
 
-export const commandsLogger = createLogger({
+const commandsLogger = createLogger({
   format: globalFormat,
   transports: [
     ...createFileTransports("commands", ["debug"]),
     new transports.Console({ level: "info" }),
   ],
 });
+
+export default commandsLogger;

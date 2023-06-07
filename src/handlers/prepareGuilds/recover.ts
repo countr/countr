@@ -1,5 +1,5 @@
-import type { CountingChannelAllowedChannelType } from "../../constants/discord";
 import type { Snowflake } from "discord.js";
+import type { CountingChannelAllowedChannelType } from "../../constants/discord";
 import { messageFetchLimit } from "../../constants/discord";
 
 export default async (channel: CountingChannelAllowedChannelType, lastMessageId: Snowflake): Promise<boolean> => {

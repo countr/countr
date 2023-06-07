@@ -1,8 +1,8 @@
-import { createModalTextInput, getModalTextInput, modals } from "../../../handlers/interactions/modals";
-import type { PropertyInput } from ".";
 import type { Snowflake } from "discord.js";
 import { TextInputStyle } from "discord.js";
 import { matchSorter } from "match-sorter";
+import { createModalTextInput, getModalTextInput, modals } from "../../../handlers/interactions/modals";
+import type { PropertyInput } from ".";
 
 const channelInput: PropertyInput<Snowflake> = (interaction, currentValue) => new Promise(resolve => {
   // edit this to select menu whenever it comes out
@@ -27,7 +27,7 @@ const channelInput: PropertyInput<Snowflake> = (interaction, currentValue) => ne
       const query = getModalTextInput(modalInteraction.components, "query");
       const channel = query && (
         interaction.guild.channels.resolve(query) ||
-        matchSorter(interaction.guild.channels.cache.map(({ name, id }) => ({ name, id })), query, { keys: ["name"]})[0]) ||
+        matchSorter(interaction.guild.channels.cache.map(({ name, id }) => ({ name, id })), query, { keys: ["name"] })[0]) ||
         null;
       return resolve([channel?.id ?? null, modalInteraction]);
     },

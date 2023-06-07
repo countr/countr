@@ -1,14 +1,14 @@
-import "./api";
-import { clusterList, getCombinedData, shardList } from "./lists";
-import type { CommunicationMessage } from "../communication";
-import { CommunicationType } from "../communication";
 import { Status } from "discord.js";
 import type { WebSocket } from "ws";
 import { WebSocketServer } from "ws";
-import { addToWeeklyCount } from "./weeklyCount";
 import config from "../../../config";
-import { getPresence } from "./presence";
-import { managerLogger } from "../../logger/manager";
+import managerLogger from "../../logger/manager";
+import type { CommunicationMessage } from "../communication";
+import { CommunicationType } from "../communication";
+import "./api";
+import { clusterList, getCombinedData, shardList } from "./lists";
+import getPresence from "./presence";
+import { addToWeeklyCount } from "./weeklyCount";
 
 const wss = new WebSocketServer({ port: config.websocket.port });
 

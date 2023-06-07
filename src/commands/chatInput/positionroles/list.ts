@@ -1,11 +1,11 @@
-import { ButtonStyle, ComponentType } from "discord.js";
 import type { InteractionReplyOptions, InteractionUpdateOptions, Snowflake } from "discord.js";
-import type { ChatInputCommand } from "..";
-import type { CountingChannelSchema } from "../../../database/models/Guild";
-import { components } from "../../../handlers/interactions/components";
-import config from "../../../config";
-import { formatListToHuman } from "../../../utils/text";
+import { ButtonStyle, ComponentType } from "discord.js";
 import ordinal from "ordinal";
+import type { ChatInputCommand } from "..";
+import config from "../../../config";
+import type { CountingChannelSchema } from "../../../database/models/Guild";
+import { buttonComponents, selectMenuComponents } from "../../../handlers/interactions/components";
+import { formatListToHuman } from "../../../utils/text";
 
 const command: ChatInputCommand = {
   description: "Get a list of position roles",
@@ -22,30 +22,27 @@ const command: ChatInputCommand = {
       });
     }
 
-    components.set(`${interaction.id}:view_desktop`, {
-      type: "BUTTON",
+    buttonComponents.set(`${interaction.id}:view_desktop`, {
       allowedUsers: [interaction.user.id],
       callback(button) {
         return void button.update(desktopView(roles, countingChannel, interaction.id));
       },
     });
 
-    components.set(`${interaction.id}:view_mobile`, {
-      type: "BUTTON",
+    buttonComponents.set(`${interaction.id}:view_mobile`, {
       allowedUsers: [interaction.user.id],
       callback(button) {
         return void button.update(mobileView(roles, countingChannel, interaction.id));
       },
     });
 
-    components.set(`${interaction.id}:delete_position_roles`, {
-      type: "SELECT_MENU",
+    selectMenuComponents.set(`${interaction.id}:delete_position_roles`, {
+      selectType: "string",
       allowedUsers: [interaction.user.id],
       callback(select) {
         const positions = select.values;
 
-        components.set(`${select.id}:confirm`, {
-          type: "BUTTON",
+        buttonComponents.set(`${select.id}:confirm`, {
           allowedUsers: [interaction.user.id],
           callback(confirm) {
             for (const position of positions) {
@@ -63,8 +60,7 @@ const command: ChatInputCommand = {
           },
         });
 
-        components.set(`${select.id}:cancel`, {
-          type: "BUTTON",
+        buttonComponents.set(`${select.id}:cancel`, {
           allowedUsers: [interaction.user.id],
           callback(cancel) {
             return void cancel.update({

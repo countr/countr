@@ -1,6 +1,6 @@
-import type { Step } from ".";
-import { getTriggerOrActionComponents } from "../components";
 import triggers from "../../../triggers";
+import { getTriggerOrActionComponents } from "../components";
+import type { Step } from ".";
 
 const step: Step = {
   title: "Triggers",

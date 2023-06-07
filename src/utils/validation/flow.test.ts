@@ -1,6 +1,6 @@
 import { parseFlow } from "./flow";
 
-it("should accept valid flow", () => {
+test("should accept valid flow", () => {
   expect(parseFlow(`{
     "name": "Test",
     "disabled": true,
@@ -34,7 +34,7 @@ it("should accept valid flow", () => {
   }`)).toBeTruthy();
 });
 
-it("should reject invalid flow", () => {
+test("should reject invalid flow", () => {
   expect(parseFlow(`{
     "name": "Test",
     "disabled": true,

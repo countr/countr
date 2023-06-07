@@ -1,11 +1,11 @@
 import type { ApplicationCommandOptionChoiceData, AutocompleteInteraction, Snowflake } from "discord.js";
-import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
-import type { Autocomplete } from "../../constants/autocompletes";
 import type { ChatInputCommand } from "../../commands/chatInput";
+import type { Autocomplete } from "../../constants/autocompletes";
 import { selectedCountingChannels } from "../../constants/selectedCountingChannel";
+import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 
 export default async function autocompleteHandler(interaction: AutocompleteInteraction<"cached">, document: GuildDocument): Promise<void> {
-  const path = [interaction.commandName, interaction.options.getSubcommandGroup(false), interaction.options.getSubcommand(false)].filter(Boolean) as string[];
+  const path = [interaction.commandName, interaction.options.getSubcommandGroup(false), interaction.options.getSubcommand(false)].filter(Boolean);
 
   const { default: command } = await import(`../../commands/chatInput/${path.join("/")}`) as { default?: ChatInputCommand };
   if (!command) return;

@@ -1,13 +1,13 @@
-import { ButtonStyle, ComponentType } from "discord.js";
-import { DebugCommandLevel } from "../../constants/permissions";
-import type { MentionCommand } from ".";
-import type { MessageReplyOptions } from "discord.js";
-import { charactersPerMessage } from "../../constants/discord";
-import { components } from "../../handlers/interactions/components";
-import config from "../../config";
-import { inspect } from "util";
 import { randomBytes } from "crypto";
+import { inspect } from "util";
+import type { MessageEditOptions, MessageReplyOptions } from "discord.js";
+import { ButtonStyle, ComponentType } from "discord.js";
 import superagent from "superagent";
+import config from "../../config";
+import { charactersPerMessage } from "../../constants/discord";
+import { DebugCommandLevel } from "../../constants/permissions";
+import { buttonComponents } from "../../handlers/interactions/components";
+import type { MentionCommand } from ".";
 
 const command: MentionCommand = {
   debugLevel: DebugCommandLevel.Owner,
@@ -21,7 +21,7 @@ const command: MentionCommand = {
         const start = Date.now();
         return evaluated.then(async (result: unknown) => (await botMsg).edit(await generateMessage(result, Date.now() - start)));
       }
-      return generateMessage(evaluated, null).then(messageOptions => reply({ ...messageOptions, allowedMentions: { repliedUser: false }}));
+      return generateMessage(evaluated, null).then(messageOptions => reply({ ...messageOptions, allowedMentions: { repliedUser: false } }));
     } catch (err) {
       return generateMessage(err, null, false).then(reply);
     }
@@ -30,7 +30,7 @@ const command: MentionCommand = {
 
 export default { ...command } as MentionCommand;
 
-async function generateMessage(result: unknown, time: number | null, success = true, hastebin = false): Promise<MessageReplyOptions> {
+async function generateMessage(result: unknown, time: number | null, success = true, hastebin = false): Promise<MessageEditOptions & MessageReplyOptions> {
   if (hastebin) {
     const res = await superagent.post(`${config.hastebinLink}/documents`)
       .send(inspect(result, { depth: Infinity, maxArrayLength: Infinity, maxStringLength: Infinity }))
@@ -55,8 +55,7 @@ async function generateMessage(result: unknown, time: number | null, success = t
   if (!content) return generateMessage(result, time, success, true);
 
   const identifier = randomBytes(16).toString("hex");
-  components.set(`${identifier}-hastebin`, {
-    type: "BUTTON",
+  buttonComponents.set(`${identifier}-hastebin`, {
     allowedUsers: [config.owner],
     callback(interaction) {
       void generateMessage(result, time, success, true).then(messageOptions => interaction.update(messageOptions));

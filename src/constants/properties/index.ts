@@ -1,8 +1,8 @@
-import type { Awaitable, Guild } from "discord.js";
-import type { PropertyInput } from "./inputs";
 import type { Schema } from "ajv";
+import type { Awaitable, Guild } from "discord.js";
 import anyNumber from "./anyNumber";
 import channel from "./channel";
+import type { PropertyInput } from "./inputs";
 import numberPositive from "./numberPositive";
 import numberPositiveOrNegative from "./numberPositiveOrNegative";
 import numberPositiveOrZero from "./numberPositiveOrZero";

@@ -1,10 +1,10 @@
-import type { CombinedData, ShardData } from "./manager/lists";
 import type { Client } from "discord.js";
-import type { CommunicationMessage } from "./communication";
-import { CommunicationType } from "./communication";
 import { WebSocket } from "ws";
 import config from "../../config";
-import { mainLogger } from "../logger/main";
+import mainLogger from "../logger/main";
+import type { CommunicationMessage } from "./communication";
+import { CommunicationType } from "./communication";
+import type { CombinedData, ShardData } from "./manager/lists";
 
 let allStats: CombinedData | null = null;
 export function getAllStats(): typeof allStats {

@@ -1,8 +1,8 @@
-import { createModalTextInput, getModalTextInput, modals } from "../../../handlers/interactions/modals";
-import type { PropertyInput } from ".";
 import type { Snowflake } from "discord.js";
 import { TextInputStyle } from "discord.js";
 import { matchSorter } from "match-sorter";
+import { createModalTextInput, getModalTextInput, modals } from "../../../handlers/interactions/modals";
+import type { PropertyInput } from ".";
 
 const roleInput: PropertyInput<Snowflake[]> = (interaction, currentValue) => new Promise(resolve => {
   // edit this to select menu whenever it comes out
@@ -28,7 +28,7 @@ const roleInput: PropertyInput<Snowflake[]> = (interaction, currentValue) => new
       for (const roleQuery of query) {
         const role = roleQuery && (
           interaction.guild.roles.resolve(roleQuery) ||
-          matchSorter(interaction.guild.roles.cache.map(({ name, id }) => ({ name, id })), roleQuery, { keys: ["name"]})[0]
+          matchSorter(interaction.guild.roles.cache.map(({ name, id }) => ({ name, id })), roleQuery, { keys: ["name"] })[0]
         ) || null;
         if (role) roles.push(role.id);
       }

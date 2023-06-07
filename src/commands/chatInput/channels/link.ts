@@ -1,11 +1,11 @@
+import type { ChannelType } from "discord.js";
 import { ApplicationCommandOptionType, PermissionsBitField } from "discord.js";
+import type { ChatInputCommand } from "..";
 import type { CountingChannelAllowedChannelType, CountingChannelRootChannel } from "../../../constants/discord";
 import { calculatePermissionsForChannel, countingChannelAllowedChannelTypes, countingChannelPermissions, countingChannelRootChannels, countingChannelRootPermissions } from "../../../constants/discord";
-import type { ChannelType } from "discord.js";
-import type { ChatInputCommand } from "..";
-import type { CountingChannelSchema } from "../../../database/models/Guild";
 import limits from "../../../constants/limits";
 import numberSystems from "../../../constants/numberSystems";
+import type { CountingChannelSchema } from "../../../database/models/Guild";
 
 const command: ChatInputCommand = {
   description: "Link a counting channel to Countr",

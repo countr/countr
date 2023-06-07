@@ -1,25 +1,25 @@
+import { inspect } from "util";
+import type { Message, PartialMessage, Snowflake } from "discord.js";
 import { Client, IntentsBitField, MessageType, Options, Partials } from "discord.js";
-import { connection, getGuildDocument, touchGuildDocument } from "./database";
-import handleInteractions, { registerCommands } from "./handlers/interactions";
-import type { CommunicationMessage } from "./utils/cluster/communication";
-import { CommunicationType } from "./utils/cluster/communication";
-import type { Snowflake } from "discord.js";
-import checkRegex from "./handlers/counting/regex";
 import config from "./config";
-import countingHandler from "./handlers/counting";
-import { discordLogger } from "./utils/logger/discord";
+import { inviteUrl } from "./constants/links";
+import numberSystems from "./constants/numberSystems";
+import { connection, getGuildDocument, touchGuildDocument } from "./database";
 import handleAccess from "./handlers/access";
 import handleAutomaticTokenReset from "./handlers/automaticTokenReset";
+import countingHandler from "./handlers/counting";
+import checkRegex from "./handlers/counting/regex";
+import replaceUpdatedOrDeletedMessage from "./handlers/counting/replacement";
+import handleInteractions, { registerCommands } from "./handlers/interactions";
 import handleLiveboard from "./handlers/liveboard";
-import { initializeWebsocket } from "./utils/cluster";
-import { inspect } from "util";
-import { inviteUrl } from "./constants/links";
-import { mainLogger } from "./utils/logger/main";
 import mentionCommandHandler from "./handlers/mentionCommands";
-import { msToHumanSeconds } from "./utils/time";
-import numberSystems from "./constants/numberSystems";
 import prepareGuild from "./handlers/prepareGuilds";
-import { replaceUpdatedOrDeletedMessage } from "./handlers/counting/replacement";
+import { initializeWebsocket } from "./utils/cluster";
+import type { CommunicationMessage } from "./utils/cluster/communication";
+import { CommunicationType } from "./utils/cluster/communication";
+import discordLogger from "./utils/logger/discord";
+import mainLogger from "./utils/logger/main";
+import { msToHumanSeconds } from "./utils/time";
 
 const client = new Client({
   intents: [
@@ -43,7 +43,6 @@ const client = new Client({
   rest: { userAgentAppendix: "Countr (countr.xyz)" },
   shards: config.cluster.shards,
   shardCount: config.cluster.shardCount,
-  ws: { compress: true },
 });
 
 let disabledGuilds = new Set<Snowflake>();
@@ -108,7 +107,8 @@ client.on("messageCreate", async message => {
   if (RegExp(`^<@!?${client.user!.id}>`, "u").exec(message.content)) return mentionCommandHandler(message, document);
 });
 
-client.on("messageUpdate", async (_, potentialPartialMessage) => {
+client.on("messageUpdate", async (_, _potentialPartialMessage) => {
+  const potentialPartialMessage = _potentialPartialMessage as Message<true> | PartialMessage;
   if (!potentialPartialMessage.guildId || disabledGuilds.has(potentialPartialMessage.guildId)) return;
 
   const document = await getGuildDocument(potentialPartialMessage.guildId);

@@ -1,6 +1,6 @@
-import type { ChatInputCommand } from "..";
 import type { Snowflake } from "discord.js";
-import { handlePositionRoles } from "../../../handlers/counting/positionRoles";
+import type { ChatInputCommand } from "..";
+import handlePositionRoles from "../../../handlers/counting/positionRoles";
 
 const command: ChatInputCommand = {
   description: "Prune scores from users that have left your server",

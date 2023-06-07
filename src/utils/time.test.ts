@@ -10,15 +10,7 @@ describe("time", () => {
     });
   });
 
-  // the test depends on timezones so this is disabled
-  // describe("getDateTimestamp", () => {
-  //   it("should return the correct timestamp", () => {
-  //     expect(getDateTimestamp(new Date("2020-01-01T01:01:01"))).toBe(1577836800000);
-  //     expect(getDateTimestamp(new Date("2020-01-05T05:05:05"))).toBe(1578182400000);
-  //     expect(getDateTimestamp(new Date("2020-01-06T06:06:06"))).toBe(1578268800000);
-  //     expect(getDateTimestamp(new Date("2020-12-31T07:31:31"))).toBe(1609372800000);
-  //   });
-  // });
+  // the test depends on timezones so this is omitted
 
   describe("msToHumanShortTime", () => {
     it("should return the correct string", () => {

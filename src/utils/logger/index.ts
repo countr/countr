@@ -1,5 +1,5 @@
-import DailyRotateFile from "winston-daily-rotate-file";
 import { format } from "winston";
+import DailyRotateFile from "winston-daily-rotate-file";
 
 export const globalFormat = format.combine(
   format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),

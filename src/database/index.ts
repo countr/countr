@@ -1,7 +1,7 @@
-import config from "../config";
-import { databaseLogger } from "../utils/logger/database";
 import { inspect } from "util";
 import mongoose from "mongoose";
+import config from "../config";
+import databaseLogger from "../utils/logger/database";
 
 mongoose.set("debug", (collectionName, method, query: string, doc: string) => databaseLogger.debug(JSON.stringify({ collectionName, method, query, doc })));
 

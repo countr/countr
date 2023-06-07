@@ -1,6 +1,6 @@
-import type { Step } from ".";
 import actions from "../../../flows/actions";
 import { getTriggerOrActionComponents } from "../components";
+import type { Step } from ".";
 
 const step: Step = {
   title: "Actions",

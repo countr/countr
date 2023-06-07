@@ -1,6 +1,6 @@
 import type { ApplicationCommandType, Awaitable, GuildMember, Message, MessageContextMenuCommandInteraction, Snowflake, UserContextMenuCommandInteraction } from "discord.js";
-import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 import type { PermissionLevel } from "../../constants/permissions";
+import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 
 type MessageMenuCommand = {
   type: ApplicationCommandType.Message;

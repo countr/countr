@@ -1,5 +1,5 @@
-import type { CountingChannelSchema, TimeoutRoleSchema } from "../../database/models/Guild";
 import type { Guild } from "discord.js";
+import type { CountingChannelSchema, TimeoutRoleSchema } from "../../database/models/Guild";
 
 export default async (guild: Guild, timeoutRole: TimeoutRoleSchema, timeouts: CountingChannelSchema["timeouts"], safeSave: () => void): Promise<boolean> => {
   if (!timeouts.size) return false;

@@ -1,17 +1,17 @@
-import type { CountingChannelAllowedChannelType, CountingChannelRootChannel } from "../../constants/discord";
-import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 import type { GuildMember, Message, Snowflake } from "discord.js";
-import { bulkDeleteDelay, calculatePermissionsForChannel, messagesPerBulkDeletion } from "../../constants/discord";
-import { handleFlows, handleFlowsOnFail } from "./flows";
 import { ChannelType } from "discord.js";
+import type { CountingChannelAllowedChannelType, CountingChannelRootChannel } from "../../constants/discord";
+import { bulkDeleteDelay, calculatePermissionsForChannel, messagesPerBulkDeletion } from "../../constants/discord";
+import numberSystems from "../../constants/numberSystems";
+import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 import { addToCount } from "../../utils/cluster";
 import checkBypass from "./bypass";
+import { handleFlows, handleFlowsOnFail } from "./flows";
+import handleNotifications from "./notifications";
+import handlePositionRoles from "./positionRoles";
 import checkRegex from "./regex";
-import { handleNotifications } from "./notifications";
-import { handlePositionRoles } from "./positionRoles";
-import { handleTimeouts } from "./timeouts";
-import numberSystems from "../../constants/numberSystems";
 import repostMessage from "./repost";
+import handleTimeouts from "./timeouts";
 
 export interface CountingData {
   channel: CountingChannelAllowedChannelType;

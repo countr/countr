@@ -1,6 +1,6 @@
-import type { Message } from "discord.js";
-import { countingLogger } from "../../../utils/logger/counting";
 import { inspect } from "util";
+import type { Message } from "discord.js";
+import countingLogger from "../../../utils/logger/counting";
 
 export default async function repostWithEmbed(message: Message<true>): Promise<Message> {
   try {

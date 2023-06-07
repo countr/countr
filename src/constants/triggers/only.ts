@@ -1,5 +1,5 @@
-import type { Trigger } from ".";
 import properties from "../properties";
+import type { Trigger } from ".";
 
 const only: Trigger<[number]> = {
   name: "Only number X",

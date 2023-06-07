@@ -1,5 +1,5 @@
-import { PermissionFlagsBits } from "discord.js";
 import type { PermissionResolvable } from "discord.js";
+import { PermissionFlagsBits } from "discord.js";
 
 // for non-mention commands aka. interaction commands
 export enum PermissionLevel { None, Admin }

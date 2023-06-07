@@ -1,20 +1,20 @@
+import { readdir } from "fs/promises";
+import { join } from "path";
+import { inspect } from "util";
 import type { ApplicationCommandData, ApplicationCommandSubCommandData, ApplicationCommandSubGroupData, Client } from "discord.js";
 import { ApplicationCommandOptionType, ApplicationCommandType, InteractionType } from "discord.js";
-import { PermissionLevel, permissionLevels } from "../../constants/permissions";
 import type { ChatInputCommand } from "../../commands/chatInput";
+import { slashCommandPermissions } from "../../commands/chatInput";
 import type { ContextMenuCommand } from "../../commands/menu";
+import config from "../../config";
+import { PermissionLevel, permissionLevels } from "../../constants/permissions";
+import { getGuildDocument } from "../../database";
+import commandsLogger from "../../utils/logger/commands";
 import autocompleteHandler from "./autocompletes";
 import chatInputCommandHandler from "./chatInputCommands";
-import { commandsLogger } from "../../utils/logger/commands";
 import componentHandler from "./components";
-import config from "../../config";
 import contextMenuCommandHandler from "./contextMenuCommands";
-import { getGuildDocument } from "../../database";
-import { inspect } from "util";
-import { join } from "path";
 import modalHandler from "./modals";
-import { readdir } from "fs/promises";
-import { slashCommandPermissions } from "../../commands/chatInput";
 
 export default function handleInteractions(client: Client<true>): void {
   client.on("interactionCreate", async interaction => {
@@ -24,7 +24,7 @@ export default function handleInteractions(client: Client<true>): void {
     if (interaction.type === InteractionType.ModalSubmit) return modalHandler(interaction);
 
     if (interaction.type === InteractionType.MessageComponent) {
-      if (interaction.isButton() || interaction.isSelectMenu()) componentHandler(interaction);
+      if (interaction.isButton() || interaction.isAnySelectMenu()) componentHandler(interaction);
       return;
     }
 

@@ -1,9 +1,9 @@
-import type { ChatInputCommandInteraction, Snowflake } from "discord.js";
-import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
-import type { ChatInputCommand } from "../../commands/chatInput";
-import { commandsLogger } from "../../utils/logger/commands";
 import { inspect } from "util";
+import type { ChatInputCommandInteraction, Snowflake } from "discord.js";
+import type { ChatInputCommand } from "../../commands/chatInput";
 import { selectedCountingChannels } from "../../constants/selectedCountingChannel";
+import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
+import commandsLogger from "../../utils/logger/commands";
 
 const cooldowns = new Set<`${Snowflake}:${string}`>();
 
@@ -12,7 +12,7 @@ export default async function chatInputCommandHandler(interaction: ChatInputComm
     interaction.commandName,
     interaction.options.getSubcommandGroup(false),
     interaction.options.getSubcommand(false),
-  ].filter(Boolean) as string[];
+  ].filter(Boolean);
 
   try {
     const { default: command } = await import(`../../commands/chatInput/${commandSegments.join("/")}`) as { default: ChatInputCommand };
