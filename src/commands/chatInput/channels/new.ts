@@ -49,7 +49,10 @@ const command: ChatInputCommand = {
 
       if (!currentPermissions.has(requiredPermissions, true)) {
         return void interaction.reply({
-          content: `⚠ I am missing permissions in the parent channel <#${threadParent.id}>: ${requiredPermissions.map(bigint => Object.entries(PermissionsBitField.Flags).find(([, permission]) => permission === bigint && !currentPermissions.has(permission))?.[0]).join(", ")}`,
+          content: `⚠ I am missing permissions in the parent channel <#${threadParent.id}>: ${requiredPermissions
+            .map(bigint => Object.entries(PermissionsBitField.Flags).find(([, permission]) => permission === bigint && !currentPermissions.has(permission))?.[0])
+            .filter(Boolean)
+            .join(", ")}`,
           ephemeral: true,
         });
       }

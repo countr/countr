@@ -31,8 +31,10 @@ const command: ChatInputCommand = {
           const requiredPermissions = [...countingChannelPermissions, ...rootChannel === channel ? [] : countingChannelRootPermissions];
           const currentPermissions = calculatePermissionsForChannel(rootChannel, me);
           if (!currentPermissions.has(requiredPermissions, true)) {
-            const missingPermissions = requiredPermissions.filter(permission => !currentPermissions.has(permission));
-            errors.push(`Missing permissions${rootChannel === channel ? "" : ` in <#${rootChannel.id}>`}: ${missingPermissions.map(bigint => Object.entries(PermissionsBitField.Flags).find(([, permission]) => permission === bigint && !currentPermissions.has(permission))?.[0]).join(", ")}`);
+            errors.push(`Missing permissions${rootChannel === channel ? "" : ` in <#${rootChannel.id}>`}: ${requiredPermissions
+              .map(bigint => Object.entries(PermissionsBitField.Flags).find(([, permission]) => permission === bigint && !currentPermissions.has(permission))?.[0])
+              .filter(Boolean)
+              .join(", ")}`);
           }
         } else errors.push("The channel could not be found by the bot");
 
