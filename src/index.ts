@@ -1,4 +1,4 @@
-import { inspect } from "util";
+import { inspect, promisify } from "util";
 import type { Message, PartialMessage, Snowflake } from "discord.js";
 import { Client, IntentsBitField, MessageType, Options, Partials } from "discord.js";
 import config from "./config";
@@ -46,6 +46,7 @@ const client = new Client({
 });
 
 let disabledGuilds = new Set<Snowflake>();
+const sleep = promisify(setTimeout);
 
 client.once("ready", async trueClient => {
   await sleep(5000);
@@ -190,9 +191,3 @@ void Promise.all([
 process
   .on("uncaughtException", error => mainLogger.warn(`Uncaught exception: ${inspect(error)}`))
   .on("unhandledRejection", error => mainLogger.warn(`Unhandled rejection: ${inspect(error)}`));
-
-function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => {
-    setTimeout(resolve, ms);
-  });
-}
