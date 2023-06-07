@@ -7,7 +7,7 @@ import type { MentionCommand } from "../commands/mention";
 import { quickResponses } from "../commands/mention";
 import config from "../config";
 import { DebugCommandLevel } from "../constants/permissions";
-import { selectedCountingChannels } from "../constants/selectedCountingChannel";
+import selectedCountingChannels from "../constants/selectedCountingChannel";
 import type { CountingChannelSchema, GuildDocument } from "../database/models/Guild";
 import commandsLogger from "../utils/logger/commands";
 import { fitText } from "../utils/text";

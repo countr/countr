@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import countingChannels from "../../constants/autocompletes/countingChannels";
-import { selectedCountingChannels } from "../../constants/selectedCountingChannel";
+import selectedCountingChannels from "../../constants/selectedCountingChannel";
 import type { ChatInputCommand } from ".";
 
 const command: ChatInputCommand = {

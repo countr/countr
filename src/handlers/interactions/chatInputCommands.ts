@@ -1,7 +1,7 @@
 import { inspect } from "util";
 import type { ChatInputCommandInteraction, Snowflake } from "discord.js";
 import type { ChatInputCommand } from "../../commands/chatInput";
-import { selectedCountingChannels } from "../../constants/selectedCountingChannel";
+import selectedCountingChannels from "../../constants/selectedCountingChannel";
 import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 import commandsLogger from "../../utils/logger/commands";
 import { setSafeTimeout } from "../../utils/safe";
