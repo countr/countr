@@ -25,8 +25,8 @@ const sendMessage: Action<[Snowflake, string]> = {
           .replace(/\{score\}/giu, String(scores.get(member.id) ?? 0))
           .replace(/\{content\}/giu, content),
         allowedMentions: {
-          users: [...text.matchAll(/<@(\d*)>/gu)] as unknown as string[],
-          roles: [...text.matchAll(/<@&(\d*)>/gu)] as unknown as string[],
+          users: [...text.matchAll(/<@(\d*)>/gu)].map(i => i[1]!),
+          roles: [...text.matchAll(/<@&(\d*)>/gu)].map(i => i[1]!),
           parse: text.includes("{everyone}") ? ["everyone"] : [],
         },
       })
