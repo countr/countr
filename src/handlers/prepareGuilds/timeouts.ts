@@ -1,5 +1,6 @@
 import type { Guild } from "discord.js";
 import type { CountingChannelSchema, TimeoutRoleSchema } from "../../database/models/Guild";
+import { setSafeTimeout } from "../../utils/safe";
 
 export default async (guild: Guild, timeoutRole: TimeoutRoleSchema, timeouts: CountingChannelSchema["timeouts"], safeSave: () => void): Promise<boolean> => {
   if (!timeouts.size) return false;
@@ -17,7 +18,7 @@ export default async (guild: Guild, timeoutRole: TimeoutRoleSchema, timeouts: Co
       timeouts.delete(userId);
       needSave = true;
     } else {
-      setTimeout(() => {
+      void setSafeTimeout(() => {
         if (member?.roles.cache.has(timeoutRole.roleId)) void member.roles.remove(timeoutRole.roleId).catch(() => null);
         members.delete(userId);
         timeouts.delete(userId);

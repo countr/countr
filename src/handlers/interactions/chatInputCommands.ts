@@ -4,6 +4,7 @@ import type { ChatInputCommand } from "../../commands/chatInput";
 import { selectedCountingChannels } from "../../constants/selectedCountingChannel";
 import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 import commandsLogger from "../../utils/logger/commands";
+import { setSafeTimeout } from "../../utils/safe";
 
 const cooldowns = new Set<`${Snowflake}:${string}`>();
 
@@ -26,7 +27,7 @@ export default async function chatInputCommandHandler(interaction: ChatInputComm
         });
       }
       cooldowns.add(key);
-      setTimeout(() => cooldowns.delete(key), command.serverCooldown * 1000);
+      void setSafeTimeout(() => cooldowns.delete(key), command.serverCooldown * 1000);
     }
 
     const countingChannel = document.channels.get(interaction.channelId);
