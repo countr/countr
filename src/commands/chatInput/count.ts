@@ -7,7 +7,7 @@ const command: ChatInputCommand = {
   execute(interaction, ephemeral, _, [countingChannelId, countingChannel]) {
     const { format } = numberSystems[countingChannel.type];
     return void interaction.reply({
-      content: `📊 Current count for <#${countingChannelId}> is \`${format(countingChannel.count.number)}\`, next up is \`${format(countingChannel.count.number + countingChannel.increment)}\`.`,
+      content: `📊 Current count for <#${countingChannelId}> is \`${format(countingChannel.count.number)}\`${countingChannel.type === "decimal" ? "" : ` (decimal: \`${countingChannel.count.number}\`)`}, next up is \`${format(countingChannel.count.number + countingChannel.increment)}\`.`,
       ephemeral,
     });
   },
