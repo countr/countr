@@ -10,7 +10,7 @@ dependencies:
     version: 1.0.5
   '@typegoose/typegoose':
     specifier: 11.2.0
-    version: 11.2.0(mongoose@7.2.2)
+    version: 11.2.0(mongoose@7.2.3)
   ajv:
     specifier: 8.12.0
     version: 8.12.0
@@ -19,7 +19,7 @@ dependencies:
     version: 4.0.7
   discord-token-reset:
     specifier: github:promise/discord-tokens
-    version: github.com/promise/discord-tokens/23514d8989f5cb66ec77b41a9db6dabf306df0b9(@octokit/rest@19.0.11)(discord.js@14.11.0)
+    version: github.com/promise/discord-tokens/5c888ba172387fe234a1b668b9d06d9c95f316b1(@octokit/rest@19.0.11)(discord.js@14.11.0)
   discord.js:
     specifier: 14.11.0
     version: 14.11.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
@@ -42,8 +42,8 @@ dependencies:
     specifier: 6.3.1
     version: 6.3.1
   mongoose:
-    specifier: 7.2.2
-    version: 7.2.2
+    specifier: 7.2.3
+    version: 7.2.3
   morgan:
     specifier: 1.10.0
     version: 1.10.0
@@ -105,7 +105,7 @@ devDependencies:
     version: 8.42.0
   eslint-config-promise:
     specifier: github:promise/eslint-config
-    version: github.com/promise/eslint-config/36c2103fb78a3a010db2a91e9ea42bf83fa35d63(@typescript-eslint/eslint-plugin@5.59.9)(@typescript-eslint/parser@5.59.9)(eslint-import-resolver-typescript@3.5.5)(eslint-plugin-import@2.27.5)(eslint-plugin-jest@27.2.1)(eslint-plugin-react@7.32.2)(eslint@8.42.0)
+    version: github.com/promise/eslint-config/99b4ed51a796fc746af184cd597301af6d94b5ac(@typescript-eslint/eslint-plugin@5.59.9)(@typescript-eslint/parser@5.59.9)(eslint-import-resolver-typescript@3.5.5)(eslint-plugin-import@2.27.5)(eslint-plugin-jest@27.2.1)(eslint-plugin-react@7.32.2)(eslint@8.42.0)
   jest:
     specifier: 29.5.0
     version: 29.5.0(@types/node@18.16.16)
@@ -1072,7 +1072,7 @@ packages:
     deprecated: TypeScript 5.0 supports combining TSConfigs using array syntax in extends
     dev: true
 
-  /@typegoose/typegoose@11.2.0(mongoose@7.2.2):
+  /@typegoose/typegoose@11.2.0(mongoose@7.2.3):
     resolution: {integrity: sha512-svfAvLdlYEsinusgqWUNQ4fkVNZSnCfiInT/ic6nYnUHZzSwpS2YsHbEzq2LiaLgpFJ8IHNbha1qEqoeH43Q/Q==}
     engines: {node: '>=14.17.0'}
     peerDependencies:
@@ -1080,7 +1080,7 @@ packages:
     dependencies:
       lodash: 4.17.21
       loglevel: 1.8.1
-      mongoose: 7.2.2
+      mongoose: 7.2.3
       reflect-metadata: 0.1.13
       semver: 7.5.1
       tslib: 2.5.2
@@ -3981,8 +3981,8 @@ packages:
       saslprep: 1.0.3
     dev: false
 
-  /mongoose@7.2.2:
-    resolution: {integrity: sha512-JPBMTF+oYfLGVFWbHSZ/H+f1GajNanGLYH6c/P0nE3bNJfwGhX573vieGR0kNlNhj3cZk8WCPrnVsTNeUmFUag==}
+  /mongoose@7.2.3:
+    resolution: {integrity: sha512-ClHD73HiqMk4hcOhdlZxluldokZfXvkrxjdKuqI7UQWLM71OIoy+n+OS+OHz4qJhS+/UaPzemQDKYtVrl4l0Ig==}
     engines: {node: '>=14.20.1'}
     dependencies:
       bson: 5.3.0
@@ -5338,9 +5338,9 @@ packages:
       nan: 2.17.0
     dev: false
 
-  github.com/promise/discord-tokens/23514d8989f5cb66ec77b41a9db6dabf306df0b9(@octokit/rest@19.0.11)(discord.js@14.11.0):
-    resolution: {tarball: https://codeload.github.com/promise/discord-tokens/tar.gz/23514d8989f5cb66ec77b41a9db6dabf306df0b9}
-    id: github.com/promise/discord-tokens/23514d8989f5cb66ec77b41a9db6dabf306df0b9
+  github.com/promise/discord-tokens/5c888ba172387fe234a1b668b9d06d9c95f316b1(@octokit/rest@19.0.11)(discord.js@14.11.0):
+    resolution: {tarball: https://codeload.github.com/promise/discord-tokens/tar.gz/5c888ba172387fe234a1b668b9d06d9c95f316b1}
+    id: github.com/promise/discord-tokens/5c888ba172387fe234a1b668b9d06d9c95f316b1
     name: discord-token-reset
     version: 0.0.0
     peerDependencies:
@@ -5351,9 +5351,9 @@ packages:
       discord.js: 14.11.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     dev: false
 
-  github.com/promise/eslint-config/36c2103fb78a3a010db2a91e9ea42bf83fa35d63(@typescript-eslint/eslint-plugin@5.59.9)(@typescript-eslint/parser@5.59.9)(eslint-import-resolver-typescript@3.5.5)(eslint-plugin-import@2.27.5)(eslint-plugin-jest@27.2.1)(eslint-plugin-react@7.32.2)(eslint@8.42.0):
-    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/36c2103fb78a3a010db2a91e9ea42bf83fa35d63}
-    id: github.com/promise/eslint-config/36c2103fb78a3a010db2a91e9ea42bf83fa35d63
+  github.com/promise/eslint-config/99b4ed51a796fc746af184cd597301af6d94b5ac(@typescript-eslint/eslint-plugin@5.59.9)(@typescript-eslint/parser@5.59.9)(eslint-import-resolver-typescript@3.5.5)(eslint-plugin-import@2.27.5)(eslint-plugin-jest@27.2.1)(eslint-plugin-react@7.32.2)(eslint@8.42.0):
+    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/99b4ed51a796fc746af184cd597301af6d94b5ac}
+    id: github.com/promise/eslint-config/99b4ed51a796fc746af184cd597301af6d94b5ac
     name: eslint-config-promise
     version: 0.0.0
     peerDependencies:
