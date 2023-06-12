@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -10,7 +10,7 @@ dependencies:
     version: 1.0.5
   '@typegoose/typegoose':
     specifier: 11.2.0
-    version: 11.2.0(mongoose@7.2.3)
+    version: 11.2.0(mongoose@7.2.4)
   ajv:
     specifier: 8.12.0
     version: 8.12.0
@@ -19,7 +19,7 @@ dependencies:
     version: 4.0.7
   discord-token-reset:
     specifier: github:promise/discord-tokens
-    version: github.com/promise/discord-tokens/5c888ba172387fe234a1b668b9d06d9c95f316b1(@octokit/rest@19.0.11)(discord.js@14.11.0)
+    version: github.com/promise/discord-tokens/df077b0a1b161dfcdea5684e5eb901c35d851562(@octokit/rest@19.0.11)(discord.js@14.11.0)
   discord.js:
     specifier: 14.11.0
     version: 14.11.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
@@ -42,8 +42,8 @@ dependencies:
     specifier: 6.3.1
     version: 6.3.1
   mongoose:
-    specifier: 7.2.3
-    version: 7.2.3
+    specifier: 7.2.4
+    version: 7.2.4
   morgan:
     specifier: 1.10.0
     version: 1.10.0
@@ -1072,7 +1072,7 @@ packages:
     deprecated: TypeScript 5.0 supports combining TSConfigs using array syntax in extends
     dev: true
 
-  /@typegoose/typegoose@11.2.0(mongoose@7.2.3):
+  /@typegoose/typegoose@11.2.0(mongoose@7.2.4):
     resolution: {integrity: sha512-svfAvLdlYEsinusgqWUNQ4fkVNZSnCfiInT/ic6nYnUHZzSwpS2YsHbEzq2LiaLgpFJ8IHNbha1qEqoeH43Q/Q==}
     engines: {node: '>=14.17.0'}
     peerDependencies:
@@ -1080,7 +1080,7 @@ packages:
     dependencies:
       lodash: 4.17.21
       loglevel: 1.8.1
-      mongoose: 7.2.3
+      mongoose: 7.2.4
       reflect-metadata: 0.1.13
       semver: 7.5.1
       tslib: 2.5.2
@@ -3981,8 +3981,8 @@ packages:
       saslprep: 1.0.3
     dev: false
 
-  /mongoose@7.2.3:
-    resolution: {integrity: sha512-ClHD73HiqMk4hcOhdlZxluldokZfXvkrxjdKuqI7UQWLM71OIoy+n+OS+OHz4qJhS+/UaPzemQDKYtVrl4l0Ig==}
+  /mongoose@7.2.4:
+    resolution: {integrity: sha512-BWcgShV2WH1rspICiJKLPi7QssTebpGJ23Nyk7qG0TMEE/OEAlsQKEhI7VlrXg4ZnoOcHgG+N+upW9tj17TTQg==}
     engines: {node: '>=14.20.1'}
     dependencies:
       bson: 5.3.0
@@ -5338,9 +5338,9 @@ packages:
       nan: 2.17.0
     dev: false
 
-  github.com/promise/discord-tokens/5c888ba172387fe234a1b668b9d06d9c95f316b1(@octokit/rest@19.0.11)(discord.js@14.11.0):
-    resolution: {tarball: https://codeload.github.com/promise/discord-tokens/tar.gz/5c888ba172387fe234a1b668b9d06d9c95f316b1}
-    id: github.com/promise/discord-tokens/5c888ba172387fe234a1b668b9d06d9c95f316b1
+  github.com/promise/discord-tokens/df077b0a1b161dfcdea5684e5eb901c35d851562(@octokit/rest@19.0.11)(discord.js@14.11.0):
+    resolution: {tarball: https://codeload.github.com/promise/discord-tokens/tar.gz/df077b0a1b161dfcdea5684e5eb901c35d851562}
+    id: github.com/promise/discord-tokens/df077b0a1b161dfcdea5684e5eb901c35d851562
     name: discord-token-reset
     version: 0.0.0
     peerDependencies:
