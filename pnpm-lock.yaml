@@ -19,13 +19,13 @@ dependencies:
     version: 4.0.7
   discord-token-reset:
     specifier: github:promise/discord-tokens
-    version: github.com/promise/discord-tokens/217ac2c5891e3cb5a37c6f2a9e4b4fe18a75273f(@octokit/rest@19.0.12)(discord.js@14.11.0)
+    version: github.com/promise/discord-tokens/43ee9ca447e917ab8a0afbdd3ecefa43cd9ad789(@octokit/rest@19.0.13)(discord.js@14.11.0)
   discord.js:
     specifier: 14.11.0
     version: 14.11.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
   dotenv:
-    specifier: 16.1.4
-    version: 16.1.4
+    specifier: 16.3.1
+    version: 16.3.1
   erlpack:
     specifier: github:discord/erlpack
     version: github.com/discord/erlpack/cbe76be04c2210fc9cb6ff95910f0937c1011d04
@@ -105,7 +105,7 @@ devDependencies:
     version: 8.43.0
   eslint-config-promise:
     specifier: github:promise/eslint-config
-    version: github.com/promise/eslint-config/6a5c4ac0c9043c2e68b44495bc95fa4791d360df(@typescript-eslint/eslint-plugin@5.59.11)(@typescript-eslint/parser@5.59.11)(eslint-import-resolver-typescript@3.5.5)(eslint-plugin-import@2.27.5)(eslint-plugin-jest@27.2.1)(eslint-plugin-react@7.32.2)(eslint@8.43.0)
+    version: github.com/promise/eslint-config/1a79e670b896e45d7cfd52c761dd91987fc605a4(@typescript-eslint/eslint-plugin@5.59.11)(@typescript-eslint/parser@5.59.11)(eslint-import-resolver-typescript@3.5.5)(eslint-plugin-import@2.27.5)(eslint-plugin-jest@27.2.1)(eslint-plugin-react@7.32.2)(eslint@8.43.0)
   jest:
     specifier: 29.5.0
     version: 29.5.0(@types/node@18.16.18)
@@ -896,7 +896,7 @@ packages:
     resolution: {integrity: sha512-/aFM2M4HVDBT/jjDBa84sJniv1t9Gm/rLkalaz9htOm+L+8JMj1k9w0CkUdcxNyNxZPlTxKPVko+m1VlM58ZVA==}
     engines: {node: '>= 14'}
     dependencies:
-      '@octokit/types': 9.2.3
+      '@octokit/types': 9.3.2
     dev: false
 
   /@octokit/core@4.2.1:
@@ -907,7 +907,7 @@ packages:
       '@octokit/graphql': 5.0.6
       '@octokit/request': 6.2.5
       '@octokit/request-error': 3.0.3
-      '@octokit/types': 9.2.3
+      '@octokit/types': 9.3.2
       before-after-hook: 2.2.3
       universal-user-agent: 6.0.0
     transitivePeerDependencies:
@@ -918,7 +918,7 @@ packages:
     resolution: {integrity: sha512-LG4o4HMY1Xoaec87IqQ41TQ+glvIeTKqfjkCEmt5AIwDZJwQeVZFIEYXrYY6yLwK+pAScb9Gj4q+Nz2qSw1roA==}
     engines: {node: '>= 14'}
     dependencies:
-      '@octokit/types': 9.2.3
+      '@octokit/types': 9.3.2
       is-plain-object: 5.0.0
       universal-user-agent: 6.0.0
     dev: false
@@ -928,28 +928,24 @@ packages:
     engines: {node: '>= 14'}
     dependencies:
       '@octokit/request': 6.2.5
-      '@octokit/types': 9.2.3
+      '@octokit/types': 9.3.2
       universal-user-agent: 6.0.0
     transitivePeerDependencies:
       - encoding
-    dev: false
-
-  /@octokit/openapi-types@17.2.0:
-    resolution: {integrity: sha512-MazrFNx4plbLsGl+LFesMo96eIXkFgEtaKbnNpdh4aQ0VM10aoylFsTYP1AEjkeoRNZiiPe3T6Gl2Hr8dJWdlQ==}
     dev: false
 
   /@octokit/openapi-types@18.0.0:
     resolution: {integrity: sha512-V8GImKs3TeQRxRtXFpG2wl19V7444NIOTDF24AWuIbmNaNYOQMWRbjcGDXV5B+0n887fgDcuMNOmlul+k+oJtw==}
     dev: false
 
-  /@octokit/plugin-paginate-rest@7.1.2(@octokit/core@4.2.1):
-    resolution: {integrity: sha512-Jx8KuKqEAVRsK6fMzZKv3h6UH9/NRDHsDRtUAROqqmZlCptM///Uef7A1ViZ/cbDplekz7VbDWdFLAZ/mpuDww==}
-    engines: {node: '>= 18'}
+  /@octokit/plugin-paginate-rest@6.1.2(@octokit/core@4.2.1):
+    resolution: {integrity: sha512-qhrmtQeHU/IivxucOV1bbI/xZyC/iOBhclokv7Sut5vnejAIAEXVcGQeRpQlU39E0WwK9lNvJHphHri/DB6lbQ==}
+    engines: {node: '>= 14'}
     peerDependencies:
       '@octokit/core': '>=4'
     dependencies:
       '@octokit/core': 4.2.1
-      '@octokit/tsconfig': 2.0.0
+      '@octokit/tsconfig': 1.0.2
       '@octokit/types': 9.3.2
     dev: false
 
@@ -968,7 +964,7 @@ packages:
       '@octokit/core': '>=3'
     dependencies:
       '@octokit/core': 4.2.1
-      '@octokit/types': 9.2.3
+      '@octokit/types': 9.3.2
       deprecation: 2.3.1
     dev: false
 
@@ -976,7 +972,7 @@ packages:
     resolution: {integrity: sha512-crqw3V5Iy2uOU5Np+8M/YexTlT8zxCfI+qu+LxUB7SZpje4Qmx3mub5DfEKSO8Ylyk0aogi6TYdf6kxzh2BguQ==}
     engines: {node: '>= 14'}
     dependencies:
-      '@octokit/types': 9.2.3
+      '@octokit/types': 9.3.2
       deprecation: 2.3.1
       once: 1.4.0
     dev: false
@@ -987,7 +983,7 @@ packages:
     dependencies:
       '@octokit/endpoint': 7.0.5
       '@octokit/request-error': 3.0.3
-      '@octokit/types': 9.2.3
+      '@octokit/types': 9.3.2
       is-plain-object: 5.0.0
       node-fetch: 2.6.11
       universal-user-agent: 6.0.0
@@ -995,26 +991,20 @@ packages:
       - encoding
     dev: false
 
-  /@octokit/rest@19.0.12:
-    resolution: {integrity: sha512-oOeaUb9mmtLej6r0hjyT0KGN0NaT3BOMKLaloRrETWGeiLBWQaxaf8Z5dh7bduxxntxZoXSW5Sb5oyl0JKKAxg==}
+  /@octokit/rest@19.0.13:
+    resolution: {integrity: sha512-/EzVox5V9gYGdbAI+ovYj3nXQT1TtTHRT+0eZPcuC05UFSWO3mdO9UY1C0i2eLF9Un1ONJkAk+IEtYGAC+TahA==}
     engines: {node: '>= 14'}
     dependencies:
       '@octokit/core': 4.2.1
-      '@octokit/plugin-paginate-rest': 7.1.2(@octokit/core@4.2.1)
+      '@octokit/plugin-paginate-rest': 6.1.2(@octokit/core@4.2.1)
       '@octokit/plugin-request-log': 1.0.4(@octokit/core@4.2.1)
       '@octokit/plugin-rest-endpoint-methods': 7.1.2(@octokit/core@4.2.1)
     transitivePeerDependencies:
       - encoding
     dev: false
 
-  /@octokit/tsconfig@2.0.0:
-    resolution: {integrity: sha512-tWnrai3quGt8+gRN2edzo9fmraWekeryXPeXDomMw2oFSpu/lH3VSWGn/q4V+rwjTRMeeXk/ci623/01Zet4VQ==}
-    dev: false
-
-  /@octokit/types@9.2.3:
-    resolution: {integrity: sha512-MMeLdHyFIALioycq+LFcA71v0S2xpQUX2cw6pPbHQjaibcHYwLnmK/kMZaWuGfGfjBJZ3wRUq+dOaWsvrPJVvA==}
-    dependencies:
-      '@octokit/openapi-types': 17.2.0
+  /@octokit/tsconfig@1.0.2:
+    resolution: {integrity: sha512-I0vDR0rdtP8p2lGMzvsJzbhdOWy405HcGovrspJ8RRibHnyRgggUSNO5AIox5LmqiwmatHKYsvj6VGFHkqS7lA==}
     dev: false
 
   /@octokit/types@9.3.2:
@@ -2117,8 +2107,8 @@ packages:
       esutils: 2.0.3
     dev: true
 
-  /dotenv@16.1.4:
-    resolution: {integrity: sha512-m55RtE8AsPeJBpOIFKihEmqUcoVncQIwo7x9U8ZwLEZw9ZpXboz2c+rvog+jUaJvVrZ5kBOeYQBX5+8Aa/OZQw==}
+  /dotenv@16.3.1:
+    resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
     engines: {node: '>=12'}
     dev: false
 
@@ -5348,28 +5338,28 @@ packages:
       nan: 2.17.0
     dev: false
 
-  github.com/promise/discord-tokens/217ac2c5891e3cb5a37c6f2a9e4b4fe18a75273f(@octokit/rest@19.0.12)(discord.js@14.11.0):
-    resolution: {tarball: https://codeload.github.com/promise/discord-tokens/tar.gz/217ac2c5891e3cb5a37c6f2a9e4b4fe18a75273f}
-    id: github.com/promise/discord-tokens/217ac2c5891e3cb5a37c6f2a9e4b4fe18a75273f
+  github.com/promise/discord-tokens/43ee9ca447e917ab8a0afbdd3ecefa43cd9ad789(@octokit/rest@19.0.13)(discord.js@14.11.0):
+    resolution: {tarball: https://codeload.github.com/promise/discord-tokens/tar.gz/43ee9ca447e917ab8a0afbdd3ecefa43cd9ad789}
+    id: github.com/promise/discord-tokens/43ee9ca447e917ab8a0afbdd3ecefa43cd9ad789
     name: discord-token-reset
     version: 0.0.0
     peerDependencies:
-      '@octokit/rest': 19.0.12
+      '@octokit/rest': 19.0.13
       discord.js: ^14
     dependencies:
-      '@octokit/rest': 19.0.12
+      '@octokit/rest': 19.0.13
       discord.js: 14.11.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     dev: false
 
-  github.com/promise/eslint-config/6a5c4ac0c9043c2e68b44495bc95fa4791d360df(@typescript-eslint/eslint-plugin@5.59.11)(@typescript-eslint/parser@5.59.11)(eslint-import-resolver-typescript@3.5.5)(eslint-plugin-import@2.27.5)(eslint-plugin-jest@27.2.1)(eslint-plugin-react@7.32.2)(eslint@8.43.0):
-    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/6a5c4ac0c9043c2e68b44495bc95fa4791d360df}
-    id: github.com/promise/eslint-config/6a5c4ac0c9043c2e68b44495bc95fa4791d360df
+  github.com/promise/eslint-config/1a79e670b896e45d7cfd52c761dd91987fc605a4(@typescript-eslint/eslint-plugin@5.59.11)(@typescript-eslint/parser@5.59.11)(eslint-import-resolver-typescript@3.5.5)(eslint-plugin-import@2.27.5)(eslint-plugin-jest@27.2.1)(eslint-plugin-react@7.32.2)(eslint@8.43.0):
+    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/1a79e670b896e45d7cfd52c761dd91987fc605a4}
+    id: github.com/promise/eslint-config/1a79e670b896e45d7cfd52c761dd91987fc605a4
     name: eslint-config-promise
     version: 0.0.0
     peerDependencies:
       '@typescript-eslint/eslint-plugin': ^5.59.11
       '@typescript-eslint/parser': ^5.59.11
-      eslint: ^8.42.0
+      eslint: ^8.43.0
       eslint-import-resolver-typescript: ^3.5.5
       eslint-plugin-import: ^2.27.5
       eslint-plugin-jest: ^27.2.1
