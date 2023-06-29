@@ -140,6 +140,8 @@ services:
     command: "start:manager"
     volumes:
       - ./logs/manager:/app/logs
+    ports:
+      - 127.0.0.1:$API_PORT:$API_PORT
     networks:
       - countr-db
 
