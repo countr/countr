@@ -15,7 +15,9 @@ services:
       - ./logs/countr-cluster0:/app/logs
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - bridge
+      - ps-countr
   cluster1:
     build: .
     restart: always
@@ -27,7 +29,9 @@ services:
       - ./logs/countr-cluster1:/app/logs
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - bridge
+      - ps-countr
   cluster2:
     build: .
     restart: always
@@ -39,7 +43,9 @@ services:
       - ./logs/countr-cluster2:/app/logs
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - bridge
+      - ps-countr
   cluster3:
     build: .
     restart: always
@@ -51,7 +57,9 @@ services:
       - ./logs/countr-cluster3:/app/logs
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - bridge
+      - ps-countr
   cluster4:
     build: .
     restart: always
@@ -63,7 +71,9 @@ services:
       - ./logs/countr-cluster4:/app/logs
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - bridge
+      - ps-countr
   cluster5:
     build: .
     restart: always
@@ -75,7 +85,9 @@ services:
       - ./logs/countr-cluster5:/app/logs
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - bridge
+      - ps-countr
   cluster6:
     build: .
     restart: always
@@ -87,7 +99,9 @@ services:
       - ./logs/countr-cluster6:/app/logs
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - bridge
+      - ps-countr
   cluster7:
     build: .
     restart: always
@@ -99,7 +113,9 @@ services:
       - ./logs/countr-cluster7:/app/logs
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - bridge
+      - ps-countr
   cluster8:
     build: .
     restart: always
@@ -111,7 +127,9 @@ services:
       - ./logs/countr-cluster8:/app/logs
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - bridge
+      - ps-countr
   cluster9:
     build: .
     restart: always
@@ -123,11 +141,15 @@ services:
       - ./logs/countr-cluster9:/app/logs
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - bridge
+      - ps-countr
   manager:
     build: .
     restart: always
     command: "start:manager"
     volumes:
       - ./logs/manager:/app/logs
-    network_mode: host
+    networks:
+      - bridge
+      - ps-countr

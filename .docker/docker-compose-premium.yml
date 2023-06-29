@@ -13,11 +13,15 @@ services:
       - ACCESS_ENABLED=true
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - bridge
+      - ps-countr
   manager:
     build: .
     restart: always
     command: "start:manager"
     volumes:
       - ./logs/manager:/app/logs
-    network_mode: host
+    networks:
+      - bridge
+      - ps-countr
