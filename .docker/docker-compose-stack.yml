@@ -4,7 +4,7 @@ version: '3'
 
 services:
   bot:
-    build: .
+    build: ..
     restart: always
     environment:
       - BOT_TOKEN=$BOT_TOKEN
@@ -16,10 +16,9 @@ services:
       - API_PORT=$API_PORT
       - API_NUMBER_OF_PROXIES=$API_NUMBER_OF_PROXIES
       - WEBSOCKET_INTERNAL_URI=ws://manager
-      - WEBSOCKET_INTERNAL_URI=http://manager
       - COLOR_PRIMARY=$COLOR_PRIMARY
       - COLOR_SUCCESS=$COLOR_SUCCESS
-      - COLOR_ERROR=$COLOR_ERRIR
+      - COLOR_ERROR=$COLOR_ERROR
       - COLOR_WARNING=$COLOR_WARNING
       - COLOR_INFO=$COLOR_INFO
       - WEBHOOK_URL=$WEBHOOK_URL
@@ -31,7 +30,7 @@ services:
       - db
       - manager
   manager:
-    build: .
+    build: ..
     restart: always
     command: "start:manager"
     environment:
@@ -47,7 +46,7 @@ services:
       - WEBSOCKET_INTERNAL_URI=ws://manager
       - COLOR_PRIMARY=$COLOR_PRIMARY
       - COLOR_SUCCESS=$COLOR_SUCCESS
-      - COLOR_ERROR=$COLOR_ERRIR
+      - COLOR_ERROR=$COLOR_ERROR
       - COLOR_WARNING=$COLOR_WARNING
       - COLOR_INFO=$COLOR_INFO
       - WEBHOOK_URL=$WEBHOOK_URL
