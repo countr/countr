@@ -15,6 +15,8 @@ services:
       - ./logs/countr-cluster0:/app/logs
     depends_on:
       - manager
+    networks:
+      - countr-db
   cluster1:
     build: .
     restart: always
@@ -26,6 +28,8 @@ services:
       - ./logs/countr-cluster1:/app/logs
     depends_on:
       - manager
+    networks:
+      - countr-db
   cluster2:
     build: .
     restart: always
@@ -37,6 +41,8 @@ services:
       - ./logs/countr-cluster2:/app/logs
     depends_on:
       - manager
+    networks:
+      - countr-db
   cluster3:
     build: .
     restart: always
@@ -48,6 +54,8 @@ services:
       - ./logs/countr-cluster3:/app/logs
     depends_on:
       - manager
+    networks:
+      - countr-db
   cluster4:
     build: .
     restart: always
@@ -59,6 +67,8 @@ services:
       - ./logs/countr-cluster4:/app/logs
     depends_on:
       - manager
+    networks:
+      - countr-db
   cluster5:
     build: .
     restart: always
@@ -70,6 +80,8 @@ services:
       - ./logs/countr-cluster5:/app/logs
     depends_on:
       - manager
+    networks:
+      - countr-db
   cluster6:
     build: .
     restart: always
@@ -81,6 +93,8 @@ services:
       - ./logs/countr-cluster6:/app/logs
     depends_on:
       - manager
+    networks:
+      - countr-db
   cluster7:
     build: .
     restart: always
@@ -92,6 +106,8 @@ services:
       - ./logs/countr-cluster7:/app/logs
     depends_on:
       - manager
+    networks:
+      - countr-db
   cluster8:
     build: .
     restart: always
@@ -103,6 +119,8 @@ services:
       - ./logs/countr-cluster8:/app/logs
     depends_on:
       - manager
+    networks:
+      - countr-db
   cluster9:
     build: .
     restart: always
@@ -114,9 +132,18 @@ services:
       - ./logs/countr-cluster9:/app/logs
     depends_on:
       - manager
+    networks:
+      - countr-db
   manager:
     build: .
     restart: always
     command: "start:manager"
     volumes:
       - ./logs/manager:/app/logs
+    networks:
+      - countr-db
+
+networks:
+  countr-db:
+    name: countr
+    external: true
