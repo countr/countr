@@ -1,0 +1,66 @@
+# use this for Portainer
+
+version: '3'
+
+services:
+  bot:
+    build: .
+    restart: always
+    environment:
+      - BOT_TOKEN=$BOT_TOKEN
+      - BOT_ID=$BOT_ID
+      - DATABASE_URI=mongodb://db/countr
+      - OWNER=$OWNER
+      - ADMINS=$ADMINS
+      - GUILD=$GUILD
+      - API_PORT=$API_PORT
+      - API_NUMBER_OF_PROXIES=$API_NUMBER_OF_PROXIES
+      - WEBSOCKET_INTERNAL_URI=ws://manager
+      - WEBSOCKET_INTERNAL_URI=http://manager
+      - COLOR_PRIMARY=$COLOR_PRIMARY
+      - COLOR_SUCCESS=$COLOR_SUCCESS
+      - COLOR_ERROR=$COLOR_ERRIR
+      - COLOR_WARNING=$COLOR_WARNING
+      - COLOR_INFO=$COLOR_INFO
+      - WEBHOOK_URL=$WEBHOOK_URL
+      - IS_PREMIUM=$IS_PREMIUM
+      - HASTEBIN_LINK=$HASTEBIN_LINK
+    volumes:
+      - ./logs/countr:/app/logs
+    depends_on:
+      - db
+      - manager
+  manager:
+    build: .
+    restart: always
+    command: "start:manager"
+    environment:
+      - BOT_TOKEN=$BOT_TOKEN
+      - BOT_ID=$BOT_ID
+      - DATABASE_URI=mongodb://db/countr
+      - OWNER=$OWNER
+      - ADMINS=$ADMINS
+      - GUILD=$GUILD
+      - API_PORT=$API_PORT
+      - API_NUMBER_OF_PROXIES=$API_NUMBER_OF_PROXIES
+      - WEBSOCKET_INTERNAL_PORT=80
+      - WEBSOCKET_INTERNAL_URI=http://manager
+      - COLOR_PRIMARY=$COLOR_PRIMARY
+      - COLOR_SUCCESS=$COLOR_SUCCESS
+      - COLOR_ERROR=$COLOR_ERRIR
+      - COLOR_WARNING=$COLOR_WARNING
+      - COLOR_INFO=$COLOR_INFO
+      - WEBHOOK_URL=$WEBHOOK_URL
+      - IS_PREMIUM=$IS_PREMIUM
+      - HASTEBIN_LINK=$HASTEBIN_LINK
+    volumes:
+      - ./logs/manager:/app/logs
+    ports:
+      - $API_PORT:$API_PORT
+    depends_on:
+      - db
+  db:
+    image: mongo:4@sha256:55d463d6688bf2e16262a071d4df3841c0de63f90f8a5cc1b0107ec3d0f0f241
+    restart: always
+    volumes:
+      - ./database:/data/db
