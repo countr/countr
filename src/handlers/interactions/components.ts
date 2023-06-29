@@ -65,20 +65,22 @@ export function getSelectTypeFromComponentType(componentType: ComponentType): ke
 }
 
 const pendingGarbage = new Map<string, Date>();
-setInterval(() => {
-  const now = new Date();
-  pendingGarbage.forEach((date, key) => {
-    if (now < date) return;
+if (!process.env["JEST_WORKER_ID"]) {
+  setInterval(() => {
+    const now = new Date();
+    pendingGarbage.forEach((date, key) => {
+      if (now < date) return;
 
-    buttonComponents.delete(key);
-    selectMenuComponents.delete(key);
-    pendingGarbage.delete(key);
-  });
+      buttonComponents.delete(key);
+      selectMenuComponents.delete(key);
+      pendingGarbage.delete(key);
+    });
 
-  [...Array.from(buttonComponents.entries()), ...Array.from(selectMenuComponents.entries())].forEach(([key, { garbageCollect }]) => {
-    if (garbageCollect === false || pendingGarbage.has(key)) return;
+    [...Array.from(buttonComponents.entries()), ...Array.from(selectMenuComponents.entries())].forEach(([key, { garbageCollect }]) => {
+      if (garbageCollect === false || pendingGarbage.has(key)) return;
 
-    const date = garbageCollect ?? new Date(now.getTime() + 3600000);
-    pendingGarbage.set(key, date);
-  });
-}, 300000);
+      const date = garbageCollect ?? new Date(now.getTime() + 3600000);
+      pendingGarbage.set(key, date);
+    });
+  }, 300000);
+}
