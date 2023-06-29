@@ -1,7 +1,7 @@
 import { inspect } from "util";
 import type { ChatInputCommandInteraction, Snowflake } from "discord.js";
 import type { ChatInputCommand } from "../../commands/chatInput";
-import { selectedCountingChannels } from "../../constants/selectedCountingChannel";
+import selectedCountingChannels from "../../constants/selectedCountingChannel";
 import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 import commandsLogger from "../../utils/logger/commands";
 import { setSafeTimeout } from "../../utils/safe";
@@ -33,8 +33,8 @@ export default async function chatInputCommandHandler(interaction: ChatInputComm
     const countingChannel = document.channels.get(interaction.channelId);
     if (command.disableInCountingChannel && countingChannel) return void interaction.reply({ content: "❌ This command is disabled in counting channels.", ephemeral: true });
 
-    const selectedCountingChannelId = countingChannel ? interaction.channelId : selectedCountingChannels.get(interaction.user.id)?.channel;
-    const selectedCountingChannel: [Snowflake, CountingChannelSchema] | undefined = selectedCountingChannelId ? [selectedCountingChannelId, document.channels.get(selectedCountingChannelId)!] : document.getDefaultCountingChannel() ?? undefined; // eslint-disable-line no-undefined
+    const selectedCountingChannelId = countingChannel ? interaction.channelId : selectedCountingChannels.get(interaction.user.id);
+    const selectedCountingChannel: [Snowflake, CountingChannelSchema] | undefined = selectedCountingChannelId && document.channels.has(selectedCountingChannelId) ? [selectedCountingChannelId, document.channels.get(selectedCountingChannelId)!] : document.getDefaultCountingChannel() ?? undefined; // eslint-disable-line no-undefined
 
     if (command.requireSelectedCountingChannel && !selectedCountingChannel) return void interaction.reply({ content: "💥 You need a counting channel selected to run this command. Type `/select` to select a counting channel and then run this command again.", ephemeral: true });
 

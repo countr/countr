@@ -7,7 +7,7 @@ import type { MentionCommand } from "../commands/mention";
 import { quickResponses } from "../commands/mention";
 import config from "../config";
 import { DebugCommandLevel } from "../constants/permissions";
-import { selectedCountingChannels } from "../constants/selectedCountingChannel";
+import selectedCountingChannels from "../constants/selectedCountingChannel";
 import type { CountingChannelSchema, GuildDocument } from "../database/models/Guild";
 import commandsLogger from "../utils/logger/commands";
 import { fitText } from "../utils/text";
@@ -46,8 +46,8 @@ async function handleCommand(message: Message<true>, document: GuildDocument, ex
     command.debugLevel === DebugCommandLevel.Admin && !config.admins.includes(message.author.id)
   ) return reply("⛔ This command is not available.", message, existingReply).then(newReply => [message, newReply]);
 
-  const selectedCountingChannelId = inCountingChannel ? message.channelId : selectedCountingChannels.get(message.author.id)?.channel;
-  const selectedCountingChannel: [Snowflake, CountingChannelSchema] | null = selectedCountingChannelId ? [selectedCountingChannelId, document.channels.get(selectedCountingChannelId)!] : document.getDefaultCountingChannel();
+  const selectedCountingChannelId = inCountingChannel ? message.channelId : selectedCountingChannels.get(message.author.id);
+  const selectedCountingChannel: [Snowflake, CountingChannelSchema] | null = selectedCountingChannelId && document.channels.has(selectedCountingChannelId) ? [selectedCountingChannelId, document.channels.get(selectedCountingChannelId)!] : document.getDefaultCountingChannel();
 
   if (command.requireSelectedCountingChannel && !selectedCountingChannel) return reply("💥 You need a counting channel selected to run this command. Type `/select` to select a counting channel and then run this command again.", message, existingReply).then(newReply => [message, newReply]);
 
