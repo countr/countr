@@ -13,18 +13,9 @@ services:
       - ACCESS_ENABLED=true
     depends_on:
       - manager
-    networks:
-      - countr-db
   manager:
     build: .
     restart: always
     command: "start:manager"
     volumes:
       - ./logs/manager:/app/logs
-    networks:
-      - countr-db
-
-networks:
-  countr-db:
-    name: ps-countr
-    external: true
