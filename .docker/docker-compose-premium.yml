@@ -14,8 +14,7 @@ services:
     depends_on:
       - manager
     networks:
-      - bridge
-      - ps-countr
+      - countr-db
   manager:
     build: .
     restart: always
@@ -23,5 +22,9 @@ services:
     volumes:
       - ./logs/manager:/app/logs
     networks:
-      - bridge
-      - ps-countr
+      - countr-db
+
+networks:
+  countr-db:
+    name: ps-countr
+    external: true

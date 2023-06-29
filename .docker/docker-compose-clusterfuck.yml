@@ -16,8 +16,7 @@ services:
     depends_on:
       - manager
     networks:
-      - bridge
-      - ps-countr
+      - countr-db
   cluster1:
     build: .
     restart: always
@@ -30,8 +29,7 @@ services:
     depends_on:
       - manager
     networks:
-      - bridge
-      - ps-countr
+      - countr-db
   cluster2:
     build: .
     restart: always
@@ -44,8 +42,7 @@ services:
     depends_on:
       - manager
     networks:
-      - bridge
-      - ps-countr
+      - countr-db
   cluster3:
     build: .
     restart: always
@@ -58,8 +55,7 @@ services:
     depends_on:
       - manager
     networks:
-      - bridge
-      - ps-countr
+      - countr-db
   cluster4:
     build: .
     restart: always
@@ -72,8 +68,7 @@ services:
     depends_on:
       - manager
     networks:
-      - bridge
-      - ps-countr
+      - countr-db
   cluster5:
     build: .
     restart: always
@@ -86,8 +81,7 @@ services:
     depends_on:
       - manager
     networks:
-      - bridge
-      - ps-countr
+      - countr-db
   cluster6:
     build: .
     restart: always
@@ -100,8 +94,7 @@ services:
     depends_on:
       - manager
     networks:
-      - bridge
-      - ps-countr
+      - countr-db
   cluster7:
     build: .
     restart: always
@@ -114,8 +107,7 @@ services:
     depends_on:
       - manager
     networks:
-      - bridge
-      - ps-countr
+      - countr-db
   cluster8:
     build: .
     restart: always
@@ -128,8 +120,7 @@ services:
     depends_on:
       - manager
     networks:
-      - bridge
-      - ps-countr
+      - countr-db
   cluster9:
     build: .
     restart: always
@@ -142,8 +133,7 @@ services:
     depends_on:
       - manager
     networks:
-      - bridge
-      - ps-countr
+      - countr-db
   manager:
     build: .
     restart: always
@@ -151,5 +141,9 @@ services:
     volumes:
       - ./logs/manager:/app/logs
     networks:
-      - bridge
-      - ps-countr
+      - countr-db
+
+networks:
+  countr-db:
+    name: ps-countr
+    external: true
