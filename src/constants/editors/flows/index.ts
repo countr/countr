@@ -1,29 +1,48 @@
-import type { APIEmbed, ActionRowComponentOptions, ButtonInteraction, CommandInteraction, InteractionReplyOptions, InteractionUpdateOptions, Snowflake } from "discord.js";
-import { ButtonStyle, ComponentType, escapeMarkdown } from "discord.js";
+import type { APIEmbed, ActionRowComponentOptions, ButtonInteraction, CommandInteraction, InteractionReplyOptions, InteractionUpdateOptions, Snowflake, AnyThreadChannel } from "discord.js";
+import { PermissionsBitField, ButtonStyle, ComponentType, escapeMarkdown } from "discord.js";
 import config from "../../../config";
 import type { CountingChannelSchema, FlowSchema, GuildDocument } from "../../../database/models/Guild";
 import { buttonComponents, getSelectTypeFromComponentType, selectMenuComponents } from "../../../handlers/interactions/components";
 import { generateId } from "../../../utils/crypto";
+import { calculatePermissionsForChannel, flowChannelNonThreadPermissions, flowChannelPermissions, flowChannelThreadPermissions } from "../../discord";
 import limits from "../../limits";
 import type { Step } from "./steps";
 import steps from "./steps";
 
 export function flowEditor(interaction: ButtonInteraction<"cached"> | CommandInteraction<"cached">, document: GuildDocument, countingChannel: CountingChannelSchema, userId: Snowflake, flowId: string = generateId()): void {
-  // duplicate existing flow so we don't overwrite the original
-  const existingFlow = countingChannel.flows.get(flowId);
-  const flow: FlowSchema = {
-    disabled: false,
-    triggers: [],
-    actions: [],
-    ...JSON.parse(JSON.stringify(existingFlow ?? {})) as Partial<FlowSchema>,
-  };
+  return void (async () => {
+    // check if the bot has access to the channel, so it doesn't fuck up
+    const parent = interaction.channel?.parent?.isTextBased() && await interaction.channel.parent.fetch();
+    const channel = !interaction.channel?.isThread() && await interaction.channel?.fetch() as Exclude<typeof interaction["channel"], AnyThreadChannel | null>;
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- we want it to be null instead of false here, so we can use the optional chain on the next line
+    const currentPermissions = (parent || channel || null) && calculatePermissionsForChannel(parent ? parent : channel as Exclude<typeof channel, false>, await interaction.guild.members.fetchMe({ force: false, cache: true }));
+    const requiredPermissions = [...flowChannelPermissions, ...parent ? flowChannelThreadPermissions : flowChannelNonThreadPermissions];
+    if (!currentPermissions?.has(requiredPermissions)) {
+      return void interaction.reply({
+        content: `⚠ I am missing permissions in this channel to open the flow editor: ${requiredPermissions
+          .map(bigint => Object.entries(PermissionsBitField.Flags).find(([, permission]) => permission === bigint && !currentPermissions?.has(permission))?.[0])
+          .filter(Boolean)
+          .join(", ")}`,
+        ephemeral: true,
+      });
+    }
 
-  // update flow.disabled if it exceeds the amount of flows allowed
-  flow.disabled ||= (Array.from(countingChannel.flows.keys()).indexOf(flowId) + 1 || countingChannel.flows.size + 1) > limits.flows.amount;
+    // duplicate existing flow so we don't overwrite the original
+    const existingFlow = countingChannel.flows.get(flowId);
+    const flow: FlowSchema = {
+      disabled: false,
+      triggers: [],
+      actions: [],
+      ...JSON.parse(JSON.stringify(existingFlow ?? {})) as Partial<FlowSchema>,
+    };
 
-  const step = existingFlow ? steps.findIndex(({ skipIfExists }) => !skipIfExists) || 0 : 0;
+    // update flow.disabled if it exceeds the amount of flows allowed
+    flow.disabled ||= (Array.from(countingChannel.flows.keys()).indexOf(flowId) + 1 || countingChannel.flows.size + 1) > limits.flows.amount;
 
-  return void interaction.reply(designMessage(step, flow, flowId, document, countingChannel, userId));
+    const step = existingFlow ? steps.findIndex(({ skipIfExists }) => !skipIfExists) || 0 : 0;
+
+    return void interaction.reply(designMessage(step, flow, flowId, document, countingChannel, userId));
+  })();
 }
 
 export function designMessage(stepIndex: number, flow: FlowSchema, flowIdentifier: string, document: GuildDocument, countingChannel: CountingChannelSchema, userId: Snowflake): InteractionReplyOptions & InteractionUpdateOptions {
