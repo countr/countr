@@ -1,5 +1,6 @@
 import type { GuildMember } from "discord.js";
 import type { CountingChannelAllowedChannelType } from "../../constants/discord";
+import { setSafeTimeout } from "../../utils/safe";
 import { handleFlowsOnTimeout } from "./flows";
 import type { CountingData } from ".";
 
@@ -11,7 +12,7 @@ export default async function handleTimeouts(countingData: CountingData): Promis
   const fails = (countingFails.get(`${countingData.channel.id}-${countingData.member.id}`) ?? 0) + 1;
   countingFails.set(`${countingData.channel.id}-${countingData.member.id}`, fails);
 
-  setTimeout(() => {
+  void setSafeTimeout(() => {
     const newFails = (countingFails.get(`${countingData.channel.id}-${countingData.member.id}`) ?? 0) - 1;
     if (newFails) countingFails.set(`${countingData.channel.id}-${countingData.member.id}`, newFails);
     else countingFails.delete(`${countingData.channel.id}-${countingData.member.id}`);
@@ -24,7 +25,7 @@ export default async function handleTimeouts(countingData: CountingData): Promis
       countingData.countingChannel.timeouts.set(countingData.member.id, new Date(Date.now() + countingData.countingChannel.timeoutRole.duration * 1000));
       countingData.document.safeSave();
 
-      setTimeout(() => {
+      void setSafeTimeout(() => {
         // race condition
         if (countingData.countingChannel.timeoutRole) void countingData.member.roles.remove(countingData.countingChannel.timeoutRole.roleId).catch();
         countingData.countingChannel.timeouts.delete(countingData.member.id);
