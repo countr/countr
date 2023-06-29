@@ -65,7 +65,7 @@ export function getSelectTypeFromComponentType(componentType: ComponentType): ke
 }
 
 const pendingGarbage = new Map<string, Date>();
-setInterval(() => {
+if (!process.env["JEST_WORKER_ID"]) setInterval(() => {
   const now = new Date();
   pendingGarbage.forEach((date, key) => {
     if (now < date) return;
