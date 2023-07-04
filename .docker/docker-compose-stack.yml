@@ -4,6 +4,7 @@ version: '3'
 
 services:
   bot:
+    image: countr/stack
     build: ..
     restart: always
     environment:
@@ -30,7 +31,7 @@ services:
       - db
       - manager
   manager:
-    build: ..
+    image: countr/stack
     restart: always
     command: "start:manager"
     environment:
