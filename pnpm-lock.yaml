@@ -10,7 +10,7 @@ dependencies:
     version: 1.0.5
   '@typegoose/typegoose':
     specifier: 11.3.0
-    version: 11.3.0(mongoose@7.3.1)
+    version: 11.3.0(mongoose@7.3.2)
   ajv:
     specifier: 8.12.0
     version: 8.12.0
@@ -42,8 +42,8 @@ dependencies:
     specifier: 6.3.1
     version: 6.3.1
   mongoose:
-    specifier: 7.3.1
-    version: 7.3.1
+    specifier: 7.3.2
+    version: 7.3.2
   morgan:
     specifier: 1.10.0
     version: 1.10.0
@@ -1110,7 +1110,7 @@ packages:
     deprecated: TypeScript 5.0 supports combining TSConfigs using array syntax in extends
     dev: true
 
-  /@typegoose/typegoose@11.3.0(mongoose@7.3.1):
+  /@typegoose/typegoose@11.3.0(mongoose@7.3.2):
     resolution: {integrity: sha512-saBGFAYYfGqEIKdbai/qE29te0pbPoF1NJPIYd7Lwv1GAyMJusuwqMXgJuix2G25/8vZZz89Yimomwlwwlmy7w==}
     engines: {node: '>=14.17.0'}
     peerDependencies:
@@ -1118,7 +1118,7 @@ packages:
     dependencies:
       lodash: 4.17.21
       loglevel: 1.8.1
-      mongoose: 7.3.1
+      mongoose: 7.3.2
       reflect-metadata: 0.1.13
       semver: 7.5.3
       tslib: 2.6.0
@@ -4079,8 +4079,8 @@ packages:
       saslprep: 1.0.3
     dev: false
 
-  /mongoose@7.3.1:
-    resolution: {integrity: sha512-6289bmSIhvR8xMHsYe2/CuzN7wHK+2RHcK7idDdzniCPC5zix5JH0Hc4k3CmXlr/9zQ2250gUQiUWtvDB0vF1Q==}
+  /mongoose@7.3.2:
+    resolution: {integrity: sha512-Z86m5ASwYYFyT++wPQTtuTl5Jh052w6G1IM8LxPu/6iuqxQo6nUOaEoGZfMy0ovw3Dyw3415Jue3pYXkRqPkfA==}
     engines: {node: '>=14.20.1'}
     dependencies:
       bson: 5.3.0
