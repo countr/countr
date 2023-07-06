@@ -1,10 +1,10 @@
 import { release, type } from "os";
 import { version as djsVersion } from "discord.js";
 import config from "../../config";
-import { homepage, inviteUrl, supportServerUrl } from "../../constants/links";
+import { homepage, premiumHelpUrl, supportServerUrl } from "../../constants/links";
 import { getAllStats } from "../../utils/cluster";
 import { bytesToHumanReadable } from "../../utils/human";
-import { fitText, trail } from "../../utils/text";
+import { fitText } from "../../utils/text";
 import { msToHumanShortTime } from "../../utils/time";
 import type { ChatInputCommand } from ".";
 
@@ -64,8 +64,8 @@ const command: ChatInputCommand = {
             {
               name: "🔗 Links",
               value: [
-                `**Invite me:** [https://discord.com/api/oauth${trail}](${inviteUrl(interaction.client)})`,
-                `**Support Server**: ${supportServerUrl}`,
+                config.isPremium ? `[**See what Premium offers!**](${premiumHelpUrl})` : `[**Invite me to your server!**](https://discord.com/application-directory/${interaction.client.user.id})`,
+                `**Support**: ${supportServerUrl}`,
                 `**Website**: ${homepage}`,
               ].join("\n"),
               inline: true,
