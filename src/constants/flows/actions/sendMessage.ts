@@ -22,9 +22,9 @@ const sendMessage: Action<[Snowflake, string]> = {
           .replace(/\{score\}/giu, String(scores.get(member.id) ?? 0))
           .replace(/\{content\}/giu, content),
         allowedMentions: {
-          users: [...text.matchAll(/<@(\d*)>/gu)].map(i => i[1]!),
-          roles: [...text.matchAll(/<@&(\d*)>/gu)].map(i => i[1]!),
-          parse: text.includes("{everyone}") ? ["everyone"] : [],
+          users: [...text.toLowerCase().matchAll(/<@(\d*)>/gu)].map(i => i[1]!),
+          roles: [...text.toLowerCase().matchAll(/<@&(\d*)>/gu)].map(i => i[1]!),
+          parse: text.toLowerCase().includes("{everyone}") ? ["everyone"] : [],
         },
       })
         .catch();
