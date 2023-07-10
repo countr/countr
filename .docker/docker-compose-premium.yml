@@ -4,7 +4,7 @@ version: '3'
 
 services:
   cluster0:
-    build: .
+    image: countr/countr-premium:latest
     restart: always
     volumes:
       - ./logs/countr-cluster0:/app/logs
@@ -13,11 +13,24 @@ services:
       - ACCESS_ENABLED=true
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - countr-db
+    labels:
+      io.portainer.accesscontrol.teams: "promise-solutions"
   manager:
-    build: .
+    image: countr/countr-premium:latest
     restart: always
     command: "start:manager"
     volumes:
       - ./logs/manager:/app/logs
-    network_mode: host
+    ports:
+      - 127.0.0.1:$API_PORT:$API_PORT
+    networks:
+      - countr-db
+    labels:
+      io.portainer.accesscontrol.teams: "promise-solutions"
+
+networks:
+  countr-db:
+    name: countr-premium
+    external: true

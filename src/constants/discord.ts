@@ -51,6 +51,14 @@ export const countingChannelRootPermissions = [
   PermissionFlagsBits.SendMessagesInThreads,
 ] as const;
 
+export const flowChannelPermissions = [
+  PermissionFlagsBits.ViewChannel,
+  PermissionFlagsBits.EmbedLinks,
+] as const;
+
+export const flowChannelNonThreadPermissions = [PermissionFlagsBits.SendMessages] as const;
+export const flowChannelThreadPermissions = [PermissionFlagsBits.SendMessagesInThreads] as const;
+
 export function calculatePermissionsForChannel(channel: GuildChannel, member: GuildMember): PermissionsBitField {
   const permissions = new PermissionsBitField(member.permissions);
 

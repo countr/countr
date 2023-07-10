@@ -1,3 +1,4 @@
+import alphabet from "./alphabet";
 import base36 from "./base36";
 import base64 from "./base64";
 import binary from "./binary";
@@ -21,4 +22,5 @@ export default {
   base64,
   roman,
   math,
+  alphabet,
 } as const;

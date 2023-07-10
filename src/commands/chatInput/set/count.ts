@@ -1,5 +1,6 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import type { ChatInputCommand } from "..";
+import numberSystems from "../../../constants/numberSystems";
 
 const command: ChatInputCommand = {
   description: "Set the count",
@@ -18,7 +19,7 @@ const command: ChatInputCommand = {
     countingChannel.count = { number };
     document.safeSave();
 
-    return void interaction.reply({ content: `✅ The count of <#${countingChannelId}> is now set to ${number}.`, ephemeral });
+    return void interaction.reply({ content: `✅ The count of <#${countingChannelId}> is now set to ${number}. ${countingChannel.type === "decimal" ? "" : `(${countingChannel.type}: \`${numberSystems[countingChannel.type].format(number)}\`)`}`, ephemeral });
   },
 };
 

@@ -9,6 +9,10 @@ const embed: Module = {
   incompatible: ["reposting", "webhook"],
 };
 
+const nodelete: Module = {
+  description: "No messages get deleted, even if you fail to count.",
+};
+
 const recover: Module = {
   description: "Remove invalid messages when the bot restarts.",
 };
@@ -32,5 +36,5 @@ const webhook: Module = {
 };
 
 // make variable to get types. honestly surprised TS allows this but I'm not going to question it
-const modules = { embed, recover, reposting, spam, talking, webhook } as const;
+const modules = { embed, nodelete, recover, reposting, spam, talking, webhook } as const;
 export default modules;

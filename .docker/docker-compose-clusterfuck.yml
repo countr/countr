@@ -5,7 +5,7 @@ version: '3'
 
 services:
   cluster0:
-    build: .
+    image: countr/countr:latest
     restart: always
     environment:
       - CLUSTER=0
@@ -15,9 +15,12 @@ services:
       - ./logs/countr-cluster0:/app/logs
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - countr-db
+    labels:
+      io.portainer.accesscontrol.teams: "promise-solutions"
   cluster1:
-    build: .
+    image: countr/countr:latest
     restart: always
     environment:
       - CLUSTER=1
@@ -27,9 +30,12 @@ services:
       - ./logs/countr-cluster1:/app/logs
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - countr-db
+    labels:
+      io.portainer.accesscontrol.teams: "promise-solutions"
   cluster2:
-    build: .
+    image: countr/countr:latest
     restart: always
     environment:
       - CLUSTER=2
@@ -39,9 +45,12 @@ services:
       - ./logs/countr-cluster2:/app/logs
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - countr-db
+    labels:
+      io.portainer.accesscontrol.teams: "promise-solutions"
   cluster3:
-    build: .
+    image: countr/countr:latest
     restart: always
     environment:
       - CLUSTER=3
@@ -51,9 +60,12 @@ services:
       - ./logs/countr-cluster3:/app/logs
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - countr-db
+    labels:
+      io.portainer.accesscontrol.teams: "promise-solutions"
   cluster4:
-    build: .
+    image: countr/countr:latest
     restart: always
     environment:
       - CLUSTER=4
@@ -63,9 +75,12 @@ services:
       - ./logs/countr-cluster4:/app/logs
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - countr-db
+    labels:
+      io.portainer.accesscontrol.teams: "promise-solutions"
   cluster5:
-    build: .
+    image: countr/countr:latest
     restart: always
     environment:
       - CLUSTER=5
@@ -75,9 +90,12 @@ services:
       - ./logs/countr-cluster5:/app/logs
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - countr-db
+    labels:
+      io.portainer.accesscontrol.teams: "promise-solutions"
   cluster6:
-    build: .
+    image: countr/countr:latest
     restart: always
     environment:
       - CLUSTER=6
@@ -87,9 +105,12 @@ services:
       - ./logs/countr-cluster6:/app/logs
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - countr-db
+    labels:
+      io.portainer.accesscontrol.teams: "promise-solutions"
   cluster7:
-    build: .
+    image: countr/countr:latest
     restart: always
     environment:
       - CLUSTER=7
@@ -99,9 +120,12 @@ services:
       - ./logs/countr-cluster7:/app/logs
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - countr-db
+    labels:
+      io.portainer.accesscontrol.teams: "promise-solutions"
   cluster8:
-    build: .
+    image: countr/countr:latest
     restart: always
     environment:
       - CLUSTER=8
@@ -111,9 +135,12 @@ services:
       - ./logs/countr-cluster8:/app/logs
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - countr-db
+    labels:
+      io.portainer.accesscontrol.teams: "promise-solutions"
   cluster9:
-    build: .
+    image: countr/countr:latest
     restart: always
     environment:
       - CLUSTER=9
@@ -123,11 +150,24 @@ services:
       - ./logs/countr-cluster9:/app/logs
     depends_on:
       - manager
-    network_mode: host
+    networks:
+      - countr-db
+    labels:
+      io.portainer.accesscontrol.teams: "promise-solutions"
   manager:
-    build: .
+    image: countr/countr:latest
     restart: always
     command: "start:manager"
     volumes:
       - ./logs/manager:/app/logs
-    network_mode: host
+    ports:
+      - 127.0.0.1:$API_PORT:$API_PORT
+    networks:
+      - countr-db
+    labels:
+      io.portainer.accesscontrol.teams: "promise-solutions"
+
+networks:
+  countr-db:
+    name: countr
+    external: true
