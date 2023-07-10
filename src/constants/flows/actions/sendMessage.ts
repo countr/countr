@@ -21,8 +21,13 @@ const sendMessage: Action<[Snowflake, string]> = {
           .replace(/\{everyone\}/giu, guild.roles.everyone.toString())
           .replace(/\{score\}/giu, String(scores.get(member.id) ?? 0))
           .replace(/\{content\}/giu, content),
-        allowedMentions: { parse: ["everyone", "users", "roles"] },
-      }).catch();
+        allowedMentions: {
+          users: [...text.toLowerCase().matchAll(/<@(\d*)>/gu)].map(i => i[1]!),
+          roles: [...text.toLowerCase().matchAll(/<@&(\d*)>/gu)].map(i => i[1]!),
+          parse: text.toLowerCase().includes("{everyone}") ? ["everyone"] : [],
+        },
+      })
+        .catch();
     }
     return false;
   },
