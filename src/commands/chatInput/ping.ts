@@ -4,9 +4,9 @@ import type { ChatInputCommand } from ".";
 const command: ChatInputCommand = {
   description: "Ping the bot",
   async execute(interaction, ephemeral) {
-    const now = Date.now();
-    await interaction.deferReply({ ephemeral });
-    return void interaction.editReply(`🏓 Server latency is \`${Date.now() - now}ms\`, shard latency is \`${Math.ceil(interaction.guild.shard.ping)}ms\` and my uptime is \`${msToHumanShortTime(interaction.client.uptime)}\`.`);
+    const start = Date.now();
+    await interaction.client.rest.get("/gateway");
+    return void interaction.reply({ content: `🏓 Gateway latency is \`${Date.now() - start}ms\`, heartbeat latency is \`${Math.ceil(interaction.guild.shard.ping)}ms\` and my uptime is \`${msToHumanShortTime(interaction.client.uptime)}\`.`, ephemeral });
   },
 };
 
