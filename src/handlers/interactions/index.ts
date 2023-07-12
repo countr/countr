@@ -49,10 +49,6 @@ export function registerCommands(client: Client<true>): void {
   void Promise.all([
     nestCommands("../../commands/chatInput", "CHAT_INPUT"),
     nestCommands("../../commands/menu", "MENU"),
-  ]).then(console.log);
-  void Promise.all([
-    nestCommands("../../commands/chatInput", "CHAT_INPUT"),
-    nestCommands("../../commands/menu", "MENU"),
   ])
     .then(([chatInputCommands, contextMenuCommands]) => commands.set([...chatInputCommands, ...contextMenuCommands]))
     .then(() => void commandsLogger.info("Interaction commands have been set."))
@@ -65,7 +61,7 @@ async function nestCommands(relativePath: string, type: "CHAT_INPUT" | "MENU"): 
   for (const fileName of files.filter(file => !file.startsWith("_") && file !== "index.js")) {
     if (type === "MENU") {
       const command = await legacyImportDefault<ContextMenuCommand>(require.resolve(`${relativePath}/${fileName}`));
-      if (command && (!command.premiumOnly || config.isPremium)) {
+      if (!command.premiumOnly || config.isPremium) {
         arr.push({
           name: fileName.split(".")[0]!,
           type: command.type,
@@ -79,7 +75,7 @@ async function nestCommands(relativePath: string, type: "CHAT_INPUT" | "MENU"): 
       if (fileName.includes(".")) {
         const command = await legacyImportDefault<ChatInputCommand>(require.resolve(`${relativePath}/${fileName}`));
         const name = fileName.split(".")[0]!;
-        if (command && (!command.premiumOnly || config.isPremium)) {
+        if (!command.premiumOnly || config.isPremium) {
           arr.push({
             name,
             type: ApplicationCommandType.ChatInput,
@@ -95,7 +91,7 @@ async function nestCommands(relativePath: string, type: "CHAT_INPUT" | "MENU"): 
           for (const subFileName of subFiles.filter(file => !file.startsWith("_"))) {
             if (subFileName.includes(".")) {
               const command = await legacyImportDefault<ChatInputCommand>(require.resolve(`${relativeSubPath}/${subFileName}`));
-              if (command && (!command.premiumOnly || config.isPremium)) {
+              if (!command.premiumOnly || config.isPremium) {
                 subArr.push({
                   type: ApplicationCommandOptionType.Subcommand,
                   name: subFileName.split(".")[0]!,
