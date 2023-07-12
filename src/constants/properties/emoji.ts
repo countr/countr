@@ -9,7 +9,7 @@ const emoji: Property<string, APIEmoji> = {
   description: `Any server emoji or default Discord emoji allowed. Prefix an emoji with a backslash in chat to get the raw emoji. [Learn more](${emojiHelpUrl})`,
   schema: { type: "string" },
   input: emojiInput,
-  convert: userInput => userInput.id ? formatEmoji(userInput.id, userInput.animated)! : userInput.name!,
+  convert: userInput => userInput.id ? `<${userInput.animated ? "a" : ""}:${userInput.name!}:${userInput.id}>` : userInput.name!,
   format: emojiString => emojiString,
 };
 
