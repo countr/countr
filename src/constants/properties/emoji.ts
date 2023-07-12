@@ -1,5 +1,4 @@
 import type { APIEmoji } from "discord.js";
-import { formatEmoji } from "discord.js";
 import { emojiHelpUrl } from "../links";
 import emojiInput from "./inputs/emoji";
 import type { Property } from ".";
