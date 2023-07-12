@@ -3,6 +3,7 @@ import type { ChatInputCommandInteraction, Snowflake } from "discord.js";
 import type { ChatInputCommand } from "../../commands/chatInput";
 import selectedCountingChannels from "../../constants/selectedCountingChannel";
 import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
+import { legacyImportDefault } from "../../utils/import";
 import commandsLogger from "../../utils/logger/commands";
 import { setSafeTimeout } from "../../utils/safe";
 
@@ -16,7 +17,7 @@ export default async function chatInputCommandHandler(interaction: ChatInputComm
   ].filter(Boolean);
 
   try {
-    const { default: command } = await import(`../../commands/chatInput/${commandSegments.join("/")}`) as { default: ChatInputCommand };
+    const command = await legacyImportDefault<ChatInputCommand>(require.resolve(`../../commands/chatInput/${commandSegments.join("/")}`));
 
     if (command.serverCooldown) {
       const key = `${interaction.guildId}:${commandSegments.join(" ")}` as const;

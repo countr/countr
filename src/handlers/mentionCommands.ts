@@ -9,6 +9,7 @@ import config from "../config";
 import { DebugCommandLevel } from "../constants/permissions";
 import selectedCountingChannels from "../constants/selectedCountingChannel";
 import type { CountingChannelSchema, GuildDocument } from "../database/models/Guild";
+import { legacyImportDefault } from "../utils/import";
 import commandsLogger from "../utils/logger/commands";
 import { fitText } from "../utils/text";
 import { queueDelete } from "./counting";
@@ -73,7 +74,7 @@ async function reply(optionsOrContent: string | MessageEditOptions & MessageRepl
 // loading commands
 readdir(join(__dirname, "../commands/mention")).then(async files => {
   for (const fileName of files.filter(file => file.includes(".") && !file.startsWith("_") && file !== "index.js")) {
-    const { default: command } = await import(`../commands/mention/${fileName}`) as { default: MentionCommand };
+    const command = await legacyImportDefault<MentionCommand>(require.resolve(`../commands/mention/${fileName}`));
     if (!command.premiumOnly || config.isPremium) {
       const commandName = fileName.split(".")[0]!.toLowerCase();
       commands.set(commandName, command);

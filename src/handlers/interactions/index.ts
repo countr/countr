@@ -9,6 +9,7 @@ import type { ContextMenuCommand } from "../../commands/menu";
 import config from "../../config";
 import { PermissionLevel, permissionLevels } from "../../constants/permissions";
 import { getGuildDocument } from "../../database";
+import { legacyImportDefault } from "../../utils/import";
 import commandsLogger from "../../utils/logger/commands";
 import autocompleteHandler from "./autocompletes";
 import chatInputCommandHandler from "./chatInputCommands";
@@ -48,6 +49,10 @@ export function registerCommands(client: Client<true>): void {
   void Promise.all([
     nestCommands("../../commands/chatInput", "CHAT_INPUT"),
     nestCommands("../../commands/menu", "MENU"),
+  ]).then(console.log);
+  void Promise.all([
+    nestCommands("../../commands/chatInput", "CHAT_INPUT"),
+    nestCommands("../../commands/menu", "MENU"),
   ])
     .then(([chatInputCommands, contextMenuCommands]) => commands.set([...chatInputCommands, ...contextMenuCommands]))
     .then(() => void commandsLogger.info("Interaction commands have been set."))
@@ -59,8 +64,8 @@ async function nestCommands(relativePath: string, type: "CHAT_INPUT" | "MENU"): 
   const arr: ApplicationCommandData[] = [];
   for (const fileName of files.filter(file => !file.startsWith("_") && file !== "index.js")) {
     if (type === "MENU") {
-      const { default: command } = await import(`${relativePath}/${fileName}`) as { default: ContextMenuCommand };
-      if (!command.premiumOnly || config.isPremium) {
+      const command = await legacyImportDefault<ContextMenuCommand>(require.resolve(`${relativePath}/${fileName}`));
+      if (command && (!command.premiumOnly || config.isPremium)) {
         arr.push({
           name: fileName.split(".")[0]!,
           type: command.type,
@@ -72,9 +77,9 @@ async function nestCommands(relativePath: string, type: "CHAT_INPUT" | "MENU"): 
 
     if (type === "CHAT_INPUT") {
       if (fileName.includes(".")) {
-        const { default: command } = await import(`${relativePath}/${fileName}`) as { default: ChatInputCommand };
+        const command = await legacyImportDefault<ChatInputCommand>(require.resolve(`${relativePath}/${fileName}`));
         const name = fileName.split(".")[0]!;
-        if (!command.premiumOnly || config.isPremium) {
+        if (command && (!command.premiumOnly || config.isPremium)) {
           arr.push({
             name,
             type: ApplicationCommandType.ChatInput,
@@ -89,8 +94,8 @@ async function nestCommands(relativePath: string, type: "CHAT_INPUT" | "MENU"): 
           const subArr: Array<ApplicationCommandSubCommandData | ApplicationCommandSubGroupData> = [];
           for (const subFileName of subFiles.filter(file => !file.startsWith("_"))) {
             if (subFileName.includes(".")) {
-              const { default: command } = await import(`${relativeSubPath}/${subFileName}`) as { default: ChatInputCommand };
-              if (!command.premiumOnly || config.isPremium) {
+              const command = await legacyImportDefault<ChatInputCommand>(require.resolve(`${relativeSubPath}/${subFileName}`));
+              if (command && (!command.premiumOnly || config.isPremium)) {
                 subArr.push({
                   type: ApplicationCommandOptionType.Subcommand,
                   name: subFileName.split(".")[0]!,

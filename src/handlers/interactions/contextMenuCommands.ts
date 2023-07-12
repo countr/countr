@@ -4,13 +4,15 @@ import type { ContextMenuCommand } from "../../commands/menu";
 import config from "../../config";
 import selectedCountingChannels from "../../constants/selectedCountingChannel";
 import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
+import { legacyImportDefault } from "../../utils/import";
 
 export default async function contextMenuCommandHandler(interaction: ContextMenuCommandInteraction<"cached">, document: GuildDocument): Promise<void> {
   const commands = config.guild ? interaction.client.guilds.cache.get(config.guild)?.commands : interaction.client.application.commands;
   const applicationCommand = commands?.cache.find(({ name }) => name === interaction.commandName);
   if (!applicationCommand) return;
 
-  const { default: command } = await import(`../../commands/menu/${applicationCommand.name}`) as { default: ContextMenuCommand };
+  const command = await legacyImportDefault<ContextMenuCommand>(require.resolve(`../../commands/menu/${applicationCommand.name}`)).catch(() => null);
+  if (!command) return;
 
   const countingChannel = document.channels.get(interaction.channelId);
   if (command.disableInCountingChannel && countingChannel) return void interaction.reply({ content: "❌ This command is disabled in counting channels.", ephemeral: true });

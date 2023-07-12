@@ -3,11 +3,12 @@ import type { ChatInputCommand } from "../../commands/chatInput";
 import type { Autocomplete } from "../../constants/autocompletes";
 import selectedCountingChannels from "../../constants/selectedCountingChannel";
 import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
+import { legacyImportDefault } from "../../utils/import";
 
 export default async function autocompleteHandler(interaction: AutocompleteInteraction<"cached">, document: GuildDocument): Promise<void> {
   const path = [interaction.commandName, interaction.options.getSubcommandGroup(false), interaction.options.getSubcommand(false)].filter(Boolean);
 
-  const { default: command } = await import(`../../commands/chatInput/${path.join("/")}`) as { default?: ChatInputCommand };
+  const command = await legacyImportDefault<ChatInputCommand>(require.resolve(`../../commands/chatInput/${path.join("/")}`)).catch(() => null);
   if (!command) return;
 
   const autocompletes = command.autocompletes ?? {};
