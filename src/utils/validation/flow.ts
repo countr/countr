@@ -11,7 +11,6 @@ const schema: JSONSchemaType<FlowSchema> = {
   type: "object",
   properties: {
     name: { type: "string", minLength: 2, maxLength: 32, nullable: true },
-    // disabled can either be true or false, if not defined then default to false
     disabled: { type: "boolean" },
     triggers: {
       type: "array",
@@ -45,6 +44,7 @@ const schema: JSONSchemaType<FlowSchema> = {
         required: ["type", "data"],
       },
     },
+    actionIsRandomized: { type: "boolean" },
   },
   required: ["triggers", "actions"],
   additionalProperties: false,

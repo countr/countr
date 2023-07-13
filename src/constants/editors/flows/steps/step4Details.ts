@@ -17,9 +17,14 @@ const step: Step = {
       value: flow.disabled ? "❌ Disabled" : "✅ Enabled",
       inline: true,
     },
+    {
+      name: "Randomize action",
+      value: flow.actionIsRandomized ? "✅ Enabled" : "❌ Disabled",
+      inline: true,
+    },
   ],
   /* eslint-disable camelcase -- custom_id instead of customId :( */
-  components: ({ name, disabled }) => [
+  components: ({ name, disabled, actionIsRandomized }) => [
     [
       {
         type: ComponentType.Button,
@@ -68,6 +73,23 @@ const step: Step = {
           }
 
           flow.disabled = !disabled;
+          return void button.update(designMessage());
+        },
+      },
+      {
+        type: ComponentType.Button,
+        ...actionIsRandomized ?
+          {
+            label: "Disable action randomization",
+            style: ButtonStyle.Secondary,
+          } :
+          {
+            label: "Enable action randomization",
+            style: ButtonStyle.Primary,
+          },
+        custom_id: "toggle_randomize",
+        callback(button, designMessage, flow) {
+          flow.actionIsRandomized = !actionIsRandomized;
           return void button.update(designMessage());
         },
       },

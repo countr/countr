@@ -45,8 +45,14 @@ async function runFlows(flows: FlowSchema[], countingData: CountingData): Promis
   let save = false;
   for (const flow of flows) {
     try {
-      for (const action of flow.actions.slice(0, limits.flows.actions)) {
-        if (await actions[action.type].run(countingData, action.data as never)) save = true;
+      const flowActions = flow.actions.slice(0, limits.flows.actions);
+      if (flow.actionIsRandomized) {
+        const randomAction = flowActions[Math.floor(Math.random() * flowActions.length)] ?? flowActions[0]!;
+        if (await actions[randomAction.type].run(countingData, randomAction.data as never)) save = true;
+      } else {
+        for (const action of flowActions) {
+          if (await actions[action.type].run(countingData, action.data as never)) save = true;
+        }
       }
     } catch (err) {
       commandsLogger.debug(`Failed to run flow on message ${countingData.countingMessage.url}: ${inspect(err)}`);
