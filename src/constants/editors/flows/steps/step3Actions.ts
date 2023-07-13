@@ -7,6 +7,8 @@ const step: Step = {
   description: [
     "Actions are what will happen when a trigger is met. You can set up multiple actions. If any of the actions fails, it will continue the flow.",
     "",
+    "You can also have it trigger a random action when a trigger is met by enabling the \"Randomize action\" option on the last step.",
+    "",
     "You can add and edit actions below!",
   ].join("\n"),
   fields: flow => flow.actions.map(({ type, data }, i) => {

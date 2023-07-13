@@ -33,6 +33,7 @@ export function flowEditor(interaction: ButtonInteraction<"cached"> | CommandInt
       disabled: false,
       triggers: [],
       actions: [],
+      actionIsRandomized: false,
       ...JSON.parse(JSON.stringify(existingFlow ?? {})) as Partial<FlowSchema>,
     };
 
