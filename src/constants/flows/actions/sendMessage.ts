@@ -8,7 +8,7 @@ const sendMessage: Action<[Snowflake, string]> = {
   description: "This will send a message in any channel you'd like",
   properties: [properties.channel, properties.text],
   explanation: ([channel, text]) => `Send a message in <#${channel}>: \`\`\`${escapeCodeBlock(text)}\`\`\``,
-  run: async ({ count, member, message: { guild, content }, countingChannel: { scores } }, [channelId, text]) => {
+  run: async ({ count, member, message: { guild, content }, countingChannel: { scores }, failReason }, [channelId, text]) => {
     const channel = guild.channels.resolve(channelId);
     if (channel?.isTextBased()) {
       await channel.send({
@@ -20,7 +20,8 @@ const sendMessage: Action<[Snowflake, string]> = {
           .replace(/\{nickname\}/giu, member.displayName || member.user.username)
           .replace(/\{everyone\}/giu, guild.roles.everyone.toString())
           .replace(/\{score\}/giu, String(scores.get(member.id) ?? 0))
-          .replace(/\{content\}/giu, content),
+          .replace(/\{content\}/giu, content)
+          .replace(/\{failreason\}/giu, failReason ?? "n/a"),
         allowedMentions: {
           users: [...text.toLowerCase().matchAll(/<@(\d*)>/gu)].map(i => i[1]!),
           roles: [...text.toLowerCase().matchAll(/<@&(\d*)>/gu)].map(i => i[1]!),
