@@ -19,6 +19,7 @@ export interface CountingData {
   countingChannel: CountingChannelSchema;
   countingMessage: Message;
   document: GuildDocument;
+  failReason?: string;
   member: GuildMember;
   message: Message<true>;
 }
@@ -46,6 +47,12 @@ export default async function countingHandler(message: Message<true>, document: 
       countingChannel,
       countingMessage: message,
       document,
+      failReason: [
+        converted !== countingChannel.count.number + countingChannel.increment && "Invalid count",
+        !countingChannel.modules.includes("spam") && message.author.id === countingChannel.count.userId && "User counted twice in a row",
+        // we don't want to check for regex again here, either it's one of the above or it's a regex match
+        "Message matched a regex filter",
+      ].find(Boolean)! as string,
       member,
       message,
     };
