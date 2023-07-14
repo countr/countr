@@ -15,7 +15,7 @@ const autocomplete: Autocomplete = {
         id,
         name: channel?.name,
         parent: (countingChannel.isThread ? channel?.parent?.parent : channel?.parent as CategoryChannel | null) ?? null,
-        root: countingChannel.isThread && channel?.parent as CountingChannelRootChannel | null || null,
+        root: (countingChannel.isThread ? channel?.parent as CountingChannelRootChannel | null : null) ?? null,
       };
     }), search, { keys: ["id", "name"] });
 

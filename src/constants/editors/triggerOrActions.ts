@@ -23,7 +23,7 @@ export default function editTriggerOrAction<T extends "action" | "trigger">(trig
       embeds: [
         {
           title: `${capitalizeFirst(triggerOrAction)} details • ${name}`,
-          ...(description || !fields.length) && { description: (description ?? `*There are no more details for this type of ${triggerOrAction}.*`) + (fields.length ? `\n**${capitalizeFirst(triggerOrAction)} explanation:** ${explanation(flowOptions.data)}` : "") },
+          ...(description ?? !fields.length) && { description: (description ?? `*There are no more details for this type of ${triggerOrAction}.*`) + (fields.length ? `\n**${capitalizeFirst(triggerOrAction)} explanation:** ${explanation(flowOptions.data)}` : "") },
           fields,
           color: config.colors.info,
         },
