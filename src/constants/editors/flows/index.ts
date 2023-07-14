@@ -15,7 +15,7 @@ export function flowEditor(interaction: ButtonInteraction<"cached"> | CommandInt
     const parent = interaction.channel?.parent?.isTextBased() && await interaction.channel.parent.fetch();
     const channel = !interaction.channel?.isThread() && await interaction.channel?.fetch() as Exclude<typeof interaction["channel"], AnyThreadChannel | null>;
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- we want it to be null instead of false here, so we can use the optional chain on the next line
-    const currentPermissions = (parent || channel || null) && calculatePermissionsForChannel(parent ? parent : channel as Exclude<typeof channel, false>, await interaction.guild.members.fetchMe({ force: false, cache: true }));
+    const currentPermissions = ((parent ?? channel) || null) && calculatePermissionsForChannel(parent ? parent : channel as Exclude<typeof channel, false>, await interaction.guild.members.fetchMe({ force: false, cache: true }));
     const requiredPermissions = [...flowChannelPermissions, ...parent ? flowChannelThreadPermissions : flowChannelNonThreadPermissions];
     if (!currentPermissions?.has(requiredPermissions)) {
       return void interaction.reply({

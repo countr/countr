@@ -27,7 +27,7 @@ const command: ChatInputCommand = {
 
         const channel = interaction.guild.channels.cache.get(countingChannelId);
         if (channel) {
-          const rootChannel = channel.isThread() && channel.parent as CountingChannelRootChannel | null || channel as CountingChannelRootChannel;
+          const rootChannel = (channel.isThread() ? channel.parent as CountingChannelRootChannel | null : null) ?? channel as CountingChannelRootChannel;
           const requiredPermissions = [...countingChannelPermissions, ...rootChannel === channel ? [] : countingChannelRootPermissions];
           const currentPermissions = calculatePermissionsForChannel(rootChannel, me);
           if (!currentPermissions.has(requiredPermissions, true)) {

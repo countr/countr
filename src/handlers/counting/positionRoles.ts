@@ -16,10 +16,10 @@ export default async function handlePositionRoles({ countingChannel, document, m
     const newRoleHaverId = scoresSorted[position - 1];
 
     if (currentRoleHaverId !== newRoleHaverId) {
-      const currentRoleHaver = currentRoleHaverId && await guild.members.fetch({ user: currentRoleHaverId, force: false }).catch(() => null) || null;
+      const currentRoleHaver = currentRoleHaverId ? await guild.members.fetch({ user: currentRoleHaverId, force: false }).catch(() => null) : null;
       if (currentRoleHaver) void currentRoleHaver.roles.remove(roleId, "Position role removed as someone else has taken their place").catch(() => null);
 
-      const newRoleHaver = newRoleHaverId && await guild.members.fetch({ user: newRoleHaverId, force: false }).catch(() => null) || null;
+      const newRoleHaver = newRoleHaverId ? await guild.members.fetch({ user: newRoleHaverId, force: false }).catch(() => null) : null;
       if (newRoleHaver) void newRoleHaver.roles.add(roleId, "Position role given").catch(() => null);
 
       if (newRoleHaverId) countingChannel.metadata.set(`positionRole-${roleId}`, newRoleHaverId);
