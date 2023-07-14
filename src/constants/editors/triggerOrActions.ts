@@ -65,7 +65,7 @@ export default function editTriggerOrAction<T extends "action" | "trigger">(trig
             },
             {
               type: ComponentType.Button,
-              label: "Delete this trigger",
+              label: `Delete this ${triggerOrAction}`,
               customId: `${interaction.id}:delete`,
               style: ButtonStyle.Danger,
             },
