@@ -12,10 +12,9 @@ import steps from "./steps";
 export function flowEditor(interaction: ButtonInteraction<"cached"> | CommandInteraction<"cached">, document: GuildDocument, countingChannel: CountingChannelSchema, userId: Snowflake, flowId: string = generateId()): void {
   return void (async () => {
     // check if the bot has access to the channel, so it doesn't fuck up
-    const parent = interaction.channel?.parent?.isTextBased() && await interaction.channel.parent.fetch();
-    const channel = !interaction.channel?.isThread() && await interaction.channel?.fetch() as Exclude<typeof interaction["channel"], AnyThreadChannel | null>;
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- we want it to be null instead of false here, so we can use the optional chain on the next line
-    const currentPermissions = ((parent ?? channel) || null) && calculatePermissionsForChannel(parent ? parent : channel as Exclude<typeof channel, false>, await interaction.guild.members.fetchMe({ force: false, cache: true }));
+    const parent = interaction.channel?.parent?.isTextBased() ? await interaction.channel.parent.fetch() : null;
+    const channel = interaction.channel?.isThread() ? null : await interaction.channel?.fetch() as Exclude<typeof interaction["channel"], AnyThreadChannel | null>;
+    const currentPermissions = (parent ?? channel) && calculatePermissionsForChannel(parent ?? channel!, await interaction.guild.members.fetchMe({ force: false, cache: true }));
     const requiredPermissions = [...flowChannelPermissions, ...parent ? flowChannelThreadPermissions : flowChannelNonThreadPermissions];
     if (!currentPermissions?.has(requiredPermissions)) {
       return void interaction.reply({
