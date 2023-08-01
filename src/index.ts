@@ -50,7 +50,7 @@ const sleep = promisify(setTimeout);
 
 client.once("ready", async trueClient => {
   await sleep(5000);
-  mainLogger.info(`Ready as ${trueClient.user.tag} on shards ${trueClient.ws.shards.map(shard => shard.id).join(",") || "0"}. Caching guilds.`);
+  mainLogger.info(`Ready as @${trueClient.user.username} on shards ${trueClient.ws.shards.map(shard => shard.id).join(",") || "0"}. Caching guilds.`);
   if (config.cluster.id === 0) registerCommands(trueClient);
 
   // perpare guilds
