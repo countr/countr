@@ -74,8 +74,7 @@ export function initializeWebsocket(client: Client): WebSocket {
     void mainLogger.http("Connected to websocket server.");
     ws.on("close", () => {
       mainLogger.info("Websocket closed, destroying Discord client and restarting...");
-      client.destroy();
-      setTimeout(() => process.exit(0), 5000);
+      void client.destroy().then(() => process.exit(0));
     });
   });
 

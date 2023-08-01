@@ -15,7 +15,7 @@ const sendMessage: Action<[Snowflake, string]> = {
         content: text
           .replace(/\{count\}/giu, count.toString())
           .replace(/\{mention\}/giu, member.user.toString())
-          .replace(/\{tag\}/giu, member.user.tag)
+          .replace(/\{tag\}/giu, member.user.username)
           .replace(/\{username\}/giu, member.user.username)
           .replace(/\{nickname\}/giu, member.displayName || member.user.username)
           .replace(/\{everyone\}/giu, guild.roles.everyone.toString())
