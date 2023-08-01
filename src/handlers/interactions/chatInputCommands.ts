@@ -1,6 +1,7 @@
 import { inspect } from "util";
 import type { ChatInputCommandInteraction, Snowflake } from "discord.js";
 import type { ChatInputCommand } from "../../commands/chatInput";
+import { docsUrl } from "../../constants/links";
 import selectedCountingChannels from "../../constants/selectedCountingChannel";
 import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 import { legacyImportDefault } from "../../utils/import";
@@ -33,6 +34,8 @@ export default async function chatInputCommandHandler(interaction: ChatInputComm
 
     const countingChannel = document.channels.get(interaction.channelId);
     if (command.disableInCountingChannel && countingChannel) return void interaction.reply({ content: "❌ This command is disabled in counting channels.", ephemeral: true });
+
+    if (command.requireSelectedCountingChannel && document.channels.size === 0) return void interaction.reply({ content: `💥 No counting channel is set up in this server! Create a new one by using \`/channels new\` or link an existing one with \`/channels link\`. New to Countr? Check out the [documentation](<${docsUrl}>) to get started!`, ephemeral: true });
 
     const selectedCountingChannelId = countingChannel ? interaction.channelId : selectedCountingChannels.get(interaction.user.id);
     const selectedCountingChannel: [Snowflake, CountingChannelSchema] | undefined = selectedCountingChannelId && document.channels.has(selectedCountingChannelId) ? [selectedCountingChannelId, document.channels.get(selectedCountingChannelId)!] : document.getDefaultCountingChannel() ?? undefined; // eslint-disable-line no-undefined

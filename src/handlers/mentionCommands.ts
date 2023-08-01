@@ -47,6 +47,8 @@ async function handleCommand(message: Message<true>, document: GuildDocument, ex
     command.debugLevel === DebugCommandLevel.Admin && !config.admins.includes(message.author.id)
   ) return reply("⛔ This command is not available.", message, existingReply).then(newReply => [message, newReply]);
 
+  if (command.requireSelectedCountingChannel && document.channels.size === 0) return reply("💥 No counting channel is set up in this server! Create a new one by using `/channels new` or link an existing one with `/channels link`.", message, existingReply).then(newReply => [message, newReply]);
+
   const selectedCountingChannelId = inCountingChannel ? message.channelId : selectedCountingChannels.get(message.author.id);
   const selectedCountingChannel: [Snowflake, CountingChannelSchema] | null = selectedCountingChannelId && document.channels.has(selectedCountingChannelId) ? [selectedCountingChannelId, document.channels.get(selectedCountingChannelId)!] : document.getDefaultCountingChannel();
 
