@@ -45,6 +45,7 @@ const schema: JSONSchemaType<FlowSchema> = {
       },
     },
     actionIsRandomized: { type: "boolean" },
+    allTriggersMustPass: { type: "boolean" },
   },
   required: ["triggers", "actions"],
   additionalProperties: false,
