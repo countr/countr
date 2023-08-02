@@ -28,8 +28,8 @@ const autocomplete: Autocomplete = {
 
     return countingChannelsFilteredAndSortedByRelevance.map(({ id, name, parent, root }) => ({
       name: fitText([
-        name ? `#${name} (${id})` : `configured counting channel with ID ${id} (channel was not found)`,
-        root && `thread in #${root.name}`,
+        name ? `"${name}" (${id})` : `configured counting channel with ID ${id} (channel was not found)`,
+        root && `thread in "${root.name}"`,
         parent && `child of category "${parent.name}"`,
       ].filter(Boolean).join(", "), 100),
       value: id,
