@@ -2,13 +2,11 @@ name: Docker Image
 
 on:
   push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
   ghcr:
-    name: ghcr.io/countr/countr
+    name: ${{ github.ref == 'refs/heads/main' && 'Build and Push' || 'Test Build' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -22,8 +20,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push
+      - name: ${{ github.ref == 'refs/heads/main' && 'Build and Push' || 'Test Build' }}
         uses: docker/build-push-action@2eb1c1961a95fc15694676618e422e8ba1d63825 # v4
         with:
-            push: true
+            push: ${{ github.ref == 'refs/heads/main' }}
             tags: ghcr.io/countr/countr:latest
