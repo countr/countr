@@ -48,6 +48,7 @@ export class FlowSchema {
   @prop({ type: [TriggerDetailsSchema], default: [] }, PropType.ARRAY) triggers!: TriggerDetailsSchema[];
   @prop({ type: [ActionDetailsSchema], default: [] }, PropType.ARRAY) actions!: ActionDetailsSchema[];
   @prop({ type: Boolean, default: false }) actionIsRandomized!: boolean;
+  @prop({ type: Boolean, default: false }) allTriggersMustPass!: boolean;
 }
 
 @modelOptions({ schemaOptions: { _id: false } })

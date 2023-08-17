@@ -14,16 +14,22 @@ export async function handleFlows(countingData: CountingData): Promise<void> {
   return runFlows(flowsToRun, countingData);
 }
 
-export function handleFlowsOnFail(countingData: CountingData): Promise<void> {
-  const flowsToRun = getActivatedFlows(countingData.countingChannel)
+export async function handleFlowsOnFail(countingData: CountingData): Promise<void> {
+  const flowsToTest = getActivatedFlows(countingData.countingChannel)
     .filter(flow => flow.triggers.slice(0, limits.flows.triggers).some(trigger => trigger.type === "countFail"));
+  const flowsToRun = flowsToTest.filter(flow => !flow.allTriggersMustPass);
+
+  for (const flow of flowsToTest.filter(flowToTest => flowToTest.allTriggersMustPass)) if (await testFlow(flow, countingData, true)) flowsToRun.push(flow);
 
   return runFlows(flowsToRun, countingData);
 }
 
-export function handleFlowsOnTimeout(countingData: CountingData): Promise<void> {
-  const flowsToRun = getActivatedFlows(countingData.countingChannel)
+export async function handleFlowsOnTimeout(countingData: CountingData): Promise<void> {
+  const flowsToTest = getActivatedFlows(countingData.countingChannel)
     .filter(flow => flow.triggers.slice(0, limits.flows.triggers).some(trigger => trigger.type === "timeout"));
+  const flowsToRun = flowsToTest.filter(flow => !flow.allTriggersMustPass);
+
+  for (const flow of flowsToTest.filter(flowToTest => flowToTest.allTriggersMustPass)) if (await testFlow(flow, countingData, true)) flowsToRun.push(flow);
 
   return runFlows(flowsToRun, countingData);
 }
@@ -34,10 +40,20 @@ function getActivatedFlows({ flows }: CountingChannelSchema): FlowSchema[] {
     .filter(flow => !flow.disabled);
 }
 
-async function testFlow(flow: FlowSchema, countingData: CountingData): Promise<boolean> {
-  for (const trigger of flow.triggers.slice(0, limits.flows.triggers)) {
+async function testFlow(flow: FlowSchema, countingData: CountingData, ignoreTriggersWithoutChecks = false): Promise<boolean> {
+  const triggersToTest = flow.triggers.slice(0, limits.flows.triggers).filter(trigger => !ignoreTriggersWithoutChecks || triggers[trigger.type].check);
+
+  if (flow.allTriggersMustPass) {
+    for (const trigger of triggersToTest) {
+      if (!await triggers[trigger.type].check?.(countingData, trigger.data as never)) return false;
+    }
+    return true;
+  }
+
+  for (const trigger of triggersToTest) {
     if (await triggers[trigger.type].check?.(countingData, trigger.data as never)) return true;
   }
+
   return false;
 }
 

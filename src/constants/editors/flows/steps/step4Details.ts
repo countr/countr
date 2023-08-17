@@ -22,9 +22,14 @@ const step: Step = {
       value: flow.actionIsRandomized ? "✅ Enabled" : "❌ Disabled",
       inline: true,
     },
+    {
+      name: "All triggers must pass",
+      value: flow.allTriggersMustPass ? "✅ Enabled" : "❌ Disabled",
+      inline: true,
+    },
   ],
   /* eslint-disable camelcase -- custom_id instead of customId :( */
-  components: ({ name, disabled, actionIsRandomized }) => [
+  components: ({ name, disabled, actionIsRandomized, allTriggersMustPass }) => [
     [
       {
         type: ComponentType.Button,
@@ -90,6 +95,23 @@ const step: Step = {
         custom_id: "toggle_randomize",
         callback(button, designMessage, flow) {
           flow.actionIsRandomized = !actionIsRandomized;
+          return void button.update(designMessage());
+        },
+      },
+      {
+        type: ComponentType.Button,
+        ...allTriggersMustPass ?
+          {
+            label: "Disable meeting all triggers",
+            style: ButtonStyle.Secondary,
+          } :
+          {
+            label: "Enable meeting all triggers",
+            style: ButtonStyle.Primary,
+          },
+        custom_id: "toggle_meet_all_triggers",
+        callback(button, designMessage, flow) {
+          flow.allTriggersMustPass = !allTriggersMustPass;
           return void button.update(designMessage());
         },
       },
