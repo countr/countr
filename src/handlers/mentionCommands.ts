@@ -6,6 +6,7 @@ import { escapeInlineCode } from "discord.js";
 import type { MentionCommand } from "../commands/mention";
 import { quickResponses } from "../commands/mention";
 import config from "../config";
+import { docsUrl } from "../constants/links";
 import { DebugCommandLevel } from "../constants/permissions";
 import selectedCountingChannels from "../constants/selectedCountingChannel";
 import type { CountingChannelSchema, GuildDocument } from "../database/models/Guild";
@@ -46,6 +47,8 @@ async function handleCommand(message: Message<true>, document: GuildDocument, ex
     command.debugLevel === DebugCommandLevel.Owner && config.owner !== message.author.id ||
     command.debugLevel === DebugCommandLevel.Admin && !config.admins.includes(message.author.id)
   ) return reply("⛔ This command is not available.", message, existingReply).then(newReply => [message, newReply]);
+
+  if (command.requireSelectedCountingChannel && document.channels.size === 0) return reply(`💥 No counting channel is set up in this server! Create a new one by using \`/channels new\` or link an existing one with \`/channels link\`. New to Countr? Check out the [documentation](<${docsUrl}>) to get started!`, message, existingReply).then(newReply => [message, newReply]);
 
   const selectedCountingChannelId = inCountingChannel ? message.channelId : selectedCountingChannels.get(message.author.id);
   const selectedCountingChannel: [Snowflake, CountingChannelSchema] | null = selectedCountingChannelId && document.channels.has(selectedCountingChannelId) ? [selectedCountingChannelId, document.channels.get(selectedCountingChannelId)!] : document.getDefaultCountingChannel();

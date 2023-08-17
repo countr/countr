@@ -9,6 +9,13 @@ const autocomplete: Autocomplete = {
     const search = String(query);
 
     const countingChannels = Array.from(document.channels.entries());
+    if (!countingChannels.length) {
+      return [
+        { name: "No counting channels are configured in this server! Create one using the \"/channels new\" command.", value: "no-channel-configured" },
+        { name: "If you already have a counting channel, link it with the \"/channels link\" command.", value: "no-channel-configured" },
+      ];
+    }
+
     const countingChannelsFilteredAndSortedByRelevance = matchSorter(countingChannels.map(([id, countingChannel]) => {
       const channel = interaction.guild.channels.resolve(id) as CountingChannelAllowedChannelType | null;
       return {
