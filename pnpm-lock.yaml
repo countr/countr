@@ -89,8 +89,8 @@ devDependencies:
     specifier: 29.5.3
     version: 29.5.3
   '@types/morgan':
-    specifier: 1.9.4
-    version: 1.9.4
+    specifier: 1.9.5
+    version: 1.9.5
   '@types/node':
     specifier: 18.17.1
     version: 18.17.1
@@ -1183,8 +1183,8 @@ packages:
     resolution: {integrity: sha512-Y4XFY5VJAuw0FgAqPNd6NNoV44jbq9Bz2L7Rh/J6jLTiHBSBJa9fxqQIvkIld4GsoDOcCbvzOUAbLPsSKKg+uA==}
     dev: true
 
-  /@types/morgan@1.9.4:
-    resolution: {integrity: sha512-cXoc4k+6+YAllH3ZHmx4hf7La1dzUk6keTR4bF4b4Sc0mZxU/zK4wO7l+ZzezXm/jkYj/qC+uYGZrarZdIVvyQ==}
+  /@types/morgan@1.9.5:
+    resolution: {integrity: sha512-5TgfIWm0lcTGnbCZExwc19dCOMOMmAiiBZQj8Ko3NRxsVDgRxf+AEGRQTqNVA5Yh2xfdWp4clbAEMbYP+jkOqg==}
     dependencies:
       '@types/node': 18.17.1
     dev: true
