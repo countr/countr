@@ -77,8 +77,8 @@ devDependencies:
     specifier: 0.4.2
     version: 0.4.2
   '@tsconfig/node18':
-    specifier: 18.2.0
-    version: 18.2.0
+    specifier: 18.2.1
+    version: 18.2.1
   '@tsconfig/strictest':
     specifier: 2.0.1
     version: 2.0.1
@@ -1052,8 +1052,8 @@ packages:
     resolution: {integrity: sha512-vqd7ZUDSrXFVT1n8b2kc3LnklncDQFPvR58yUS1kEP23/nHPAO9l1lMjUfnPrXYYk4Hj54rrLKMW5ipwk7k09A==}
     dev: true
 
-  /@tsconfig/node18@18.2.0:
-    resolution: {integrity: sha512-yhxwIlFVSVcMym3O31HoMnRXpoenmpIxcj4Yoes2DUpe+xCJnA7ECQP1Vw889V0jTt/2nzvpLQ/UuMYCd3JPIg==}
+  /@tsconfig/node18@18.2.1:
+    resolution: {integrity: sha512-RDDZFuofwkcKpl8Vpj5wFbY+H53xOtqK7ckEL1sXsbPwvKwDdjQf3LkHbtt9sxIHn9nWIEwkmCwBRZ6z5TKU2A==}
     dev: true
 
   /@tsconfig/strictest@2.0.1:
