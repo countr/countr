@@ -9,8 +9,8 @@ dependencies:
     specifier: 1.0.5
     version: 1.0.5
   '@typegoose/typegoose':
-    specifier: 11.4.0
-    version: 11.4.0(mongoose@7.4.1)
+    specifier: 11.4.1
+    version: 11.4.1(mongoose@7.4.4)
   ajv:
     specifier: 8.12.0
     version: 8.12.0
@@ -42,8 +42,8 @@ dependencies:
     specifier: 6.3.1
     version: 6.3.1
   mongoose:
-    specifier: 7.4.1
-    version: 7.4.1
+    specifier: 7.4.4
+    version: 7.4.4
   morgan:
     specifier: 1.10.0
     version: 1.10.0
@@ -1060,18 +1060,18 @@ packages:
     resolution: {integrity: sha512-7JHHCbyCsGUxLd0pDbp24yz3zjxw2t673W5oAP6HCEdr/UUhaRhYd3SSnUsGCk+VnPVJVA4mXROzbhI+nyIk+w==}
     dev: true
 
-  /@typegoose/typegoose@11.4.0(mongoose@7.4.1):
-    resolution: {integrity: sha512-MQE1go8wsTJCZ2PnGaOOfBsZ7e0gFVhZGZLY8g5vIs11oesNMLWpKaDxLrzrljqtMISRcBOn+iXDalo30Ibnxg==}
+  /@typegoose/typegoose@11.4.1(mongoose@7.4.4):
+    resolution: {integrity: sha512-mOMEUBaxnSYtnGWAMsduh1+4MeJHpYN2+rhZ5rHq9mKRT8Ix3nsR0QWEnFIIqTnksL0Yt3Ww7Qj8IFzWhoIyoQ==}
     engines: {node: '>=14.17.0'}
     peerDependencies:
       mongoose: ~7.4.0
     dependencies:
       lodash: 4.17.21
       loglevel: 1.8.1
-      mongoose: 7.4.1
+      mongoose: 7.4.4
       reflect-metadata: 0.1.13
       semver: 7.5.4
-      tslib: 2.6.0
+      tslib: 2.6.1
     dev: false
 
   /@types/babel__core@7.20.1:
@@ -4033,8 +4033,8 @@ packages:
       saslprep: 1.0.3
     dev: false
 
-  /mongoose@7.4.1:
-    resolution: {integrity: sha512-o3E5KHHiHdaiwCJG3+9r70sncRKki71Ktf/TfXdW6myu+53rtZ56uLl5ylkQiCf60V3COJuOeekcxXVsjQ7cBA==}
+  /mongoose@7.4.4:
+    resolution: {integrity: sha512-LOOviiEqWOLH4PuBK+jbpm5vjBkdSNBcP/4UCevOJMTl5SXSbCXr68ulEYcthLcN2/xi08452HupKD8BfxNIQw==}
     engines: {node: '>=14.20.1'}
     dependencies:
       bson: 5.4.0
@@ -4996,10 +4996,6 @@ packages:
   /tslib@1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
     dev: true
-
-  /tslib@2.6.0:
-    resolution: {integrity: sha512-7At1WUettjcSRHXCyYtTselblcHl9PJFFVKiCAy/bY97+BPZXSQ2wbq0P9s8tK2G7dFQfNnlJnPAiArVBVBsfA==}
-    dev: false
 
   /tslib@2.6.1:
     resolution: {integrity: sha512-t0hLfiEKfMUoqhG+U1oid7Pva4bbDPHYfJNiB7BiIjRkj1pyC++4N3huJfqY6aRH6VTB0rvtzQwjM4K6qpfOig==}
