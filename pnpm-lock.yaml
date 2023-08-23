@@ -74,8 +74,8 @@ dependencies:
 
 devDependencies:
   '@total-typescript/ts-reset':
-    specifier: 0.4.2
-    version: 0.4.2
+    specifier: 0.5.1
+    version: 0.5.1
   '@tsconfig/node18':
     specifier: 18.2.1
     version: 18.2.1
@@ -1067,8 +1067,8 @@ packages:
       '@sinonjs/commons': 3.0.0
     dev: true
 
-  /@total-typescript/ts-reset@0.4.2:
-    resolution: {integrity: sha512-vqd7ZUDSrXFVT1n8b2kc3LnklncDQFPvR58yUS1kEP23/nHPAO9l1lMjUfnPrXYYk4Hj54rrLKMW5ipwk7k09A==}
+  /@total-typescript/ts-reset@0.5.1:
+    resolution: {integrity: sha512-AqlrT8YA1o7Ff5wPfMOL0pvL+1X+sw60NN6CcOCqs658emD6RfiXhF7Gu9QcfKBH7ELY2nInLhKSCWVoNL70MQ==}
     dev: true
 
   /@tsconfig/node18@18.2.1:
