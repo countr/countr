@@ -19,7 +19,7 @@ dependencies:
     version: 4.0.7
   discord-token-reset:
     specifier: github:promise/discord-tokens
-    version: github.com/promise/discord-tokens/6b82b88387f73c5dd621a44e03c35a5ced36e550(@octokit/rest@20.0.1)(discord.js@14.13.0)
+    version: github.com/promise/discord-tokens/e9ebd805f083443d1c9e0856ccb99f0e9c4e9c18(@octokit/rest@20.0.1)(discord.js@14.13.0)
   discord.js:
     specifier: 14.13.0
     version: 14.13.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
@@ -66,8 +66,8 @@ dependencies:
     specifier: 4.7.1
     version: 4.7.1(winston@3.10.0)
   ws:
-    specifier: 8.14.0
-    version: 8.14.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+    specifier: 8.14.1
+    version: 8.14.1(bufferutil@4.0.7)(utf-8-validate@6.0.3)
   zlib-sync:
     specifier: 0.1.8
     version: 0.1.8
@@ -540,7 +540,7 @@ packages:
       '@vladfrangu/async_event_emitter': 2.2.2
       discord-api-types: 0.37.50
       tslib: 2.6.2
-      ws: 8.14.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+      ws: 8.14.1(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -2101,7 +2101,7 @@ packages:
       lodash.snakecase: 4.1.1
       tslib: 2.6.2
       undici: 5.22.1
-      ws: 8.14.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+      ws: 8.14.1(bufferutil@4.0.7)(utf-8-validate@6.0.3)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -5200,8 +5200,8 @@ packages:
       signal-exit: 3.0.7
     dev: true
 
-  /ws@8.14.0(bufferutil@4.0.7)(utf-8-validate@6.0.3):
-    resolution: {integrity: sha512-WR0RJE9Ehsio6U4TuM+LmunEsjQ5ncHlw4sn9ihD6RoJKZrVyH9FWV3dmnwu8B2aNib1OvG2X6adUCyFpQyWcg==}
+  /ws@8.14.1(bufferutil@4.0.7)(utf-8-validate@6.0.3):
+    resolution: {integrity: sha512-4OOseMUq8AzRBI/7SLMUwO+FEDnguetSk7KMb1sHwvF2w2Wv5Hoj0nlifx8vtGsftE/jWHojPy8sMMzYLJ2G/A==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -5268,9 +5268,9 @@ packages:
       nan: 2.17.0
     dev: false
 
-  github.com/promise/discord-tokens/6b82b88387f73c5dd621a44e03c35a5ced36e550(@octokit/rest@20.0.1)(discord.js@14.13.0):
-    resolution: {tarball: https://codeload.github.com/promise/discord-tokens/tar.gz/6b82b88387f73c5dd621a44e03c35a5ced36e550}
-    id: github.com/promise/discord-tokens/6b82b88387f73c5dd621a44e03c35a5ced36e550
+  github.com/promise/discord-tokens/e9ebd805f083443d1c9e0856ccb99f0e9c4e9c18(@octokit/rest@20.0.1)(discord.js@14.13.0):
+    resolution: {tarball: https://codeload.github.com/promise/discord-tokens/tar.gz/e9ebd805f083443d1c9e0856ccb99f0e9c4e9c18}
+    id: github.com/promise/discord-tokens/e9ebd805f083443d1c9e0856ccb99f0e9c4e9c18
     name: discord-token-reset
     version: 0.0.0
     peerDependencies:
