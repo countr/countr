@@ -33,8 +33,8 @@ dependencies:
     specifier: 4.18.2
     version: 4.18.2
   express-rate-limit:
-    specifier: 6.11.2
-    version: 6.11.2(express@4.18.2)
+    specifier: 7.0.0
+    version: 7.0.0(express@4.18.2)
   helmet:
     specifier: 7.0.0
     version: 7.0.0
@@ -2639,9 +2639,9 @@ packages:
       jest-util: 29.7.0
     dev: true
 
-  /express-rate-limit@6.11.2(express@4.18.2):
-    resolution: {integrity: sha512-a7uwwfNTh1U60ssiIkuLFWHt4hAC5yxlLGU2VP0X4YNlyEDZAqF4tK3GD3NSitVBrCQmQ0++0uOyFOgC2y4DDw==}
-    engines: {node: '>= 14'}
+  /express-rate-limit@7.0.0(express@4.18.2):
+    resolution: {integrity: sha512-zKMQ9meikj7j3ILeVvHIaBejAYljgDBtGuCfbzNS2d0VCW4s68ONdtEhBJnOGW/Ty1wGeNXgC4m/C1bBUIX0LA==}
+    engines: {node: '>= 16'}
     peerDependencies:
       express: ^4 || ^5
     dependencies:
