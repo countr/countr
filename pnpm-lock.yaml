@@ -19,7 +19,7 @@ dependencies:
     version: 4.0.7
   discord-token-reset:
     specifier: github:promise/discord-tokens
-    version: github.com/promise/discord-tokens/92405dbd02e7cb991c84221392e8d608dcd785c5(@octokit/rest@20.0.1)(discord.js@14.13.0)
+    version: github.com/promise/discord-tokens/d4f8b9c639acb56ebbefa13ae206d6afd2f4901f(@octokit/rest@20.0.1)(discord.js@14.13.0)
   discord.js:
     specifier: 14.13.0
     version: 14.13.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
@@ -33,8 +33,8 @@ dependencies:
     specifier: 4.18.2
     version: 4.18.2
   express-rate-limit:
-    specifier: 7.0.0
-    version: 7.0.0(express@4.18.2)
+    specifier: 7.0.1
+    version: 7.0.1(express@4.18.2)
   helmet:
     specifier: 7.0.0
     version: 7.0.0
@@ -2621,8 +2621,8 @@ packages:
       jest-util: 29.7.0
     dev: true
 
-  /express-rate-limit@7.0.0(express@4.18.2):
-    resolution: {integrity: sha512-zKMQ9meikj7j3ILeVvHIaBejAYljgDBtGuCfbzNS2d0VCW4s68ONdtEhBJnOGW/Ty1wGeNXgC4m/C1bBUIX0LA==}
+  /express-rate-limit@7.0.1(express@4.18.2):
+    resolution: {integrity: sha512-oTIPm094gh8c7nbShl4TNLqnayzOcbDGY7dCRnFqUAvptyb0pp5231LaH34JtvVEbZlOJMiixikU5AVK8VN3FA==}
     engines: {node: '>= 16'}
     peerDependencies:
       express: ^4 || ^5
@@ -5571,9 +5571,9 @@ packages:
       nan: 2.17.0
     dev: false
 
-  github.com/promise/discord-tokens/92405dbd02e7cb991c84221392e8d608dcd785c5(@octokit/rest@20.0.1)(discord.js@14.13.0):
-    resolution: {tarball: https://codeload.github.com/promise/discord-tokens/tar.gz/92405dbd02e7cb991c84221392e8d608dcd785c5}
-    id: github.com/promise/discord-tokens/92405dbd02e7cb991c84221392e8d608dcd785c5
+  github.com/promise/discord-tokens/d4f8b9c639acb56ebbefa13ae206d6afd2f4901f(@octokit/rest@20.0.1)(discord.js@14.13.0):
+    resolution: {tarball: https://codeload.github.com/promise/discord-tokens/tar.gz/d4f8b9c639acb56ebbefa13ae206d6afd2f4901f}
+    id: github.com/promise/discord-tokens/d4f8b9c639acb56ebbefa13ae206d6afd2f4901f
     name: discord-token-reset
     version: 0.0.0
     peerDependencies:
