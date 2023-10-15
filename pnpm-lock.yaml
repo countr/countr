@@ -15,14 +15,14 @@ dependencies:
     specifier: 8.12.0
     version: 8.12.0
   bufferutil:
-    specifier: 4.0.7
-    version: 4.0.7
+    specifier: 4.0.8
+    version: 4.0.8
   discord-token-reset:
     specifier: github:promise/discord-tokens
     version: github.com/promise/discord-tokens/c229f584149e0d3e1b1675143b2e2ca14a834e79(@octokit/rest@20.0.2)(discord.js@14.13.0)
   discord.js:
     specifier: 14.13.0
-    version: 14.13.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+    version: 14.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
   dotenv:
     specifier: 16.3.1
     version: 16.3.1
@@ -67,7 +67,7 @@ dependencies:
     version: 4.7.1(winston@3.10.0)
   ws:
     specifier: 8.14.2
-    version: 8.14.2(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+    version: 8.14.2(bufferutil@4.0.8)(utf-8-validate@6.0.3)
   zlib-sync:
     specifier: 0.1.8
     version: 0.1.8
@@ -533,7 +533,7 @@ packages:
     engines: {node: '>=16.11.0'}
     dev: false
 
-  /@discordjs/ws@1.0.1(bufferutil@4.0.7)(utf-8-validate@6.0.3):
+  /@discordjs/ws@1.0.1(bufferutil@4.0.8)(utf-8-validate@6.0.3):
     resolution: {integrity: sha512-avvAolBqN3yrSvdBPcJ/0j2g42ABzrv3PEL76e3YTp2WYMGH7cuspkjfSyNWaqYl1J+669dlLp+YFMxSVQyS5g==}
     engines: {node: '>=16.11.0'}
     dependencies:
@@ -545,7 +545,7 @@ packages:
       '@vladfrangu/async_event_emitter': 2.2.2
       discord-api-types: 0.37.50
       tslib: 2.6.2
-      ws: 8.14.2(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+      ws: 8.14.2(bufferutil@4.0.8)(utf-8-validate@6.0.3)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -1824,8 +1824,8 @@ packages:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
     dev: true
 
-  /bufferutil@4.0.7:
-    resolution: {integrity: sha512-kukuqc39WOHtdxtw4UScxF/WVnMFVSQVKhtx3AjZJzhd0RGZZldcrfSEbVsWWe6KNH253574cq5F+wpv0G9pJw==}
+  /bufferutil@4.0.8:
+    resolution: {integrity: sha512-4T53u4PdgsXqKaIctwF8ifXlRTTmEPJ8iEPWFdGZvcf7sbwYo6FKFEX9eNNAnzFZ7EzJAQ3CJeOtCRA4rDp7Pw==}
     engines: {node: '>=6.14.2'}
     requiresBuild: true
     dependencies:
@@ -2174,7 +2174,7 @@ packages:
     resolution: {integrity: sha512-X4CDiMnDbA3s3RaUXWXmgAIbY1uxab3fqe3qwzg5XutR3wjqi7M3IkgQbsIBzpqBN2YWr/Qdv7JrFRqSgb4TFg==}
     dev: false
 
-  /discord.js@14.13.0(bufferutil@4.0.7)(utf-8-validate@6.0.3):
+  /discord.js@14.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3):
     resolution: {integrity: sha512-Kufdvg7fpyTEwANGy9x7i4od4yu5c6gVddGi5CKm4Y5a6sF0VBODObI3o0Bh7TGCj0LfNT8Qp8z04wnLFzgnbA==}
     engines: {node: '>=16.11.0'}
     dependencies:
@@ -2183,7 +2183,7 @@ packages:
       '@discordjs/formatters': 0.3.2
       '@discordjs/rest': 2.0.1
       '@discordjs/util': 1.0.1
-      '@discordjs/ws': 1.0.1(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+      '@discordjs/ws': 1.0.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)
       '@sapphire/snowflake': 3.5.1
       '@types/ws': 8.5.7
       discord-api-types: 0.37.50
@@ -2191,7 +2191,7 @@ packages:
       lodash.snakecase: 4.1.1
       tslib: 2.6.2
       undici: 5.22.1
-      ws: 8.14.2(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+      ws: 8.14.2(bufferutil@4.0.8)(utf-8-validate@6.0.3)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -5508,7 +5508,7 @@ packages:
       signal-exit: 3.0.7
     dev: true
 
-  /ws@8.14.2(bufferutil@4.0.7)(utf-8-validate@6.0.3):
+  /ws@8.14.2(bufferutil@4.0.8)(utf-8-validate@6.0.3):
     resolution: {integrity: sha512-wEBG1ftX4jcglPxgFCMJmZ2PLtSbJ2Peg6TmpJFTbe9GZYOQCDPdMYu/Tm0/bGZkw8paZnJY45J4K2PZrLYq8g==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
@@ -5520,7 +5520,7 @@ packages:
       utf-8-validate:
         optional: true
     dependencies:
-      bufferutil: 4.0.7
+      bufferutil: 4.0.8
       utf-8-validate: 6.0.3
     dev: false
 
@@ -5591,7 +5591,7 @@ packages:
       discord.js: ^14
     dependencies:
       '@octokit/rest': 20.0.2
-      discord.js: 14.13.0(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+      discord.js: 14.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
     dev: false
 
   github.com/promise/eslint-config/b69d2f92b6affc2f5893a6873a6b9fd9f06724c4(@typescript-eslint/eslint-plugin@6.7.2)(@typescript-eslint/parser@6.7.2)(eslint-plugin-i@2.28.1)(eslint-plugin-jest@27.4.0)(eslint-plugin-react@7.33.2)(eslint-plugin-tailwindcss@3.13.0)(eslint@8.51.0):
