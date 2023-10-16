@@ -9,8 +9,8 @@ dependencies:
     specifier: 1.0.5
     version: 1.0.5
   '@typegoose/typegoose':
-    specifier: 11.5.0
-    version: 11.5.0(mongoose@7.5.4)
+    specifier: 11.6.0
+    version: 11.6.0(mongoose@7.6.2)
   ajv:
     specifier: 8.12.0
     version: 8.12.0
@@ -33,8 +33,8 @@ dependencies:
     specifier: 4.18.2
     version: 4.18.2
   express-rate-limit:
-    specifier: 7.0.2
-    version: 7.0.2(express@4.18.2)
+    specifier: 7.1.1
+    version: 7.1.1(express@4.18.2)
   helmet:
     specifier: 7.0.0
     version: 7.0.0
@@ -42,8 +42,8 @@ dependencies:
     specifier: 6.3.1
     version: 6.3.1
   mongoose:
-    specifier: 7.5.4
-    version: 7.5.4
+    specifier: 7.6.2
+    version: 7.6.2
   morgan:
     specifier: 1.10.0
     version: 1.10.0
@@ -1073,15 +1073,15 @@ packages:
     resolution: {integrity: sha512-jt4jIsWKvUvuY6adJnQJlb/UR7DdjC8CjHI/OaSQruj2yX9/K6+KOvDt/vD6udqos/FUk5Op66CvYT7TBLYO5Q==}
     dev: true
 
-  /@typegoose/typegoose@11.5.0(mongoose@7.5.4):
-    resolution: {integrity: sha512-+ca//+8hUzOdK7mJTxHwqMiQjarVGCkF5x073ZScXfWOw35kPOzvvQwBEqFiVMhKW5txkiswsALwriJxhYcO2A==}
+  /@typegoose/typegoose@11.6.0(mongoose@7.6.2):
+    resolution: {integrity: sha512-c6m5aTrv9tzqLmtR/txlg4sFKXfupBXMJlO4yRfg757rK5h2YfIoshMG3yi+0IEe8gkF5utCV/uh9vf8a+re4Q==}
     engines: {node: '>=14.17.0'}
     peerDependencies:
-      mongoose: ~7.5.0
+      mongoose: ~7.6.1
     dependencies:
       lodash: 4.17.21
       loglevel: 1.8.1
-      mongoose: 7.5.4
+      mongoose: 7.6.2
       reflect-metadata: 0.1.13
       semver: 7.5.4
       tslib: 2.6.2
@@ -1820,8 +1820,8 @@ packages:
       node-int64: 0.4.0
     dev: true
 
-  /bson@5.4.0:
-    resolution: {integrity: sha512-WRZ5SQI5GfUuKnPTNmAYPiKIof3ORXAF4IRU5UcgmivNIon01rWQlw5RUH954dpu8yGL8T59YShVddIPaU/gFA==}
+  /bson@5.5.0:
+    resolution: {integrity: sha512-B+QB4YmDx9RStKv8LLSl/aVIEV3nYJc3cJNNTK2Cd1TL+7P+cNpw9mAPeCgc5K+j01Dv6sxUzcITXDx7ZU3F0w==}
     engines: {node: '>=14.20.1'}
     dev: false
 
@@ -2636,8 +2636,8 @@ packages:
       jest-util: 29.7.0
     dev: true
 
-  /express-rate-limit@7.0.2(express@4.18.2):
-    resolution: {integrity: sha512-EZoojG9civtJ6GRR7vE0JErow5q/ltbIl0RGbYhrNJKwBC9/kp2HckpdAvQkkE0sRAAtFDBvILvwZSR2kQroDw==}
+  /express-rate-limit@7.1.1(express@4.18.2):
+    resolution: {integrity: sha512-o5ye/a4EHCPQPju25Y4HChHybrCM9v37QtQDqXUDZGuD+HB7Cbu8ZhJP6/9RORcSNtkCpnEssa6oUgJgzc7ckQ==}
     engines: {node: '>= 16'}
     peerDependencies:
       express: ^4 || ^5
@@ -4087,8 +4087,8 @@ packages:
       whatwg-url: 11.0.0
     dev: false
 
-  /mongodb@5.8.1:
-    resolution: {integrity: sha512-wKyh4kZvm6NrCPH8AxyzXm3JBoEf4Xulo0aUWh3hCgwgYJxyQ1KLST86ZZaSWdj6/kxYUA3+YZuyADCE61CMSg==}
+  /mongodb@5.9.0:
+    resolution: {integrity: sha512-g+GCMHN1CoRUA+wb1Agv0TI4YTSiWr42B5ulkiAfLLHitGK1R+PkSAf3Lr5rPZwi/3F04LiaZEW0Kxro9Fi2TA==}
     engines: {node: '>=14.20.1'}
     peerDependencies:
       '@aws-sdk/credential-providers': ^3.188.0
@@ -4108,20 +4108,20 @@ packages:
       snappy:
         optional: true
     dependencies:
-      bson: 5.4.0
+      bson: 5.5.0
       mongodb-connection-string-url: 2.6.0
       socks: 2.7.1
     optionalDependencies:
       '@mongodb-js/saslprep': 1.1.0
     dev: false
 
-  /mongoose@7.5.4:
-    resolution: {integrity: sha512-u97BOfBOoCxysnH5X0WeF/O39DO1di75dYU75xaSs9mL3Si0qmP0qLWvWpBRdVkiiRVw+eaqJyKwaq6RvKPVZw==}
+  /mongoose@7.6.2:
+    resolution: {integrity: sha512-OVx6RWbfNOzBbfTvXoOkgZmaizdXDU/B/KbBjietXQoInSg/OSULjOavXJzL51XWFkbefqkOvbeE07DfvW6FkQ==}
     engines: {node: '>=14.20.1'}
     dependencies:
-      bson: 5.4.0
+      bson: 5.5.0
       kareem: 2.5.1
-      mongodb: 5.8.1
+      mongodb: 5.9.0
       mpath: 0.9.0
       mquery: 5.0.0
       ms: 2.1.3
