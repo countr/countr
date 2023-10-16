@@ -22,7 +22,7 @@ const command: ChatInputCommand = {
     if (countingChannel.flows.size >= limits.flows.amount) return void interaction.reply({ content: `❌ You can only have up to **${limits.flows.amount}** flows.`, ephemeral: true });
 
     const attachment = interaction.options.getAttachment("flow_file", true);
-    if (!attachment.url.endsWith(".json")) return void interaction.reply({ content: "❌ This is not a valid file type.", ephemeral: true });
+    if (!attachment.url.split("?")[0]!.endsWith(".json")) return void interaction.reply({ content: "❌ This is not a valid file type.", ephemeral: true });
 
     const request = superagent.get(attachment.url).then(res => res.text);
 
