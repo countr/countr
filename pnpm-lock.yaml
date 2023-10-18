@@ -95,8 +95,8 @@ devDependencies:
     specifier: 18.17.19
     version: 18.17.19
   '@types/superagent':
-    specifier: 4.1.19
-    version: 4.1.19
+    specifier: 4.1.20
+    version: 4.1.20
   '@types/time-limited-regular-expressions':
     specifier: 1.0.0
     version: 1.0.0
@@ -1236,8 +1236,8 @@ packages:
     resolution: {integrity: sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==}
     dev: true
 
-  /@types/superagent@4.1.19:
-    resolution: {integrity: sha512-McM1mlc7PBZpCaw0fw/36uFqo0YeA6m8JqoyE4OfqXsZCIg0hPP2xdE6FM7r6fdprDZHlJwDpydUj1R++93hCA==}
+  /@types/superagent@4.1.20:
+    resolution: {integrity: sha512-GfpwJgYSr3yO+nArFkmyqv3i0vZavyEG5xPd/o95RwpKYpsOKJYI5XLdxLpdRbZI3YiGKKdIOFIf/jlP7A0Jxg==}
     dependencies:
       '@types/cookiejar': 2.1.2
       '@types/node': 18.17.19
