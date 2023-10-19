@@ -101,8 +101,8 @@ devDependencies:
     specifier: 1.0.1
     version: 1.0.1
   '@types/ws':
-    specifier: 8.5.7
-    version: 8.5.7
+    specifier: 8.5.8
+    version: 8.5.8
   eslint:
     specifier: 8.51.0
     version: 8.51.0
@@ -546,7 +546,7 @@ packages:
       '@discordjs/rest': 2.0.1
       '@discordjs/util': 1.0.1
       '@sapphire/async-queue': 1.5.0
-      '@types/ws': 8.5.7
+      '@types/ws': 8.5.8
       '@vladfrangu/async_event_emitter': 2.2.2
       discord-api-types: 0.37.50
       tslib: 2.6.2
@@ -1262,8 +1262,8 @@ packages:
       '@types/webidl-conversions': 7.0.0
     dev: false
 
-  /@types/ws@8.5.7:
-    resolution: {integrity: sha512-6UrLjiDUvn40CMrAubXuIVtj2PEfKDffJS7ychvnPU44j+KVeXmdHHTgqcM/dxLUTHxlXHiFM8Skmb8ozGdTnQ==}
+  /@types/ws@8.5.8:
+    resolution: {integrity: sha512-flUksGIQCnJd6sZ1l5dqCEG/ksaoAg/eUwiLAGTJQcfgvZJKF++Ta4bJA6A5aPSJmsr+xlseHn4KLgVlNnvPTg==}
     dependencies:
       '@types/node': 18.17.19
 
@@ -2190,7 +2190,7 @@ packages:
       '@discordjs/util': 1.0.1
       '@discordjs/ws': 1.0.1(bufferutil@4.0.8)(utf-8-validate@6.0.3)
       '@sapphire/snowflake': 3.5.1
-      '@types/ws': 8.5.7
+      '@types/ws': 8.5.8
       discord-api-types: 0.37.50
       fast-deep-equal: 3.1.3
       lodash.snakecase: 4.1.1
