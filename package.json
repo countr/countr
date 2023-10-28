@@ -54,7 +54,7 @@
     "winston": "3.11.0",
     "winston-daily-rotate-file": "4.7.1",
     "ws": "8.14.2",
-    "zlib-sync": "0.1.8"
+    "zlib-sync": "0.1.9"
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "0.5.1",
