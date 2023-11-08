@@ -65,7 +65,7 @@
     "@types/morgan": "1.9.9",
     "@types/node": "18.17.19",
     "@types/superagent": "4.1.21",
-    "@types/time-limited-regular-expressions": "1.0.1",
+    "@types/time-limited-regular-expressions": "1.0.2",
     "@types/ws": "8.5.9",
     "eslint": "8.53.0",
     "eslint-config-promise": "github:promise/eslint-config",
