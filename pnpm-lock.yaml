@@ -98,8 +98,8 @@ devDependencies:
     specifier: 4.1.21
     version: 4.1.21
   '@types/time-limited-regular-expressions':
-    specifier: 1.0.1
-    version: 1.0.1
+    specifier: 1.0.2
+    version: 1.0.2
   '@types/ws':
     specifier: 8.5.9
     version: 8.5.9
@@ -1228,8 +1228,8 @@ packages:
       '@types/node': 18.17.19
     dev: true
 
-  /@types/time-limited-regular-expressions@1.0.1:
-    resolution: {integrity: sha512-RT+x3O2J3ARLW4+/BsZ9u1bY8ckRr5qqrv1oYy4LI+dphJTD6ibVm44uKzMyt07YEw/u8IY6kaAYM5cxB6Ae7A==}
+  /@types/time-limited-regular-expressions@1.0.2:
+    resolution: {integrity: sha512-d7onbRy2WZ4L3fd45Tlf11c3TjLpsT5vrkGsB98AD5bklKybM2w6Kf0aM01NtXbZtYPmc8p12UthWZ69oA8llQ==}
     dev: true
 
   /@types/triple-beam@1.3.4:
