@@ -36,8 +36,8 @@ const command: ChatInputCommand = {
       callback(button) {
         cancelled = true;
         queue.delete(interaction.guildId);
-        if (queueUpdate) clearInterval(queueUpdate);
-        if (updateProgress) clearInterval(updateProgress);
+        if (queueUpdate) clearInterval(queueUpdate as never);
+        if (updateProgress) clearInterval(updateProgress as never);
         // handling the next in queue is done further down so we don't need it here
 
         void button.update({ content: "🕳️ Score fetching cancelled.", components: [] });
@@ -53,7 +53,7 @@ const command: ChatInputCommand = {
 
     async function startSearch(): Promise<void> {
       if (queueUpdate) {
-        clearInterval(queueUpdate);
+        clearInterval(queueUpdate as never);
         queueUpdate = null;
       }
 
@@ -111,7 +111,7 @@ const command: ChatInputCommand = {
           const total = Number(getModalTextInput(modal.components, "total"));
           if (isNaN(total) || !total) return void modal.reply({ content: "❌ Invalid number.", ephemeral: true });
           totalMessages = total;
-          if (updateProgress) clearInterval(updateProgress);
+          if (updateProgress) clearInterval(updateProgress as never);
           updateMessage();
           updateProgress = setInterval(updateMessage, 5000);
           return void modal.reply({ content: "✅ Total message count set. You can now see an estimation in the original message!", ephemeral: true });
@@ -138,7 +138,7 @@ const command: ChatInputCommand = {
 
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- `cancelled` is modified elsewhere
         if (!cancelled) {
-          clearInterval(updateProgress);
+          clearInterval(updateProgress as never);
 
           // send the scores and finish up
           void interaction.editReply({

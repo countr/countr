@@ -13,7 +13,7 @@ import { addToWeeklyCount } from "./weeklyCount";
 const wss = new WebSocketServer({ port: config.websocket.port });
 
 const clusterWebsockets = new Map<number, WebSocket>();
-const clusterRequestStatsIntervals = new Map<number, NodeJS.Timer>();
+const clusterRequestStatsIntervals = new Map<number, NodeJS.Timeout | NodeJS.Timer>();
 const clusterConnectQueue = new Set<number>();
 
 wss.on("connection", ws => {
@@ -142,7 +142,7 @@ wss.on("connection", ws => {
 
       const interval = clusterRequestStatsIntervals.get(clusterId);
       if (interval) {
-        clearInterval(interval);
+        clearInterval(interval as never);
         clusterRequestStatsIntervals.delete(clusterId);
       }
     });
