@@ -22,8 +22,14 @@ const emojiInput: PropertyInput<APIEmoji> = interaction => new Promise(resolve =
   modals.set(`${interaction.id}:modalSubmit`, {
     callback(modalInteraction) {
       const query = String(getModalTextInput(modalInteraction.components, "query"));
-      const emoji = parseEmoji(query);
-      return resolve([emoji ?? null, modalInteraction]);
+      const parsedEmoji = parseEmoji(query);
+      const emoji = parsedEmoji ?
+        {
+          ...parsedEmoji,
+          id: parsedEmoji.id ?? null,
+        } satisfies APIEmoji :
+        null;
+      return resolve([emoji, modalInteraction]);
     },
   });
 });
