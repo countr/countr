@@ -7,7 +7,7 @@ on:
 jobs:
   ghcr:
     name: ${{ github.ref == 'refs/heads/main' && 'Build and Push' || 'Test Build' }}
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout
