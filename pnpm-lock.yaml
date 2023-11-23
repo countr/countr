@@ -36,8 +36,8 @@ dependencies:
     specifier: 7.1.4
     version: 7.1.4(express@4.18.2)
   helmet:
-    specifier: 7.0.0
-    version: 7.0.0
+    specifier: 7.1.0
+    version: 7.1.0
   match-sorter:
     specifier: 6.3.1
     version: 6.3.1
@@ -3030,8 +3030,8 @@ packages:
     dependencies:
       function-bind: 1.1.2
 
-  /helmet@7.0.0:
-    resolution: {integrity: sha512-MsIgYmdBh460ZZ8cJC81q4XJknjG567wzEmv46WOBblDb6TUd3z8/GhgmsM9pn8g2B80tAJ4m5/d3Bi1KrSUBQ==}
+  /helmet@7.1.0:
+    resolution: {integrity: sha512-g+HZqgfbpXdCkme/Cd/mZkV0aV3BZZZSugecH03kl38m/Kmdx8jKjBikpDj2cr+Iynv4KpYEviojNdTJActJAg==}
     engines: {node: '>=16.0.0'}
     dev: false
 
