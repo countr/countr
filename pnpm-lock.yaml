@@ -9,8 +9,8 @@ dependencies:
     specifier: 1.0.5
     version: 1.0.5
   '@typegoose/typegoose':
-    specifier: 11.6.0
-    version: 11.6.0(mongoose@8.0.1)
+    specifier: 11.7.1
+    version: 11.7.1(mongoose@8.0.1)
   ajv:
     specifier: 8.12.0
     version: 8.12.0
@@ -1067,11 +1067,11 @@ packages:
     resolution: {integrity: sha512-jt4jIsWKvUvuY6adJnQJlb/UR7DdjC8CjHI/OaSQruj2yX9/K6+KOvDt/vD6udqos/FUk5Op66CvYT7TBLYO5Q==}
     dev: true
 
-  /@typegoose/typegoose@11.6.0(mongoose@8.0.1):
-    resolution: {integrity: sha512-c6m5aTrv9tzqLmtR/txlg4sFKXfupBXMJlO4yRfg757rK5h2YfIoshMG3yi+0IEe8gkF5utCV/uh9vf8a+re4Q==}
+  /@typegoose/typegoose@11.7.1(mongoose@8.0.1):
+    resolution: {integrity: sha512-+tFasAsrn7mSEpHJvRcmEpCaupntiaCFImd2w/swEj8Sx5v3YTrwdKV2hjesZhIoLIMSQ+CrsNo+Y9RqTnmRig==}
     engines: {node: '>=14.17.0'}
     peerDependencies:
-      mongoose: ~7.6.1
+      mongoose: ~7.6.3
     dependencies:
       lodash: 4.17.21
       loglevel: 1.8.1
