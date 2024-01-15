@@ -39,8 +39,8 @@ dependencies:
     specifier: 7.1.0
     version: 7.1.0
   match-sorter:
-    specifier: 6.3.1
-    version: 6.3.1
+    specifier: 6.3.2
+    version: 6.3.2
   mongoose:
     specifier: 8.0.4
     version: 8.0.4
@@ -4089,11 +4089,11 @@ packages:
       tmpl: 1.0.5
     dev: true
 
-  /match-sorter@6.3.1:
-    resolution: {integrity: sha512-mxybbo3pPNuA+ZuCUhm5bwNkXrJTbsk5VWbR5wiwz/GC6LIiegBGn2w3O08UG/jdbYLinw51fSQ5xNU1U3MgBw==}
+  /match-sorter@6.3.2:
+    resolution: {integrity: sha512-9eY6tQQFfV0qMrPLt7YGUk6BPyJzMLOoQ4D8wuV0A2PWjzyA2Fg3v7725X0o8M/UtIy1l0XwoZhvSeJdS+locw==}
     dependencies:
       '@babel/runtime': 7.23.7
-      remove-accents: 0.4.2
+      remove-accents: 0.5.0
     dev: false
 
   /media-typer@0.3.0:
@@ -4777,8 +4777,8 @@ packages:
       set-function-name: 2.0.1
     dev: true
 
-  /remove-accents@0.4.2:
-    resolution: {integrity: sha512-7pXIJqJOq5tFgG1A2Zxti3Ht8jJF337m4sowbuHsW30ZnkQFnDzy9qBNhgzX8ZLW4+UBcXiiR7SwR6pokHsxiA==}
+  /remove-accents@0.5.0:
+    resolution: {integrity: sha512-8g3/Otx1eJaVD12e31UbJj1YzdtVvzH85HV7t+9MJYk/u3XmkOUJ5Ys9wQrf9PCPK8+xn4ymzqYCiZl6QWKn+A==}
     dev: false
 
   /require-directory@2.1.1:
