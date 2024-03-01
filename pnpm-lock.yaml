@@ -9,8 +9,8 @@ dependencies:
     specifier: 1.0.5
     version: 1.0.5
   '@typegoose/typegoose':
-    specifier: 12.1.0
-    version: 12.1.0(mongoose@8.1.3)
+    specifier: 12.2.0
+    version: 12.2.0(mongoose@8.2.0)
   ajv:
     specifier: 8.12.0
     version: 8.12.0
@@ -42,8 +42,8 @@ dependencies:
     specifier: 6.3.4
     version: 6.3.4
   mongoose:
-    specifier: 8.1.3
-    version: 8.1.3
+    specifier: 8.2.0
+    version: 8.2.0
   morgan:
     specifier: 1.10.0
     version: 1.10.0
@@ -1125,15 +1125,15 @@ packages:
     resolution: {integrity: sha512-MroLvRhMbqtXI5WBSwoomro6OQS4xnCoudUrMb20JO0vLKUs0bAaCEcvM/immEBSJjFAK1l6jW1oAO8q3Ancrg==}
     dev: true
 
-  /@typegoose/typegoose@12.1.0(mongoose@8.1.3):
-    resolution: {integrity: sha512-RhqsFvTCTshtYxuzsHCGwPLJXgX1sc5aguZJ4w3ax6shVHaVQSG4VZddo/BowfP+0CSjp4J8XeCtrunkzkhJOg==}
+  /@typegoose/typegoose@12.2.0(mongoose@8.2.0):
+    resolution: {integrity: sha512-6gC5aIfccXw4IZOMe3oSef63M6leDyMvuycfwzQdVi8M9C5UnpaV8tO1xzmxiOxUHDST0GdDW/aWCCX6MtOQxg==}
     engines: {node: '>=16.20.1'}
     peerDependencies:
-      mongoose: ~8.1.0
+      mongoose: ~8.2.0
     dependencies:
       lodash: 4.17.21
       loglevel: 1.9.1
-      mongoose: 8.1.3
+      mongoose: 8.2.0
       reflect-metadata: 0.2.1
       semver: 7.6.0
       tslib: 2.6.2
@@ -4327,8 +4327,8 @@ packages:
       mongodb-connection-string-url: 3.0.0
     dev: false
 
-  /mongoose@8.1.3:
-    resolution: {integrity: sha512-a5MajZSDJiQgy0iQcR+MIpFe7zehGJI4doJ6Dh1MvnGh8/HNNhr5pn07RPA86KCTjP2vuKdffpFmvXxcHiUOjw==}
+  /mongoose@8.2.0:
+    resolution: {integrity: sha512-la93n6zCYRbPS+c5N9oTDAktvREy5OT9OCljp1Tah0y3+p8UPMTAoabWaLZMdzYruOtF9/9GRf6MasaZjiZP1A==}
     engines: {node: '>=16.20.1'}
     dependencies:
       bson: 6.4.0
