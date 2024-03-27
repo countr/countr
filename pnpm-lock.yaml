@@ -80,8 +80,8 @@ devDependencies:
     specifier: 18.2.3
     version: 18.2.3
   '@tsconfig/strictest':
-    specifier: 2.0.4
-    version: 2.0.4
+    specifier: 2.0.5
+    version: 2.0.5
   '@types/express':
     specifier: 4.17.21
     version: 4.17.21
@@ -1121,8 +1121,8 @@ packages:
     resolution: {integrity: sha512-5GKTU9bfn4L37G9IdK8wcHfvyMijzw1uKNCd2Rs75V7fZK/l2OjGJ8Aa2myqNnESjekm/udpCnFH9qR9yPCtmw==}
     dev: true
 
-  /@tsconfig/strictest@2.0.4:
-    resolution: {integrity: sha512-/VKO/oufDOvAE48KGzZOEXFBKtR3PnGlb4cJoRtw3Ax5tYwaWnaNgyTJDviIbvjlnn82WMfTNvhegFkj5Xt2UA==}
+  /@tsconfig/strictest@2.0.5:
+    resolution: {integrity: sha512-ec4tjL2Rr0pkZ5hww65c+EEPYwxOi4Ryv+0MtjeaSQRJyq322Q27eOQiFbuNgw2hpL4hB1/W/HBGk3VKS43osg==}
     dev: true
 
   /@typegoose/typegoose@12.2.0(mongoose@8.2.3):
