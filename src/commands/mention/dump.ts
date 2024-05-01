@@ -6,7 +6,7 @@ const command: MentionCommand = {
   debugLevel: DebugCommandLevel.Admin,
   testArgs(args) { return args.length === 0 || args.length === 1; },
   async execute(message, reply, [guildId = message.guildId]) {
-    const document = await getGuildDocument(guildId);
+    const document = await getGuildDocument(guildId, false);
     const data = JSON.stringify(document.toJSON(), null, 2);
     const now = Date.now();
 
