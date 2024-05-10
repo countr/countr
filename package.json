@@ -50,7 +50,7 @@
     "ordinal": "1.0.3",
     "superagent": "8.1.2",
     "time-limited-regular-expressions": "1.0.0",
-    "utf-8-validate": "6.0.3",
+    "utf-8-validate": "6.0.4",
     "winston": "3.13.0",
     "winston-daily-rotate-file": "5.0.0",
     "ws": "8.16.0",
