@@ -48,7 +48,7 @@ const client = new Client({
 let disabledGuilds = new Set<Snowflake>();
 const sleep = promisify(setTimeout);
 
-client.once("ready", async trueClient => {
+client.once("ready", trueClient => void (async () => {
   await sleep(5000);
   mainLogger.info(`Ready as @${trueClient.user.username} on shards ${trueClient.ws.shards.map(shard => shard.id).join(",") || "0"}. Caching guilds.`);
   if (config.cluster.id === 0) registerCommands(trueClient);
@@ -90,9 +90,9 @@ client.once("ready", async trueClient => {
   handleAutomaticTokenReset(trueClient);
   handleInteractions(trueClient);
   handleLiveboard(trueClient);
-});
+})());
 
-client.on("messageCreate", async message => {
+client.on("messageCreate", message => void (async () => {
   if (
     !message.inGuild() ||
     disabledGuilds.has(message.guildId) ||
@@ -106,9 +106,9 @@ client.on("messageCreate", async message => {
   if (countingChannel) return countingHandler(message, document, countingChannel);
 
   if (RegExp(`^<@!?${client.user!.id}>`, "u").exec(message.content)) return mentionCommandHandler(message, document);
-});
+})());
 
-client.on("messageUpdate", async (_, _potentialPartialMessage) => {
+client.on("messageUpdate", (_, _potentialPartialMessage) => void (async () => {
   const potentialPartialMessage = _potentialPartialMessage as Message<true> | PartialMessage;
   if (!potentialPartialMessage.guildId || disabledGuilds.has(potentialPartialMessage.guildId)) return;
 
@@ -136,9 +136,9 @@ client.on("messageUpdate", async (_, _potentialPartialMessage) => {
   )) return void replaceUpdatedOrDeletedMessage(message, document, countingChannel, false);
 
   return void 0;
-});
+})());
 
-client.on("messageDelete", async partialMessage => {
+client.on("messageDelete", partialMessage => void (async () => {
   if (!partialMessage.guildId || disabledGuilds.has(partialMessage.guildId)) return;
 
   const document = await getGuildDocument(partialMessage.guildId);
@@ -146,7 +146,7 @@ client.on("messageDelete", async partialMessage => {
   if (countingChannel?.count.messageId !== partialMessage.id) return;
 
   return void replaceUpdatedOrDeletedMessage(partialMessage, document, countingChannel, true);
-});
+})());
 
 // discord debug logging
 client

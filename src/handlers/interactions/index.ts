@@ -18,7 +18,7 @@ import contextMenuCommandHandler from "./contextMenuCommands";
 import modalHandler from "./modals";
 
 export default function handleInteractions(client: Client<true>): void {
-  client.on("interactionCreate", async interaction => {
+  client.on("interactionCreate", interaction => {
     if (!interaction.inGuild()) return void commandsLogger.debug(`Interaction ${interaction.id} is not in a guild`);
     if (!interaction.inCachedGuild()) return void commandsLogger.debug(`Interaction ${interaction.id} is not in a cached guild (guild ID ${interaction.guildId})`);
 
@@ -29,16 +29,17 @@ export default function handleInteractions(client: Client<true>): void {
       return;
     }
 
-    const document = await getGuildDocument(interaction.guildId);
+    void getGuildDocument(interaction.guildId).then(document => {
+      if (interaction.type === InteractionType.ApplicationCommand) {
+        if (interaction.isChatInputCommand()) void chatInputCommandHandler(interaction, document);
+        if (interaction.isContextMenuCommand()) void contextMenuCommandHandler(interaction, document);
+        return;
+      }
 
-    if (interaction.type === InteractionType.ApplicationCommand) {
-      if (interaction.isChatInputCommand()) void chatInputCommandHandler(interaction, document);
-      if (interaction.isContextMenuCommand()) void contextMenuCommandHandler(interaction, document);
-      return;
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- we should still type check this although it's not necessary
-    if (interaction.type === InteractionType.ApplicationCommandAutocomplete) return autocompleteHandler(interaction, document);
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- we should still type check this although it's not necessary
+      if (interaction.type === InteractionType.ApplicationCommandAutocomplete) return autocompleteHandler(interaction, document);
+      return void "unreachable code" as never;
+    });
   });
 
   commandsLogger.debug("Interaction command listener registered.");
