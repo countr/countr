@@ -9,7 +9,7 @@ const react: Action<[string]> = {
   properties: [properties.emoji],
   explanation: ([emoji]) => `React with ${emoji} to the counting message`,
   run: async ({ countingMessage }, [emoji]) => {
-    await countingMessage.react(emoji).catch(err => {
+    await countingMessage.react(emoji).catch((err: unknown) => {
       countingLogger.error(`Failed to react to counting message ${countingMessage.id}, channel ${countingMessage.channel.id}, guild ${countingMessage.guild!.id}, member ${countingMessage.author.id}, with the emoji ${emoji}: ${inspect(err)}`);
     });
     return false;

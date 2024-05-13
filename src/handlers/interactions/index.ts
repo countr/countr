@@ -52,7 +52,7 @@ export function registerCommands(client: Client<true>): void {
   ])
     .then(([chatInputCommands, contextMenuCommands]) => commands.set([...chatInputCommands, ...contextMenuCommands]))
     .then(() => void commandsLogger.info("Interaction commands have been set."))
-    .catch(err => void commandsLogger.error(`Error while setting interaction commands: ${inspect(err)}`));
+    .catch((err: unknown) => void commandsLogger.error(`Error while setting interaction commands: ${inspect(err)}`));
 }
 
 async function nestCommands(relativePath: string, type: "CHAT_INPUT" | "MENU"): Promise<ApplicationCommandData[]> {

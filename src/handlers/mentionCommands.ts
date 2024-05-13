@@ -25,7 +25,7 @@ export default function mentionCommandHandler(message: Message<true>, document: 
 
   return void handleCommand(message, document, existingReply)
     .then(messages => { if (document.channels.has(message.channelId)) queueDelete(messages); })
-    .catch(err => commandsLogger.debug(`Error handling mention command from message ${message.url}, member ${message.author.id}: ${inspect(err)}`));
+    .catch((err: unknown) => commandsLogger.debug(`Error handling mention command from message ${message.url}, member ${message.author.id}: ${inspect(err)}`));
 }
 
 // eslint-disable-next-line complexity
@@ -85,4 +85,4 @@ readdir(join(__dirname, "../commands/mention")).then(async files => {
     }
   }
 })
-  .catch(err => commandsLogger.error(`Failed to load mention commands: ${inspect(err)}`));
+  .catch((err: unknown) => commandsLogger.error(`Failed to load mention commands: ${inspect(err)}`));

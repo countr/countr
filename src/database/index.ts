@@ -13,4 +13,4 @@ export * from "./guild";
 
 connection
   .then(() => databaseLogger.info("Connected to database"))
-  .catch(err => databaseLogger.error(`Error when connecting to database: ${inspect(err)}`));
+  .catch((err: unknown) => databaseLogger.error(`Error when connecting to database: ${inspect(err)}`));
