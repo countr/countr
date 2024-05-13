@@ -9,8 +9,8 @@ dependencies:
     specifier: 1.0.5
     version: 1.0.5
   '@typegoose/typegoose':
-    specifier: 12.2.0
-    version: 12.2.0(mongoose@8.2.4)
+    specifier: 12.4.0
+    version: 12.4.0(mongoose@8.3.4)
   ajv:
     specifier: 8.13.0
     version: 8.13.0
@@ -42,8 +42,8 @@ dependencies:
     specifier: 6.3.4
     version: 6.3.4
   mongoose:
-    specifier: 8.2.4
-    version: 8.2.4
+    specifier: 8.3.4
+    version: 8.3.4
   morgan:
     specifier: 1.10.0
     version: 1.10.0
@@ -1143,15 +1143,15 @@ packages:
     resolution: {integrity: sha512-ec4tjL2Rr0pkZ5hww65c+EEPYwxOi4Ryv+0MtjeaSQRJyq322Q27eOQiFbuNgw2hpL4hB1/W/HBGk3VKS43osg==}
     dev: true
 
-  /@typegoose/typegoose@12.2.0(mongoose@8.2.4):
-    resolution: {integrity: sha512-6gC5aIfccXw4IZOMe3oSef63M6leDyMvuycfwzQdVi8M9C5UnpaV8tO1xzmxiOxUHDST0GdDW/aWCCX6MtOQxg==}
+  /@typegoose/typegoose@12.4.0(mongoose@8.3.4):
+    resolution: {integrity: sha512-KlTE9zqTFdt8q7m64ETcO7nk8idiY0EtxAR8m8DF9mZIwiQyp/KlJeT5sBdEo+wkzRO12VUmoqZm86qacz5m/Q==}
     engines: {node: '>=16.20.1'}
     peerDependencies:
-      mongoose: ~8.2.0
+      mongoose: ~8.3.1
     dependencies:
       lodash: 4.17.21
       loglevel: 1.9.1
-      mongoose: 8.2.4
+      mongoose: 8.3.4
       reflect-metadata: 0.2.2
       semver: 7.6.2
       tslib: 2.6.2
@@ -4142,8 +4142,8 @@ packages:
       object.values: 1.2.0
     dev: true
 
-  /kareem@2.5.1:
-    resolution: {integrity: sha512-7jFxRVm+jD+rkq3kY0iZDJfsO2/t4BBPeEb2qKn2lR/9KhuksYk5hxzfRYWMPV8P/x2d0kHD306YyWLzjjH+uA==}
+  /kareem@2.6.3:
+    resolution: {integrity: sha512-C3iHfuGUXK2u8/ipq9LfjFfXFxAZMQJJq7vLS45r3D9Y2xQ/m4S8zaR4zMLFWh9AsNPXmcFfUDhTEO8UIC/V6Q==}
     engines: {node: '>=12.0.0'}
     dev: false
 
@@ -4382,8 +4382,8 @@ packages:
       whatwg-url: 13.0.0
     dev: false
 
-  /mongodb@6.3.0:
-    resolution: {integrity: sha512-tt0KuGjGtLUhLoU263+xvQmPHEGTw5LbcNC73EoFRYgSHwZt5tsoJC110hDyO1kjQzpgNrpdcSza9PknWN4LrA==}
+  /mongodb@6.5.0:
+    resolution: {integrity: sha512-Fozq68InT+JKABGLqctgtb8P56pRrJFkbhW0ux+x1mdHeyinor8oNzJqwLjV/t5X5nJGfTlluxfyMnOXNggIUA==}
     engines: {node: '>=16.20.1'}
     peerDependencies:
       '@aws-sdk/credential-providers': ^3.188.0
@@ -4414,17 +4414,17 @@ packages:
       mongodb-connection-string-url: 3.0.1
     dev: false
 
-  /mongoose@8.2.4:
-    resolution: {integrity: sha512-da/r6zpG+2eAXuhBGUnL6jcBd03zlytoCc5/wq+LyTsmrY9hhPQmSpnugwnfqldtBmUOhB6iMLoV4hNtHRq+ww==}
+  /mongoose@8.3.4:
+    resolution: {integrity: sha512-ckBaBzKgtWgCalW/LPkcBsR3wKCOYEJ9jLFPmYCYV7TLStpETY757ELx8/1stL11+6HxLLVffawBffXzd0Y7YA==}
     engines: {node: '>=16.20.1'}
     dependencies:
       bson: 6.7.0
-      kareem: 2.5.1
-      mongodb: 6.3.0
+      kareem: 2.6.3
+      mongodb: 6.5.0
       mpath: 0.9.0
       mquery: 5.0.0
       ms: 2.1.3
-      sift: 16.0.1
+      sift: 17.1.3
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
       - '@mongodb-js/zstd'
@@ -5180,8 +5180,8 @@ packages:
       get-intrinsic: 1.2.4
       object-inspect: 1.13.1
 
-  /sift@16.0.1:
-    resolution: {integrity: sha512-Wv6BjQ5zbhW7VFefWusVP33T/EM0vYikCaQ2qR8yULbsilAT8/wQaXvuQ3ptGLpoKx+lihJE3y2UTgKDyyNHZQ==}
+  /sift@17.1.3:
+    resolution: {integrity: sha512-Rtlj66/b0ICeFzYTuNvX/EF1igRbbnGSvEyT79McoZa/DeGhMyC5pWKOEsZKnpkqtSeovd5FL/bjHWC3CIIvCQ==}
     dev: false
 
   /signal-exit@3.0.7:
