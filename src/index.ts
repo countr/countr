@@ -74,7 +74,7 @@ client.once("ready", async trueClient => {
           if (timeout) mainLogger.warn(`Timed out when preparing guild ${guild.id} (${guild.name}).`);
           resolve(void disabledGuilds.delete(guild.id));
         })
-        .catch(err => {
+        .catch((err: unknown) => {
           mainLogger.warn(`Failed to prepare guild ${guild.id} (${guild.name}): ${inspect(err)}`);
           resolve(void disabledGuilds.delete(guild.id));
         });

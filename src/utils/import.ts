@@ -1,7 +1,7 @@
 export const legacyImport = <T>(path: string): Promise<T> => new Promise((resolve, reject) => {
   try {
     const resolvedPath = require.resolve(path);
-    void import(resolvedPath).then(imported => resolve(imported as T)).catch(reject);
+    void import(resolvedPath).then(imported => resolve(imported as T)).catch((err: unknown) => reject(err));
   } catch (err) {
     reject(err);
   }
@@ -18,7 +18,7 @@ export const legacyImportDefault = <T>(path: string): Promise<T> => new Promise(
       ) resolve(imported.default.default);
       resolve(imported.default as T);
     })
-      .catch(reject);
+      .catch((err: unknown) => reject(err));
   } catch (err) {
     reject(err);
   }

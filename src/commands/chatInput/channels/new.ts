@@ -68,7 +68,7 @@ const command: ChatInputCommand = {
 
           return interaction.reply({ content: `✅ Successfully created ${thread.toString()}!`, ephemeral });
         })
-        .catch(err => {
+        .catch((err: unknown) => {
           mainLogger.verbose(`Failed to create counting channel in ${interaction.guildId}: ${inspect(err)}`);
           return interaction.reply({ content: "❌ I couldn't create a thread in that channel. Do I have permission?", ephemeral: true });
         });
@@ -100,7 +100,7 @@ const command: ChatInputCommand = {
 
         return interaction.reply({ content: `✅ Successfully created <#${channel.id}>!`, ephemeral });
       })
-      .catch(err => {
+      .catch((err: unknown) => {
         mainLogger.verbose(`Failed to create counting channel in ${interaction.guildId}: ${inspect(err)}`);
         return interaction.reply({ content: "❌ I couldn't create a channel. Do I have permission?", ephemeral: true });
       });
