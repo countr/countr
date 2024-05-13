@@ -56,6 +56,36 @@ function refreshList(document: GuildDocument, [countingChannelId, countingChanne
           },
         ],
       },
+      ...totalPages > 1 ?
+        [
+          {
+            type: ComponentType.ActionRow,
+            components: [
+              {
+                type: ComponentType.Button,
+                label: "< Back",
+                customId: `${uniqueIdentifier}:prev`,
+                style: ButtonStyle.Primary,
+                disabled: page === 0,
+              },
+              {
+                type: ComponentType.Button,
+                label: `Page ${page + 1}/${totalPages}`,
+                customId: `${uniqueIdentifier}:disabled`,
+                style: ButtonStyle.Secondary,
+                disabled: true,
+              },
+              {
+                type: ComponentType.Button,
+                label: "Next >",
+                customId: `${uniqueIdentifier}:next`,
+                style: ButtonStyle.Primary,
+                disabled: page === totalPages - 1,
+              },
+            ],
+          },
+        ] as never :
+        [],
     ],
   };
 
@@ -202,33 +232,6 @@ function refreshList(document: GuildDocument, [countingChannelId, countingChanne
       callback(button) {
         return void button.update(refreshList(document, [countingChannelId, countingChannel], button.id, userId, page + 1));
       },
-    });
-
-    message.components?.push({
-      type: ComponentType.ActionRow,
-      components: [
-        {
-          type: ComponentType.Button,
-          label: "< Back",
-          customId: `${uniqueIdentifier}:prev`,
-          style: ButtonStyle.Primary,
-          disabled: page === 0,
-        },
-        {
-          type: ComponentType.Button,
-          label: `Page ${page + 1}/${totalPages}`,
-          customId: `${uniqueIdentifier}:disabled`,
-          style: ButtonStyle.Secondary,
-          disabled: true,
-        },
-        {
-          type: ComponentType.Button,
-          label: "Next >",
-          customId: `${uniqueIdentifier}:next`,
-          style: ButtonStyle.Primary,
-          disabled: page === totalPages - 1,
-        },
-      ],
     });
   }
 
