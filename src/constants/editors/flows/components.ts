@@ -118,8 +118,7 @@ export function getTriggerOrActionComponents(triggerOrAction: "action" | "trigge
               let interaction: AnySelectMenuInteraction<"cached"> | ButtonInteraction<"cached"> = selected;
               if (option.properties) {
                 for (const property of option.properties) {
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                  const [value, newInteraction] = await promptProperty(interaction, userId, property);
+                  const [value, newInteraction] = await promptProperty(interaction, userId, property) as [unknown, ButtonInteraction<"cached">];
                   if (value === null) return void newInteraction.update(designNewMessage());
 
                   newOption.data.push(value as never);
