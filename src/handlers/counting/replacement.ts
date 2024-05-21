@@ -6,7 +6,7 @@ export default async function replaceUpdatedOrDeletedMessage(message: Message | 
   const ownerId = message.author?.id ?? message.member?.id ?? countingChannel.count.userId ?? null;
   if (ownerId !== countingChannel.count.userId) return;
 
-  const newNumber = numberSystems[countingChannel.type].convert(countingChannel.count.number.toString());
+  const newNumber = numberSystems[countingChannel.type].format(countingChannel.count.number);
   const newMessage = await message.channel.send(`*<@${ownerId}>: ${newNumber}*`);
   if (countingChannel.count.messageId === message.id) {
     countingChannel.count.messageId = newMessage.id;
