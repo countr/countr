@@ -38,7 +38,7 @@
     "ajv": "8.13.0",
     "bufferutil": "4.0.8",
     "discord-token-reset": "github:promise/discord-tokens",
-    "discord.js": "14.15.2",
+    "discord.js": "14.15.3",
     "dotenv": "16.4.5",
     "erlpack": "github:discord/erlpack",
     "express": "4.19.2",
