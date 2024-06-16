@@ -53,7 +53,7 @@
     "utf-8-validate": "6.0.4",
     "winston": "3.13.0",
     "winston-daily-rotate-file": "5.0.0",
-    "ws": "8.17.0",
+    "ws": "8.17.1",
     "zlib-sync": "0.1.9"
   },
   "devDependencies": {
