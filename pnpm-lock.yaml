@@ -66,8 +66,8 @@ dependencies:
     specifier: 5.0.0
     version: 5.0.0(winston@3.13.0)
   ws:
-    specifier: 8.17.0
-    version: 8.17.0(bufferutil@4.0.8)(utf-8-validate@6.0.4)
+    specifier: 8.17.1
+    version: 8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.4)
   zlib-sync:
     specifier: 0.1.9
     version: 0.1.9
@@ -543,7 +543,7 @@ packages:
       '@vladfrangu/async_event_emitter': 2.2.4
       discord-api-types: 0.37.83
       tslib: 2.6.2
-      ws: 8.17.0(bufferutil@4.0.8)(utf-8-validate@6.0.4)
+      ws: 8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.4)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -5850,8 +5850,8 @@ packages:
       signal-exit: 3.0.7
     dev: true
 
-  /ws@8.17.0(bufferutil@4.0.8)(utf-8-validate@6.0.4):
-    resolution: {integrity: sha512-uJq6108EgZMAl20KagGkzCKfMEjxmKvZHG7Tlq0Z6nOky7YF7aq4mOx6xK8TJ/i1LeK4Qus7INktacctDgY8Ow==}
+  /ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.4):
+    resolution: {integrity: sha512-6XQFvXTkbfUOZOKKILFG1PDK2NDQs4azKQl26T0YS5CxqWLgXajbPZ+h4gZekJyRqFU8pvnbAbbs/3TgRPy+GQ==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
