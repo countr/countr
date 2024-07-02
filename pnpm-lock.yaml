@@ -9,8 +9,8 @@ dependencies:
     specifier: 1.0.5
     version: 1.0.5
   '@typegoose/typegoose':
-    specifier: 12.4.0
-    version: 12.4.0(mongoose@8.3.5)
+    specifier: 12.5.0
+    version: 12.5.0(mongoose@8.4.4)
   ajv:
     specifier: 8.13.0
     version: 8.13.0
@@ -42,8 +42,8 @@ dependencies:
     specifier: 6.3.4
     version: 6.3.4
   mongoose:
-    specifier: 8.3.5
-    version: 8.3.5
+    specifier: 8.4.4
+    version: 8.4.4
   morgan:
     specifier: 1.10.0
     version: 1.10.0
@@ -501,7 +501,7 @@ packages:
       discord-api-types: 0.37.83
       fast-deep-equal: 3.1.3
       ts-mixer: 6.0.4
-      tslib: 2.6.2
+      tslib: 2.6.3
     dev: false
 
   /@discordjs/collection@1.5.3:
@@ -532,7 +532,7 @@ packages:
       '@vladfrangu/async_event_emitter': 2.4.0
       discord-api-types: 0.37.83
       magic-bytes.js: 1.10.0
-      tslib: 2.6.2
+      tslib: 2.6.3
       undici: 6.13.0
     dev: false
 
@@ -552,7 +552,7 @@ packages:
       '@types/ws': 8.5.10
       '@vladfrangu/async_event_emitter': 2.4.0
       discord-api-types: 0.37.83
-      tslib: 2.6.2
+      tslib: 2.6.3
       ws: 8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.4)
     transitivePeerDependencies:
       - bufferutil
@@ -1135,15 +1135,15 @@ packages:
     resolution: {integrity: sha512-ec4tjL2Rr0pkZ5hww65c+EEPYwxOi4Ryv+0MtjeaSQRJyq322Q27eOQiFbuNgw2hpL4hB1/W/HBGk3VKS43osg==}
     dev: true
 
-  /@typegoose/typegoose@12.4.0(mongoose@8.3.5):
-    resolution: {integrity: sha512-KlTE9zqTFdt8q7m64ETcO7nk8idiY0EtxAR8m8DF9mZIwiQyp/KlJeT5sBdEo+wkzRO12VUmoqZm86qacz5m/Q==}
+  /@typegoose/typegoose@12.5.0(mongoose@8.4.4):
+    resolution: {integrity: sha512-+2ucXC89PrlPUIw/204X5+fjRDHfAXqdH5V40H1W1GcFA2G6yTi6eU22EO3Uq0nRyQyO9keFCzjcoQXUMJOvBQ==}
     engines: {node: '>=16.20.1'}
     peerDependencies:
-      mongoose: ~8.3.1
+      mongoose: ~8.4.0
     dependencies:
       lodash: 4.17.21
       loglevel: 1.9.1
-      mongoose: 8.3.5
+      mongoose: 8.4.4
       reflect-metadata: 0.2.2
       semver: 7.6.2
       tslib: 2.6.3
@@ -4361,8 +4361,8 @@ packages:
       whatwg-url: 13.0.0
     dev: false
 
-  /mongodb@6.5.0:
-    resolution: {integrity: sha512-Fozq68InT+JKABGLqctgtb8P56pRrJFkbhW0ux+x1mdHeyinor8oNzJqwLjV/t5X5nJGfTlluxfyMnOXNggIUA==}
+  /mongodb@6.6.2:
+    resolution: {integrity: sha512-ZF9Ugo2JCG/GfR7DEb4ypfyJJyiKbg5qBYKRintebj8+DNS33CyGMkWbrS9lara+u+h+yEOGSRiLhFO/g1s1aw==}
     engines: {node: '>=16.20.1'}
     peerDependencies:
       '@aws-sdk/credential-providers': ^3.188.0
@@ -4393,13 +4393,13 @@ packages:
       mongodb-connection-string-url: 3.0.1
     dev: false
 
-  /mongoose@8.3.5:
-    resolution: {integrity: sha512-2zqeAjHjCqT1o5HeUCvkE9tUHsXwemnwEZ2SKnUxsaP8p1a+UcSQSNbnSuOzUVePMwLETrsvLIRdFLjsNfCgWA==}
+  /mongoose@8.4.4:
+    resolution: {integrity: sha512-Nya808odIJoHP4JuJKbWA2eIaerXieu59kE8pQlvJpUBoSKWUyhLji0g1WMVaYXWmzPYXP2Jd6XdR4KJE8RELw==}
     engines: {node: '>=16.20.1'}
     dependencies:
       bson: 6.8.0
       kareem: 2.6.3
-      mongodb: 6.5.0
+      mongodb: 6.6.2
       mpath: 0.9.0
       mquery: 5.0.0
       ms: 2.1.3
