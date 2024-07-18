@@ -21,7 +21,7 @@ export default async function repostWithWebhook(message: Message<true>, member: 
 
   return webhook.send({
     content: message.content,
-    username: member.displayName,
+    username: member.displayName == "everyone" || "here" ? member.user.username : member.displayName,
     avatarURL: member.displayAvatarURL({ forceStatic: false, size: 64 }),
     allowedMentions: { parse: [], roles: [], users: [] },
     ...channel.isThread() && { threadId: channel.id },
