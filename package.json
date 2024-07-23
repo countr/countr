@@ -71,7 +71,7 @@
     "eslint-config-promise": "github:promise/eslint-config",
     "jest": "29.7.0",
     "ts-jest": "29.2.3",
-    "typescript": "5.5.3"
+    "typescript": "5.5.4"
   },
   "eslintConfig": {
     "extends": "promise"
