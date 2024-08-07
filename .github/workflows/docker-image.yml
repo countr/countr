@@ -21,7 +21,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: ${{ github.ref == 'refs/heads/main' && 'Build and Push' || 'Test Build' }}
-        uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5
+        uses: docker/build-push-action@16ebe778df0e7752d2cfcbd924afdbbd89c1a755 # v6
         with:
             push: ${{ github.ref == 'refs/heads/main' }}
             tags: ghcr.io/countr/countr:latest
