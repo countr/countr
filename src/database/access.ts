@@ -6,6 +6,6 @@ export function checkGuildAccess(guildId: Snowflake): Promise<boolean> {
 }
 
 export async function filterGuildsWithAccess(guildIds: Snowflake[]): Promise<Snowflake[]> {
-  const accessDocuments = await Access.find({ guildIds: { $in: guildIds }, expires: { $gt: new Date() } });
+  const accessDocuments = await Access.find({ guildIds: { $in: guildIds } });
   return guildIds.filter(guildId => accessDocuments.some(accessDocument => accessDocument.guildIds.includes(guildId)));
 }
