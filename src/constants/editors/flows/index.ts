@@ -12,8 +12,8 @@ import steps from "./steps";
 export function flowEditor(interaction: ButtonInteraction<"cached"> | CommandInteraction<"cached">, document: GuildDocument, countingChannel: CountingChannelSchema, userId: Snowflake, flowId: string = generateId()): void {
   return void (async () => {
     // check if the bot has access to the channel, so it doesn't fuck up
-    const parent = interaction.channel?.parent?.isTextBased() ? await interaction.channel.parent.fetch() : null;
-    const channel = interaction.channel?.isThread() ? null : await interaction.channel?.fetch() as Exclude<typeof interaction["channel"], AnyThreadChannel | null>;
+    const parent = interaction.channel?.parent?.isTextBased() ? await interaction.channel.parent.fetch().catch(() => null) : null;
+    const channel = interaction.channel?.isThread() ? null : await interaction.channel?.fetch().catch(() => null) as Exclude<typeof interaction["channel"], AnyThreadChannel | null>;
     const currentPermissions = (parent ?? channel) && calculatePermissionsForChannel(parent ?? channel!, await interaction.guild.members.fetchMe({ force: false, cache: true }));
     const requiredPermissions = [...flowChannelPermissions, ...parent ? flowChannelThreadPermissions : flowChannelNonThreadPermissions];
     if (!currentPermissions?.has(requiredPermissions)) {
