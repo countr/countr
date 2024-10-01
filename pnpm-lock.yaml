@@ -9,8 +9,8 @@ dependencies:
     specifier: 1.0.5
     version: 1.0.5
   '@typegoose/typegoose':
-    specifier: 12.4.0
-    version: 12.4.0(mongoose@8.3.5)
+    specifier: 12.8.0
+    version: 12.8.0(mongoose@8.7.0)
   ajv:
     specifier: 8.13.0
     version: 8.13.0
@@ -42,8 +42,8 @@ dependencies:
     specifier: 6.3.4
     version: 6.3.4
   mongoose:
-    specifier: 8.3.5
-    version: 8.3.5
+    specifier: 8.7.0
+    version: 8.7.0
   morgan:
     specifier: 1.10.0
     version: 1.10.0
@@ -556,7 +556,7 @@ packages:
       '@types/ws': 8.5.10
       '@vladfrangu/async_event_emitter': 2.4.6
       discord-api-types: 0.37.83
-      tslib: 2.6.2
+      tslib: 2.7.0
       ws: 8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.4)
     transitivePeerDependencies:
       - bufferutil
@@ -1139,15 +1139,15 @@ packages:
     resolution: {integrity: sha512-ec4tjL2Rr0pkZ5hww65c+EEPYwxOi4Ryv+0MtjeaSQRJyq322Q27eOQiFbuNgw2hpL4hB1/W/HBGk3VKS43osg==}
     dev: true
 
-  /@typegoose/typegoose@12.4.0(mongoose@8.3.5):
-    resolution: {integrity: sha512-KlTE9zqTFdt8q7m64ETcO7nk8idiY0EtxAR8m8DF9mZIwiQyp/KlJeT5sBdEo+wkzRO12VUmoqZm86qacz5m/Q==}
+  /@typegoose/typegoose@12.8.0(mongoose@8.7.0):
+    resolution: {integrity: sha512-YCeYYH0joT4n48WRUfofPq3KBg6OQw1zR6wB4WKflkFYf9SC4P29hf0PlmsiA+hAbubd3Qn51KmkjiUJetJmFQ==}
     engines: {node: '>=16.20.1'}
     peerDependencies:
-      mongoose: ~8.3.1
+      mongoose: ~8.7.0
     dependencies:
       lodash: 4.17.21
       loglevel: 1.9.2
-      mongoose: 8.3.5
+      mongoose: 8.7.0
       reflect-metadata: 0.2.2
       semver: 7.6.3
       tslib: 2.7.0
@@ -4418,8 +4418,8 @@ packages:
       whatwg-url: 13.0.0
     dev: false
 
-  /mongodb@6.5.0:
-    resolution: {integrity: sha512-Fozq68InT+JKABGLqctgtb8P56pRrJFkbhW0ux+x1mdHeyinor8oNzJqwLjV/t5X5nJGfTlluxfyMnOXNggIUA==}
+  /mongodb@6.9.0:
+    resolution: {integrity: sha512-UMopBVx1LmEUbW/QE0Hw18u583PEDVQmUmVzzBRH0o/xtE9DBRA5ZYLOjpLIa03i8FXjzvQECJcqoMvCXftTUA==}
     engines: {node: '>=16.20.1'}
     peerDependencies:
       '@aws-sdk/credential-providers': ^3.188.0
@@ -4450,13 +4450,13 @@ packages:
       mongodb-connection-string-url: 3.0.1
     dev: false
 
-  /mongoose@8.3.5:
-    resolution: {integrity: sha512-2zqeAjHjCqT1o5HeUCvkE9tUHsXwemnwEZ2SKnUxsaP8p1a+UcSQSNbnSuOzUVePMwLETrsvLIRdFLjsNfCgWA==}
+  /mongoose@8.7.0:
+    resolution: {integrity: sha512-rUCSF1mMYQXjXYdqEQLLlMD3xbcj2j1/hRn+9VnVj7ipzru/UoUZxlj/hWmteKMAh4EFnDZ+BIrmma9l/0Hi1g==}
     engines: {node: '>=16.20.1'}
     dependencies:
       bson: 6.8.0
       kareem: 2.6.3
-      mongodb: 6.5.0
+      mongodb: 6.9.0
       mpath: 0.9.0
       mquery: 5.0.0
       ms: 2.1.3
