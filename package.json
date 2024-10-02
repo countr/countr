@@ -41,7 +41,7 @@
     "discord.js": "14.15.3",
     "dotenv": "16.4.5",
     "erlpack": "github:discord/erlpack",
-    "express": "4.19.2",
+    "express": "4.21.0",
     "express-rate-limit": "7.4.0",
     "helmet": "8.0.0",
     "match-sorter": "6.3.4",
