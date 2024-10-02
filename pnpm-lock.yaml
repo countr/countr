@@ -51,8 +51,8 @@ dependencies:
     specifier: 1.0.3
     version: 1.0.3
   superagent:
-    specifier: 9.0.2
-    version: 9.0.2
+    specifier: 10.1.0
+    version: 10.1.0
   time-limited-regular-expressions:
     specifier: 1.0.0
     version: 1.0.0
@@ -5426,8 +5426,8 @@ packages:
       ts-interface-checker: 0.1.13
     dev: true
 
-  /superagent@9.0.2:
-    resolution: {integrity: sha512-xuW7dzkUpcJq7QnhOsnNUgtYp3xRwpt2F7abdRYIpCsAt0hhUqia0EdxyXZQQpNmGtsCzYHryaKSV3q3GJnq7w==}
+  /superagent@10.1.0:
+    resolution: {integrity: sha512-JMmik7PbnXGlq7g528Gi6apHbVbTz2vrE3du6fuG4kIPSb2PnLoSOPvfjKn8aQYuJcBWAKW6ZG90qPPsE5jZxQ==}
     engines: {node: '>=14.18.0'}
     dependencies:
       component-emitter: 1.3.1
