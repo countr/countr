@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@emmetio/math-expression": "1.0.5",
-    "@typegoose/typegoose": "12.4.0",
+    "@typegoose/typegoose": "12.8.0",
     "ajv": "8.13.0",
     "bufferutil": "4.0.8",
     "discord-token-reset": "github:promise/discord-tokens",
@@ -45,7 +45,7 @@
     "express-rate-limit": "7.2.0",
     "helmet": "7.1.0",
     "match-sorter": "6.3.4",
-    "mongoose": "8.3.5",
+    "mongoose": "8.7.0",
     "morgan": "1.10.0",
     "ordinal": "1.0.3",
     "superagent": "9.0.2",
