@@ -66,8 +66,8 @@ dependencies:
     specifier: 5.0.0
     version: 5.0.0(winston@3.14.2)
   ws:
-    specifier: 8.17.1
-    version: 8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.4)
+    specifier: 8.18.0
+    version: 8.18.0(bufferutil@4.0.8)(utf-8-validate@6.0.4)
   zlib-sync:
     specifier: 0.1.9
     version: 0.1.9
@@ -101,8 +101,8 @@ devDependencies:
     specifier: 1.0.2
     version: 1.0.2
   '@types/ws':
-    specifier: 8.5.10
-    version: 8.5.10
+    specifier: 8.5.12
+    version: 8.5.12
   eslint:
     specifier: 8.57.1
     version: 8.57.1
@@ -553,11 +553,11 @@ packages:
       '@discordjs/rest': 2.4.0
       '@discordjs/util': 1.1.1
       '@sapphire/async-queue': 1.5.3
-      '@types/ws': 8.5.10
+      '@types/ws': 8.5.12
       '@vladfrangu/async_event_emitter': 2.4.6
       discord-api-types: 0.37.83
       tslib: 2.7.0
-      ws: 8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.4)
+      ws: 8.18.0(bufferutil@4.0.8)(utf-8-validate@6.0.4)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -1342,8 +1342,8 @@ packages:
       '@types/webidl-conversions': 7.0.3
     dev: false
 
-  /@types/ws@8.5.10:
-    resolution: {integrity: sha512-vmQSUcfalpIq0R9q7uTo2lXs6eGIpt9wtnLdMv9LVpIjCA/+ufZRozlVoVelIYixx1ugCBKDhn89vnsEGOCx9A==}
+  /@types/ws@8.5.12:
+    resolution: {integrity: sha512-3tPRkv1EtkDpzlgyKyI8pGsGZAGPEaXeu0DOj5DI25Ja91bdAYddYHbADRYVrZMRbfW+1l5YwXVDKohDJNQxkQ==}
     dependencies:
       '@types/node': 18.19.54
 
@@ -5951,8 +5951,8 @@ packages:
       signal-exit: 3.0.7
     dev: true
 
-  /ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.4):
-    resolution: {integrity: sha512-6XQFvXTkbfUOZOKKILFG1PDK2NDQs4azKQl26T0YS5CxqWLgXajbPZ+h4gZekJyRqFU8pvnbAbbs/3TgRPy+GQ==}
+  /ws@8.18.0(bufferutil@4.0.8)(utf-8-validate@6.0.4):
+    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
