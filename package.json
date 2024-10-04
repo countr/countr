@@ -42,7 +42,7 @@
     "dotenv": "16.4.5",
     "erlpack": "github:discord/erlpack",
     "express": "4.21.0",
-    "express-rate-limit": "7.4.0",
+    "express-rate-limit": "7.4.1",
     "helmet": "8.0.0",
     "match-sorter": "6.3.4",
     "mongoose": "8.7.0",
