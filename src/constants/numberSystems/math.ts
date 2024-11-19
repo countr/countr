@@ -1,7 +1,7 @@
 import evaluate from "@emmetio/math-expression";
 import type { NumberSystem } from ".";
 
-const hexadecimal: NumberSystem = {
+const math: NumberSystem = {
   name: "Math Expressions (4*4 = 16)",
   convert: input => {
     const converted = evalMath(input);
@@ -11,7 +11,7 @@ const hexadecimal: NumberSystem = {
   format: number => number.toString(),
 };
 
-export default hexadecimal;
+export default math;
 
 function evalMath(input: string): null | number {
   try {
