@@ -66,7 +66,7 @@
     "@types/node": "18.19.62",
     "@types/superagent": "8.1.9",
     "@types/time-limited-regular-expressions": "1.0.2",
-    "@types/ws": "8.5.12",
+    "@types/ws": "8.5.13",
     "eslint": "8.57.1",
     "eslint-config-promise": "github:promise/eslint-config",
     "jest": "29.7.0",
