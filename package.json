@@ -51,7 +51,7 @@
     "superagent": "10.1.1",
     "time-limited-regular-expressions": "1.0.0",
     "utf-8-validate": "6.0.5",
-    "winston": "3.15.0",
+    "winston": "3.17.0",
     "winston-daily-rotate-file": "5.0.0",
     "ws": "8.18.0",
     "zlib-sync": "0.1.9"
