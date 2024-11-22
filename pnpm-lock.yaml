@@ -39,8 +39,8 @@ dependencies:
     specifier: 8.0.0
     version: 8.0.0
   match-sorter:
-    specifier: 7.0.0
-    version: 7.0.0
+    specifier: 8.0.0
+    version: 8.0.0
   mongoose:
     specifier: 8.7.3
     version: 8.7.3
@@ -4327,8 +4327,8 @@ packages:
       tmpl: 1.0.5
     dev: true
 
-  /match-sorter@7.0.0:
-    resolution: {integrity: sha512-J1370vFVhvn81QrUYv54y3IZbsaG1X4otKSwtGZbyfZxgWgjVxdRkASY+uaT2IlQUGeWFBEPbGFVKv1DNnHYKA==}
+  /match-sorter@8.0.0:
+    resolution: {integrity: sha512-bGJ6Zb+OhzXe+ptP5d80OLVx7AkqfRbtGEh30vNSfjNwllu+hHI+tcbMIT/fbkx/FKN1PmKuDb65+Oofg+XUxw==}
     dependencies:
       '@babel/runtime': 7.25.6
       remove-accents: 0.5.0
