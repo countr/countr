@@ -39,7 +39,7 @@
     "bufferutil": "4.0.8",
     "discord-token-reset": "github:promise/discord-tokens",
     "discord.js": "14.15.3",
-    "dotenv": "16.4.6",
+    "dotenv": "16.4.7",
     "erlpack": "github:discord/erlpack",
     "express": "4.21.1",
     "express-rate-limit": "7.4.1",
