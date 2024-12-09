@@ -66,7 +66,6 @@ async function nestCommands(relativePath: string, type: "CHAT_INPUT" | "MENU"): 
         arr.push({
           name: fileName.split(".")[0]!,
           type: command.type,
-          description: "",
           defaultMemberPermissions: permissionLevels[command.permissionRequired],
         });
       }
