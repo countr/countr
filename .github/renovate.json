@@ -1,7 +1,7 @@
 {
   "extends": [
     "github>promise/renovate-config",
-    "github>promise/renovate-config:force-node-version(18)",
+    "github>promise/renovate-config:force-node-version(22)",
     "github>promise/renovate-config:force-mongo-version(4)"
   ]
 }
