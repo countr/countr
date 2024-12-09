@@ -8,7 +8,7 @@ ENV IS_DOCKER=true
 
 FROM base AS deps
 RUN apk --no-cache add g++ make python3
-RUN npm install -g pnpm@8
+RUN corepack enable pnpm
 
 COPY pnpm-lock.yaml ./
 RUN pnpm fetch

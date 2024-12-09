@@ -80,5 +80,6 @@
       "<rootDir>/build/",
       "<rootDir>/node_modules/"
     ]
-  }
+  },
+  "packageManager": "pnpm@9.15.0"
 }
