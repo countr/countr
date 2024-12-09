@@ -37,7 +37,7 @@
     "@typegoose/typegoose": "12.8.0",
     "ajv": "8.17.1",
     "bufferutil": "4.0.8",
-    "discord.js": "14.15.3",
+    "discord.js": "14.16.3",
     "dotenv": "16.4.7",
     "express": "4.21.2",
     "express-rate-limit": "7.4.1",
