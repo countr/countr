@@ -66,19 +66,6 @@ export default {
     },
   },
 
-  ...process.env["GITHUB_TOKEN"] && {
-    github: {
-      token: String(process.env["GITHUB_TOKEN"]),
-      tokenreset: {
-        repo: String(process.env["TOKENRESET_GITHUB_REPOSITORY"]),
-        committer: {
-          name: String(process.env["TOKENRESET_GITHUB_COMMITTER_NAME"]),
-          email: String(process.env["TOKENRESET_GITHUB_COMMITTER_EMAIL"]),
-        },
-      },
-    },
-  },
-
   statusPage: "https://uptime.countr.xyz",
   isPremium: process.env["IS_PREMIUM"] === "true",
   hastebinLink: process.env["HASTEBIN_LINK"] ?? "https://hastebin.but-it-actually.works",

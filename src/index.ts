@@ -7,7 +7,6 @@ import { inviteUrl } from "./constants/links";
 import numberSystems from "./constants/numberSystems";
 import { connection, getGuildDocument, touchGuildDocument } from "./database";
 import handleAccess from "./handlers/access";
-import handleAutomaticTokenReset from "./handlers/automaticTokenReset";
 import countingHandler from "./handlers/counting";
 import checkRegex from "./handlers/counting/regex";
 import replaceUpdatedOrDeletedMessage from "./handlers/counting/replacement";
@@ -87,7 +86,6 @@ client.once("ready", trueClient => void (async () => {
 
   // client handlers
   handleAccess(trueClient);
-  handleAutomaticTokenReset(trueClient);
   handleInteractions(trueClient);
   handleLiveboard(trueClient);
 })());
