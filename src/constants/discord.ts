@@ -8,8 +8,8 @@ export const countingChannelRootChannels = [ChannelType.GuildText] as const;
 
 export type CountingChannelThreadChannel = ThreadChannel;
 export const countingChannelThreadChannels = [
-  ChannelType.GuildPrivateThread,
-  ChannelType.GuildPublicThread,
+  ChannelType.PrivateThread,
+  ChannelType.PublicThread,
 ] as const;
 
 export type CountingChannelAllowedChannelType = CountingChannelRootChannel | CountingChannelThreadChannel;
@@ -19,10 +19,10 @@ export const countingChannelAllowedChannelTypes = [
 ] as const;
 
 export const textBasedChannelTypes = [
-  ChannelType.GuildNews,
-  ChannelType.GuildNewsThread,
-  ChannelType.GuildPrivateThread,
-  ChannelType.GuildPublicThread,
+  ChannelType.GuildAnnouncement,
+  ChannelType.AnnouncementThread,
+  ChannelType.PrivateThread,
+  ChannelType.PublicThread,
   ChannelType.GuildText,
   ChannelType.GuildVoice,
 ] as const;

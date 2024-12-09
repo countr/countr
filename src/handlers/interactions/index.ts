@@ -1,11 +1,11 @@
+import type { ApplicationCommandData, ApplicationCommandSubCommandData, ApplicationCommandSubGroupData, Client } from "discord.js";
+import { ApplicationCommandOptionType, ApplicationCommandType, InteractionType } from "discord.js";
 import { readdir } from "fs/promises";
 import { join } from "path";
 import { inspect } from "util";
-import type { ApplicationCommandData, ApplicationCommandSubCommandData, ApplicationCommandSubGroupData, Client } from "discord.js";
-import { ApplicationCommandOptionType, ApplicationCommandType, InteractionType } from "discord.js";
 import type { ChatInputCommand } from "../../commands/chatInput";
-import { slashCommandPermissions } from "../../commands/chatInput";
 import type { ContextMenuCommand } from "../../commands/menu";
+import { slashCommandPermissions } from "../../commands/chatInput";
 import config from "../../config";
 import { PermissionLevel, permissionLevels } from "../../constants/permissions";
 import { getGuildDocument } from "../../database";

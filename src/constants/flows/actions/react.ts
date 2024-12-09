@@ -1,7 +1,7 @@
 import { inspect } from "util";
+import type { Action } from ".";
 import countingLogger from "../../../utils/logger/counting";
 import properties from "../../properties";
-import type { Action } from ".";
 
 const react: Action<[string]> = {
   name: "Message reaction",

@@ -1,8 +1,8 @@
 import type { GuildMember } from "discord.js";
+import type { CountingData } from ".";
 import type { CountingChannelAllowedChannelType } from "../../constants/discord";
 import { setSafeTimeout } from "../../utils/safe";
 import { handleFlowsOnTimeout } from "./flows";
-import type { CountingData } from ".";
 
 const countingFails = new Map<`${CountingChannelAllowedChannelType["id"]}-${GuildMember["id"]}`, number>();
 

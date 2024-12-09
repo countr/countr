@@ -1,6 +1,6 @@
 import type { Snowflake } from "discord.js";
-import properties from "../../properties";
 import type { Action } from ".";
+import properties from "../../properties";
 
 const takeRole: Action<[Snowflake[]]> = {
   name: "Remove a role (or list of roles) from the user",

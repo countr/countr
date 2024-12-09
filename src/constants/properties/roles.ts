@@ -1,7 +1,7 @@
 import type { Snowflake } from "discord.js";
+import type { Property } from ".";
 import { snowflakeRegex } from "../discord";
 import { rolesInput } from "./inputs";
-import type { Property } from ".";
 
 const roles: Property<Snowflake[]> = {
   name: "Role(s)",

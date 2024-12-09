@@ -1,6 +1,7 @@
-import { inspect, promisify } from "util";
 import type { Message, PartialMessage, Snowflake } from "discord.js";
 import { Client, IntentsBitField, MessageType, Options, Partials } from "discord.js";
+import { inspect, promisify } from "util";
+import type { CommunicationMessage } from "./utils/cluster/communication";
 import config from "./config";
 import { inviteUrl } from "./constants/links";
 import numberSystems from "./constants/numberSystems";
@@ -15,7 +16,6 @@ import handleLiveboard from "./handlers/liveboard";
 import mentionCommandHandler from "./handlers/mentionCommands";
 import prepareGuild from "./handlers/prepareGuilds";
 import { initializeWebsocket } from "./utils/cluster";
-import type { CommunicationMessage } from "./utils/cluster/communication";
 import { CommunicationType } from "./utils/cluster/communication";
 import discordLogger from "./utils/logger/discord";
 import mainLogger from "./utils/logger/main";

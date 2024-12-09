@@ -1,12 +1,12 @@
-import type { AnySelectMenuInteraction, APIButtonComponentWithCustomId, APISelectMenuComponent, Awaitable, ButtonInteraction, InteractionReplyOptions, InteractionUpdateOptions, RoleSelectMenuInteraction, Snowflake, APIRoleSelectComponent, ChannelSelectMenuInteraction, APIChannelSelectComponent, UserSelectMenuInteraction, APIUserSelectComponent, StringSelectMenuInteraction, APIStringSelectComponent, MentionableSelectMenuInteraction, APIMentionableSelectComponent } from "discord.js";
+import type { AnySelectMenuInteraction, APIButtonComponentWithCustomId, APIChannelSelectComponent, APIMentionableSelectComponent, APIRoleSelectComponent, APISelectMenuComponent, APIStringSelectComponent, APIUserSelectComponent, Awaitable, ButtonInteraction, ChannelSelectMenuInteraction, InteractionReplyOptions, InteractionUpdateOptions, MentionableSelectMenuInteraction, RoleSelectMenuInteraction, Snowflake, StringSelectMenuInteraction, UserSelectMenuInteraction } from "discord.js";
 import { ButtonStyle, ComponentType } from "discord.js";
 import type { ActionDetailsSchema, CountingChannelSchema, FlowSchema, TriggerDetailsSchema } from "../../../database/models/Guild";
+import type { Action } from "../../flows/actions";
+import type { Trigger } from "../../triggers";
 import { buttonComponents, selectMenuComponents } from "../../../handlers/interactions/components";
 import { fitText } from "../../../utils/text";
-import type { Action } from "../../flows/actions";
 import actions from "../../flows/actions";
 import limits from "../../limits";
-import type { Trigger } from "../../triggers";
 import triggers from "../../triggers";
 import promptProperty from "../properties";
 import editTriggerOrAction from "../triggerOrActions";
@@ -17,9 +17,9 @@ export interface FlowEditorButtonComponent extends APIButtonComponentWithCustomI
   callback(interaction: ButtonInteraction<"cached">, designNewMessage: () => InteractionReplyOptions & InteractionUpdateOptions, flow: FlowSchema, countingChannel: CountingChannelSchema): Awaitable<void>;
 }
 
-type FlowEditorSpecificSelectMenuComponent<SelectMenuInteraction extends AnySelectMenuInteraction, SelectMenuComponent extends APISelectMenuComponent> = SelectMenuComponent & {
+type FlowEditorSpecificSelectMenuComponent<SelectMenuInteraction extends AnySelectMenuInteraction, SelectMenuComponent extends APISelectMenuComponent> = {
   callback(interaction: SelectMenuInteraction, designNewMessage: () => InteractionReplyOptions & InteractionUpdateOptions, flow: FlowSchema, countingChannel: CountingChannelSchema): Awaitable<void>;
-};
+} & SelectMenuComponent;
 
 export type FlowEditorSelectMenuComponent =
 | FlowEditorSpecificSelectMenuComponent<ChannelSelectMenuInteraction<"cached">, APIChannelSelectComponent>
@@ -37,7 +37,7 @@ export function getTriggerOrActionComponents(triggerOrAction: "action" | "trigge
   return [
     [
       {
-        type: ComponentType.SelectMenu,
+        type: ComponentType.StringSelect,
         placeholder: `Create or edit ${aTriggerOrAnAction}`,
         /* eslint-disable camelcase */
         custom_id: "create_or_edit",
@@ -73,7 +73,7 @@ export function getTriggerOrActionComponents(triggerOrAction: "action" | "trigge
                 type: ComponentType.ActionRow,
                 components: [
                   {
-                    type: ComponentType.SelectMenu,
+                    type: ComponentType.StringSelect,
                     placeholder: `Select a ${triggerOrAction} type`,
                     customId: `${select.id}:selected`,
                     minValues: 1,

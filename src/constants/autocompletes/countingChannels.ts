@@ -1,8 +1,8 @@
 import type { CategoryChannel } from "discord.js";
 import { matchSorter } from "match-sorter";
-import { fitText } from "../../utils/text";
-import type { CountingChannelAllowedChannelType, CountingChannelRootChannel } from "../discord";
 import type { Autocomplete } from ".";
+import type { CountingChannelAllowedChannelType, CountingChannelRootChannel } from "../discord";
+import { fitText } from "../../utils/text";
 
 const autocomplete: Autocomplete = {
   execute(query, interaction, document) {

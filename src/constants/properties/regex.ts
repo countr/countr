@@ -1,7 +1,7 @@
 import { escapeInlineCode } from "discord.js";
+import type { Property } from ".";
 import { regexHelpUrl } from "../links";
 import { shortInput } from "./inputs";
-import type { Property } from ".";
 
 const regex: Property<string> = {
   name: "Regular expression",
@@ -12,6 +12,7 @@ const regex: Property<string> = {
     try {
       RegExp(userInput, "u");
       return userInput;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       return null;
     }

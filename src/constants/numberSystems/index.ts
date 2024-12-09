@@ -8,9 +8,9 @@ import math from "./math";
 import roman from "./roman";
 
 export interface NumberSystem {
-  name: string;
-  convert(input: string): number | null;
+  convert(input: string): null | number;
   format(stored: number): string;
+  name: string;
 }
 
 // ordered in the way they appear when the user configures them

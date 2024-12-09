@@ -1,10 +1,10 @@
 import type { ChatInputCommandInteraction, InteractionReplyOptions, InteractionUpdateOptions, Snowflake } from "discord.js";
 import { ButtonStyle, ComponentType } from "discord.js";
 import type { ChatInputCommand } from "..";
+import type { CountingChannelSchema, GuildDocument } from "../../../database/models/Guild";
 import config from "../../../config";
 import limits from "../../../constants/limits";
 import triggers from "../../../constants/triggers";
-import type { CountingChannelSchema, GuildDocument } from "../../../database/models/Guild";
 import { buttonComponents, selectMenuComponents } from "../../../handlers/interactions/components";
 import { fitText } from "../../../utils/text";
 
@@ -38,7 +38,7 @@ function refreshList(interaction: ChatInputCommandInteraction<"cached">, ephemer
         type: ComponentType.ActionRow,
         components: [
           {
-            type: ComponentType.SelectMenu,
+            type: ComponentType.StringSelect,
             placeholder: "Delete a notification",
             customId: `${uniqueIdentifier}:select_for_delete`,
             minValues: 1,

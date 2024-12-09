@@ -1,13 +1,13 @@
-import { randomBytes } from "crypto";
-import { inspect } from "util";
 import type { MessageEditOptions, MessageReplyOptions } from "discord.js";
+import { randomBytes } from "crypto";
 import { ButtonStyle, ComponentType } from "discord.js";
 import superagent from "superagent";
+import { inspect } from "util";
+import type { MentionCommand } from ".";
 import config from "../../config";
 import { charactersPerMessage } from "../../constants/discord";
 import { DebugCommandLevel } from "../../constants/permissions";
 import { buttonComponents } from "../../handlers/interactions/components";
-import type { MentionCommand } from ".";
 
 const command: MentionCommand = {
   debugLevel: DebugCommandLevel.Owner,
@@ -30,7 +30,7 @@ const command: MentionCommand = {
 
 export default { ...command } as MentionCommand;
 
-async function generateMessage(result: unknown, time: number | null, success = true, hastebin = false): Promise<MessageEditOptions & MessageReplyOptions> {
+async function generateMessage(result: unknown, time: null | number, success = true, hastebin = false): Promise<MessageEditOptions & MessageReplyOptions> {
   if (hastebin) {
     const res = await superagent.post(`${config.hastebinLink}/documents`)
       .send(inspect(result, { depth: Infinity, maxArrayLength: Infinity, maxStringLength: Infinity }))
@@ -80,9 +80,9 @@ async function generateMessage(result: unknown, time: number | null, success = t
   };
 }
 
-function generateContent(result: unknown, time: number | null, success = true, depth = 10, maxArrayLength = 100): string | null {
+function generateContent(result: unknown, time: null | number, success = true, depth = 10, maxArrayLength = 100): null | string {
   if (depth <= 0) return null;
-  let content: string | null = `${success ? "✅ Evaluated successfully" : "❌ Javascript failed"}${time ? ` in ${time}ms` : ""}:\`\`\`ansi\n${inspect(result, { colors: true, depth, maxArrayLength })}\`\`\``;
+  let content: null | string = `${success ? "✅ Evaluated successfully" : "❌ Javascript failed"}${time ? ` in ${time}ms` : ""}:\`\`\`ansi\n${inspect(result, { colors: true, depth, maxArrayLength })}\`\`\``;
 
   if (content.length > charactersPerMessage) {
     if (depth === 1 && Array.isArray(result) && maxArrayLength > 1) content = generateContent(result, time, success, depth, maxArrayLength - 1);

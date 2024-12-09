@@ -1,7 +1,7 @@
 import type { Snowflake } from "discord.js";
 import { escapeCodeBlock } from "discord.js";
-import properties from "../../properties";
 import type { Action } from ".";
+import properties from "../../properties";
 
 const sendMessage: Action<[Snowflake, string]> = {
   name: "Send a message",

@@ -1,10 +1,10 @@
 import type { InteractionReplyOptions, InteractionUpdateOptions, Snowflake, StringSelectMenuInteraction } from "discord.js";
 import { ButtonStyle, ComponentType } from "discord.js";
+import type { ChatInputCommand } from ".";
+import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 import config from "../../config";
 import modules from "../../constants/modules";
-import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 import { buttonComponents, selectMenuComponents } from "../../handlers/interactions/components";
-import type { ChatInputCommand } from ".";
 
 const moduleList = Object.keys(modules) as Array<keyof typeof modules>;
 
@@ -45,7 +45,7 @@ function moduleListOverview(ephemeral: boolean, document: GuildDocument, countin
         type: ComponentType.ActionRow,
         components: [
           {
-            type: ComponentType.SelectMenu,
+            type: ComponentType.StringSelect,
             placeholder: "Configure modules...",
             minValues: 1,
             maxValues: 1,

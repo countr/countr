@@ -1,8 +1,8 @@
 import type { ApplicationCommandOptionChoiceData, AutocompleteInteraction, Snowflake } from "discord.js";
 import type { ChatInputCommand } from "../../commands/chatInput";
 import type { Autocomplete } from "../../constants/autocompletes";
-import selectedCountingChannels from "../../constants/selectedCountingChannel";
 import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
+import selectedCountingChannels from "../../constants/selectedCountingChannel";
 import { legacyImportDefault } from "../../utils/import";
 
 export default async function autocompleteHandler(interaction: AutocompleteInteraction<"cached">, document: GuildDocument): Promise<void> {

@@ -1,13 +1,14 @@
-import { inspect } from "util";
 import type { ContextMenuCommandInteraction, Snowflake } from "discord.js";
 import { ApplicationCommandType } from "discord.js";
+import { inspect } from "util";
 import type { ContextMenuCommand } from "../../commands/menu";
+import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 import { docsUrl } from "../../constants/links";
 import selectedCountingChannels from "../../constants/selectedCountingChannel";
-import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 import { legacyImportDefault } from "../../utils/import";
 import commandsLogger from "../../utils/logger/commands";
 
+// eslint-disable-next-line complexity
 export default async function contextMenuCommandHandler(interaction: ContextMenuCommandInteraction<"cached">, document: GuildDocument): Promise<void> {
   try {
     const command = await legacyImportDefault<ContextMenuCommand>(require.resolve(`../../commands/menu/${interaction.commandName}`));

@@ -1,8 +1,8 @@
 import type { Snowflake } from "discord.js";
 import { ComponentType } from "discord.js";
+import type { PropertyInput } from ".";
 import { selectMenuComponents } from "../../../handlers/interactions/components";
 import { textBasedChannelTypes } from "../../discord";
-import type { PropertyInput } from ".";
 
 const channelInput: PropertyInput<Snowflake> = interaction => new Promise(resolve => {
   void interaction.update({

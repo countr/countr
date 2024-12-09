@@ -1,6 +1,6 @@
+import type { MentionCommand } from ".";
 import { DebugCommandLevel } from "../../constants/permissions";
 import { getGuildDocument } from "../../database";
-import type { MentionCommand } from ".";
 
 const command: MentionCommand = {
   debugLevel: DebugCommandLevel.Admin,

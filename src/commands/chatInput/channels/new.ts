@@ -1,10 +1,10 @@
-import { inspect } from "util";
 import { ApplicationCommandOptionType, OverwriteType, PermissionsBitField } from "discord.js";
+import { inspect } from "util";
 import type { ChatInputCommand } from "..";
+import type { CountingChannelSchema } from "../../../database/models/Guild";
 import { calculatePermissionsForChannel, countingChannelPermissions, countingChannelRootChannels, countingChannelRootPermissions } from "../../../constants/discord";
 import limits from "../../../constants/limits";
 import numberSystems from "../../../constants/numberSystems";
-import type { CountingChannelSchema } from "../../../database/models/Guild";
 import mainLogger from "../../../utils/logger/main";
 
 const command: ChatInputCommand = {

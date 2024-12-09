@@ -1,7 +1,7 @@
 import { PermissionsBitField } from "discord.js";
 import type { ChatInputCommand } from "..";
-import config from "../../../config";
 import type { CountingChannelRootChannel } from "../../../constants/discord";
+import config from "../../../config";
 import { calculatePermissionsForChannel, countingChannelPermissions, countingChannelRootPermissions } from "../../../constants/discord";
 import limits from "../../../constants/limits";
 import { premiumHelpUrl } from "../../../constants/links";

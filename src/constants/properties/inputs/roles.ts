@@ -1,7 +1,7 @@
 import type { Snowflake } from "discord.js";
 import { ComponentType } from "discord.js";
-import { selectMenuComponents } from "../../../handlers/interactions/components";
 import type { PropertyInput } from ".";
+import { selectMenuComponents } from "../../../handlers/interactions/components";
 
 const roleInput: PropertyInput<Snowflake[]> = interaction => new Promise(resolve => {
   void interaction.update({

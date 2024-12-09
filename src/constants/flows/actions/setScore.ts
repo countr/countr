@@ -1,5 +1,5 @@
-import properties from "../../properties";
 import type { Action } from ".";
+import properties from "../../properties";
 
 const setScore: Action<[number]> = {
   name: "Set the user's score",
