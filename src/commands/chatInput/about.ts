@@ -1,12 +1,12 @@
-import { release, type } from "os";
 import { version as djsVersion } from "discord.js";
+import { release, type } from "os";
+import type { ChatInputCommand } from ".";
 import config from "../../config";
 import { homepage, premiumHelpUrl, supportServerUrl } from "../../constants/links";
 import { getAllStats } from "../../utils/cluster";
 import { bytesToHumanReadable } from "../../utils/human";
 import { fitText } from "../../utils/text";
 import { msToHumanShortTime } from "../../utils/time";
-import type { ChatInputCommand } from ".";
 
 const platform = `${type()} ${fitText(release(), 20)}`;
 

@@ -1,5 +1,5 @@
-import { flowHelpUrl, supportServerUrl } from "../../../links";
 import type { Step } from ".";
+import { flowHelpUrl, supportServerUrl } from "../../../links";
 
 const step: Step = {
   title: "Welcome to the flow editor!",

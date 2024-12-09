@@ -1,7 +1,7 @@
 import type { APIEmoji } from "discord.js";
 import { parseEmoji, TextInputStyle } from "discord.js";
-import { createModalTextInput, getModalTextInput, modals } from "../../../handlers/interactions/modals";
 import type { PropertyInput } from ".";
+import { createModalTextInput, getModalTextInput, modals } from "../../../handlers/interactions/modals";
 
 const emojiInput: PropertyInput<APIEmoji> = interaction => new Promise(resolve => {
   void interaction.showModal({

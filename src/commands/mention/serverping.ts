@@ -1,6 +1,6 @@
+import type { MentionCommand } from ".";
 import { DebugCommandLevel } from "../../constants/permissions";
 import { msToHumanShortTime } from "../../utils/time";
-import type { MentionCommand } from ".";
 
 const command: MentionCommand = {
   aliases: ["pingserver", "realping"],

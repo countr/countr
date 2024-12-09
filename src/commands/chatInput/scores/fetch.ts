@@ -1,13 +1,13 @@
+import type { ButtonComponentData, InteractionEditReplyOptions, Message, Snowflake } from "discord.js";
+import { ButtonStyle, Collection, ComponentType, MessageType, TextInputStyle, time } from "discord.js";
 import { promisify } from "util";
-import type { Snowflake, Message, ButtonComponentData, InteractionEditReplyOptions } from "discord.js";
-import { ComponentType, ButtonStyle, TextInputStyle, Collection, MessageType, time } from "discord.js";
 import type { ChatInputCommand } from "..";
 import { messageFetchLimit } from "../../../constants/discord";
 import { buttonComponents } from "../../../handlers/interactions/components";
 import { createModalTextInput, getModalTextInput, modals } from "../../../handlers/interactions/modals";
 
 // if promise then it's running, if function then queued
-const queue = new Map<Snowflake, Promise<void> | (() => Promise<void>)>();
+const queue = new Map<Snowflake, (() => Promise<void>) | Promise<void>>();
 
 const sleep = promisify(setTimeout);
 
@@ -59,7 +59,7 @@ const command: ChatInputCommand = {
 
       // update the user of the progress
       let fetched = 0;
-      let totalMessages: number | null = null;
+      let totalMessages: null | number = null;
       const startDate = Date.now();
       function updateMessage(): void {
         const etaEndDate = totalMessages && new Date(startDate + totalMessages / fetched * (Date.now() - startDate));
@@ -136,7 +136,7 @@ const command: ChatInputCommand = {
         // eslint-disable-next-line no-unmodified-loop-condition -- `cancelled` is modified elsewhere
         } while (newBulkOfMessages.size === messageFetchLimit && !cancelled);
 
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- `cancelled` is modified elsewhere
+
         if (!cancelled) {
           clearInterval(updateProgress as never);
 

@@ -1,6 +1,6 @@
 import type { Snowflake } from "discord.js";
-import limits from "../../constants/limits";
 import type { CountingData } from ".";
+import limits from "../../constants/limits";
 
 export default async function handlePositionRoles({ countingChannel, document, member: { guild } }: CountingData | Pick<CountingData, "countingChannel" | "document" | "member">): Promise<void> {
   const scoresSorted = Array.from(countingChannel.scores.entries())

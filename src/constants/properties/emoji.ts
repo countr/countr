@@ -1,7 +1,7 @@
 import type { APIEmoji } from "discord.js";
+import type { Property } from ".";
 import { emojiHelpUrl } from "../links";
 import emojiInput from "./inputs/emoji";
-import type { Property } from ".";
 
 const emoji: Property<string, APIEmoji> = {
   name: "Emoji",

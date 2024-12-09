@@ -4,6 +4,6 @@ import paragraphInput from "./paragraph";
 import rolesInput from "./roles";
 import shortInput from "./short";
 
-export type PropertyInput<Value> = (interaction: AnySelectMenuInteraction<"cached"> | ButtonInteraction<"cached">, currentValue?: Value) => Promise<[newValue: Value | null, interaction: AnySelectMenuInteraction<"cached"> | ButtonInteraction<"cached"> | ModalSubmitInteraction<"cached">]>;
+export type PropertyInput<Value> = (interaction: AnySelectMenuInteraction<"cached"> | ButtonInteraction<"cached">, currentValue?: Value) => Promise<[newValue: null | Value, interaction: AnySelectMenuInteraction<"cached"> | ButtonInteraction<"cached"> | ModalSubmitInteraction<"cached">]>;
 
 export { channelInput, paragraphInput, rolesInput, shortInput };

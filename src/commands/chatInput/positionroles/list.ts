@@ -2,8 +2,8 @@ import type { InteractionReplyOptions, InteractionUpdateOptions, Snowflake } fro
 import { ButtonStyle, ComponentType } from "discord.js";
 import ordinal from "ordinal";
 import type { ChatInputCommand } from "..";
-import config from "../../../config";
 import type { CountingChannelSchema } from "../../../database/models/Guild";
+import config from "../../../config";
 import { buttonComponents, selectMenuComponents } from "../../../handlers/interactions/components";
 import { formatListToHuman } from "../../../utils/text";
 
@@ -146,7 +146,7 @@ function desktopView(roles: Array<[number, Snowflake]>, countingChannel: Countin
         type: ComponentType.ActionRow,
         components: [
           {
-            type: ComponentType.SelectMenu,
+            type: ComponentType.StringSelect,
             placeholder: "Delete position roles ...",
             minValues: 1,
             maxValues: roles.length,
@@ -189,7 +189,7 @@ function mobileView(roles: Array<[number, Snowflake]>, countingChannel: Counting
         type: ComponentType.ActionRow,
         components: [
           {
-            type: ComponentType.SelectMenu,
+            type: ComponentType.StringSelect,
             placeholder: "Delete position roles ...",
             minValues: 1,
             maxValues: roles.length,

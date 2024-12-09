@@ -1,6 +1,6 @@
+import type { ChatInputCommand } from ".";
 import config from "../../config";
 import createLeaderboard from "../../constants/scores";
-import type { ChatInputCommand } from ".";
 
 const command: ChatInputCommand = {
   description: "Get the top 25 users of the counting channel",

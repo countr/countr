@@ -1,6 +1,6 @@
 import type { Snowflake } from "discord.js";
-import properties from "../../properties";
 import type { Action } from ".";
+import properties from "../../properties";
 
 const pruneRole: Action<[Snowflake[]]> = {
   name: "Remove everyone from a role (or list of roles) [DEPRECATED]",

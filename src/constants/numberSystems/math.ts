@@ -13,9 +13,10 @@ const hexadecimal: NumberSystem = {
 
 export default hexadecimal;
 
-function evalMath(input: string): number | null {
+function evalMath(input: string): null | number {
   try {
     return evaluate(input);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {
     return null;
   }
