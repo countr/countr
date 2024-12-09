@@ -73,9 +73,6 @@
     "ts-jest": "29.2.5",
     "typescript": "5.5.4"
   },
-  "eslintConfig": {
-    "extends": "promise"
-  },
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
