@@ -1,5 +1,4 @@
 import { ApplicationCommandOptionType, ButtonStyle, ComponentType } from "discord.js";
-import superagent from "superagent";
 import type { ChatInputCommand } from "../..";
 import { flowEditor } from "../../../../constants/editors/flows";
 import limits from "../../../../constants/limits";
@@ -24,7 +23,7 @@ const command: ChatInputCommand = {
     const attachment = interaction.options.getAttachment("flow_file", true);
     if (!attachment.url.split("?")[0]!.endsWith(".json")) return void interaction.reply({ content: "❌ This is not a valid file type.", ephemeral: true });
 
-    const request = superagent.get(attachment.url).then(res => res.text);
+    const request = fetch(attachment.url).then(res => res.text());
 
     return void Promise.all([request, interaction.deferReply({ ephemeral })]).then(([json]) => {
       const flow = parseFlow(json);
