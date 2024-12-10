@@ -1,2 +1,1 @@
-import config from "eslint-config-promise";
-export default config;
+export { default } from "eslint-config-promise";
