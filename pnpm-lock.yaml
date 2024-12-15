@@ -12,8 +12,8 @@ importers:
         specifier: 1.0.5
         version: 1.0.5
       '@sapphire/type':
-        specifier: 2.5.1
-        version: 2.5.1
+        specifier: 2.6.0
+        version: 2.6.0
       '@typegoose/typegoose':
         specifier: 12.9.1
         version: 12.9.1(mongoose@8.8.4)
@@ -519,8 +519,8 @@ packages:
     resolution: {integrity: sha512-jjmJywLAFoWeBi1W7994zZyiNWPIiqRRNAmSERxyg93xRGzNYvGjlZ0gR6x0F4gPRi2+0O6S71kOZYyr3cxaIQ==}
     engines: {node: '>=v14.0.0', npm: '>=7.0.0'}
 
-  '@sapphire/type@2.5.1':
-    resolution: {integrity: sha512-0UDGhR/qNuaUTiC0w9pcvs1dQj5SmNEfs4fjk7UfsnSJSFMNIbVmIdyajJHe37C46/NQZwn1SohGTh9XThgXZg==}
+  '@sapphire/type@2.6.0':
+    resolution: {integrity: sha512-GyoJJ/4hAQPNO8cVWp67JUbFlK11cgSfgtu5YwoJNuXXxNsJ58Uh3ENmG5dkwibfGBebBRssfOZHwnKS1iiFvQ==}
     engines: {node: '>=v12', npm: '>=7'}
 
   '@sinclair/typebox@0.27.8':
@@ -3618,7 +3618,7 @@ snapshots:
 
   '@sapphire/snowflake@3.5.3': {}
 
-  '@sapphire/type@2.5.1':
+  '@sapphire/type@2.6.0':
     dependencies:
       '@discordjs/node-pre-gyp': 0.4.5
       nan: 2.22.0
