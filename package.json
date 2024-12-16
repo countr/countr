@@ -45,7 +45,7 @@
     "express-rate-limit": "7.5.0",
     "helmet": "8.0.0",
     "match-sorter": "8.0.0",
-    "mongoose": "8.9.0",
+    "mongoose": "8.9.1",
     "morgan": "1.10.0",
     "ordinal": "1.0.3",
     "time-limited-regular-expressions": "1.0.0",
