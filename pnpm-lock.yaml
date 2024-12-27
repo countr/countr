@@ -21,14 +21,14 @@ importers:
         specifier: 8.17.1
         version: 8.17.1
       bufferutil:
-        specifier: 4.0.8
-        version: 4.0.8
+        specifier: 4.0.9
+        version: 4.0.9
       dedent:
         specifier: 1.5.3
         version: 1.5.3
       discord.js:
         specifier: 14.16.3
-        version: 14.16.3(bufferutil@4.0.8)(utf-8-validate@6.0.5)
+        version: 14.16.3(bufferutil@4.0.9)(utf-8-validate@6.0.5)
       dotenv:
         specifier: 16.4.7
         version: 16.4.7
@@ -64,7 +64,7 @@ importers:
         version: 5.0.0(winston@3.17.0)
       ws:
         specifier: 8.18.0
-        version: 8.18.0(bufferutil@4.0.8)(utf-8-validate@6.0.5)
+        version: 8.18.0(bufferutil@4.0.9)(utf-8-validate@6.0.5)
       zlib-sync:
         specifier: 0.1.9
         version: 0.1.9
@@ -104,7 +104,7 @@ importers:
         version: 9.17.0(jiti@1.21.6)
       eslint-config-promise:
         specifier: github:promise/eslint-config
-        version: https://codeload.github.com/promise/eslint-config/tar.gz/bc6135fd42df7e6108b2ac36de2925bc994a1eb0(ckum27df6bchjqiraklsxqunfe)
+        version: https://codeload.github.com/promise/eslint-config/tar.gz/69e68c1044c00d96a3b8428d302ccd32ebcb488a(ckum27df6bchjqiraklsxqunfe)
       jest:
         specifier: 29.7.0
         version: 29.7.0(@types/node@22.10.2)
@@ -916,8 +916,8 @@ packages:
   buffer-from@1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
 
-  bufferutil@4.0.8:
-    resolution: {integrity: sha512-4T53u4PdgsXqKaIctwF8ifXlRTTmEPJ8iEPWFdGZvcf7sbwYo6FKFEX9eNNAnzFZ7EzJAQ3CJeOtCRA4rDp7Pw==}
+  bufferutil@4.0.9:
+    resolution: {integrity: sha512-WDtdLmJvAuNNPzByAYpRo2rF1Mmradw6gvWsQKf63476DDXmomT9zUiGypLcG4ibIM67vhAj8jJRdbmEws2Aqw==}
     engines: {node: '>=6.14.2'}
 
   bytes@3.1.2:
@@ -1255,20 +1255,20 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/bc6135fd42df7e6108b2ac36de2925bc994a1eb0:
-    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/bc6135fd42df7e6108b2ac36de2925bc994a1eb0}
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/69e68c1044c00d96a3b8428d302ccd32ebcb488a:
+    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/69e68c1044c00d96a3b8428d302ccd32ebcb488a}
     version: 0.0.0
     peerDependencies:
       '@stylistic/eslint-plugin-js': 2.12.1
       '@stylistic/eslint-plugin-jsx': 2.12.1
       '@stylistic/eslint-plugin-ts': 2.12.1
-      '@typescript-eslint/eslint-plugin': 8.18.1
-      '@typescript-eslint/parser': 8.18.1
+      '@typescript-eslint/eslint-plugin': 8.18.2
+      '@typescript-eslint/parser': 8.18.2
       eslint: 9.17.0
       eslint-plugin-import: 2.31.0
-      eslint-plugin-jest: 28.9.0
-      eslint-plugin-perfectionist: 4.3.0
-      eslint-plugin-react: 7.37.2
+      eslint-plugin-jest: 28.10.0
+      eslint-plugin-perfectionist: 4.4.0
+      eslint-plugin-react: 7.37.3
       eslint-plugin-tailwindcss: 3.17.5
       globals: 15.14.0
 
@@ -3315,7 +3315,7 @@ snapshots:
 
   '@discordjs/util@1.1.1': {}
 
-  '@discordjs/ws@1.1.1(bufferutil@4.0.8)(utf-8-validate@6.0.5)':
+  '@discordjs/ws@1.1.1(bufferutil@4.0.9)(utf-8-validate@6.0.5)':
     dependencies:
       '@discordjs/collection': 2.1.1
       '@discordjs/rest': 2.4.0
@@ -3325,7 +3325,7 @@ snapshots:
       '@vladfrangu/async_event_emitter': 2.4.6
       discord-api-types: 0.37.83
       tslib: 2.8.1
-      ws: 8.18.0(bufferutil@4.0.8)(utf-8-validate@6.0.5)
+      ws: 8.18.0(bufferutil@4.0.9)(utf-8-validate@6.0.5)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -4136,7 +4136,7 @@ snapshots:
 
   buffer-from@1.1.2: {}
 
-  bufferutil@4.0.8:
+  bufferutil@4.0.9:
     dependencies:
       node-gyp-build: 4.8.4
 
@@ -4345,14 +4345,14 @@ snapshots:
 
   discord-api-types@0.37.97: {}
 
-  discord.js@14.16.3(bufferutil@4.0.8)(utf-8-validate@6.0.5):
+  discord.js@14.16.3(bufferutil@4.0.9)(utf-8-validate@6.0.5):
     dependencies:
       '@discordjs/builders': 1.9.0
       '@discordjs/collection': 1.5.3
       '@discordjs/formatters': 0.5.0
       '@discordjs/rest': 2.4.0
       '@discordjs/util': 1.1.1
-      '@discordjs/ws': 1.1.1(bufferutil@4.0.8)(utf-8-validate@6.0.5)
+      '@discordjs/ws': 1.1.1(bufferutil@4.0.9)(utf-8-validate@6.0.5)
       '@sapphire/snowflake': 3.5.3
       discord-api-types: 0.37.100
       fast-deep-equal: 3.1.3
@@ -4504,7 +4504,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/bc6135fd42df7e6108b2ac36de2925bc994a1eb0(ckum27df6bchjqiraklsxqunfe):
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/69e68c1044c00d96a3b8428d302ccd32ebcb488a(ckum27df6bchjqiraklsxqunfe):
     dependencies:
       '@stylistic/eslint-plugin-js': 2.12.0(eslint@9.17.0(jiti@1.21.6))
       '@stylistic/eslint-plugin-jsx': 2.12.0(eslint@9.17.0(jiti@1.21.6))
@@ -6585,9 +6585,9 @@ snapshots:
       imurmurhash: 0.1.4
       signal-exit: 3.0.7
 
-  ws@8.18.0(bufferutil@4.0.8)(utf-8-validate@6.0.5):
+  ws@8.18.0(bufferutil@4.0.9)(utf-8-validate@6.0.5):
     optionalDependencies:
-      bufferutil: 4.0.8
+      bufferutil: 4.0.9
       utf-8-validate: 6.0.5
 
   y18n@5.0.8: {}
