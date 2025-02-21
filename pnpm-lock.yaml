@@ -63,8 +63,8 @@ importers:
         specifier: 5.0.0
         version: 5.0.0(winston@3.17.0)
       ws:
-        specifier: 8.18.0
-        version: 8.18.0(bufferutil@4.0.9)
+        specifier: 8.18.1
+        version: 8.18.1(bufferutil@4.0.9)
       zlib-sync:
         specifier: 0.1.9
         version: 0.1.9
@@ -104,7 +104,7 @@ importers:
         version: 9.19.0(jiti@1.21.7)
       eslint-config-promise:
         specifier: github:promise/eslint-config
-        version: https://codeload.github.com/promise/eslint-config/tar.gz/b93e3fd90168686c204703157d7dcd2f01e62933(qm4oxsziktz7ii2vcnuojwxv4y)
+        version: https://codeload.github.com/promise/eslint-config/tar.gz/52ea8625bb4d360cd57a071f0d269091e0066adc(qm4oxsziktz7ii2vcnuojwxv4y)
       jest:
         specifier: 29.7.0
         version: 29.7.0(@types/node@22.13.0)
@@ -953,6 +953,7 @@ packages:
   bson@6.10.2:
     resolution: {integrity: sha512-5afhLTjqDSA3akH56E+/2J6kTDuSIlBxyXPdQslj9hcIgOUE378xdOfZvC/9q3LifJNI6KR/juZ+d0NRNYBwXg==}
     engines: {node: '>=16.20.1'}
+    deprecated: a critical bug affecting only useBigInt64=true deserialization usage is fixed in bson@6.10.3
 
   buffer-from@1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
@@ -1290,8 +1291,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/b93e3fd90168686c204703157d7dcd2f01e62933:
-    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/b93e3fd90168686c204703157d7dcd2f01e62933}
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/52ea8625bb4d360cd57a071f0d269091e0066adc:
+    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/52ea8625bb4d360cd57a071f0d269091e0066adc}
     version: 0.0.0
     peerDependencies:
       '@stylistic/eslint-plugin-js': 3.0.0
@@ -1305,7 +1306,7 @@ packages:
       eslint-plugin-perfectionist: 4.6.0
       eslint-plugin-react: 7.37.4
       eslint-plugin-tailwindcss: 3.17.5
-      globals: 15.14.0
+      globals: 16.0.0
 
   eslint-import-resolver-node@0.3.9:
     resolution: {integrity: sha512-WFj2isz22JahUv+B788TlO3N6zL3nNJGU8CcZbPZvVEkBPaJdCV4vy5wyghty5ROFbCRnm132v8BScu5/1BQ8g==}
@@ -3085,8 +3086,8 @@ packages:
     resolution: {integrity: sha512-7KxauUdBmSdWnmpaGFg+ppNjKF8uNLry8LyzjauQDOVONfFLNKrKvQOxZ/VuTIcS/gge/YNahf5RIIQWTSarlg==}
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
 
-  ws@8.18.0:
-    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
+  ws@8.18.1:
+    resolution: {integrity: sha512-RKW2aJZMXeMxVpnZ6bck+RswznaxmzdULiBr6KY7XkTnW8uvt0iT9H5DkHUChXrc+uurzwa0rVI16n/Xzjdz1w==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -3392,7 +3393,7 @@ snapshots:
       '@vladfrangu/async_event_emitter': 2.4.6
       discord-api-types: 0.37.118
       tslib: 2.8.1
-      ws: 8.18.0(bufferutil@4.0.9)
+      ws: 8.18.1(bufferutil@4.0.9)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -4641,7 +4642,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/b93e3fd90168686c204703157d7dcd2f01e62933(qm4oxsziktz7ii2vcnuojwxv4y):
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/52ea8625bb4d360cd57a071f0d269091e0066adc(qm4oxsziktz7ii2vcnuojwxv4y):
     dependencies:
       '@stylistic/eslint-plugin-js': 3.0.0(eslint@9.19.0(jiti@1.21.7))
       '@stylistic/eslint-plugin-jsx': 3.0.0(eslint@9.19.0(jiti@1.21.7))
@@ -6793,7 +6794,7 @@ snapshots:
       imurmurhash: 0.1.4
       signal-exit: 3.0.7
 
-  ws@8.18.0(bufferutil@4.0.9):
+  ws@8.18.1(bufferutil@4.0.9):
     optionalDependencies:
       bufferutil: 4.0.9
 
