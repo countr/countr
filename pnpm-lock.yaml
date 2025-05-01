@@ -66,8 +66,8 @@ importers:
         specifier: 8.18.1
         version: 8.18.1(bufferutil@4.0.9)
       zlib-sync:
-        specifier: 0.1.9
-        version: 0.1.9
+        specifier: 0.1.10
+        version: 0.1.10
     devDependencies:
       '@total-typescript/ts-reset':
         specifier: 0.6.1
@@ -104,7 +104,7 @@ importers:
         version: 9.25.1(jiti@1.21.7)
       eslint-config-promise:
         specifier: github:promise/eslint-config
-        version: https://codeload.github.com/promise/eslint-config/tar.gz/596eff5b527ace602125828048aea5c551dd4cde(eee870aae85b5a6373a58ba1eccbead5)
+        version: https://codeload.github.com/promise/eslint-config/tar.gz/76700c052f6cf49581878e194b762e535e1a734f(eee870aae85b5a6373a58ba1eccbead5)
       jest:
         specifier: 29.7.0
         version: 29.7.0(@types/node@22.13.0)
@@ -1243,8 +1243,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/596eff5b527ace602125828048aea5c551dd4cde:
-    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/596eff5b527ace602125828048aea5c551dd4cde}
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/76700c052f6cf49581878e194b762e535e1a734f:
+    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/76700c052f6cf49581878e194b762e535e1a734f}
     version: 0.0.0
     peerDependencies:
       '@stylistic/eslint-plugin-js': 4.2.0
@@ -3075,8 +3075,8 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  zlib-sync@0.1.9:
-    resolution: {integrity: sha512-DinB43xCjVwIBDpaIvQqHbmDsnYnSt6HJ/yiB2MZQGTqgPcwBSZqLkimXwK8BvdjQ/MaZysb5uEenImncqvCqQ==}
+  zlib-sync@0.1.10:
+    resolution: {integrity: sha512-t7/pYg5tLBznL1RuhmbAt8rNp5tbhr+TSrJFnMkRtrGIaPJZ6Dc0uR4u3OoQI2d6cGlVI62E3Gy6gwkxyIqr/w==}
 
 snapshots:
 
@@ -4520,7 +4520,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/596eff5b527ace602125828048aea5c551dd4cde(eee870aae85b5a6373a58ba1eccbead5):
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/76700c052f6cf49581878e194b762e535e1a734f(eee870aae85b5a6373a58ba1eccbead5):
     dependencies:
       '@stylistic/eslint-plugin-js': 4.2.0(eslint@9.25.1(jiti@1.21.7))
       '@stylistic/eslint-plugin-jsx': 4.2.0(eslint@9.25.1(jiti@1.21.7))
@@ -6700,6 +6700,6 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  zlib-sync@0.1.9:
+  zlib-sync@0.1.10:
     dependencies:
       nan: 2.22.2
