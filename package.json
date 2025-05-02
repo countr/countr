@@ -35,7 +35,7 @@
   "dependencies": {
     "@emmetio/math-expression": "1.0.5",
     "@sapphire/type": "2.6.0",
-    "@typegoose/typegoose": "12.10.1",
+    "@typegoose/typegoose": "12.15.0",
     "ajv": "8.17.1",
     "bufferutil": "4.0.9",
     "dedent": "1.5.3",
@@ -45,7 +45,7 @@
     "express-rate-limit": "7.5.0",
     "helmet": "8.1.0",
     "match-sorter": "8.0.0",
-    "mongoose": "8.9.6",
+    "mongoose": "8.14.1",
     "morgan": "1.10.0",
     "ordinal": "1.0.3",
     "time-limited-regular-expressions": "1.0.0",
