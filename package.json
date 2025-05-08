@@ -35,7 +35,7 @@
   "dependencies": {
     "@emmetio/math-expression": "1.0.5",
     "@sapphire/type": "2.6.0",
-    "@typegoose/typegoose": "12.15.0",
+    "@typegoose/typegoose": "12.15.1",
     "ajv": "8.17.1",
     "bufferutil": "4.0.9",
     "dedent": "1.5.3",
