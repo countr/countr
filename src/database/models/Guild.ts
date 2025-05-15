@@ -4,12 +4,14 @@ import type { Snowflake } from "discord.js";
 import { getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
 import { PropType, Severity } from "@typegoose/typegoose/lib/internal/constants";
 import { Schema } from "mongoose";
+import { inspect } from "util";
 import type { Action } from "../../constants/flows/actions";
 import type actions from "../../constants/flows/actions";
 import type modules from "../../constants/modules";
 import type { Trigger } from "../../constants/triggers";
 import type triggers from "../../constants/triggers";
 import numberSystems from "../../constants/numberSystems";
+import databaseLogger from "../../utils/logger/database";
 
 @modelOptions({ schemaOptions: { _id: false } })
 export class CountSchema {
@@ -99,17 +101,20 @@ export class GuildSchema {
     return null;
   }
 
-  // we can't save in parallell, and although we can await the guild.save(), that would not work across files.
+  // we can't save in parallel, and although we can await the guild.save(), that would not work across files.
   safeSave(this: GuildDocument): void {
     if (saveQueue.has(this.guildId)) return void saveQueue.set(this.guildId, 2);
 
     saveQueue.set(this.guildId, 1);
-    return void this.save().then(() => {
-      if (saveQueue.get(this.guildId) === 2) {
-        saveQueue.delete(this.guildId);
-        this.safeSave();
-      } else saveQueue.delete(this.guildId);
-    });
+    return void this.save()
+      .catch((err: unknown) => void databaseLogger.error(`Failed to save guild: ${inspect(err)}`))
+      // regardless if the save succeeded or not, we remove it from the queue
+      .finally(() => {
+        if (saveQueue.get(this.guildId) === 2) {
+          saveQueue.delete(this.guildId);
+          this.safeSave();
+        } else saveQueue.delete(this.guildId);
+      });
   }
 }
 
