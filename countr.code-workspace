@@ -1,0 +1,26 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"editor.defaultFormatter": "dbaeumer.vscode-eslint",
+		"editor.formatOnSave": true,
+		"editor.formatOnPaste": true,
+    "editor.tabSize": 2,
+		"eslint.enable": true,
+		"eslint.validate": ["javascript", "typescript"],
+		"files.exclude": {
+			"**/.node_modules": true,
+			"build": true,
+		},
+		"typescript.tsdk": "node_modules/typescript/lib"
+	},
+	"extensions": {
+		"recommendations": [
+			"aaron-bond.better-comments",
+			"dbaeumer.vscode-eslint",
+		]
+	}
+}
