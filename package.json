@@ -51,7 +51,7 @@
     "time-limited-regular-expressions": "1.0.0",
     "winston": "3.17.0",
     "winston-daily-rotate-file": "5.0.0",
-    "ws": "8.18.2",
+    "ws": "8.18.3",
     "zlib-sync": "0.1.10"
   },
   "devDependencies": {
