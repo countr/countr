@@ -13,7 +13,7 @@ import { addToWeeklyCount } from "./weeklyCount";
 const wss = new WebSocketServer({ port: config.websocket.port });
 
 const clusterWebsockets = new Map<number, WebSocket>();
-const clusterRequestStatsIntervals = new Map<number, NodeJS.Timeout | NodeJS.Timer>();
+const clusterRequestStatsIntervals = new Map<number, NodeJS.Timeout>();
 const clusterConnectQueue = new Set<number>();
 
 wss.on("connection", ws => {
