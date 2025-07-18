@@ -1,7 +1,7 @@
 const maxTimeoutValue = 2147483647;
 
 // eslint-disable-next-line import/prefer-default-export -- this is an util file, there shouldn't be a default export
-export function setSafeTimeout(callback: () => void, ms: number): Promise<NodeJS.Timer> {
+export function setSafeTimeout(callback: () => void, ms: number): Promise<NodeJS.Timeout> {
   return new Promise(resolve => {
     void (async () => {
       if (ms > maxTimeoutValue) {

@@ -19,8 +19,8 @@ const command: ChatInputCommand = {
     await interaction.deferReply({ ephemeral });
 
     // set up timer variables here so we can cancel later
-    let queueUpdate: NodeJS.Timer | null = null;
-    let updateProgress: NodeJS.Timer | null = null;
+    let queueUpdate: NodeJS.Timeout | null = null;
+    let updateProgress: NodeJS.Timeout | null = null;
 
     // set up cancel button
     let cancelled = false;
