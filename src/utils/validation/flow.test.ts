@@ -32,6 +32,23 @@ test("should accept valid flow", () => {
       }
     ]
   }`)).toBeTruthy();
+
+  // Test the new userHasRole trigger
+  expect(parseFlow(`{
+    "name": "Role Test",
+    "triggers": [
+      {
+        "type": "userHasRole",
+        "data": [ [ "110090225929191424", "110090225929191425" ] ]
+      }
+    ],
+    "actions": [
+      {
+        "type": "giveRole",
+        "data": [ [ "110090225929191426" ] ]
+      }
+    ]
+  }`)).toBeTruthy();
 });
 
 test("should reject invalid flow", () => {
