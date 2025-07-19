@@ -9,6 +9,7 @@ import regex from "./regex";
 import score from "./score";
 import scoreGreater from "./scoreGreater";
 import timeout from "./timeout";
+import userHasRole from "./userHasRole";
 
 
 export interface Trigger<TriggerPropertyData extends PropertyValue[] = PropertyValue[]> {
@@ -31,4 +32,5 @@ export default {
   timeout,
   greater,
   scoreGreater,
+  userHasRole,
 } as const;
