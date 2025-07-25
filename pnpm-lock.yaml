@@ -42,8 +42,8 @@ importers:
         specifier: 8.1.0
         version: 8.1.0
       match-sorter:
-        specifier: 8.0.3
-        version: 8.0.3
+        specifier: 8.1.0
+        version: 8.1.0
       mongoose:
         specifier: 8.16.4
         version: 8.16.4
@@ -2255,8 +2255,8 @@ packages:
   makeerror@1.0.12:
     resolution: {integrity: sha512-JmqCvUhmt43madlpFzG4BQzG2Z3m6tvQDNKdClZnO3VbIudJYmxsT0FNJMeiB2+JTSlTQTSbU8QdesVmwJcmLg==}
 
-  match-sorter@8.0.3:
-    resolution: {integrity: sha512-BnR/YBS1iO94R3EcseKkb7kJ2w2su5CWmywHvFYv70HQ2syqca79JefoGocMK+G1NOdpV2kt0G3uQb5hcdFtIA==}
+  match-sorter@8.1.0:
+    resolution: {integrity: sha512-0HX3BHPixkbECX+Vt7nS1vJ6P2twPgGTU3PMXjWrl1eyVCL24tFHeyYN1FN5RKLzve0TyzNI9qntqQGbebnfPQ==}
 
   math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
@@ -6021,7 +6021,7 @@ snapshots:
     dependencies:
       tmpl: 1.0.5
 
-  match-sorter@8.0.3:
+  match-sorter@8.1.0:
     dependencies:
       '@babel/runtime': 7.27.6
       remove-accents: 0.5.0
