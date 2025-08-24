@@ -63,6 +63,7 @@ export default {
     access: {
       interval: parseInt(process.env["ACCESS_INTERVAL"] ?? "", 10) || 30000,
       webhookLog: process.env["ACCESS_WEBHOOK_LOG"],
+      ignoredGuilds: (process.env["ACCESS_IGNORED_GUILDS"] ?? "").split(",").filter(Boolean),
     },
   },
 
