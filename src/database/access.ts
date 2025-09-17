@@ -1,4 +1,5 @@
 import type { Snowflake } from "discord.js";
+import config from "../config";
 import { Access } from "./models/Access";
 
 export function checkGuildAccess(guildId: Snowflake): Promise<boolean> {
@@ -7,5 +8,16 @@ export function checkGuildAccess(guildId: Snowflake): Promise<boolean> {
 
 export async function filterGuildsWithAccess(guildIds: Snowflake[]): Promise<Snowflake[]> {
   const accessDocuments = await Access.find({ guildIds: { $in: guildIds } });
-  return guildIds.filter(guildId => accessDocuments.some(accessDocument => accessDocument.guildIds.includes(guildId)));
+  const guildsWithAccess = guildIds.filter(guildId => accessDocuments.some(accessDocument => accessDocument.guildIds.includes(guildId)));
+
+  // add ignored guilds from configuration if they are in the input list but not already included
+  if (config.access?.ignoredGuilds) {
+    for (const ignoredGuildId of config.access.ignoredGuilds) {
+      if (guildIds.includes(ignoredGuildId) && !guildsWithAccess.includes(ignoredGuildId)) {
+        guildsWithAccess.push(ignoredGuildId);
+      }
+    }
+  }
+
+  return guildsWithAccess;
 }
