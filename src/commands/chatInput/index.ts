@@ -47,6 +47,7 @@ export const slashCommandPermissions: Record<string, PermissionLevel> = {
   timeoutrole: PermissionLevel.Admin,
   about: PermissionLevel.None,
   count: PermissionLevel.None,
+  help: PermissionLevel.None,
   leaderboard: PermissionLevel.None,
   modules: PermissionLevel.Admin,
   ping: PermissionLevel.None,
