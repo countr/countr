@@ -1,83 +1,167 @@
-[![Docker test](https://img.shields.io/github/actions/workflow/status/countr/countr/docker-compose-test.yml)](https://github.com/countr/countr/actions/workflows/docker-compose-test.yml)
-[![Linting](https://img.shields.io/github/actions/workflow/status/countr/countr/linting.yml?label=quality)](https://github.com/countr/countr/actions/workflows/linting.yml)
-[![Testing](https://img.shields.io/github/actions/workflow/status/countr/countr/testing.yml?label=test)](https://github.com/countr/countr/actions/workflows/testing.yml)
-[![DeepScan grade](https://deepscan.io/api/teams/16173/projects/19382/branches/641642/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=16173&pid=19382&bid=641642)
-[![discord.js version](https://img.shields.io/github/package-json/dependency-version/countr/countr/discord.js)](https://www.npmjs.com/package/discord.js)
-[![GitHub Issues](https://img.shields.io/github/issues-raw/countr/countr.svg)](https://github.com/countr/countr/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr-raw/countr/countr.svg)](https://github.com/countr/countr/pulls)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://socialify.git.ci/countr/countr/image?description=1&font=Inter&forks=1&language=1&name=1&owner=1&pattern=Plus&stargazers=1&theme=Dark">
+  <img alt="Countr - Advanced Discord counting bot" src="https://socialify.git.ci/countr/countr/image?description=1&font=Inter&forks=1&language=1&name=1&owner=1&pattern=Plus&stargazers=1&theme=Light">
+</picture>
 
-# Countr
+# Explanation
 
-Countr is an advanced counting bot which can manage a counting channel in your guild. With a simple setup, your channel is ready.
+Countr is an advanced Discord counting bot that can manage counting channels in your server. With a simple setup, your counting channel is ready to go. The bot provides smart counting system with customizable rules, statistics tracking, anti-cheat protection, and extensive configuration options.
 
 Read more about Countr on our [website](https://countr.xyz)
 
-## Setup for self hosting
+# Self-hosting with Docker
+
+<details>
+<summary>Environment Configuration</summary>
 
 Copy the `example.env` to `.env` and fill in the values. Below is a table with a description for each environment variable. We've excluded some variables that are not needed for private use.
 
-| Variable     | Description                                                | Required    |
-|:-------------|:-----------------------------------------------------------|:------------|
-| `BOT_TOKEN`  | The token of the bot                                       | Yes         |
-| `API_PORT`   | The port of the API (just put it to something like `9123`) | Yes         |
-| `BOT_ID`     | The ID of the bot                                          | Recommended |
-| `OWNER`      | The ID of the owner                                        | Recommended |
-| `GUILD`      | The ID of your main guild                                  | Recommended |
-| `ADMINS`     | The IDs of the admins separated with a comma               | No          |
-| `IS_PREMIUM` | Whether the bot is premium or not (`true`/`false`)         | No          |
+| Variable | Description | Required | Example |
+|:---------|:------------|:---------|:--------|
+| `BOT_TOKEN` | The token of the bot | Yes | `NzI4NDkyNzYyNDg0MDQ...` |
+| `API_PORT` | The port of the API | Yes | `9123` |
+| `BOT_ID` | The ID of the bot | Recommended | `123456789012345678` |
+| `OWNER` | The ID of the owner | Recommended | `123456789012345678` |
+| `GUILD` | The ID of your main guild | Recommended | `123456789012345678` |
+| `ADMINS` | The IDs of the admins separated with a comma | No | `id1,id2,id3` |
+| `IS_PREMIUM` | Whether the bot is premium or not | No | `true` or `false` |
 
-Once you're done filling the values, you can do `npm run docker:up`. You can stop it using `npm run docker:down` and view logs using `npm run docker:logs` or by going to the `logs` directory.
+### Quick Start with Docker
 
-## Contributing and development
+Once you're done filling the values, you can start the bot using Docker:
 
-### Local development
+```bash
+# Start the bot in the background
+npm run docker:up
 
-You can set it up however you'd like, however we like to use [`nodemon`](https://nodemon.io/) to automatically restart our bot when changes are made. Doing local development in our way is a little complicated as you need three terminals open, as well as a mongo instance, but it should be fine.
+# View logs
+npm run docker:logs
 
-You can set up a temporary mongo instance using Docker: `docker run --name countr-dev-db -d mongo:4 --ports 27000:27000` - keep in mind this won't store your data when you stop the container. You can start and stop this instance with `docker start/stop countr-dev-db`. Your`DATABASE_URI` will be `mongodb://localhost:27000/countr`.
+# Stop the bot
+npm run docker:down
+```
 
-You still need your envoironment variables set up and stuff though, however there are different environment variables for local development. There's more advanced environment variables than the ones listed below, you can see them all in the [`src/config.ts`](src/config.ts) file.
+Logs will also be available in the `logs` directory.
 
-| Variable       | Description                                                | Required    |
-|:---------------|:-----------------------------------------------------------|:------------|
-| `BOT_TOKEN`    | The token of the bot                                       | Yes         |
-| `DATABASE_URI` | The URI of the mongo instance                              | Yes         |
-| `BOT_ID`       | The ID of the bot                                          | Recommended |
-| `OWNER`        | The ID of the owner                                        | Recommended |
-| `GUILD`        | The ID of your main guild                                  | Recommended |
-| `ADMINS`       | The IDs of the admins separated with a comma               | No          |
-| `API_PORT`     | The port of the API                                        | No          |
-| `IS_PREMIUM`   | Whether the bot is premium or not (`true`/`false`)         | No          |
+</details>
 
-- Terminal 1: `npm run watch`
-  - This will compile our TypeScript to JavaScript and will put it in the `build` folder.
-- Terminal 2: `npm run start:manager`
-  - This will start the manager. We don't use nodemon for this as we rarely edit the manager's code anyways. It will also bug out if we use nodemon on both instances.
-- Terminal 3: `nodemon -d 0.1 --watch build`
-  - This will start the bot, and will watch for any changes in the `build` folder.
+# Local Development
 
-Once your code is finished, make sure it's all linted. You can run `npm run lint:fix` to see any non-autofixable linting errors.
+<details>
+<summary>Local Development Setup</summary>
 
-### GitHub Codespaces (Devcontainer)
+### Prerequisites
 
-For those of you that have GitHub Pro, or in other ways have access to [GitHub Codespaces](https://github.com/codespaces), you can use a Codespace to work on Countr. We use this ourselves, and it's quite easy to set up. Just [click here](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=171858090) to create a new Codespace of this repository.
+- Node.js 22+ (see `.nvmrc`)
+- MongoDB instance
+- Discord bot application
 
-It will take a few minutes to set up, but once it's done, you can start working on Countr, but all your necessary tools will be installed automatically, including a Mongo database. A pre-configured `.env` file will be created for you, all you need to do is fill in the missing values.
+### Development Environment Variables
 
-You will still need to set up the three terminals mentioned in the local development section.
+For local development, you'll need additional environment variables. See all available options in [`src/config.ts`](src/config.ts).
 
-## Suggestions, bugs, feature requests
+| Variable | Description | Required | Example |
+|:---------|:------------|:---------|:--------|
+| `BOT_TOKEN` | The token of the bot | Yes | `NzI4NDkyNzYyNDg0MDQ...` |
+| `DATABASE_URI` | The URI of the mongo instance | Yes | `mongodb://localhost:27000/countr` |
+| `BOT_ID` | The ID of the bot | Recommended | `123456789012345678` |
+| `OWNER` | The ID of the owner | Recommended | `123456789012345678` |
+| `GUILD` | The ID of your main guild | Recommended | `123456789012345678` |
+| `ADMINS` | The IDs of the admins separated with a comma | No | `id1,id2,id3` |
+| `API_PORT` | The port of the API | No | `9123` |
+| `IS_PREMIUM` | Whether the bot is premium or not | No | `true` or `false` |
 
-Want to contribute? Great, we love that! Please take your time on [opening a new issue](https://github.com/countr/countr/issues/new).
+### MongoDB Setup
+
+Set up a temporary MongoDB instance using Docker:
+
+```bash
+# Start a temporary mongo instance (data won't persist when stopped)
+docker run --name countr-dev-db -d -p 27000:27017 mongo:4
+
+# Start/stop the instance
+docker start countr-dev-db
+docker stop countr-dev-db
+```
+
+Your `DATABASE_URI` will be `mongodb://localhost:27000/countr`.
+
+### Development Workflow
+
+You'll need three terminals open for development:
+
+**Terminal 1** - TypeScript Compiler
+```bash
+npm run watch
+```
+*Compiles TypeScript to JavaScript and watches for changes*
+
+**Terminal 2** - Manager Process  
+```bash
+npm run start:manager
+```
+*Starts the cluster manager (restart manually when needed)*
+
+**Terminal 3** - Bot Process
+```bash
+nodemon -d 0.1 --watch build
+```
+*Starts the bot and auto-restarts on changes to the build folder*
+
+### Code Quality
+
+Before submitting your code, ensure it passes linting:
+
+```bash
+# Fix auto-fixable issues and show remaining problems
+npm run lint:fix
+
+# Run all tests
+npm test
+```
+
+</details>
+
+# Contributing
+
+We welcome contributions from the community! Here's how you can help:
+
+## Bug Reports & Feature Requests
+
+Have a bug to report or a feature idea? We'd love to hear from you! Please take your time on [opening a new issue](https://github.com/countr/countr/issues/new).
+
+## Code Contributions
+
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add some amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
+
+**Please ensure your code:**
+- Follows our ESLint configuration
+- Includes appropriate tests
+- Is well-documented
+
+## Community & Support
+
+- **Discord Server**: [Join our community](https://promise.solutions/discord)
+- **Website**: [countr.xyz](https://countr.xyz)
+- **Issues**: Use GitHub Issues for bug reports and feature requests
+
+> **Note**: The issue tracker is only for bug reports and enhancement suggestions. For questions, please ask in our Discord server.
 
 ## Contributors
 
 You can see all contributors and their GitHub-profiles [here](https://github.com/countr/countr/graphs/contributors).
 
-## License
+# License
 
-We use the GNU GPLv3-license.
+This project is licensed under the **GNU General Public License v3.0**.
 
-> You may copy, distribute and modify the software as long as you track changes/dates in source files. Any modifications to or software including (via compiler) GPL-licensed code must also be made available under the GPL along with build & install instructions.
+> **TL;DR**: You may copy, distribute and modify the software as long as you track changes/dates in source files. Any modifications to or software including (via compiler) GPL-licensed code must also be made available under the GPL along with build & install instructions.
 
-Fetched from [TLDRLegal](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)), please also read the [license](https://github.com/countr/countr/blob/master/LICENSE) if you plan on using the source code. This is only a short summary. Please also take note of that we are not forced to help you, and we won't help you host it yourself as we do not recommend you doing so.
+**Important Notes:**
+- Read the full [license text](LICENSE) if you plan on using the source code
+- We are not obligated to provide support for self-hosted instances
+- We do not recommend self-hosting for production use
