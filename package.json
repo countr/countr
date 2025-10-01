@@ -62,7 +62,7 @@
     "@types/express": "5.0.3",
     "@types/jest": "30.0.0",
     "@types/morgan": "1.9.10",
-    "@types/node": "22.18.7",
+    "@types/node": "22.18.8",
     "@types/time-limited-regular-expressions": "1.0.2",
     "@types/ws": "8.18.1",
     "eslint": "9.36.0",
