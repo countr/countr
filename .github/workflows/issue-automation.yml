@@ -7,7 +7,7 @@ jobs:
     name: Greet new users
     runs-on: self-hosted
     steps:
-    - uses: actions/first-interaction@2d4393e6bc0e2efb2e48fba7e06819c3bf61ffc9 # v2
+    - uses: actions/first-interaction@1c4688942c71f71d4f5502a26ea67c331730fa4d # v3
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         issue-message: 'If this is an issue you''re having, please close the issue and go to our support server instead: https://promise.solutions/support'
