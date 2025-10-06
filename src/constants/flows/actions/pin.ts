@@ -6,11 +6,17 @@ const pin: Action<never> = {
   explanation: () => "Pin the count",
   run: async ({ countingMessage }) => {
     let fetchedPins = await countingMessage.channel.messages.fetchPins({ limit: 50 }).catch(() => null);
-    let oldestPin = Array.from(fetchedPins?.items ?? []).sort((a, b) => a.pinnedAt.getTime() - b.pinnedAt.getTime())[0] ?? null;
+    let oldestPin = Array.from(fetchedPins?.items ?? []).reduce((min, curr) => {
+      if (!min || curr.pinnedAt.getTime() < min.pinnedAt.getTime()) return curr;
+      return min;
+    }, null as MessagePin | null) ?? null;
     const pinned: MessagePin[] = Array.from(fetchedPins?.items ?? []);
     while (fetchedPins?.hasMore && oldestPin) {
       fetchedPins = await countingMessage.channel.messages.fetchPins({ before: oldestPin.pinnedAt, limit: 50 }).catch(() => null);
-      oldestPin = Array.from(fetchedPins?.items ?? []).sort((a, b) => a.pinnedAt.getTime() - b.pinnedAt.getTime())[0] ?? null;
+      oldestPin = Array.from(fetchedPins?.items ?? []).reduce((min, curr) => {
+        if (!min || curr.pinnedAt.getTime() < min.pinnedAt.getTime()) return curr;
+        return min;
+      }, null as MessagePin | null) ?? null;
       pinned.push(...fetchedPins?.items ?? []);
     }
 
