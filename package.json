@@ -39,7 +39,7 @@
     "ajv": "8.17.1",
     "bufferutil": "4.0.9",
     "dedent": "1.7.0",
-    "discord.js": "14.22.1",
+    "discord.js": "14.23.2",
     "dotenv": "17.2.3",
     "express": "5.1.0",
     "express-rate-limit": "8.1.0",
