@@ -65,7 +65,7 @@
     "@types/node": "22.19.0",
     "@types/time-limited-regular-expressions": "1.0.2",
     "@types/ws": "8.18.1",
-    "eslint": "9.38.0",
+    "eslint": "9.39.1",
     "eslint-config-promise": "github:promise/eslint-config",
     "jest": "30.2.0",
     "ts-jest": "29.4.5",
