@@ -57,7 +57,7 @@
   "devDependencies": {
     "@total-typescript/ts-reset": "0.6.1",
     "@tsconfig/node22": "22.0.3",
-    "@tsconfig/strictest": "2.0.7",
+    "@tsconfig/strictest": "2.0.8",
     "@types/dedent": "0.7.2",
     "@types/express": "5.0.5",
     "@types/jest": "30.0.0",
