@@ -42,8 +42,8 @@ importers:
         specifier: 8.1.0
         version: 8.1.0
       match-sorter:
-        specifier: 8.1.0
-        version: 8.1.0
+        specifier: 8.2.0
+        version: 8.2.0
       mongoose:
         specifier: 8.16.5
         version: 8.16.5
@@ -104,7 +104,7 @@ importers:
         version: 9.39.1(jiti@1.21.7)
       eslint-config-promise:
         specifier: github:promise/eslint-config
-        version: https://codeload.github.com/promise/eslint-config/tar.gz/85f361e8f712d3f9264564fa305ff6a29fcc7200(fe9f74a38845fd4a69ac740a2e8ce400)
+        version: https://codeload.github.com/promise/eslint-config/tar.gz/cf1ddf970e6a29cc433af079c1a4017ddb9fd479(fe9f74a38845fd4a69ac740a2e8ce400)
       jest:
         specifier: 30.2.0
         version: 30.2.0(@types/node@22.19.1)
@@ -1391,8 +1391,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/85f361e8f712d3f9264564fa305ff6a29fcc7200:
-    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/85f361e8f712d3f9264564fa305ff6a29fcc7200}
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/cf1ddf970e6a29cc433af079c1a4017ddb9fd479:
+    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/cf1ddf970e6a29cc433af079c1a4017ddb9fd479}
     version: 0.0.0
     peerDependencies:
       '@stylistic/eslint-plugin-js': 4.2.0
@@ -2222,8 +2222,8 @@ packages:
   makeerror@1.0.12:
     resolution: {integrity: sha512-JmqCvUhmt43madlpFzG4BQzG2Z3m6tvQDNKdClZnO3VbIudJYmxsT0FNJMeiB2+JTSlTQTSbU8QdesVmwJcmLg==}
 
-  match-sorter@8.1.0:
-    resolution: {integrity: sha512-0HX3BHPixkbECX+Vt7nS1vJ6P2twPgGTU3PMXjWrl1eyVCL24tFHeyYN1FN5RKLzve0TyzNI9qntqQGbebnfPQ==}
+  match-sorter@8.2.0:
+    resolution: {integrity: sha512-qRVB7wYMJXizAWR4TKo5UYwgW7oAVzA8V9jve0wGzRvV91ou9dcqL+/2gJtD0PZ/Pm2Fq6cVT4VHXHmDFVMGRA==}
 
   math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
@@ -4805,7 +4805,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/85f361e8f712d3f9264564fa305ff6a29fcc7200(fe9f74a38845fd4a69ac740a2e8ce400):
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/cf1ddf970e6a29cc433af079c1a4017ddb9fd479(fe9f74a38845fd4a69ac740a2e8ce400):
     dependencies:
       '@stylistic/eslint-plugin-js': 4.2.0(eslint@9.39.1(jiti@1.21.7))
       '@stylistic/eslint-plugin-jsx': 4.2.0(eslint@9.39.1(jiti@1.21.7))
@@ -5922,7 +5922,7 @@ snapshots:
     dependencies:
       tmpl: 1.0.5
 
-  match-sorter@8.1.0:
+  match-sorter@8.2.0:
     dependencies:
       '@babel/runtime': 7.28.4
       remove-accents: 0.5.0
