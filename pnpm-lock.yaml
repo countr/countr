@@ -36,8 +36,8 @@ importers:
         specifier: 5.1.0
         version: 5.1.0
       express-rate-limit:
-        specifier: 8.1.0
-        version: 8.1.0(express@5.1.0)
+        specifier: 8.2.1
+        version: 8.2.1(express@5.1.0)
       helmet:
         specifier: 8.1.0
         version: 8.1.0
@@ -104,7 +104,7 @@ importers:
         version: 9.39.1(jiti@1.21.7)
       eslint-config-promise:
         specifier: github:promise/eslint-config
-        version: https://codeload.github.com/promise/eslint-config/tar.gz/cf1ddf970e6a29cc433af079c1a4017ddb9fd479(fe9f74a38845fd4a69ac740a2e8ce400)
+        version: https://codeload.github.com/promise/eslint-config/tar.gz/6824c9e1bbda4a336733bee19284904aec1c7a7b(fe9f74a38845fd4a69ac740a2e8ce400)
       jest:
         specifier: 30.2.0
         version: 30.2.0(@types/node@22.19.1)
@@ -1391,8 +1391,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/cf1ddf970e6a29cc433af079c1a4017ddb9fd479:
-    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/cf1ddf970e6a29cc433af079c1a4017ddb9fd479}
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/6824c9e1bbda4a336733bee19284904aec1c7a7b:
+    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/6824c9e1bbda4a336733bee19284904aec1c7a7b}
     version: 0.0.0
     peerDependencies:
       '@stylistic/eslint-plugin-js': 4.2.0
@@ -1536,8 +1536,8 @@ packages:
     resolution: {integrity: sha512-u/feCi0GPsI+988gU2FLcsHyAHTU0MX1Wg68NhAnN7z/+C5wqG+CY8J53N9ioe8RXgaoz0nBR/TYMf3AycUuPw==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
 
-  express-rate-limit@8.1.0:
-    resolution: {integrity: sha512-4nLnATuKupnmwqiJc27b4dCFmB/T60ExgmtDD7waf4LdrbJ8CPZzZRHYErDYNhoz+ql8fUdYwM/opf90PoPAQA==}
+  express-rate-limit@8.2.1:
+    resolution: {integrity: sha512-PCZEIEIxqwhzw4KF0n7QF4QqruVTcF73O5kFKUnGOyjbCCgizBBiFaYpd/fnBLUMPw/BWw9OsiN7GgrNYr7j6g==}
     engines: {node: '>= 16'}
     peerDependencies:
       express: '>= 4.11'
@@ -4805,7 +4805,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/cf1ddf970e6a29cc433af079c1a4017ddb9fd479(fe9f74a38845fd4a69ac740a2e8ce400):
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/6824c9e1bbda4a336733bee19284904aec1c7a7b(fe9f74a38845fd4a69ac740a2e8ce400):
     dependencies:
       '@stylistic/eslint-plugin-js': 4.2.0(eslint@9.39.1(jiti@1.21.7))
       '@stylistic/eslint-plugin-jsx': 4.2.0(eslint@9.39.1(jiti@1.21.7))
@@ -5011,7 +5011,7 @@ snapshots:
       jest-mock: 30.2.0
       jest-util: 30.2.0
 
-  express-rate-limit@8.1.0(express@5.1.0):
+  express-rate-limit@8.2.1(express@5.1.0):
     dependencies:
       express: 5.1.0
       ip-address: 10.0.1
