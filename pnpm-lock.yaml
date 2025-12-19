@@ -16,7 +16,7 @@ importers:
         version: 2.6.0
       '@typegoose/typegoose':
         specifier: 12.20.0
-        version: 12.20.0(mongoose@8.20.3)
+        version: 12.20.0(mongoose@8.20.4)
       ajv:
         specifier: 8.17.1
         version: 8.17.1
@@ -45,8 +45,8 @@ importers:
         specifier: 8.2.0
         version: 8.2.0
       mongoose:
-        specifier: 8.20.3
-        version: 8.20.3
+        specifier: 8.20.4
+        version: 8.20.4
       morgan:
         specifier: 1.10.1
         version: 1.10.1
@@ -2332,8 +2332,8 @@ packages:
       socks:
         optional: true
 
-  mongoose@8.20.3:
-    resolution: {integrity: sha512-AQk63Ry4YM/lWJRt/D5P7UiRjKT+z+vD0NkNKgeQ35TioBC7kuI6wBzhu6/kyrNXg+WotFidW1icEWLNC1rUfg==}
+  mongoose@8.20.4:
+    resolution: {integrity: sha512-o4ABeT3IEk1Z4dGt3XjHJ0x9OjyWvakC1+btPpzWqCovqyidKGdbB05/g87cdh7AuWXFQKHOxt+L/OZOBps4hw==}
     engines: {node: '>=16.20.1'}
 
   morgan@1.10.1:
@@ -3898,11 +3898,11 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
-  '@typegoose/typegoose@12.20.0(mongoose@8.20.3)':
+  '@typegoose/typegoose@12.20.0(mongoose@8.20.4)':
     dependencies:
       lodash: 4.17.21
       loglevel: 1.9.2
-      mongoose: 8.20.3
+      mongoose: 8.20.4
       reflect-metadata: 0.2.2
       semver: 7.7.3
       tslib: 2.8.1
@@ -5994,7 +5994,7 @@ snapshots:
       bson: 6.10.4
       mongodb-connection-string-url: 3.0.2
 
-  mongoose@8.20.3:
+  mongoose@8.20.4:
     dependencies:
       bson: 6.10.4
       kareem: 2.6.3
