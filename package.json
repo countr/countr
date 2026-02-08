@@ -37,7 +37,7 @@
     "@sapphire/type": "2.6.0",
     "@typegoose/typegoose": "13.1.0",
     "ajv": "8.17.1",
-    "bufferutil": "4.0.9",
+    "bufferutil": "4.1.0",
     "dedent": "1.7.1",
     "discord.js": "14.22.1",
     "dotenv": "17.2.4",
