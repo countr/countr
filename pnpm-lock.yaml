@@ -16,7 +16,7 @@ importers:
         version: 2.6.0
       '@typegoose/typegoose':
         specifier: 13.1.0
-        version: 13.1.0(mongoose@9.1.6)
+        version: 13.1.0(mongoose@9.2.1)
       ajv:
         specifier: 8.17.1
         version: 8.17.1
@@ -45,8 +45,8 @@ importers:
         specifier: 8.2.0
         version: 8.2.0
       mongoose:
-        specifier: 9.1.6
-        version: 9.1.6
+        specifier: 9.2.1
+        version: 9.2.1
       morgan:
         specifier: 1.10.1
         version: 1.10.1
@@ -2156,8 +2156,8 @@ packages:
     resolution: {integrity: sha512-ZZow9HBI5O6EPgSJLUb8n2NKgmVWTwCvHGwFuJlMjvLFqlGG6pjirPhtdsseaLZjSibD8eegzmYpUZwoIlj2cQ==}
     engines: {node: '>=4.0'}
 
-  kareem@3.0.0:
-    resolution: {integrity: sha512-RKhaOBSPN8L7y4yAgNhDT2602G5FD6QbOIISbjN9D6mjHPeqeg7K+EB5IGSU5o81/X2Gzm3ICnAvQW3x3OP8HA==}
+  kareem@3.2.0:
+    resolution: {integrity: sha512-VS8MWZz/cT+SqBCpVfNN4zoVz5VskR3N4+sTmUXme55e9avQHntpwpNq0yjnosISXqwJ3AQVjlbI4Dyzv//JtA==}
     engines: {node: '>=18.0.0'}
 
   keyv@4.5.4:
@@ -2342,8 +2342,8 @@ packages:
       socks:
         optional: true
 
-  mongoose@9.1.6:
-    resolution: {integrity: sha512-ZrtgRsJKtW3od36TVXtAnrNHOO3rqhsqfVut6IzyWyJeLLeLTqW66qej/0qB37GZd5jL06nHfAceTikkfnSqbA==}
+  mongoose@9.2.1:
+    resolution: {integrity: sha512-fmNLwgct5km7iL1MqvTMncarR1E1TIw2lmc9A4UoDVdS7AQe95K+DnRK0qATkSUdwUC9V/5wlDcqnkQQjbSRkA==}
     engines: {node: '>=20.19.0'}
 
   morgan@1.10.1:
@@ -3909,11 +3909,11 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
-  '@typegoose/typegoose@13.1.0(mongoose@9.1.6)':
+  '@typegoose/typegoose@13.1.0(mongoose@9.2.1)':
     dependencies:
       lodash: 4.17.23
       loglevel: 1.9.2
-      mongoose: 9.1.6
+      mongoose: 9.2.1
       reflect-metadata: 0.2.2
       semver: 7.7.3
       tslib: 2.8.1
@@ -5865,7 +5865,7 @@ snapshots:
       object.assign: 4.1.7
       object.values: 1.2.1
 
-  kareem@3.0.0: {}
+  kareem@3.2.0: {}
 
   keyv@4.5.4:
     dependencies:
@@ -6005,9 +6005,9 @@ snapshots:
       bson: 7.1.1
       mongodb-connection-string-url: 7.0.1
 
-  mongoose@9.1.6:
+  mongoose@9.2.1:
     dependencies:
-      kareem: 3.0.0
+      kareem: 3.2.0
       mongodb: 7.0.0
       mpath: 0.9.0
       mquery: 6.0.0
