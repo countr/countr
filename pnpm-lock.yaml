@@ -15,8 +15,8 @@ importers:
         specifier: 2.6.0
         version: 2.6.0
       '@typegoose/typegoose':
-        specifier: 13.1.0
-        version: 13.1.0(mongoose@9.1.6)
+        specifier: 13.2.1
+        version: 13.2.1(mongoose@9.3.0)
       ajv:
         specifier: 8.17.1
         version: 8.17.1
@@ -45,8 +45,8 @@ importers:
         specifier: 8.2.0
         version: 8.2.0
       mongoose:
-        specifier: 9.1.6
-        version: 9.1.6
+        specifier: 9.3.0
+        version: 9.3.0
       morgan:
         specifier: 1.10.1
         version: 1.10.1
@@ -104,7 +104,7 @@ importers:
         version: 9.39.4(jiti@1.21.7)
       eslint-config-promise:
         specifier: github:promise/eslint-config
-        version: https://codeload.github.com/promise/eslint-config/tar.gz/a0fcce24ddfc75c59a0de72dc42997080a907f59(8c7ede005e5fbd15f8d5e8a1121c9a66)
+        version: https://codeload.github.com/promise/eslint-config/tar.gz/ae3f977e8628756c339ace705dc8495283ddfe17(8c7ede005e5fbd15f8d5e8a1121c9a66)
       jest:
         specifier: 30.3.0
         version: 30.3.0(@types/node@22.19.15)
@@ -607,11 +607,11 @@ packages:
   '@tybys/wasm-util@0.10.1':
     resolution: {integrity: sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg==}
 
-  '@typegoose/typegoose@13.1.0':
-    resolution: {integrity: sha512-ZAD209rhEGHNJ3eBqeFl2guUXgKGgR6xTP6LNmxciN6GbdznqLLdX4nsm2wafQpd4bxb8v0vmHe4z4QvVIj8CQ==}
+  '@typegoose/typegoose@13.2.1':
+    resolution: {integrity: sha512-RGoaTYTy2P7RQ81Pr+LWS5bhmcGMsL5w3X6GPT16HK8NC7fC3WwUnPrsT92xRyRXByUIA3rTCIHq0uryck8Vpw==}
     engines: {node: '>=20.19.0'}
     peerDependencies:
-      mongoose: ~9.1.4
+      mongoose: ~9.2.2
 
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
@@ -1420,8 +1420,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/a0fcce24ddfc75c59a0de72dc42997080a907f59:
-    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/a0fcce24ddfc75c59a0de72dc42997080a907f59}
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/ae3f977e8628756c339ace705dc8495283ddfe17:
+    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/ae3f977e8628756c339ace705dc8495283ddfe17}
     version: 0.0.0
     peerDependencies:
       '@stylistic/eslint-plugin-js': 4.2.0
@@ -2209,8 +2209,8 @@ packages:
     resolution: {integrity: sha512-ZZow9HBI5O6EPgSJLUb8n2NKgmVWTwCvHGwFuJlMjvLFqlGG6pjirPhtdsseaLZjSibD8eegzmYpUZwoIlj2cQ==}
     engines: {node: '>=4.0'}
 
-  kareem@3.0.0:
-    resolution: {integrity: sha512-RKhaOBSPN8L7y4yAgNhDT2602G5FD6QbOIISbjN9D6mjHPeqeg7K+EB5IGSU5o81/X2Gzm3ICnAvQW3x3OP8HA==}
+  kareem@3.2.0:
+    resolution: {integrity: sha512-VS8MWZz/cT+SqBCpVfNN4zoVz5VskR3N4+sTmUXme55e9avQHntpwpNq0yjnosISXqwJ3AQVjlbI4Dyzv//JtA==}
     engines: {node: '>=18.0.0'}
 
   keyv@4.5.4:
@@ -2372,8 +2372,8 @@ packages:
     resolution: {integrity: sha512-h0AZ9A7IDVwwHyMxmdMXKy+9oNlF0zFoahHiX3vQ8e3KFcSP3VmsmfvtRSuLPxmyv2vjIDxqty8smTgie/SNRQ==}
     engines: {node: '>=20.19.0'}
 
-  mongodb@7.0.0:
-    resolution: {integrity: sha512-vG/A5cQrvGGvZm2mTnCSz1LUcbOPl83hfB6bxULKQ8oFZauyox/2xbZOoGNl+64m8VBrETkdGCDBdOsCr3F3jg==}
+  mongodb@7.1.0:
+    resolution: {integrity: sha512-kMfnKunbolQYwCIyrkxNJFB4Ypy91pYqua5NargS/f8ODNSJxT03ZU3n1JqL4mCzbSih8tvmMEMLpKTT7x5gCg==}
     engines: {node: '>=20.19.0'}
     peerDependencies:
       '@aws-sdk/credential-providers': ^3.806.0
@@ -2399,8 +2399,8 @@ packages:
       socks:
         optional: true
 
-  mongoose@9.1.6:
-    resolution: {integrity: sha512-ZrtgRsJKtW3od36TVXtAnrNHOO3rqhsqfVut6IzyWyJeLLeLTqW66qej/0qB37GZd5jL06nHfAceTikkfnSqbA==}
+  mongoose@9.3.0:
+    resolution: {integrity: sha512-Tv2p3DLBkftoGFp+VM/19k0t0RYPAAYjGIbCVGlV6Tf5Dnq6TICfYyeKeYvwQ06nK9sRDvymP3B+tjGHnUlaxw==}
     engines: {node: '>=20.19.0'}
 
   morgan@1.10.1:
@@ -3989,11 +3989,11 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
-  '@typegoose/typegoose@13.1.0(mongoose@9.1.6)':
+  '@typegoose/typegoose@13.2.1(mongoose@9.3.0)':
     dependencies:
       lodash: 4.17.23
       loglevel: 1.9.2
-      mongoose: 9.1.6
+      mongoose: 9.3.0
       reflect-metadata: 0.2.2
       semver: 7.7.4
       tslib: 2.8.1
@@ -4906,7 +4906,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/a0fcce24ddfc75c59a0de72dc42997080a907f59(8c7ede005e5fbd15f8d5e8a1121c9a66):
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/ae3f977e8628756c339ace705dc8495283ddfe17(8c7ede005e5fbd15f8d5e8a1121c9a66):
     dependencies:
       '@stylistic/eslint-plugin-js': 4.2.0(eslint@9.39.4(jiti@1.21.7))
       '@stylistic/eslint-plugin-jsx': 4.2.0(eslint@9.39.4(jiti@1.21.7))
@@ -6004,7 +6004,7 @@ snapshots:
       object.assign: 4.1.7
       object.values: 1.2.1
 
-  kareem@3.0.0: {}
+  kareem@3.2.0: {}
 
   keyv@4.5.4:
     dependencies:
@@ -6142,16 +6142,16 @@ snapshots:
       '@types/whatwg-url': 13.0.0
       whatwg-url: 14.2.0
 
-  mongodb@7.0.0:
+  mongodb@7.1.0:
     dependencies:
       '@mongodb-js/saslprep': 1.4.6
       bson: 7.2.0
       mongodb-connection-string-url: 7.0.1
 
-  mongoose@9.1.6:
+  mongoose@9.3.0:
     dependencies:
-      kareem: 3.0.0
-      mongodb: 7.0.0
+      kareem: 3.2.0
+      mongodb: 7.1.0
       mpath: 0.9.0
       mquery: 6.0.0
       ms: 2.1.3
