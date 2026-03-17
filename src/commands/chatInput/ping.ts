@@ -1,5 +1,5 @@
-import { msToHumanShortTime } from "../../utils/time";
 import type { ChatInputCommand } from ".";
+import { msToHumanShortTime } from "../../utils/time";
 
 const command: ChatInputCommand = {
   description: "Ping the bot",

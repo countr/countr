@@ -1,10 +1,10 @@
 import type { AnySelectMenuInteraction, ButtonInteraction } from "discord.js";
 import { ComponentType } from "discord.js";
 import type { ChatInputCommand } from "..";
+import type { NotificationSchema } from "../../../database/models/Guild";
 import promptProperty from "../../../constants/editors/properties";
 import limits from "../../../constants/limits";
 import triggers from "../../../constants/triggers";
-import type { NotificationSchema } from "../../../database/models/Guild";
 import { selectMenuComponents } from "../../../handlers/interactions/components";
 import { generateId } from "../../../utils/crypto";
 import { fitText } from "../../../utils/text";
@@ -28,7 +28,7 @@ const command: ChatInputCommand = {
           type: ComponentType.ActionRow,
           components: [
             {
-              type: ComponentType.SelectMenu,
+              type: ComponentType.StringSelect,
               placeholder: "Select a notification trigger",
               customId: `${interaction.id}:select_trigger`,
               minValues: 1,

@@ -1,9 +1,9 @@
-import { Status } from "discord.js";
 import type { WebSocket } from "ws";
+import { Status } from "discord.js";
 import { WebSocketServer } from "ws";
+import type { CommunicationMessage } from "../communication";
 import config from "../../../config";
 import managerLogger from "../../logger/manager";
-import type { CommunicationMessage } from "../communication";
 import { CommunicationType } from "../communication";
 import "./api";
 import { clusterList, getCombinedData, shardList } from "./lists";
@@ -13,7 +13,7 @@ import { addToWeeklyCount } from "./weeklyCount";
 const wss = new WebSocketServer({ port: config.websocket.port });
 
 const clusterWebsockets = new Map<number, WebSocket>();
-const clusterRequestStatsIntervals = new Map<number, NodeJS.Timeout | NodeJS.Timer>();
+const clusterRequestStatsIntervals = new Map<number, NodeJS.Timeout>();
 const clusterConnectQueue = new Set<number>();
 
 wss.on("connection", ws => {
@@ -126,6 +126,13 @@ wss.on("connection", ws => {
           ws.send(JSON.stringify(postCombinedData));
           break;
         }
+        // unreachable code
+        case CommunicationType.CTM_INITIALIZE:
+        case CommunicationType.MTC_NOTICE:
+        case CommunicationType.MTC_READY_TO_CONNECT:
+        case CommunicationType.MTC_REQUEST_STATS:
+        case CommunicationType.MTC_DELIVER_ALL_STATS:
+        case CommunicationType.MTC_POST_PRESENCE:
         default: managerLogger.warn(`Received unknown websocket message: ${JSON.stringify(message)}`);
       }
     });

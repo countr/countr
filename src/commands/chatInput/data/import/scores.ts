@@ -1,5 +1,4 @@
 import { ApplicationCommandOptionType } from "discord.js";
-import superagent from "superagent";
 import type { ChatInputCommand } from "../..";
 import { parseScores } from "../../../../utils/validation/scores";
 
@@ -19,7 +18,7 @@ const command: ChatInputCommand = {
     if (!attachment.url.split("?")[0]!.endsWith(".json")) return void interaction.reply({ content: "❌ This is not a valid file type.", ephemeral: true });
     if (attachment.size > 2_000_000) return void interaction.reply({ content: "❌ This file is too large, maximum file size is 2MB. For scores, this is roughly 50,000 entries. If you have more than this then you need to split up the file yourself.", ephemeral: true });
 
-    const request = superagent.get(attachment.url).then(res => res.text);
+    const request = fetch(attachment.url).then(res => res.text());
 
     return void Promise.all([request, interaction.deferReply({ ephemeral })]).then(([json]) => {
       const scores = parseScores(json);

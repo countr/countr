@@ -1,10 +1,10 @@
 import type { Client } from "discord.js";
 import { WebSocket } from "ws";
+import type { CommunicationMessage } from "./communication";
+import type { CombinedData, ShardData } from "./manager/lists";
 import config from "../../config";
 import mainLogger from "../logger/main";
-import type { CommunicationMessage } from "./communication";
 import { CommunicationType } from "./communication";
-import type { CombinedData, ShardData } from "./manager/lists";
 
 let allStats: CombinedData | null = null;
 export function getAllStats(): typeof allStats {
@@ -66,6 +66,11 @@ export function initializeWebsocket(client: Client): WebSocket {
         client.user?.setPresence(presence);
         break;
       }
+      // unreachable code
+      case CommunicationType.CTM_INITIALIZE:
+      case CommunicationType.CTM_SHARD_CONNECTED:
+      case CommunicationType.CTM_CLIENT_READY:
+      case CommunicationType.CTM_POST_STATS:
       default: mainLogger.warn(`Received unknown websocket message: ${JSON.stringify(message)}`);
     }
   });

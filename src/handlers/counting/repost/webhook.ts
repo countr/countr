@@ -1,6 +1,6 @@
-import { inspect } from "util";
 import type { GuildMember, Message, Snowflake, Webhook } from "discord.js";
 import { TextChannel } from "discord.js";
+import { inspect } from "util";
 import type { CountingChannelAllowedChannelType, CountingChannelRootChannel } from "../../../constants/discord";
 import countingLogger from "../../../utils/logger/counting";
 

@@ -1,11 +1,11 @@
 import type { InteractionReplyOptions, InteractionUpdateOptions, Snowflake } from "discord.js";
 import { ButtonStyle, ComponentType, escapeMarkdown } from "discord.js";
 import type { ChatInputCommand } from "..";
+import type { CountingChannelSchema, GuildDocument } from "../../../database/models/Guild";
 import { embedsPerMessage } from "../../../constants/discord";
 import { flowEditor } from "../../../constants/editors/flows";
 import actions from "../../../constants/flows/actions";
 import triggers from "../../../constants/triggers";
-import type { CountingChannelSchema, GuildDocument } from "../../../database/models/Guild";
 import { buttonComponents, selectMenuComponents } from "../../../handlers/interactions/components";
 import { handlePlural } from "../../../utils/text";
 
@@ -44,7 +44,7 @@ function refreshList(document: GuildDocument, [countingChannelId, countingChanne
         type: ComponentType.ActionRow,
         components: [
           {
-            type: ComponentType.SelectMenu,
+            type: ComponentType.StringSelect,
             placeholder: "Go to details of flow ...",
             minValues: 1,
             maxValues: 1,

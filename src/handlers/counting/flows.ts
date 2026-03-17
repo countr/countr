@@ -1,10 +1,10 @@
 import { inspect } from "util";
+import type { CountingData } from ".";
+import type { CountingChannelSchema, FlowSchema } from "../../database/models/Guild";
 import actions from "../../constants/flows/actions";
 import limits from "../../constants/limits";
 import triggers from "../../constants/triggers";
-import type { CountingChannelSchema, FlowSchema } from "../../database/models/Guild";
 import commandsLogger from "../../utils/logger/commands";
-import type { CountingData } from ".";
 
 export async function handleFlows(countingData: CountingData): Promise<void> {
   const flowsToTest = getActivatedFlows(countingData.countingChannel);

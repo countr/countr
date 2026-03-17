@@ -1,6 +1,6 @@
 import { escapeCodeBlock } from "discord.js";
-import { paragraphInput } from "./inputs";
 import type { Property } from ".";
+import { paragraphInput } from "./inputs";
 
 const text: Property<string> = {
   name: "Text",

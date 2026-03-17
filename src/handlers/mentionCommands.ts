@@ -1,15 +1,15 @@
+import type { Message, MessageEditOptions, MessageReplyOptions, Snowflake } from "discord.js";
+import { escapeInlineCode } from "discord.js";
 import { readdir } from "fs/promises";
 import { join } from "path";
 import { inspect } from "util";
-import type { Message, MessageEditOptions, MessageReplyOptions, Snowflake } from "discord.js";
-import { escapeInlineCode } from "discord.js";
 import type { MentionCommand } from "../commands/mention";
+import type { CountingChannelSchema, GuildDocument } from "../database/models/Guild";
 import { quickResponses } from "../commands/mention";
 import config from "../config";
 import { docsUrl } from "../constants/links";
 import { DebugCommandLevel } from "../constants/permissions";
 import selectedCountingChannels from "../constants/selectedCountingChannel";
-import type { CountingChannelSchema, GuildDocument } from "../database/models/Guild";
 import { legacyImportDefault } from "../utils/import";
 import commandsLogger from "../utils/logger/commands";
 import { fitText } from "../utils/text";
@@ -28,7 +28,7 @@ export default function mentionCommandHandler(message: Message<true>, document: 
     .catch((err: unknown) => commandsLogger.debug(`Error handling mention command from message ${message.url}, member ${message.author.id}: ${inspect(err)}`));
 }
 
-// eslint-disable-next-line complexity
+
 async function handleCommand(message: Message<true>, document: GuildDocument, existingReply?: Message): Promise<Message[]> {
   const args = message.content.split(" ").slice(1);
   const commandOrAlias = (args.shift() ?? "").toLowerCase();
@@ -60,7 +60,7 @@ async function handleCommand(message: Message<true>, document: GuildDocument, ex
   return [message, await command.execute(message, options => reply(options, message, existingReply), args, document, (selectedCountingChannel ?? [null, null]) as never)];
 }
 
-async function reply(optionsOrContent: string | MessageEditOptions & MessageReplyOptions, message: Message, existingReply?: Message): Promise<Message> {
+async function reply(optionsOrContent: MessageEditOptions & MessageReplyOptions | string, message: Message, existingReply?: Message): Promise<Message> {
   const options: MessageEditOptions & MessageReplyOptions = {
     allowedMentions: { repliedUser: true },
     components: [],

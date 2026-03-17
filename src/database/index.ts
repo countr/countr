@@ -1,5 +1,5 @@
-import { inspect } from "util";
 import mongoose from "mongoose";
+import { inspect } from "util";
 import config from "../config";
 import databaseLogger from "../utils/logger/database";
 

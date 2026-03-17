@@ -1,5 +1,5 @@
-import { shortInput } from "./inputs";
 import type { Property } from ".";
+import { shortInput } from "./inputs";
 
 const anyNumber: Property<number, string> = {
   name: "Number",

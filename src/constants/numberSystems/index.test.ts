@@ -1,6 +1,6 @@
 import numberSystems from ".";
 
-test.each(Object.keys(numberSystems))("test %s system", (name: string) => {
+test.each(Object.keys(numberSystems))("%s system", (name: string) => {
   const { convert, format } = numberSystems[name as unknown as keyof typeof numberSystems];
 
   // valid

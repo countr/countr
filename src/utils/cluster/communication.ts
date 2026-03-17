@@ -14,19 +14,19 @@ export enum CommunicationType {
   MTC_POST_PRESENCE,
 }
 
-interface Communication<T extends CommunicationType, P extends object> { type: T; payload: P }
+interface Communication<T extends CommunicationType, P extends object> { payload: P; type: T }
 
 export type CommunicationMessage =
-// eslint-disable-next-line @typescript-eslint/sort-type-constituents
-  | Communication<CommunicationType.CTM_INITIALIZE, ClusterInitializeData>
-  | Communication<CommunicationType.MTC_NOTICE, ManagerNoticeData>
-  | Communication<CommunicationType.MTC_READY_TO_CONNECT, NoPayload>
-  | Communication<CommunicationType.CTM_SHARD_CONNECTED, ShardConnectedData>
+
   | Communication<CommunicationType.CTM_CLIENT_READY, ClusterStatsData>
-  | Communication<CommunicationType.MTC_REQUEST_STATS, NoPayload>
+  | Communication<CommunicationType.CTM_INITIALIZE, ClusterInitializeData>
   | Communication<CommunicationType.CTM_POST_STATS, ClusterStatsData>
+  | Communication<CommunicationType.CTM_SHARD_CONNECTED, ShardConnectedData>
   | Communication<CommunicationType.MTC_DELIVER_ALL_STATS, CombinedData>
-  | Communication<CommunicationType.MTC_POST_PRESENCE, PresenceData>;
+  | Communication<CommunicationType.MTC_NOTICE, ManagerNoticeData>
+  | Communication<CommunicationType.MTC_POST_PRESENCE, PresenceData>
+  | Communication<CommunicationType.MTC_READY_TO_CONNECT, NoPayload>
+  | Communication<CommunicationType.MTC_REQUEST_STATS, NoPayload>;
 
 // type CTM_INITIALIZE
 export interface ClusterInitializeData {
@@ -37,8 +37,8 @@ export interface ClusterInitializeData {
 
 // type MTC_NOTICE
 export interface ManagerNoticeData {
-  timestampDifference: number;
   readyToConnect: boolean;
+  timestampDifference: number;
 }
 
 // type CTM_SHARD_CONNECTED
@@ -48,9 +48,9 @@ export interface ShardConnectedData {
 
 // type CTM_POST_STATS
 export interface ClusterStatsData {
-  shards: Record<number, ShardData>;
-  counts: number;
   clusterMemory: number;
+  counts: number;
+  shards: Record<number, ShardData>;
 }
 
 // no payload

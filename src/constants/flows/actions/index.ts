@@ -16,11 +16,11 @@ import uniqueRole from "./uniqueRole";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface Action<ActionPropertyData extends PropertyValue[] = any> {
-  name: string;
   description?: string;
-  limitPerFlow?: number;
-  properties?: [Property, ...Property[]];
   explanation(properties: ActionPropertyData): string;
+  limitPerFlow?: number;
+  name: string;
+  properties?: [Property, ...Property[]];
   run(data: CountingData, properties: ActionPropertyData): Awaitable<boolean>;
 }
 

@@ -11,28 +11,28 @@ interface ButtonComponent extends BaseComponent {
 }
 
 interface ChannelSelectMenuComponent extends BaseComponent {
-  selectType: "channel";
   callback(interaction: ChannelSelectMenuInteraction<"cached">): Awaitable<void>;
+  selectType: "channel";
 }
 
 interface MentionableSelectMenuComponent extends BaseComponent {
-  selectType: "mentionable";
   callback(interaction: MentionableSelectMenuInteraction<"cached">): Awaitable<void>;
+  selectType: "mentionable";
 }
 
 interface RoleSelectMenuComponent extends BaseComponent {
-  selectType: "role";
   callback(interaction: RoleSelectMenuInteraction<"cached">): Awaitable<void>;
+  selectType: "role";
 }
 
 interface StringSelectMenuComponent extends BaseComponent {
-  selectType: "string";
   callback(interaction: StringSelectMenuInteraction<"cached">): Awaitable<void>;
+  selectType: "string";
 }
 
 interface UserSelectMenuComponent extends BaseComponent {
-  selectType: "user";
   callback(interaction: UserSelectMenuInteraction<"cached">): Awaitable<void>;
+  selectType: "user";
 }
 
 export const buttonComponents = new Map<string, ButtonComponent>();

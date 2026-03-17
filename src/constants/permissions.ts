@@ -4,7 +4,7 @@ import { PermissionFlagsBits } from "discord.js";
 // for non-mention commands aka. interaction commands
 export enum PermissionLevel { None, Admin }
 
-export const permissionLevels: Record<PermissionLevel, PermissionResolvable | null> = {
+export const permissionLevels: Record<PermissionLevel, null | PermissionResolvable> = {
   [PermissionLevel.Admin]: [PermissionFlagsBits.Administrator],
   [PermissionLevel.None]: null,
 };

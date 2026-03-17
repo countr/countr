@@ -1,9 +1,9 @@
 import type { GuildMember, Message, Snowflake } from "discord.js";
 import { ChannelType } from "discord.js";
 import type { CountingChannelAllowedChannelType, CountingChannelRootChannel } from "../../constants/discord";
+import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 import { bulkDeleteDelay, calculatePermissionsForChannel, messagesPerBulkDeletion } from "../../constants/discord";
 import numberSystems from "../../constants/numberSystems";
-import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 import { addToCount } from "../../utils/cluster";
 import checkBypass from "./bypass";
 import { handleFlows, handleFlowsOnFail } from "./flows";

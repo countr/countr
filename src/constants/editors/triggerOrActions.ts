@@ -1,12 +1,12 @@
 import type { AnySelectMenuInteraction, APIEmbedField, ButtonInteraction, MessageComponentInteraction, Snowflake } from "discord.js";
 import { ButtonStyle, ComponentType } from "discord.js";
-import config from "../../config";
 import type { ActionDetailsSchema, FlowSchema, TriggerDetailsSchema } from "../../database/models/Guild";
+import type { Action } from "../flows/actions";
+import type { Trigger } from "../triggers";
+import config from "../../config";
 import { buttonComponents, selectMenuComponents } from "../../handlers/interactions/components";
 import { capitalizeFirst, fitText } from "../../utils/text";
-import type { Action } from "../flows/actions";
 import actions from "../flows/actions";
-import type { Trigger } from "../triggers";
 import triggers from "../triggers";
 import promptProperty from "./properties";
 
@@ -33,7 +33,7 @@ export default function editTriggerOrAction<T extends "action" | "trigger">(trig
           type: ComponentType.ActionRow,
           components: [
             {
-              type: ComponentType.SelectMenu,
+              type: ComponentType.StringSelect,
               placeholder: "Edit a property",
               customId: `${interaction.id}:edit_property`,
               minValues: 1,

@@ -1,8 +1,8 @@
 import type { APIEmbed, GuildMember, Snowflake } from "discord.js";
+import type { CountingData } from ".";
 import config from "../../config";
 import { embedsPerMessage } from "../../constants/discord";
 import triggers from "../../constants/triggers";
-import type { CountingData } from ".";
 
 export default async function handleNotifications(countingData: CountingData): Promise<void> {
   for (const [notificationId, { userId, trigger }] of Array.from(countingData.countingChannel.notifications)) {

@@ -1,12 +1,12 @@
-import { inspect, promisify } from "util";
 import type { Message, PartialMessage, Snowflake } from "discord.js";
 import { Client, IntentsBitField, MessageType, Options, Partials } from "discord.js";
+import { inspect, promisify } from "util";
+import type { CommunicationMessage } from "./utils/cluster/communication";
 import config from "./config";
 import { inviteUrl } from "./constants/links";
 import numberSystems from "./constants/numberSystems";
 import { connection, getGuildDocument, touchGuildDocument } from "./database";
 import handleAccess from "./handlers/access";
-import handleAutomaticTokenReset from "./handlers/automaticTokenReset";
 import countingHandler from "./handlers/counting";
 import checkRegex from "./handlers/counting/regex";
 import replaceUpdatedOrDeletedMessage from "./handlers/counting/replacement";
@@ -15,7 +15,6 @@ import handleLiveboard from "./handlers/liveboard";
 import mentionCommandHandler from "./handlers/mentionCommands";
 import prepareGuild from "./handlers/prepareGuilds";
 import { initializeWebsocket } from "./utils/cluster";
-import type { CommunicationMessage } from "./utils/cluster/communication";
 import { CommunicationType } from "./utils/cluster/communication";
 import discordLogger from "./utils/logger/discord";
 import mainLogger from "./utils/logger/main";
@@ -87,7 +86,6 @@ client.once("ready", trueClient => void (async () => {
 
   // client handlers
   handleAccess(trueClient);
-  handleAutomaticTokenReset(trueClient);
   handleInteractions(trueClient);
   handleLiveboard(trueClient);
 })());

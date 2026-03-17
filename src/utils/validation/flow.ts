@@ -1,9 +1,9 @@
 import type { JSONSchemaType } from "ajv";
 import Ajv from "ajv";
+import type { FlowSchema } from "../../database/models/Guild";
 import actions from "../../constants/flows/actions";
 import limits from "../../constants/limits";
 import triggers from "../../constants/triggers";
-import type { FlowSchema } from "../../database/models/Guild";
 
 const ajv = new Ajv({ strictTuples: false });
 
@@ -57,6 +57,7 @@ export function parseFlow(json: string): FlowSchema | null {
   try {
     const parsed: unknown = JSON.parse(json);
     return validateFlow(parsed) ? parsed : null;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {
     return null;
   }

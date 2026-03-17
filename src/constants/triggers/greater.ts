@@ -1,5 +1,5 @@
-import properties from "../properties";
 import type { Trigger } from ".";
+import properties from "../properties";
 
 const greater: Trigger<[number]> = {
   name: "Greater than or equal to number X",

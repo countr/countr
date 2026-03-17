@@ -1,0 +1,5 @@
+onlyBuiltDependencies:
+  - '@sapphire/type'
+  - bufferutil
+  - unrs-resolver
+  - zlib-sync

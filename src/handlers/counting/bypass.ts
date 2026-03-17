@@ -1,6 +1,6 @@
 import type { GuildMember } from "discord.js";
-import config from "../../config";
 import type { CountingChannelSchema } from "../../database/models/Guild";
+import config from "../../config";
 
 export default function checkBypass(member: GuildMember, bypassableRoles: CountingChannelSchema["bypassableRoles"]): boolean {
   if (

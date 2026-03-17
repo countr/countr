@@ -2,17 +2,17 @@ import type { Status } from "discord.js";
 import { getWeeklyCount } from "./weeklyCount";
 
 export interface ClusterData {
-  clusterShards: number[];
   clusterMemory: number;
-  startTimestamp: number;
+  clusterShards: number[];
   pingTimestamp: number;
+  startTimestamp: number;
 }
 
 export interface ShardData {
   guilds: number;
-  users: number;
   ping: number;
   status: Status;
+  users: number;
 }
 
 export interface ShardListedData extends ShardData {
@@ -21,8 +21,8 @@ export interface ShardListedData extends ShardData {
 }
 
 export interface CombinedData {
-  shards: Record<string, ShardListedData>;
   clusters: Record<string, ClusterData>;
+  shards: Record<string, ShardListedData>;
   weeklyCount: number;
 }
 

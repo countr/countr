@@ -2,14 +2,14 @@
 // https://github.com/countr/access-manager/blob/main/src/database/models/Access.ts
 
 import type { DocumentType } from "@typegoose/typegoose";
+import type { Snowflake } from "discord.js";
 import { getModelForClass, prop } from "@typegoose/typegoose";
 import { PropType } from "@typegoose/typegoose/lib/internal/constants";
-import type { Snowflake } from "discord.js";
 
 export class AccessSchema {
-  @prop({ type: String, required: true }) userId!: string;
-  @prop({ type: [String], default: [] }, PropType.ARRAY) guildIds!: Snowflake[];
   @prop({ type: Date, required: true }) expires!: Date;
+  @prop({ type: [String], default: [] }, PropType.ARRAY) guildIds!: Snowflake[];
+  @prop({ type: String, required: true }) userId!: string;
 }
 
 export type AccessDocument = DocumentType<AccessSchema>;

@@ -3,8 +3,8 @@ import { ComponentType } from "discord.js";
 import commandsLogger from "../../utils/logger/commands";
 
 interface ModalInteractionDetails {
-  garbageCollect?: Date | false;
   callback(interaction: ModalSubmitInteraction<"cached">): Awaitable<void>;
+  garbageCollect?: Date | false;
 }
 
 export const modals = new Map<string, ModalInteractionDetails>();
@@ -36,7 +36,7 @@ if (process.env["NODE_ENV"] !== "test") {
   }, 300000);
 }
 
-export function getModalTextInput(actionRows: ModalSubmitInteraction["components"], customId: string): string | null {
+export function getModalTextInput(actionRows: ModalSubmitInteraction["components"], customId: string): null | string {
   const actionRow = actionRows.find(row => row.components.some(component => component.customId === customId));
   if (!actionRow) return null;
 

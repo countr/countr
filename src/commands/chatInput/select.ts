@@ -1,8 +1,8 @@
 import { ApplicationCommandOptionType } from "discord.js";
+import type { ChatInputCommand } from ".";
 import countingChannels from "../../constants/autocompletes/countingChannels";
 import { docsUrl } from "../../constants/links";
 import selectedCountingChannels from "../../constants/selectedCountingChannel";
-import type { ChatInputCommand } from ".";
 
 const command: ChatInputCommand = {
   description: "Select a preexisting counting channel to interact with",
