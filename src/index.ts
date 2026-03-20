@@ -1,5 +1,5 @@
 import type { Message, PartialMessage, Snowflake } from "discord.js";
-import { Client, IntentsBitField, MessageType, Options, Partials } from "discord.js";
+import { Client, Events, IntentsBitField, MessageType, Options, Partials } from "discord.js";
 import { inspect, promisify } from "util";
 import type { CommunicationMessage } from "./utils/cluster/communication";
 import config from "./config";
@@ -47,7 +47,7 @@ const client = new Client({
 let disabledGuilds = new Set<Snowflake>();
 const sleep = promisify(setTimeout);
 
-client.once("ready", trueClient => void (async () => {
+client.once(Events.ClientReady, trueClient => void (async () => {
   await sleep(5000);
   mainLogger.info(`Ready as @${trueClient.user.username} on shards ${trueClient.ws.shards.map(shard => shard.id).join(",") || "0"}. Caching guilds.`);
   if (config.cluster.id === 0) registerCommands(trueClient);
@@ -90,7 +90,7 @@ client.once("ready", trueClient => void (async () => {
   handleLiveboard(trueClient);
 })());
 
-client.on("messageCreate", message => void (async () => {
+client.on(Events.MessageCreate, message => void (async () => {
   if (
     !message.inGuild() ||
     disabledGuilds.has(message.guildId) ||
@@ -106,7 +106,7 @@ client.on("messageCreate", message => void (async () => {
   if (RegExp(`^<@!?${client.user!.id}>`, "u").exec(message.content)) return mentionCommandHandler(message, document);
 })());
 
-client.on("messageUpdate", (_, _potentialPartialMessage) => void (async () => {
+client.on(Events.MessageUpdate, (_, _potentialPartialMessage) => void (async () => {
   const potentialPartialMessage = _potentialPartialMessage as Message<true> | PartialMessage;
   if (!potentialPartialMessage.guildId || disabledGuilds.has(potentialPartialMessage.guildId)) return;
 
@@ -136,7 +136,7 @@ client.on("messageUpdate", (_, _potentialPartialMessage) => void (async () => {
   return void 0;
 })());
 
-client.on("messageDelete", partialMessage => void (async () => {
+client.on(Events.MessageDelete, partialMessage => void (async () => {
   if (!partialMessage.guildId || disabledGuilds.has(partialMessage.guildId)) return;
 
   const document = await getGuildDocument(partialMessage.guildId);
@@ -148,17 +148,17 @@ client.on("messageDelete", partialMessage => void (async () => {
 
 // discord debug logging
 client
-  .on("cacheSweep", message => void discordLogger.debug(message))
-  .on("debug", info => void discordLogger.debug(info))
-  .on("error", error => void discordLogger.error(`Cluster errored. ${inspect(error)}`))
+  .on(Events.CacheSweep, message => void discordLogger.debug(message))
+  .on(Events.Debug, info => void discordLogger.debug(info))
+  .on(Events.Error, error => void discordLogger.error(`Cluster errored. ${inspect(error)}`))
   .on("rateLimit", rateLimitData => void discordLogger.warn(`Rate limit ${JSON.stringify(rateLimitData)}`))
-  .on("ready", () => void discordLogger.info("All shards have been connected."))
-  .on("shardDisconnect", (_, id) => void discordLogger.warn(`Shard ${id} disconnected.`))
-  .on("shardError", (error, id) => void discordLogger.error(`Shard ${id} errored. ${inspect(error)}`))
-  .on("shardReady", id => void discordLogger.info(`Shard ${id} is ready.`))
-  .on("shardReconnecting", id => void discordLogger.warn(`Shard ${id} is reconnecting.`))
-  .on("shardResume", (id, replayed) => void discordLogger.info(`Shard ${id} resumed. ${replayed} events replayed.`))
-  .on("warn", info => void discordLogger.warn(info));
+  .on(Events.ClientReady, () => void discordLogger.info("All shards have been connected."))
+  .on(Events.ShardDisconnect, (_, id) => void discordLogger.warn(`Shard ${id} disconnected.`))
+  .on(Events.ShardError, (error, id) => void discordLogger.error(`Shard ${id} errored. ${inspect(error)}`))
+  .on(Events.ShardReady, id => void discordLogger.info(`Shard ${id} is ready.`))
+  .on(Events.ShardReconnecting, id => void discordLogger.warn(`Shard ${id} is reconnecting.`))
+  .on(Events.ShardResume, (id, replayed) => void discordLogger.info(`Shard ${id} resumed. ${replayed} events replayed.`))
+  .on(Events.Warn, info => void discordLogger.warn(info));
 
 // websocket and login
 const ws = initializeWebsocket(client);

@@ -1,5 +1,5 @@
 import type { ApplicationCommandData, ApplicationCommandSubCommandData, ApplicationCommandSubGroupData, Client } from "discord.js";
-import { ApplicationCommandOptionType, ApplicationCommandType, InteractionType } from "discord.js";
+import { ApplicationCommandOptionType, ApplicationCommandType, Events, InteractionType } from "discord.js";
 import { readdir } from "fs/promises";
 import { join } from "path";
 import { inspect } from "util";
@@ -18,7 +18,7 @@ import contextMenuCommandHandler from "./contextMenuCommands";
 import modalHandler from "./modals";
 
 export default function handleInteractions(client: Client<true>): void {
-  client.on("interactionCreate", interaction => {
+  client.on(Events.InteractionCreate, interaction => {
     if (!interaction.inGuild()) return void commandsLogger.debug(`Interaction ${interaction.id} is not in a guild`);
     if (!interaction.inCachedGuild()) return void commandsLogger.debug(`Interaction ${interaction.id} is not in a cached guild (guild ID ${interaction.guildId})`);
 
