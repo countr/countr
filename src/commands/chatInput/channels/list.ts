@@ -1,4 +1,4 @@
-import { MessageFlags, PermissionsBitField } from "discord.js";
+import { ButtonStyle, ComponentType, MessageFlags, PermissionsBitField } from "discord.js";
 import type { ChatInputCommand } from "..";
 import type { CountingChannelRootChannel } from "../../../constants/discord";
 import config from "../../../config";
@@ -18,6 +18,54 @@ const command: ChatInputCommand = {
     }
 
     const me = await interaction.guild.members.fetch({ user: interaction.client.user, force: false });
+
+    const channelComponents = [];
+    let buttonComponentsArray = [];
+    const componentLimit = 5;
+    const { guildId } = interaction;
+
+    if (document.channels.size) {
+      const channelList = Array.from(document.channels.keys());
+
+      for (const chanId of channelList) {
+        if (channelComponents.length >= componentLimit) break;
+
+        const channelId = chanId;
+        const channel = interaction.client.channels.cache.get(channelId);
+
+        // fallback name if the channel isn't in cache
+        const rawName = channel && "name" in channel ? channel.name : "Channel";
+
+        // prevent a crash incase a channel name is too long
+        const labelPrefix = "#";
+        const maxLabel = 80;
+        const displayName = (labelPrefix + rawName).length > maxLabel ?
+          `${(labelPrefix + rawName).slice(0, maxLabel - 3)}...` :
+          labelPrefix + rawName;
+
+        buttonComponentsArray.push({
+          type: ComponentType.Button,
+          style: ButtonStyle.Link,
+          label: displayName,
+          url: `https://discord.com/channels/${guildId}/${channelId}`,
+        });
+
+        if (buttonComponentsArray.length === 5) {
+          channelComponents.push({
+            type: ComponentType.ActionRow,
+            components: buttonComponentsArray,
+          });
+          buttonComponentsArray = [];
+        }
+      }
+
+      if (buttonComponentsArray.length > 0 && channelComponents.length < componentLimit) {
+        channelComponents.push({
+          type: ComponentType.ActionRow,
+          components: buttonComponentsArray,
+        });
+      }
+    }
 
     return void interaction.reply({
       content: `📋 The server has **${document.channels.size}/${limits.channels.amount}** counting channels.`,
@@ -134,6 +182,7 @@ const command: ChatInputCommand = {
           ],
         };
       }),
+      components: channelComponents,
       ...ephemeral && { flags: ephemeral },
     });
   },
