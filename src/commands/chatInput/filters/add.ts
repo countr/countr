@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, MessageFlags } from "discord.js";
 import type { ChatInputCommand } from "..";
 import regex from "../../../constants/properties/regex";
 
@@ -19,21 +19,22 @@ const command: ChatInputCommand = {
     if (countingChannel.filters.includes(input)) {
       return void interaction.reply({
         content: `❌ Filter ${await regex.format(input, interaction.guild)} already exists.`,
-        ephemeral,
+        flags: ephemeral || undefined,
       });
     }
 
     if (await regex.convert(input, interaction.guild) === null) {
       return void interaction.reply({
         content: "❌ Invalid regex.",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
     countingChannel.filters.push(input);
     document.safeSave();
 
-    return void interaction.reply({ content: `✅ Added filter ${await regex.format(input, interaction.guild)}.`, ephemeral });
+    return void interaction.reply({ content: `✅ Added filter ${await regex.format(input, interaction.guild)}.`, flags: ephemeral || undefined
+    });
   },
 };
 

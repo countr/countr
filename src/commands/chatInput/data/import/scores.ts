@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, MessageFlags } from "discord.js";
 import type { ChatInputCommand } from "../..";
 import { parseScores } from "../../../../utils/validation/scores";
 
@@ -15,12 +15,13 @@ const command: ChatInputCommand = {
   requireSelectedCountingChannel: true,
   execute(interaction, ephemeral, document, [countingChannelId, countingChannel]) {
     const attachment = interaction.options.getAttachment("score_file", true);
-    if (!attachment.url.split("?")[0]!.endsWith(".json")) return void interaction.reply({ content: "❌ This is not a valid file type.", ephemeral: true });
-    if (attachment.size > 2_000_000) return void interaction.reply({ content: "❌ This file is too large, maximum file size is 2MB. For scores, this is roughly 50,000 entries. If you have more than this then you need to split up the file yourself.", ephemeral: true });
+    if (!attachment.url.split("?")[0]!.endsWith(".json")) return void interaction.reply({ content: "❌ This is not a valid file type.", flags: MessageFlags.Ephemeral });
+    if (attachment.size > 2_000_000) return void interaction.reply({ content: "❌ This file is too large, maximum file size is 2MB. For scores, this is roughly 50,000 entries. If you have more than this then you need to split up the file yourself.", flags: MessageFlags.Ephemeral });
 
     const request = fetch(attachment.url).then(res => res.text());
 
-    return void Promise.all([request, interaction.deferReply({ ephemeral })]).then(([json]) => {
+    return void Promise.all([request, interaction.deferReply({ flags: ephemeral || undefined
+    })]).then(([json]) => {
       const scores = parseScores(json);
       if (!scores) return void interaction.editReply("❌ This is not a valid score file.");
 

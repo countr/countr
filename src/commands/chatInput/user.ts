@@ -23,7 +23,7 @@ const command: ChatInputCommand = {
         `📊 ${user.id === interaction.user.id ? "Your" : `${user.toString()}'s`} score in <#${countingChannelId}> is ${score}.`,
         timeout > Date.now() ? `\n💨 ${user.id === interaction.user.id ? "Your" : "The user's"} timeout expires <t:${Math.ceil(timeout / 1000)}:R>.` : "",
       ].filter(Boolean).join("\n"),
-      ephemeral,
+      flags: ephemeral || undefined,
       allowedMentions: { users: [] },
     });
   },

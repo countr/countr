@@ -1,4 +1,4 @@
-import { PermissionsBitField } from "discord.js";
+import { MessageFlags, PermissionsBitField } from "discord.js";
 import type { ChatInputCommand } from "..";
 import type { CountingChannelRootChannel } from "../../../constants/discord";
 import config from "../../../config";
@@ -13,7 +13,7 @@ const command: ChatInputCommand = {
     if (!document.channels.size) {
       return void interaction.reply({
         content: "❌ This server has no counting channels set up.",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -134,7 +134,7 @@ const command: ChatInputCommand = {
           ],
         };
       }),
-      ephemeral,
+      flags: ephemeral || undefined,
     });
   },
 };

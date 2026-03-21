@@ -14,11 +14,12 @@ const command: ChatInputCommand = {
             ),
           )
         ).join("\n")}`,
-        ephemeral,
+        flags: ephemeral || undefined,
       });
     }
 
-    return void interaction.reply({ content: `❌ No regex filters have been configured for counting channel <#${countingChannelId}>.`, ephemeral });
+    return void interaction.reply({ content: `❌ No regex filters have been configured for counting channel <#${countingChannelId}>.`, flags: ephemeral || undefined
+    });
   },
 };
 

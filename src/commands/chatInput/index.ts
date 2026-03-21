@@ -1,4 +1,4 @@
-import type { ApplicationCommandAutocompleteNumericOptionData, ApplicationCommandAutocompleteStringOptionData, ApplicationCommandBooleanOptionData, ApplicationCommandChannelOptionData, ApplicationCommandMentionableOptionData, ApplicationCommandNonOptionsData, ApplicationCommandNumericOptionData, ApplicationCommandRoleOptionData, ApplicationCommandStringOptionData, ApplicationCommandUserOptionData, Awaitable, ChatInputCommandInteraction, Snowflake } from "discord.js";
+import type { ApplicationCommandAutocompleteNumericOptionData, ApplicationCommandAutocompleteStringOptionData, ApplicationCommandBooleanOptionData, ApplicationCommandChannelOptionData, ApplicationCommandMentionableOptionData, ApplicationCommandNonOptionsData, ApplicationCommandNumericOptionData, ApplicationCommandRoleOptionData, ApplicationCommandStringOptionData, ApplicationCommandUserOptionData, Awaitable, ChatInputCommandInteraction, MessageFlags, Snowflake } from "discord.js";
 import type { Autocomplete } from "../../constants/autocompletes";
 import type { CountingChannelSchema, GuildDocument } from "../../database/models/Guild";
 import { PermissionLevel } from "../../constants/permissions";
@@ -25,10 +25,10 @@ export type ChatInputCommand = {
   serverCooldown?: number;
 } & (
   {
-    execute(interaction: ChatInputCommandInteraction<"cached">, ephemeralPreference: boolean, document: GuildDocument, selectedCountingChannel: [countingChannelId: null | Snowflake, countingChannel: CountingChannelSchema | null]): Awaitable<void>;
+    execute(interaction: ChatInputCommandInteraction<"cached">, ephemeralPreference: MessageFlags.Ephemeral | 0, document: GuildDocument, selectedCountingChannel: [countingChannelId: null | Snowflake, countingChannel: CountingChannelSchema | null]): Awaitable<void>;
     requireSelectedCountingChannel?: never;
   } | {
-    execute(interaction: ChatInputCommandInteraction<"cached">, ephemeralPreference: boolean, document: GuildDocument, selectedCountingChannel: [countingChannelId: Snowflake, countingChannel: CountingChannelSchema]): Awaitable<void>;
+    execute(interaction: ChatInputCommandInteraction<"cached">, ephemeralPreference: MessageFlags.Ephemeral | 0, document: GuildDocument, selectedCountingChannel: [countingChannelId: Snowflake, countingChannel: CountingChannelSchema]): Awaitable<void>;
     requireSelectedCountingChannel: true;
   }
 );

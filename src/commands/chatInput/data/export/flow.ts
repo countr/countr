@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, MessageFlags } from "discord.js";
 import type { ChatInputCommand } from "../..";
 import flowList from "../../../../constants/autocompletes/flowList";
 
@@ -19,10 +19,11 @@ const command: ChatInputCommand = {
     const flowId = interaction.options.getString("flow", true);
 
     const flow = countingChannel.flows.get(flowId);
-    if (!flow) return void interaction.reply({ content: "❌ Flow not found.", ephemeral: true });
+    if (!flow) return void interaction.reply({ content: "❌ Flow not found.", flags: MessageFlags.Ephemeral });
 
     // uploading might take a while so defer first
-    await interaction.deferReply({ ephemeral });
+    await interaction.deferReply({ flags: ephemeral || undefined
+    });
 
     return void interaction.editReply({
       content: `✅ Here's the export of flow \`${flowId}\` from counting channel <#${countingChannelId}>.`,

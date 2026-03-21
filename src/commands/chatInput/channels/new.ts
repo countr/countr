@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, OverwriteType, PermissionsBitField } from "discord.js";
+import { ApplicationCommandOptionType, MessageFlags, OverwriteType, PermissionsBitField } from "discord.js";
 import { inspect } from "util";
 import type { ChatInputCommand } from "..";
 import type { CountingChannelSchema } from "../../../database/models/Guild";
@@ -33,7 +33,7 @@ const command: ChatInputCommand = {
     if (document.channels.size >= limits.channels.amount) {
       return void interaction.reply({
         content: `❌ You can only have up to **${limits.channels.amount}** channels at a time.`,
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -53,7 +53,7 @@ const command: ChatInputCommand = {
             .map(bigint => Object.entries(PermissionsBitField.Flags).find(([, permission]) => permission === bigint && !currentPermissions.has(permission))?.[0])
             .filter(Boolean)
             .join(", ")}`,
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
       }
 
@@ -66,11 +66,12 @@ const command: ChatInputCommand = {
           } as CountingChannelSchema);
           document.safeSave();
 
-          return interaction.reply({ content: `✅ Successfully created ${thread.toString()}!`, ephemeral });
+          return interaction.reply({ content: `✅ Successfully created ${thread.toString()}!`, flags: ephemeral || undefined
+    });
         })
         .catch((err: unknown) => {
           mainLogger.verbose(`Failed to create counting channel in ${interaction.guildId}: ${inspect(err)}`);
-          return interaction.reply({ content: "❌ I couldn't create a thread in that channel. Do I have permission?", ephemeral: true });
+          return interaction.reply({ content: "❌ I couldn't create a thread in that channel. Do I have permission?", flags: MessageFlags.Ephemeral });
         });
     }
 
@@ -98,11 +99,12 @@ const command: ChatInputCommand = {
         } as CountingChannelSchema);
         document.safeSave();
 
-        return interaction.reply({ content: `✅ Successfully created <#${channel.id}>!`, ephemeral });
+        return interaction.reply({ content: `✅ Successfully created <#${channel.id}>!`, flags: ephemeral || undefined
+    });
       })
       .catch((err: unknown) => {
         mainLogger.verbose(`Failed to create counting channel in ${interaction.guildId}: ${inspect(err)}`);
-        return interaction.reply({ content: "❌ I couldn't create a channel. Do I have permission?", ephemeral: true });
+        return interaction.reply({ content: "❌ I couldn't create a channel. Do I have permission?", flags: MessageFlags.Ephemeral });
       });
   },
 };

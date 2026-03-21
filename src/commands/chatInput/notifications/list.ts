@@ -1,5 +1,5 @@
 import type { ChatInputCommandInteraction, InteractionReplyOptions, InteractionUpdateOptions, Snowflake } from "discord.js";
-import { ButtonStyle, ComponentType } from "discord.js";
+import { ButtonStyle, ComponentType, MessageFlags } from "discord.js";
 import type { ChatInputCommand } from "..";
 import type { CountingChannelSchema, GuildDocument } from "../../../database/models/Guild";
 import config from "../../../config";
@@ -11,12 +11,13 @@ import { fitText } from "../../../utils/text";
 const command: ChatInputCommand = {
   description: "List all your notifications",
   requireSelectedCountingChannel: true,
-  execute(interaction, ephemeral, document, countingChannelDetails) {
-    return void interaction.reply({ ...refreshList(interaction, ephemeral, document, countingChannelDetails, interaction.id), ephemeral });
+  execute(interaction, ephemeralPreference, document, countingChannelDetails) {
+    return void interaction.reply({ ...refreshList(interaction, ephemeralPreference, document, countingChannelDetails, interaction.id), flags: ephemeralPreference || undefined
+    });
   },
 };
 
-function refreshList(interaction: ChatInputCommandInteraction<"cached">, ephemeral: boolean, document: GuildDocument, [countingChannelId, countingChannel]: [Snowflake, CountingChannelSchema], uniqueIdentifier: string): InteractionReplyOptions & InteractionUpdateOptions {
+function refreshList(interaction: ChatInputCommandInteraction<"cached">, ephemeralPreference: MessageFlags.Ephemeral | 0, document: GuildDocument, [countingChannelId, countingChannel]: [Snowflake, CountingChannelSchema], uniqueIdentifier: string): InteractionReplyOptions & InteractionUpdateOptions {
   const allNotifications = Array.from(countingChannel.notifications.entries());
   const userNotifications = allNotifications.filter(([, { userId }]) => userId === interaction.user.id);
 
@@ -52,7 +53,6 @@ function refreshList(interaction: ChatInputCommandInteraction<"cached">, ephemer
         ],
       },
     ],
-    ephemeral,
   };
 
   selectMenuComponents.set(`${uniqueIdentifier}:select_for_delete`, {
@@ -80,7 +80,7 @@ function refreshList(interaction: ChatInputCommandInteraction<"cached">, ephemer
             ],
           },
         ],
-        ephemeral,
+        flags: ephemeralPreference || undefined,
       });
 
       buttonComponents.set(`${select.id}:confirm`, {
@@ -95,7 +95,7 @@ function refreshList(interaction: ChatInputCommandInteraction<"cached">, ephemer
             components: [],
           });
 
-          void interaction.editReply(refreshList(interaction, ephemeral, document, [countingChannelId, countingChannel], interaction.id));
+          void interaction.editReply(refreshList(interaction, ephemeralPreference, document, [countingChannelId, countingChannel], interaction.id));
         },
       });
 

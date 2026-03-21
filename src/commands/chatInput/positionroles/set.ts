@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, MessageFlags } from "discord.js";
 import ordinal from "ordinal";
 import type { ChatInputCommand } from "..";
 import limits from "../../../constants/limits";
@@ -31,7 +31,7 @@ const command: ChatInputCommand = {
     if (me && role.comparePositionTo(me.roles.highest) > 0) {
       return void interaction.reply({
         content: "❌ The role must be lower than the bot's highest role.",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -39,7 +39,7 @@ const command: ChatInputCommand = {
     if (roles.includes(role.id)) {
       return void interaction.reply({
         content: "❌ This role is already in use for a position.",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -50,7 +50,7 @@ const command: ChatInputCommand = {
 
     return void interaction.reply({
       content: `✅ The role ${role.toString()} will be given out to ${ordinal(position)} place on the leaderboard of counting channel <#${countingChannelId}>.`,
-      ephemeral,
+      flags: ephemeral || undefined,
     });
   },
 };

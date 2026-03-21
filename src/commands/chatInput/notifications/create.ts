@@ -1,5 +1,5 @@
 import type { AnySelectMenuInteraction, ButtonInteraction } from "discord.js";
-import { ComponentType } from "discord.js";
+import { ComponentType, MessageFlags } from "discord.js";
 import type { ChatInputCommand } from "..";
 import type { NotificationSchema } from "../../../database/models/Guild";
 import promptProperty from "../../../constants/editors/properties";
@@ -17,7 +17,7 @@ const command: ChatInputCommand = {
     if (userNotifications.length >= limits.notifications.amount) {
       return void interaction.reply({
         content: `❌ You can only have up to **${limits.notifications.amount}** notifications at a time.`,
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -44,7 +44,7 @@ const command: ChatInputCommand = {
           ],
         },
       ],
-      ephemeral,
+      flags: ephemeral || undefined,
     });
 
     selectMenuComponents.set(`${interaction.id}:select_trigger`, {

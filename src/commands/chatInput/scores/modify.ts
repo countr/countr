@@ -55,7 +55,8 @@ const command: ChatInputCommand = {
 
     void handlePositionRoles({ countingChannel, document, member: interaction.member });
 
-    return void interaction.reply({ content: `✅ ${user.toString()}'s score in <#${countingChannelId}> is now ${Math.max(0, newScore)}.`, ephemeral });
+    return void interaction.reply({ content: `✅ ${user.toString()}'s score in <#${countingChannelId}> is now ${Math.max(0, newScore)}.`, flags: ephemeral || undefined
+    });
   },
 };
 

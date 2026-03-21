@@ -1,4 +1,4 @@
-import { version as djsVersion } from "discord.js";
+import { MessageFlags, version as djsVersion } from "discord.js";
 import { release, type } from "os";
 import type { ChatInputCommand } from ".";
 import config from "../../config";
@@ -12,16 +12,15 @@ const platform = `${type()} ${fitText(release(), 20)}`;
 
 const command: ChatInputCommand = {
   description: "Get information about Countr",
-  execute(interaction, ephemeral){
+  execute(interaction, flags){
     const allStats = getAllStats();
-    if (!allStats) return void interaction.reply({ content: "❌ Stats is currently unavailable for this cluster, please try again later.", ephemeral: true });
+    if (!allStats) return void interaction.reply({ content: "❌ Stats is currently unavailable for this cluster, please try again later.", flags: MessageFlags.Ephemeral });
 
     const { shardId } = interaction.guild;
     const thisShard = allStats.shards[String(shardId)]!;
     const thisCluster = allStats.clusters[String(config.cluster.id)]!;
 
     const allClusters = Object.values(allStats.clusters);
-
     return void interaction.reply({
       embeds: [
         {
@@ -83,7 +82,7 @@ const command: ChatInputCommand = {
           color: config.colors.primary,
         },
       ],
-      ephemeral,
+      flags: flags || undefined,
     });
   },
 };

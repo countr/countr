@@ -1,5 +1,5 @@
 import type { InteractionReplyOptions, InteractionUpdateOptions, Snowflake } from "discord.js";
-import { ButtonStyle, ComponentType } from "discord.js";
+import { ButtonStyle, ComponentType, MessageFlags } from "discord.js";
 import ordinal from "ordinal";
 import type { ChatInputCommand } from "..";
 import type { CountingChannelSchema } from "../../../database/models/Guild";
@@ -18,7 +18,7 @@ const command: ChatInputCommand = {
     if (!roles.length) {
       return void interaction.reply({
         content: "❌ There are no position roles set up for this counting channel",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -98,7 +98,7 @@ const command: ChatInputCommand = {
     return void interaction.reply({
       content: `📋 Here's the list of position roles for counting channel <#${countingChannelId}>.`,
       ...desktopView(roles, countingChannel, interaction.id),
-      ephemeral,
+      flags: ephemeral || undefined,
     });
   },
 };

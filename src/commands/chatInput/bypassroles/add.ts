@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, MessageFlags } from "discord.js";
 import type { ChatInputCommand } from "..";
 
 const command: ChatInputCommand = {
@@ -17,7 +17,7 @@ const command: ChatInputCommand = {
     if (countingChannel.bypassableRoles.includes(role.id)) {
       return void interaction.reply({
         content: "❌ That role is already on the list.",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -26,7 +26,7 @@ const command: ChatInputCommand = {
 
     return void interaction.reply({
       content: `✅ Added role ${role.toString()} to the list of roles that can bypass message deletion in <#${countingChannelId}>.`,
-      ephemeral,
+      flags: ephemeral || undefined,
       allowedMentions: { roles: [] },
     });
   },

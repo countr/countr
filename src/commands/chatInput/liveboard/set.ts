@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, MessageFlags } from "discord.js";
 import type { ChatInputCommand } from "..";
 import { textBasedChannelTypes } from "../../../constants/discord";
 
@@ -17,10 +17,10 @@ const command: ChatInputCommand = {
   premiumOnly: true,
   async execute(interaction, ephemeral, document, [countingChannelId, countingChannel]) {
     const channel = interaction.options.getChannel("channel", true);
-    if (!channel.isSendable()) return void interaction.reply({ content: "❌ I cannot send messages to that channel.", ephemeral: true });
+    if (!channel.isSendable()) return void interaction.reply({ content: "❌ I cannot send messages to that channel.", flags: MessageFlags.Ephemeral });
 
     const message = await channel.send("💤 The liveboard will appear in a few minutes ...").catch(() => null);
-    if (!message) return void interaction.reply({ content: "❌ I was unable to send a message to that channel.", ephemeral: true });
+    if (!message) return void interaction.reply({ content: "❌ I was unable to send a message to that channel.", flags: MessageFlags.Ephemeral });
 
     countingChannel.liveboard = {
       channelId: channel.id,
@@ -28,7 +28,8 @@ const command: ChatInputCommand = {
     };
     document.safeSave();
 
-    return void interaction.reply({ content: `✅ The liveboard of <#${countingChannelId}> has been enabled. [**Go to liveboard**](${message.url})`, ephemeral });
+    return void interaction.reply({ content: `✅ The liveboard of <#${countingChannelId}> has been enabled. [**Go to liveboard**](${message.url})`, flags: ephemeral || undefined
+    });
   },
 };
 

@@ -7,7 +7,8 @@ const command: ChatInputCommand = {
     countingChannel.timeoutRole = null;
     document.safeSave();
 
-    return void interaction.reply({ content: `✅ The timeout role of <#${countingChannelId}> has been removed.`, ephemeral });
+    return void interaction.reply({ content: `✅ The timeout role of <#${countingChannelId}> has been removed.`, flags: ephemeral || undefined
+    });
   },
 };
 

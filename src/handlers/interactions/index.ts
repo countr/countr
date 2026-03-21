@@ -1,5 +1,5 @@
 import type { ApplicationCommandData, ApplicationCommandSubCommandData, ApplicationCommandSubGroupData, Client } from "discord.js";
-import { ApplicationCommandOptionType, ApplicationCommandType, Events, InteractionType } from "discord.js";
+import { ApplicationCommandOptionType, ApplicationCommandType, Events, InteractionType, MessageFlags } from "discord.js";
 import { readdir } from "fs/promises";
 import { join } from "path";
 import { inspect } from "util";
@@ -41,7 +41,7 @@ export default function handleInteractions(client: Client<true>): void {
       return void "unreachable code" as never;
     }).catch((err: unknown) => {
       commandsLogger.debug(`Failed to fetch guild document for interaction ${interaction.id}, guild ${interaction.guildId}: ${inspect(err)}`);
-      if (interaction.isRepliable() && !interaction.replied && !interaction.deferred) void interaction.reply({ content: "❌ An error occurred while processing this interaction.", ephemeral: true });
+      if (interaction.isRepliable() && !interaction.replied && !interaction.deferred) void interaction.reply({ content: "❌ An error occurred while processing this interaction.", flags: MessageFlags.Ephemeral });
     });
   });
 

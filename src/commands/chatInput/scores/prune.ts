@@ -7,7 +7,8 @@ const command: ChatInputCommand = {
   serverCooldown: 3600,
   requireSelectedCountingChannel: true,
   async execute(interaction, ephemeral, document, [countingChannelId, countingChannel]) {
-    await interaction.deferReply({ ephemeral });
+    await interaction.deferReply({ flags: ephemeral || undefined
+    });
     const members = await interaction.guild.members.fetch({ time: 2 ** 31 - 1 });
 
     let amount = 0;
