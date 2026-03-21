@@ -25,8 +25,7 @@ const command: ChatInputCommand = {
 
     const request = fetch(attachment.url).then(res => res.text());
 
-    return void Promise.all([request, interaction.deferReply({ flags: ephemeral || undefined
-    })]).then(([json]) => {
+    return void Promise.all([request, interaction.deferReply(ephemeral ? { flags: ephemeral } : {})]).then(([json]) => {
       const flow = parseFlow(json);
       if (!flow) return void interaction.editReply("❌ This is not a valid flow configuration.");
 

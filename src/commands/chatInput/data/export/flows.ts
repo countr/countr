@@ -7,8 +7,7 @@ const command: ChatInputCommand = {
     const flows = Object.fromEntries(countingChannel.flows.entries());
 
     // uploading might take a while so defer first
-    await interaction.deferReply({ flags: ephemeral || undefined
-    });
+    await interaction.deferReply(ephemeral ? { flags: ephemeral } : {});
 
     return void interaction.editReply({
       content: `✅ Successfully exported flows of <#${countingChannelId}>.`,

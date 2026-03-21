@@ -66,8 +66,7 @@ const command: ChatInputCommand = {
           } as CountingChannelSchema);
           document.safeSave();
 
-          return interaction.reply({ content: `✅ Successfully created ${thread.toString()}!`, flags: ephemeral || undefined
-    });
+          return interaction.reply({ content: `✅ Successfully created ${thread.toString()}!`, ...ephemeral && { flags: ephemeral } });
         })
         .catch((err: unknown) => {
           mainLogger.verbose(`Failed to create counting channel in ${interaction.guildId}: ${inspect(err)}`);
@@ -99,8 +98,7 @@ const command: ChatInputCommand = {
         } as CountingChannelSchema);
         document.safeSave();
 
-        return interaction.reply({ content: `✅ Successfully created <#${channel.id}>!`, flags: ephemeral || undefined
-    });
+        return interaction.reply({ content: `✅ Successfully created <#${channel.id}>!`, ...ephemeral && { flags: ephemeral } });
       })
       .catch((err: unknown) => {
         mainLogger.verbose(`Failed to create counting channel in ${interaction.guildId}: ${inspect(err)}`);

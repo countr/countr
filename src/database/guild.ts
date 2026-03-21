@@ -20,10 +20,11 @@ export function getGuildDocument(guildId: Snowflake, fromCache = true): Promise<
       guildCache.set(guildId, guild);
       guildCacheQueue.delete(guildId);
       return resolve(guild);
-    }).catch((err: unknown) => {
-      guildCacheQueue.delete(guildId);
-      reject(err);
-    });
+    })
+      .catch((err: unknown) => {
+        guildCacheQueue.delete(guildId);
+        reject(err);
+      });
   });
 
   guildCacheQueue.set(guildId, promise);

@@ -27,8 +27,7 @@ const command: ChatInputCommand = {
     document.channels.delete(channelId);
     document.safeSave();
 
-    return void interaction.reply({ content: `✅ The counting channel <#${channelId}> has been unlinked.`, flags: ephemeral || undefined
-    });
+    return void interaction.reply({ content: `✅ The counting channel <#${channelId}> has been unlinked.`, ...ephemeral && { flags: ephemeral } });
   },
 };
 

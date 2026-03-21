@@ -18,7 +18,7 @@ const command: ChatInputCommand = {
 
 export default { ...command } as ChatInputCommand;
 
-function moduleListOverview(ephemeralPreference: MessageFlags.Ephemeral | 0, document: GuildDocument, countingChannel: CountingChannelSchema, uniqueId: string, userId: Snowflake): InteractionReplyOptions & InteractionUpdateOptions {
+function moduleListOverview(ephemeralPreference: 0 | MessageFlags.Ephemeral, document: GuildDocument, countingChannel: CountingChannelSchema, uniqueId: string, userId: Snowflake): InteractionReplyOptions & InteractionUpdateOptions {
   selectMenuComponents.set(`${uniqueId}:module`, {
     selectType: "string",
     allowedUsers: [userId],
@@ -62,7 +62,7 @@ function moduleListOverview(ephemeralPreference: MessageFlags.Ephemeral | 0, doc
   };
 }
 
-function moduleDetails(interaction: StringSelectMenuInteraction, ephemeralPreference: MessageFlags.Ephemeral | 0, document: GuildDocument, countingChannel: CountingChannelSchema, uniqueId: string, userId: Snowflake): InteractionReplyOptions & InteractionUpdateOptions {
+function moduleDetails(interaction: StringSelectMenuInteraction, ephemeralPreference: 0 | MessageFlags.Ephemeral, document: GuildDocument, countingChannel: CountingChannelSchema, uniqueId: string, userId: Snowflake): InteractionReplyOptions & InteractionUpdateOptions {
   const [name] = interaction.values as [keyof typeof modules];
   const { incompatible } = modules[name];
 

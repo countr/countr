@@ -20,8 +20,7 @@ const command: ChatInputCommand = {
 
     const request = fetch(attachment.url).then(res => res.text());
 
-    return void Promise.all([request, interaction.deferReply({ flags: ephemeral || undefined
-    })]).then(([json]) => {
+    return void Promise.all([request, interaction.deferReply(ephemeral ? { flags: ephemeral } : {})]).then(([json]) => {
       const scores = parseScores(json);
       if (!scores) return void interaction.editReply("❌ This is not a valid score file.");
 

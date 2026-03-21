@@ -20,8 +20,7 @@ const command: ChatInputCommand = {
     countingChannel.type = system;
     document.safeSave();
 
-    return void interaction.reply({ content: `✅ The counting system of <#${countingChannelId}> is now set to **${numberSystems[system].name}**.`, flags: ephemeral || undefined
-    });
+    return void interaction.reply({ content: `✅ The counting system of <#${countingChannelId}> is now set to **${numberSystems[system].name}**.`, ...ephemeral && { flags: ephemeral } });
   },
 };
 

@@ -16,8 +16,7 @@ const command: ChatInputCommand = {
   serverCooldown: 3600,
   requireSelectedCountingChannel: true,
   async execute(interaction, ephemeral, _, [countingChannelId]) {
-    await interaction.deferReply({ flags: ephemeral || undefined
-    });
+    await interaction.deferReply(ephemeral ? { flags: ephemeral } : {});
 
     // set up timer variables here so we can cancel later
     let queueUpdate: NodeJS.Timeout | null = null;

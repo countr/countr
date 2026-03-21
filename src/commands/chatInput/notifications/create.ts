@@ -44,7 +44,7 @@ const command: ChatInputCommand = {
           ],
         },
       ],
-      flags: ephemeral || undefined,
+      ...ephemeral && { flags: ephemeral },
     });
 
     selectMenuComponents.set(`${interaction.id}:select_trigger`, {

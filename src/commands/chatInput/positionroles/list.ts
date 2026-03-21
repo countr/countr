@@ -98,7 +98,7 @@ const command: ChatInputCommand = {
     return void interaction.reply({
       content: `📋 Here's the list of position roles for counting channel <#${countingChannelId}>.`,
       ...desktopView(roles, countingChannel, interaction.id),
-      flags: ephemeral || undefined,
+      ...ephemeral && { flags: ephemeral },
     });
   },
 };

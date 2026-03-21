@@ -22,8 +22,7 @@ const command: ChatInputCommand = {
     if (!flow) return void interaction.reply({ content: "❌ Flow not found.", flags: MessageFlags.Ephemeral });
 
     // uploading might take a while so defer first
-    await interaction.deferReply({ flags: ephemeral || undefined
-    });
+    await interaction.deferReply(ephemeral ? { flags: ephemeral } : {});
 
     return void interaction.editReply({
       content: `✅ Here's the export of flow \`${flowId}\` from counting channel <#${countingChannelId}>.`,

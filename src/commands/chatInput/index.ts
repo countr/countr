@@ -25,10 +25,10 @@ export type ChatInputCommand = {
   serverCooldown?: number;
 } & (
   {
-    execute(interaction: ChatInputCommandInteraction<"cached">, ephemeralPreference: MessageFlags.Ephemeral | 0, document: GuildDocument, selectedCountingChannel: [countingChannelId: null | Snowflake, countingChannel: CountingChannelSchema | null]): Awaitable<void>;
+    execute(interaction: ChatInputCommandInteraction<"cached">, ephemeralPreference: 0 | MessageFlags.Ephemeral, document: GuildDocument, selectedCountingChannel: [countingChannelId: null | Snowflake, countingChannel: CountingChannelSchema | null]): Awaitable<void>;
     requireSelectedCountingChannel?: never;
   } | {
-    execute(interaction: ChatInputCommandInteraction<"cached">, ephemeralPreference: MessageFlags.Ephemeral | 0, document: GuildDocument, selectedCountingChannel: [countingChannelId: Snowflake, countingChannel: CountingChannelSchema]): Awaitable<void>;
+    execute(interaction: ChatInputCommandInteraction<"cached">, ephemeralPreference: 0 | MessageFlags.Ephemeral, document: GuildDocument, selectedCountingChannel: [countingChannelId: Snowflake, countingChannel: CountingChannelSchema]): Awaitable<void>;
     requireSelectedCountingChannel: true;
   }
 );

@@ -9,8 +9,7 @@ const command: ChatInputCommand = {
     const { _id, __v, ...json } = raw as unknown as Record<string, unknown>;
 
     // uploading might take a while so defer first
-    await interaction.deferReply({ flags: ephemeral || undefined
-    });
+    await interaction.deferReply(ephemeral ? { flags: ephemeral } : {});
 
     return void interaction.editReply({
       content: "✅ Successfully exported all data stored on guild.",

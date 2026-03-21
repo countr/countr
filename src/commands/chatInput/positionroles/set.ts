@@ -50,7 +50,7 @@ const command: ChatInputCommand = {
 
     return void interaction.reply({
       content: `✅ The role ${role.toString()} will be given out to ${ordinal(position)} place on the leaderboard of counting channel <#${countingChannelId}>.`,
-      flags: ephemeral || undefined,
+      ...ephemeral && { flags: ephemeral },
     });
   },
 };

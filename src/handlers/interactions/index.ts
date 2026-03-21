@@ -39,10 +39,11 @@ export default function handleInteractions(client: Client<true>): void {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- we should still type check this although it's not necessary
       if (interaction.type === InteractionType.ApplicationCommandAutocomplete) return autocompleteHandler(interaction, document);
       return void "unreachable code" as never;
-    }).catch((err: unknown) => {
-      commandsLogger.debug(`Failed to fetch guild document for interaction ${interaction.id}, guild ${interaction.guildId}: ${inspect(err)}`);
-      if (interaction.isRepliable() && !interaction.replied && !interaction.deferred) void interaction.reply({ content: "❌ An error occurred while processing this interaction.", flags: MessageFlags.Ephemeral });
-    });
+    })
+      .catch((err: unknown) => {
+        commandsLogger.debug(`Failed to fetch guild document for interaction ${interaction.id}, guild ${interaction.guildId}: ${inspect(err)}`);
+        if (interaction.isRepliable() && !interaction.replied && !interaction.deferred) void interaction.reply({ content: "❌ An error occurred while processing this interaction.", flags: MessageFlags.Ephemeral });
+      });
   });
 
   commandsLogger.debug("Interaction command listener registered.");
@@ -53,7 +54,7 @@ export function registerCommands(client: Client<true>): void {
     const guild = client.guilds.cache.get(config.guild);
     if (guild) void guild.commands.set([]).catch((err: unknown) => commandsLogger.error(`Error clearing guild commands: ${inspect(err)}`));
   }
-  const commands = client.application.commands;
+  const { commands } = client.application;
   void Promise.all([
     nestCommands("../../commands/chatInput", "CHAT_INPUT"),
     nestCommands("../../commands/menu", "MENU"),

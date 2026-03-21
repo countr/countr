@@ -1,5 +1,5 @@
-import type { ChatInputCommandInteraction, InteractionReplyOptions, InteractionUpdateOptions, Snowflake } from "discord.js";
-import { ButtonStyle, ComponentType, MessageFlags } from "discord.js";
+import type { ChatInputCommandInteraction, InteractionReplyOptions, InteractionUpdateOptions, MessageFlags, Snowflake } from "discord.js";
+import { ButtonStyle, ComponentType } from "discord.js";
 import type { ChatInputCommand } from "..";
 import type { CountingChannelSchema, GuildDocument } from "../../../database/models/Guild";
 import config from "../../../config";
@@ -12,12 +12,11 @@ const command: ChatInputCommand = {
   description: "List all your notifications",
   requireSelectedCountingChannel: true,
   execute(interaction, ephemeralPreference, document, countingChannelDetails) {
-    return void interaction.reply({ ...refreshList(interaction, ephemeralPreference, document, countingChannelDetails, interaction.id), flags: ephemeralPreference || undefined
-    });
+    return void interaction.reply({ ...refreshList(interaction, ephemeralPreference, document, countingChannelDetails, interaction.id), ...ephemeralPreference && { flags: ephemeralPreference } });
   },
 };
 
-function refreshList(interaction: ChatInputCommandInteraction<"cached">, ephemeralPreference: MessageFlags.Ephemeral | 0, document: GuildDocument, [countingChannelId, countingChannel]: [Snowflake, CountingChannelSchema], uniqueIdentifier: string): InteractionReplyOptions & InteractionUpdateOptions {
+function refreshList(interaction: ChatInputCommandInteraction<"cached">, ephemeralPreference: 0 | MessageFlags.Ephemeral, document: GuildDocument, [countingChannelId, countingChannel]: [Snowflake, CountingChannelSchema], uniqueIdentifier: string): InteractionReplyOptions & InteractionUpdateOptions {
   const allNotifications = Array.from(countingChannel.notifications.entries());
   const userNotifications = allNotifications.filter(([, { userId }]) => userId === interaction.user.id);
 
@@ -80,7 +79,7 @@ function refreshList(interaction: ChatInputCommandInteraction<"cached">, ephemer
             ],
           },
         ],
-        flags: ephemeralPreference || undefined,
+        ...ephemeralPreference && { flags: ephemeralPreference },
       });
 
       buttonComponents.set(`${select.id}:confirm`, {

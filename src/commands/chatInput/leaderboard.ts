@@ -24,7 +24,7 @@ const command: ChatInputCommand = {
           timestamp: new Date().toISOString(),
         },
       ],
-      flags: ephemeral || undefined,
+      ...ephemeral && { flags: ephemeral },
     });
   },
 };

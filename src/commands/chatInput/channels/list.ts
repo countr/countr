@@ -134,7 +134,7 @@ const command: ChatInputCommand = {
           ],
         };
       }),
-      flags: ephemeral || undefined,
+      ...ephemeral && { flags: ephemeral },
     });
   },
 };

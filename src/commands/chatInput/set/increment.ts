@@ -18,8 +18,7 @@ const command: ChatInputCommand = {
     countingChannel.increment = number;
     document.safeSave();
 
-    return void interaction.reply({ content: `✅ The increment of <#${countingChannelId}> is now set to ${number}.`, flags: ephemeral || undefined
-    });
+    return void interaction.reply({ content: `✅ The increment of <#${countingChannelId}> is now set to ${number}.`, ...ephemeral && { flags: ephemeral } });
   },
 };
 

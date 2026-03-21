@@ -19,8 +19,7 @@ const command: ChatInputCommand = {
     if (!channel) return void interaction.reply({ content: "❌ The channel could not be found.", flags: MessageFlags.Ephemeral });
 
     return void channel.edit({ rateLimitPerUser })
-      .then(() => interaction.reply({ content: `✅ Counting channel <#${countingChannelId}>'s slowmode is now set to ${rateLimitPerUser} seconds.`, flags: ephemeral || undefined
-    }))
+      .then(() => interaction.reply({ content: `✅ Counting channel <#${countingChannelId}>'s slowmode is now set to ${rateLimitPerUser} seconds.`, ...ephemeral && { flags: ephemeral } }))
       .catch(() => interaction.reply({ content: `❌ Failed to set slowmode to ${rateLimitPerUser} seconds. Are you sure this is a valid amount of seconds for slowmode?`, flags: MessageFlags.Ephemeral }));
   },
 };

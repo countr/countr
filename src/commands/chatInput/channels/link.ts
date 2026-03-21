@@ -76,8 +76,7 @@ const command: ChatInputCommand = {
     } as CountingChannelSchema);
     document.safeSave();
 
-    return void interaction.reply({ content: `✅ Successfully linked channel <#${channel.id}> to Countr!`, flags: ephemeral || undefined
-    });
+    return void interaction.reply({ content: `✅ Successfully linked channel <#${channel.id}> to Countr!`, ...ephemeral && { flags: ephemeral } });
   },
 };
 

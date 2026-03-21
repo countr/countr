@@ -1,4 +1,4 @@
-import { MessageFlags, version as djsVersion } from "discord.js";
+import { version as djsVersion, MessageFlags } from "discord.js";
 import { release, type } from "os";
 import type { ChatInputCommand } from ".";
 import config from "../../config";
@@ -12,7 +12,7 @@ const platform = `${type()} ${fitText(release(), 20)}`;
 
 const command: ChatInputCommand = {
   description: "Get information about Countr",
-  execute(interaction, flags){
+  execute(interaction, flags) {
     const allStats = getAllStats();
     if (!allStats) return void interaction.reply({ content: "❌ Stats is currently unavailable for this cluster, please try again later.", flags: MessageFlags.Ephemeral });
 
@@ -82,7 +82,7 @@ const command: ChatInputCommand = {
           color: config.colors.primary,
         },
       ],
-      flags: flags || undefined,
+      ...flags && { flags },
     });
   },
 };

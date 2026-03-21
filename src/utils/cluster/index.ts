@@ -1,4 +1,4 @@
-import type { Client} from "discord.js";
+import type { Client } from "discord.js";
 import { Events } from "discord.js";
 import { WebSocket } from "ws";
 import type { CommunicationMessage } from "./communication";

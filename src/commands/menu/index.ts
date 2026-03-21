@@ -4,10 +4,10 @@ import type { CountingChannelSchema, GuildDocument } from "../../database/models
 
 type MessageMenuCommand = (
   {
-    execute(interaction: MessageContextMenuCommandInteraction, ephemeralPreference: MessageFlags.Ephemeral | 0, target: Message, document: GuildDocument, selectedCountingChannel: [countingChannelId: null | Snowflake, countingChannel: CountingChannelSchema | null]): Awaitable<void>;
+    execute(interaction: MessageContextMenuCommandInteraction, ephemeralPreference: 0 | MessageFlags.Ephemeral, target: Message, document: GuildDocument, selectedCountingChannel: [countingChannelId: null | Snowflake, countingChannel: CountingChannelSchema | null]): Awaitable<void>;
     requireSelectedCountingChannel?: never;
   } | {
-    execute(interaction: MessageContextMenuCommandInteraction, ephemeralPreference: MessageFlags.Ephemeral | 0, target: Message, document: GuildDocument, selectedCountingChannel: [countingChannelId: Snowflake, countingChannel: CountingChannelSchema]): Awaitable<void>;
+    execute(interaction: MessageContextMenuCommandInteraction, ephemeralPreference: 0 | MessageFlags.Ephemeral, target: Message, document: GuildDocument, selectedCountingChannel: [countingChannelId: Snowflake, countingChannel: CountingChannelSchema]): Awaitable<void>;
     requireSelectedCountingChannel: true;
   }
 ) & {
@@ -16,10 +16,10 @@ type MessageMenuCommand = (
 
 type UserMenuCommand = (
   {
-    execute(interaction: UserContextMenuCommandInteraction, ephemeralPreference: MessageFlags.Ephemeral | 0, target: GuildMember, document: GuildDocument, selectedCountingChannel: [countingChannelId: Snowflake, countingChannel: CountingChannelSchema]): Awaitable<void>;
+    execute(interaction: UserContextMenuCommandInteraction, ephemeralPreference: 0 | MessageFlags.Ephemeral, target: GuildMember, document: GuildDocument, selectedCountingChannel: [countingChannelId: Snowflake, countingChannel: CountingChannelSchema]): Awaitable<void>;
     requireSelectedCountingChannel: true;
   } | {
-    execute(interaction: UserContextMenuCommandInteraction, ephemeralPreference: MessageFlags.Ephemeral | 0, target: GuildMember, document: GuildDocument, selectedCountingChannel?: [countingChannelId: null | Snowflake, countingChannel: CountingChannelSchema | null]): Awaitable<void>;
+    execute(interaction: UserContextMenuCommandInteraction, ephemeralPreference: 0 | MessageFlags.Ephemeral, target: GuildMember, document: GuildDocument, selectedCountingChannel?: [countingChannelId: null | Snowflake, countingChannel: CountingChannelSchema | null]): Awaitable<void>;
     requireSelectedCountingChannel?: never;
   }
 ) & {

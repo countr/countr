@@ -28,8 +28,7 @@ const command: ChatInputCommand = {
     };
     document.safeSave();
 
-    return void interaction.reply({ content: `✅ The liveboard of <#${countingChannelId}> has been enabled. [**Go to liveboard**](${message.url})`, flags: ephemeral || undefined
-    });
+    return void interaction.reply({ content: `✅ The liveboard of <#${countingChannelId}> has been enabled. [**Go to liveboard**](${message.url})`, ...ephemeral && { flags: ephemeral } });
   },
 };
 

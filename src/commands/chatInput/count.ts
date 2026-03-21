@@ -8,7 +8,7 @@ const command: ChatInputCommand = {
     const { format } = numberSystems[countingChannel.type];
     return void interaction.reply({
       content: `📊 Current count for <#${countingChannelId}> is \`${format(countingChannel.count.number)}\`${countingChannel.type === "decimal" ? "" : ` (decimal: \`${countingChannel.count.number}\`)`}, next up is \`${format(countingChannel.count.number + countingChannel.increment)}\`.`,
-      flags: ephemeral || undefined,
+      ...ephemeral && { flags: ephemeral },
     });
   },
 };
