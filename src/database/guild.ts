@@ -13,13 +13,16 @@ export function getGuildDocument(guildId: Snowflake, fromCache = true): Promise<
   const queued = guildCacheQueue.get(guildId);
   if (queued) return queued;
 
-  const promise = new Promise<GuildDocument>(resolve => {
+  const promise = new Promise<GuildDocument>((resolve, reject) => {
     void Guild.findOne({ guildId }).then(guildInDb => {
       const guild = guildInDb ?? new Guild({ guildId });
 
       guildCache.set(guildId, guild);
       guildCacheQueue.delete(guildId);
       return resolve(guild);
+    }).catch((err: unknown) => {
+      guildCacheQueue.delete(guildId);
+      reject(err);
     });
   });
 

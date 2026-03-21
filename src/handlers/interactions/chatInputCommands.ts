@@ -45,5 +45,6 @@ export default async function chatInputCommandHandler(interaction: ChatInputComm
     return await command.execute(interaction, Boolean(countingChannel), document, (selectedCountingChannel ?? [null, null]) as never);
   } catch (err) {
     commandsLogger.debug(`Failed to run interaction command /${commandSegments.join(" ")} on interaction ${interaction.id}, channel ${interaction.channelId}, guild ${interaction.guildId}, member ${interaction.user.id}: ${inspect(err)}`);
+    if (!interaction.replied && !interaction.deferred) void interaction.reply({ content: "❌ An error occurred while running this command.", ephemeral: true });
   }
 }

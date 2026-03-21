@@ -52,37 +52,42 @@ client.once(Events.ClientReady, trueClient => void (async () => {
   mainLogger.info(`Ready as @${trueClient.user.username} on shards ${trueClient.ws.shards.map(shard => shard.id).join(",") || "0"}. Caching guilds.`);
   if (config.cluster.id === 0) registerCommands(trueClient);
 
-  // perpare guilds
-  if (client.guilds.cache.size) {
-    disabledGuilds = new Set(client.guilds.cache.map(guild => guild.id));
+  try {
+    // prepare guilds
+    if (client.guilds.cache.size) {
+      disabledGuilds = new Set(client.guilds.cache.map(guild => guild.id));
 
-    // cache guilds
-    const cacheStart = Date.now();
-    const guildIds = Array.from(disabledGuilds.values());
-    for (let i = 0; i < guildIds.length; i += 500) {
-      await touchGuildDocument(guildIds.slice(i, i + 1000));
-      await sleep(1000);
-    }
-    mainLogger.info(`Cached ${disabledGuilds.size} guilds in ${msToHumanSeconds(Date.now() - cacheStart)}. Processing available guilds.`);
+      // cache start
+      const cacheStart = Date.now();
+      const guildIds = Array.from(disabledGuilds.values());
+      for (let i = 0; i < guildIds.length; i += 500) {
+        await touchGuildDocument(guildIds.slice(i, i + 1000));
+        await sleep(1000);
+      }
+      mainLogger.info(`Cached ${disabledGuilds.size} guilds in ${msToHumanSeconds(Date.now() - cacheStart)}. Processing available guilds.`);
 
-    // process guilds
-    const processingStart = Date.now();
-    await Promise.all(client.guilds.cache.map(async guild => new Promise(resolve => {
-      void Promise.race([prepareGuild(guild).then(() => false), sleep(30_000).then(() => true)])
-        .then(timeout => {
-          if (timeout) mainLogger.warn(`Timed out when preparing guild ${guild.id} (${guild.name}).`);
-          resolve(void disabledGuilds.delete(guild.id));
-        })
-        .catch((err: unknown) => {
-          mainLogger.warn(`Failed to prepare guild ${guild.id} (${guild.name}): ${inspect(err)}`);
-          resolve(void disabledGuilds.delete(guild.id));
-        });
-    })));
-    mainLogger.info(`Processed guilds in ${msToHumanSeconds(Date.now() - processingStart)}. (missing: ${disabledGuilds.size})`);
+      // process guilds
+      const processingStart = Date.now();
+      await Promise.all(client.guilds.cache.map(async guild => new Promise(resolve => {
+        void Promise.race([prepareGuild(guild).then(() => false), sleep(30_000).then(() => true)])
+          .then(timeout => {
+            if (timeout) mainLogger.warn(`Timed out when preparing guild ${guild.id} (${guild.name}).`);
+            resolve(void disabledGuilds.delete(guild.id));
+          })
+          .catch((err: unknown) => {
+            mainLogger.warn(`Failed to prepare guild ${guild.id} (${guild.name}): ${inspect(err)}`);
+            resolve(void disabledGuilds.delete(guild.id));
+          });
+      })));
+      mainLogger.info(`Processed guilds in ${msToHumanSeconds(Date.now() - processingStart)}. (missing: ${disabledGuilds.size})`);
 
-    // finish up
+      // finish up
+      disabledGuilds = new Set();
+    } else mainLogger.warn(`Add the bot with this link: ${inviteUrl(trueClient)}`);
+  } catch (err: unknown) {
+    mainLogger.error(`Failed to prepare guilds during startup: ${inspect(err)}`);
     disabledGuilds = new Set();
-  } else mainLogger.warn(`Add the bot with this link: ${inviteUrl(trueClient)}`);
+  }
 
   // client handlers
   handleAccess(trueClient);
