@@ -42,8 +42,8 @@ importers:
         specifier: 8.1.0
         version: 8.1.0
       match-sorter:
-        specifier: 8.2.0
-        version: 8.2.0
+        specifier: 8.3.0
+        version: 8.3.0
       mongoose:
         specifier: 9.1.6
         version: 9.1.6
@@ -104,7 +104,7 @@ importers:
         version: 9.39.4(jiti@1.21.7)
       eslint-config-promise:
         specifier: github:promise/eslint-config
-        version: https://codeload.github.com/promise/eslint-config/tar.gz/f75882be5a4bf055aec1182f1b9bc9563be968b5(1394b69a3ba9c5e3411f1b9ecb25464e)
+        version: https://codeload.github.com/promise/eslint-config/tar.gz/9340d059930968939cf9a3ff343b79642a830be1(5da8c194a57c328e4aeefbe41aafb9ec)
       jest:
         specifier: 30.3.0
         version: 30.3.0(@types/node@22.19.17)
@@ -1412,8 +1412,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/f75882be5a4bf055aec1182f1b9bc9563be968b5:
-    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/f75882be5a4bf055aec1182f1b9bc9563be968b5}
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/9340d059930968939cf9a3ff343b79642a830be1:
+    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/9340d059930968939cf9a3ff343b79642a830be1}
     version: 0.0.0
     peerDependencies:
       '@stylistic/eslint-plugin-js': 4.2.0
@@ -1427,7 +1427,7 @@ packages:
       eslint-plugin-perfectionist: 4.12.3
       eslint-plugin-react: 7.37.5
       eslint-plugin-tailwindcss: 3.18.0
-      globals: 17.4.0
+      globals: 17.5.0
 
   eslint-import-resolver-node@0.3.9:
     resolution: {integrity: sha512-WFj2isz22JahUv+B788TlO3N6zL3nNJGU8CcZbPZvVEkBPaJdCV4vy5wyghty5ROFbCRnm132v8BScu5/1BQ8g==}
@@ -1734,8 +1734,8 @@ packages:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
     engines: {node: '>=18'}
 
-  globals@17.4.0:
-    resolution: {integrity: sha512-hjrNztw/VajQwOLsMNT1cbJiH2muO3OROCHnbehc8eY5JyD2gqz4AcMHPqgaOR59DjgUjYAYLeH699g/eWi2jw==}
+  globals@17.5.0:
+    resolution: {integrity: sha512-qoV+HK2yFl/366t2/Cb3+xxPUo5BuMynomoDmiaZBIdbs+0pYbjfZU+twLhGKp4uCZ/+NbtpVepH5bGCxRyy2g==}
     engines: {node: '>=18'}
 
   globalthis@1.0.4:
@@ -2257,8 +2257,8 @@ packages:
   makeerror@1.0.12:
     resolution: {integrity: sha512-JmqCvUhmt43madlpFzG4BQzG2Z3m6tvQDNKdClZnO3VbIudJYmxsT0FNJMeiB2+JTSlTQTSbU8QdesVmwJcmLg==}
 
-  match-sorter@8.2.0:
-    resolution: {integrity: sha512-qRVB7wYMJXizAWR4TKo5UYwgW7oAVzA8V9jve0wGzRvV91ou9dcqL+/2gJtD0PZ/Pm2Fq6cVT4VHXHmDFVMGRA==}
+  match-sorter@8.3.0:
+    resolution: {integrity: sha512-8Py1GbZi5zsclYSFcPAH4H5xfTbeD0bOREA7qP/t8bW4MbOSlPl8sbqHOedEV7O+Bxyvxm6xs/v6BXJGe+JDNA==}
 
   math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
@@ -4861,7 +4861,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/f75882be5a4bf055aec1182f1b9bc9563be968b5(1394b69a3ba9c5e3411f1b9ecb25464e):
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/9340d059930968939cf9a3ff343b79642a830be1(5da8c194a57c328e4aeefbe41aafb9ec):
     dependencies:
       '@stylistic/eslint-plugin-js': 4.2.0(eslint@9.39.4(jiti@1.21.7))
       '@stylistic/eslint-plugin-jsx': 4.2.0(eslint@9.39.4(jiti@1.21.7))
@@ -4874,7 +4874,7 @@ snapshots:
       eslint-plugin-perfectionist: 4.12.3(eslint@9.39.4(jiti@1.21.7))(typescript@5.9.3)
       eslint-plugin-react: 7.37.5(eslint@9.39.4(jiti@1.21.7))
       eslint-plugin-tailwindcss: 3.18.0(tailwindcss@3.4.19)
-      globals: 17.4.0
+      globals: 17.5.0
 
   eslint-import-resolver-node@0.3.9:
     dependencies:
@@ -5287,7 +5287,7 @@ snapshots:
 
   globals@14.0.0: {}
 
-  globals@17.4.0: {}
+  globals@17.5.0: {}
 
   globalthis@1.0.4:
     dependencies:
@@ -5981,7 +5981,7 @@ snapshots:
     dependencies:
       tmpl: 1.0.5
 
-  match-sorter@8.2.0:
+  match-sorter@8.3.0:
     dependencies:
       '@babel/runtime': 7.29.2
       remove-accents: 0.5.0
