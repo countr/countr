@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, MessageFlags } from "discord.js";
 import type { ChatInputCommand } from "..";
 import countingChannels from "../../../constants/autocompletes/countingChannels";
 
@@ -20,14 +20,14 @@ const command: ChatInputCommand = {
     if (!document.channels.has(channelId)) {
       return void interaction.reply({
         content: "❌ That channel is not linked to Countr.",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
     document.channels.delete(channelId);
     document.safeSave();
 
-    return void interaction.reply({ content: `✅ The counting channel <#${channelId}> has been unlinked.`, ephemeral });
+    return void interaction.reply({ content: `✅ The counting channel <#${channelId}> has been unlinked.`, ...ephemeral && { flags: ephemeral } });
   },
 };
 

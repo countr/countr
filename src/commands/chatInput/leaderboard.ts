@@ -1,3 +1,4 @@
+import { MessageFlags } from "discord.js";
 import type { ChatInputCommand } from ".";
 import config from "../../config";
 import createLeaderboard from "../../constants/scores";
@@ -7,7 +8,7 @@ const command: ChatInputCommand = {
   requireSelectedCountingChannel: true,
   execute(interaction, ephemeral, _, [countingChannelId, countingChannel]) {
     const scores = Array.from(countingChannel.scores.entries());
-    if (!scores.length) return void interaction.reply({ content: `❌ There is no scoreboard to show for <#${countingChannelId}>.`, ephemeral: true });
+    if (!scores.length) return void interaction.reply({ content: `❌ There is no scoreboard to show for <#${countingChannelId}>.`, flags: MessageFlags.Ephemeral });
 
     const serverIcon = interaction.guild.iconURL({ forceStatic: false, size: 64 });
     return void interaction.reply({
@@ -23,7 +24,7 @@ const command: ChatInputCommand = {
           timestamp: new Date().toISOString(),
         },
       ],
-      ephemeral,
+      ...ephemeral && { flags: ephemeral },
     });
   },
 };

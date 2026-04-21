@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, ButtonStyle, ComponentType } from "discord.js";
+import { ApplicationCommandOptionType, ButtonStyle, ComponentType, MessageFlags } from "discord.js";
 import type { ChatInputCommand } from "../..";
 import { flowEditor } from "../../../../constants/editors/flows";
 import limits from "../../../../constants/limits";
@@ -18,14 +18,14 @@ const command: ChatInputCommand = {
   ],
   requireSelectedCountingChannel: true,
   execute(interaction, ephemeral, document, [countingChannelId, countingChannel]) {
-    if (countingChannel.flows.size >= limits.flows.amount) return void interaction.reply({ content: `❌ You can only have up to **${limits.flows.amount}** flows.`, ephemeral: true });
+    if (countingChannel.flows.size >= limits.flows.amount) return void interaction.reply({ content: `❌ You can only have up to **${limits.flows.amount}** flows.`, flags: MessageFlags.Ephemeral });
 
     const attachment = interaction.options.getAttachment("flow_file", true);
-    if (!attachment.url.split("?")[0]!.endsWith(".json")) return void interaction.reply({ content: "❌ This is not a valid file type.", ephemeral: true });
+    if (!attachment.url.split("?")[0]!.endsWith(".json")) return void interaction.reply({ content: "❌ This is not a valid file type.", flags: MessageFlags.Ephemeral });
 
     const request = fetch(attachment.url).then(res => res.text());
 
-    return void Promise.all([request, interaction.deferReply({ ephemeral })]).then(([json]) => {
+    return void Promise.all([request, interaction.deferReply(ephemeral ? { flags: ephemeral } : {})]).then(([json]) => {
       const flow = parseFlow(json);
       if (!flow) return void interaction.editReply("❌ This is not a valid flow configuration.");
 

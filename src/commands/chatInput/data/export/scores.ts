@@ -7,7 +7,7 @@ const command: ChatInputCommand = {
     const scores = Object.fromEntries(countingChannel.scores.entries());
 
     // uploading might take a while so defer first
-    await interaction.deferReply({ ephemeral });
+    await interaction.deferReply(ephemeral ? { flags: ephemeral } : {});
 
     return void interaction.editReply({
       content: `✅ Successfully exported scores of <#${countingChannelId}>.`,
