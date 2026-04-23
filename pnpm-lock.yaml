@@ -63,8 +63,8 @@ importers:
         specifier: 5.0.0
         version: 5.0.0(winston@3.19.0)
       ws:
-        specifier: 8.18.3
-        version: 8.18.3(bufferutil@4.0.9)
+        specifier: 8.20.0
+        version: 8.20.0(bufferutil@4.0.9)
       zlib-sync:
         specifier: 0.1.10
         version: 0.1.10
@@ -104,7 +104,7 @@ importers:
         version: 9.39.4(jiti@1.21.7)
       eslint-config-promise:
         specifier: github:promise/eslint-config
-        version: https://codeload.github.com/promise/eslint-config/tar.gz/9340d059930968939cf9a3ff343b79642a830be1(5da8c194a57c328e4aeefbe41aafb9ec)
+        version: https://codeload.github.com/promise/eslint-config/tar.gz/f534458efab81d9a0f0e0b47e2712e2473f02b24(5da8c194a57c328e4aeefbe41aafb9ec)
       jest:
         specifier: 30.3.0
         version: 30.3.0(@types/node@22.19.17)
@@ -1412,8 +1412,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/9340d059930968939cf9a3ff343b79642a830be1:
-    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/9340d059930968939cf9a3ff343b79642a830be1}
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/f534458efab81d9a0f0e0b47e2712e2473f02b24:
+    resolution: {tarball: https://codeload.github.com/promise/eslint-config/tar.gz/f534458efab81d9a0f0e0b47e2712e2473f02b24}
     version: 0.0.0
     peerDependencies:
       '@stylistic/eslint-plugin-js': 4.2.0
@@ -3245,8 +3245,8 @@ packages:
     resolution: {integrity: sha512-+QU2zd6OTD8XWIJCbffaiQeH9U73qIqafo1x6V1snCWYGJf6cVE0cDR4D8xRzcEnfI21IFrUPzPGtcPf8AC+Rw==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
-  ws@8.18.3:
-    resolution: {integrity: sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==}
+  ws@8.20.0:
+    resolution: {integrity: sha512-sAt8BhgNbzCtgGbt2OxmpuryO63ZoDk/sqaB/znQm94T4fCEsy/yV+7CdC1kJhOU9lboAEU7R3kquuycDoibVA==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -3544,7 +3544,7 @@ snapshots:
       '@vladfrangu/async_event_emitter': 2.4.7
       discord-api-types: 0.38.43
       tslib: 2.8.1
-      ws: 8.18.3(bufferutil@4.0.9)
+      ws: 8.20.0(bufferutil@4.0.9)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -4861,7 +4861,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/9340d059930968939cf9a3ff343b79642a830be1(5da8c194a57c328e4aeefbe41aafb9ec):
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/f534458efab81d9a0f0e0b47e2712e2473f02b24(5da8c194a57c328e4aeefbe41aafb9ec):
     dependencies:
       '@stylistic/eslint-plugin-js': 4.2.0(eslint@9.39.4(jiti@1.21.7))
       '@stylistic/eslint-plugin-jsx': 4.2.0(eslint@9.39.4(jiti@1.21.7))
@@ -7054,7 +7054,7 @@ snapshots:
       imurmurhash: 0.1.4
       signal-exit: 4.1.0
 
-  ws@8.18.3(bufferutil@4.0.9):
+  ws@8.20.0(bufferutil@4.0.9):
     optionalDependencies:
       bufferutil: 4.0.9
 
