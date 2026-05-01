@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, MessageFlags } from "discord.js";
 import type { ChatInputCommand } from ".";
 import countingChannels from "../../constants/autocompletes/countingChannels";
 import { docsUrl } from "../../constants/links";
@@ -18,11 +18,11 @@ const command: ChatInputCommand = {
   autocompletes: { channel: countingChannels },
   execute(interaction, _, document) {
     const channel = interaction.options.getString("channel", true);
-    if (channel === "no-channel-configured") return void interaction.reply({ content: `💥 No counting channel is set up in this server! Create a new one by using \`/channels new\` or link an existing one with \`/channels link\`. New to Countr? Check out the [documentation](<${docsUrl}>) to get started!`, ephemeral: true });
-    if (!document.channels.has(channel)) return void interaction.reply({ content: "❌ This channel isn't a configured counting channel.", ephemeral: true });
+    if (channel === "no-channel-configured") return void interaction.reply({ content: `💥 No counting channel is set up in this server! Create a new one by using \`/channels new\` or link an existing one with \`/channels link\`. New to Countr? Check out the [documentation](<${docsUrl}>) to get started!`, flags: MessageFlags.Ephemeral });
+    if (!document.channels.has(channel)) return void interaction.reply({ content: "❌ This channel isn't a configured counting channel.", flags: MessageFlags.Ephemeral });
 
     selectedCountingChannels.set(interaction.user.id, channel);
-    return void interaction.reply({ content: `✅ You have selected <#${channel}> as your counting channel.`, ephemeral: true });
+    return void interaction.reply({ content: `✅ You have selected <#${channel}> as your counting channel.`, flags: MessageFlags.Ephemeral });
   },
 };
 

@@ -6,7 +6,7 @@ const command: ChatInputCommand = {
   async execute(interaction, ephemeral) {
     const start = Date.now();
     await interaction.client.rest.get("/gateway");
-    return void interaction.reply({ content: `🏓 Gateway latency is \`${Date.now() - start}ms\`, heartbeat latency is \`${Math.ceil(interaction.guild.shard.ping)}ms\` and my uptime is \`${msToHumanShortTime(interaction.client.uptime)}\`.`, ephemeral });
+    return void interaction.reply({ content: `🏓 Gateway latency is \`${Date.now() - start}ms\`, heartbeat latency is \`${Math.ceil(interaction.guild.shard.ping)}ms\` and my uptime is \`${msToHumanShortTime(interaction.client.uptime)}\`.`, ...ephemeral && { flags: ephemeral } });
   },
 };
 
