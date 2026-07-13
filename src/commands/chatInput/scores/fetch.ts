@@ -1,5 +1,5 @@
 import type { ButtonComponentData, InteractionEditReplyOptions, Message, Snowflake } from "discord.js";
-import { ButtonStyle, Collection, ComponentType, MessageType, TextInputStyle, time } from "discord.js";
+import { ButtonStyle, Collection, ComponentType, MessageFlags, MessageType, TextInputStyle, time } from "discord.js";
 import { promisify } from "util";
 import type { ChatInputCommand } from "..";
 import { messageFetchLimit } from "../../../constants/discord";
@@ -16,7 +16,7 @@ const command: ChatInputCommand = {
   serverCooldown: 3600,
   requireSelectedCountingChannel: true,
   async execute(interaction, ephemeral, _, [countingChannelId]) {
-    await interaction.deferReply({ ephemeral });
+    await interaction.deferReply(ephemeral ? { flags: ephemeral } : {});
 
     // set up timer variables here so we can cancel later
     let queueUpdate: NodeJS.Timeout | null = null;
@@ -109,12 +109,12 @@ const command: ChatInputCommand = {
       modals.set(`${interaction.id}:submit-total`, {
         callback: modal => {
           const total = Number(getModalTextInput(modal.components, "total"));
-          if (isNaN(total) || !total) return void modal.reply({ content: "❌ Invalid number.", ephemeral: true });
+          if (isNaN(total) || !total) return void modal.reply({ content: "❌ Invalid number.", flags: MessageFlags.Ephemeral });
           totalMessages = total;
           if (updateProgress) clearInterval(updateProgress as never);
           updateMessage();
           updateProgress = setInterval(updateMessage, 5000);
-          return void modal.reply({ content: "✅ Total message count set. You can now see an estimation in the original message!", ephemeral: true });
+          return void modal.reply({ content: "✅ Total message count set. You can now see an estimation in the original message!", flags: MessageFlags.Ephemeral });
         },
       });
 
