@@ -63,8 +63,8 @@ importers:
         specifier: 5.0.0
         version: 5.0.0(winston@3.19.0)
       ws:
-        specifier: 8.18.3
-        version: 8.18.3(bufferutil@4.0.9)
+        specifier: 8.21.1
+        version: 8.21.1(bufferutil@4.0.9)
       zlib-sync:
         specifier: 0.1.10
         version: 0.1.10
@@ -1445,7 +1445,7 @@ packages:
     engines: {node: '>=10'}
 
   eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/f35740d3efbeabb7f40ef7294fcefafc9d4b0148:
-    resolution: {gitHosted: true, integrity: sha512-qDWXd38Nxf4Yh2K/9KFnAu+3XCHZp0Ya8AsBuLDdlY8SIjHV1Fww28J95CLP7CCN+RazG24hvC7UzWvGMDVD1w==, tarball: https://codeload.github.com/promise/eslint-config/tar.gz/f35740d3efbeabb7f40ef7294fcefafc9d4b0148}
+    resolution: {gitHosted: true, tarball: https://codeload.github.com/promise/eslint-config/tar.gz/f35740d3efbeabb7f40ef7294fcefafc9d4b0148}
     version: 0.0.0
     peerDependencies:
       '@stylistic/eslint-plugin-js': 4.2.0
@@ -3285,8 +3285,8 @@ packages:
     resolution: {integrity: sha512-+QU2zd6OTD8XWIJCbffaiQeH9U73qIqafo1x6V1snCWYGJf6cVE0cDR4D8xRzcEnfI21IFrUPzPGtcPf8AC+Rw==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
-  ws@8.18.3:
-    resolution: {integrity: sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==}
+  ws@8.21.1:
+    resolution: {integrity: sha512-+0NTnW77fFN/DjQi6k/Sq/Yvk4Sgajw7urW8V+asjXnRgDs9gyGkdb7EzgfhA4goXsRIZKE28fzIXBHEzhuiWw==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -3584,7 +3584,7 @@ snapshots:
       '@vladfrangu/async_event_emitter': 2.4.7
       discord-api-types: 0.38.49
       tslib: 2.8.1
-      ws: 8.18.3(bufferutil@4.0.9)
+      ws: 8.21.1(bufferutil@4.0.9)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -7139,7 +7139,7 @@ snapshots:
       imurmurhash: 0.1.4
       signal-exit: 4.1.0
 
-  ws@8.18.3(bufferutil@4.0.9):
+  ws@8.21.1(bufferutil@4.0.9):
     optionalDependencies:
       bufferutil: 4.0.9
 
