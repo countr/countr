@@ -42,7 +42,7 @@ const command: ChatInputCommand = {
 
     return void interaction.reply({
       content: `✅ The timeout role of <#${countingChannelId}> has been set to ${role.toString()}. It will be given out if someone fails ${fails} times within ${msToHumanTime(timePeriod * 1000)}. ${duration ? `The role will be removed after ${msToHumanTime(duration * 1000)}.` : ""}`,
-      ephemeral,
+      ...ephemeral && { flags: ephemeral },
     });
   },
 };

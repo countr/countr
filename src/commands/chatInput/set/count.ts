@@ -19,7 +19,7 @@ const command: ChatInputCommand = {
     countingChannel.count = { number };
     document.safeSave();
 
-    return void interaction.reply({ content: `✅ The count of <#${countingChannelId}> is now set to ${number}. ${countingChannel.type === "decimal" ? "" : `(${countingChannel.type}: \`${numberSystems[countingChannel.type].format(number)}\`)`}`, ephemeral });
+    return void interaction.reply({ content: `✅ The count of <#${countingChannelId}> is now set to ${number}. ${countingChannel.type === "decimal" ? "" : `(${countingChannel.type}: \`${numberSystems[countingChannel.type].format(number)}\`)`}`, ...ephemeral && { flags: ephemeral } });
   },
 };
 

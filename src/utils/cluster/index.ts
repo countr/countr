@@ -1,4 +1,5 @@
 import type { Client } from "discord.js";
+import { Events } from "discord.js";
 import { WebSocket } from "ws";
 import type { CommunicationMessage } from "./communication";
 import type { CombinedData, ShardData } from "./manager/lists";
@@ -84,14 +85,14 @@ export function initializeWebsocket(client: Client): WebSocket {
   });
 
   client
-    .on("shardReady", shardId => {
+    .on(Events.ShardReady, shardId => {
       const shardConnected: CommunicationMessage = {
         type: CommunicationType.CTM_SHARD_CONNECTED,
         payload: { shardId },
       };
       ws.send(JSON.stringify(shardConnected));
     })
-    .on("ready", () => {
+    .on(Events.ClientReady, () => {
       const shards: Record<number, ShardData> = {};
       for (const shard of Array.from(client.ws.shards.values())) {
         const guilds = client.guilds.cache.filter(guild => guild.shardId === shard.id);
