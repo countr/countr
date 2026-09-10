@@ -30,8 +30,8 @@ importers:
         specifier: 14.22.1
         version: 14.22.1(bufferutil@4.0.9)
       dotenv:
-        specifier: 17.2.4
-        version: 17.2.4
+        specifier: 17.4.2
+        version: 17.4.2
       express:
         specifier: 5.1.0
         version: 5.1.0
@@ -1444,8 +1444,8 @@ packages:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==}
     engines: {node: '>=0.10.0'}
 
-  dotenv@17.2.4:
-    resolution: {integrity: sha512-mudtfb4zRB4bVvdj0xRo+e6duH1csJRM8IukBqfTRvHotn9+LBXB8ynAidP9zHqoRC/fsllXgk4kCKlR21fIhw==}
+  dotenv@17.4.2:
+    resolution: {integrity: sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw==}
     engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
@@ -4961,7 +4961,7 @@ snapshots:
     dependencies:
       esutils: 2.0.3
 
-  dotenv@17.2.4: {}
+  dotenv@17.4.2: {}
 
   dunder-proto@1.0.1:
     dependencies:
