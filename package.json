@@ -68,7 +68,7 @@
     "eslint": "9.39.5",
     "eslint-config-promise": "github:promise/eslint-config",
     "jest": "30.5.2",
-    "ts-jest": "29.4.12",
+    "ts-jest": "29.4.13",
     "typescript": "5.9.3"
   },
   "jest": {
