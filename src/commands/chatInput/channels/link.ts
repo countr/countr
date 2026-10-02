@@ -1,5 +1,5 @@
 import type { ChannelType } from "discord.js";
-import { ApplicationCommandOptionType, PermissionsBitField } from "discord.js";
+import { ApplicationCommandOptionType, MessageFlags, PermissionsBitField } from "discord.js";
 import type { ChatInputCommand } from "..";
 import type { CountingChannelAllowedChannelType, CountingChannelRootChannel } from "../../../constants/discord";
 import type { CountingChannelSchema } from "../../../database/models/Guild";
@@ -34,7 +34,7 @@ const command: ChatInputCommand = {
     if (document.channels.size >= limits.channels.amount) {
       return void interaction.reply({
         content: `❌ You can only have up to **${limits.channels.amount}** channels at a time.`,
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -45,7 +45,7 @@ const command: ChatInputCommand = {
     if (document.channels.has(channel.id)) {
       return void interaction.reply({
         content: "❌ That channel is already linked to Countr.",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -53,7 +53,7 @@ const command: ChatInputCommand = {
     if (!([...countingChannelRootChannels] as ChannelType[]).includes(rootChannel.type)) {
       return void interaction.reply({
         content: "❌ You can't link this channel because the parent is not a valid root channel.",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -65,7 +65,7 @@ const command: ChatInputCommand = {
           .map(bigint => Object.entries(PermissionsBitField.Flags).find(([, permission]) => permission === bigint && !currentPermissions.has(permission))?.[0])
           .filter(Boolean)
           .join(", ")}`,
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -76,7 +76,7 @@ const command: ChatInputCommand = {
     } as CountingChannelSchema);
     document.safeSave();
 
-    return void interaction.reply({ content: `✅ Successfully linked channel <#${channel.id}> to Countr!`, ephemeral });
+    return void interaction.reply({ content: `✅ Successfully linked channel <#${channel.id}> to Countr!`, ...ephemeral && { flags: ephemeral } });
   },
 };
 
