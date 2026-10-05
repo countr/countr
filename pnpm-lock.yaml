@@ -30,8 +30,8 @@ importers:
         specifier: 14.22.1
         version: 14.22.1(bufferutil@4.0.9)
       dotenv:
-        specifier: 17.2.4
-        version: 17.2.4
+        specifier: 17.4.2
+        version: 17.4.2
       express:
         specifier: 5.1.0
         version: 5.1.0
@@ -104,7 +104,7 @@ importers:
         version: 9.39.5(jiti@1.21.7)
       eslint-config-promise:
         specifier: github:promise/eslint-config
-        version: https://codeload.github.com/promise/eslint-config/tar.gz/70eb9a0613c0a5c8d62fc8d1edf87278f9ef8e7f(2e4586731d2c76caec82a689b17cded1)
+        version: https://codeload.github.com/promise/eslint-config/tar.gz/a3aa315f504cb61b1f7a88b018a9047e0c975410(df55946093844060151af94f4695c6f1)
       jest:
         specifier: 30.5.2
         version: 30.5.2(@types/node@22.20.5)
@@ -1444,8 +1444,8 @@ packages:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==}
     engines: {node: '>=0.10.0'}
 
-  dotenv@17.2.4:
-    resolution: {integrity: sha512-mudtfb4zRB4bVvdj0xRo+e6duH1csJRM8IukBqfTRvHotn9+LBXB8ynAidP9zHqoRC/fsllXgk4kCKlR21fIhw==}
+  dotenv@17.4.2:
+    resolution: {integrity: sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw==}
     engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
@@ -1535,8 +1535,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/70eb9a0613c0a5c8d62fc8d1edf87278f9ef8e7f:
-    resolution: {gitHosted: true, integrity: sha512-0DqCesyLkLRon3OAm5iwEdXoquvbM3+s0cGYwcHaS9sU8MqltwA3QErDyhfKrSg9Z5QsegCbdNvFc8lZBqT5dg==, tarball: https://codeload.github.com/promise/eslint-config/tar.gz/70eb9a0613c0a5c8d62fc8d1edf87278f9ef8e7f}
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/a3aa315f504cb61b1f7a88b018a9047e0c975410:
+    resolution: {gitHosted: true, tarball: https://codeload.github.com/promise/eslint-config/tar.gz/a3aa315f504cb61b1f7a88b018a9047e0c975410}
     version: 0.0.0
     peerDependencies:
       '@stylistic/eslint-plugin-js': 4.2.0
@@ -1550,7 +1550,7 @@ packages:
       eslint-plugin-perfectionist: 4.12.3
       eslint-plugin-react: 7.37.5
       eslint-plugin-tailwindcss: 3.18.0
-      globals: 17.12.0
+      globals: 17.13.0
 
   eslint-import-resolver-node@0.3.10:
     resolution: {integrity: sha512-tRrKqFyCaKict5hOd244sL6EQFNycnMQnBe+j8uqGNXYzsImGbGUU4ibtoaBmv5FLwJwcFJNeg1GeVjQfbMrDQ==}
@@ -1866,8 +1866,8 @@ packages:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
     engines: {node: '>=18'}
 
-  globals@17.12.0:
-    resolution: {integrity: sha512-cezEd/DTyyht9cvSSURyygXPfy04GtWO/5e6ZPvH7fCtjKz9PYOmuawphw1Ctd1f6C+5JypXfGD7ahNMXvevBA==}
+  globals@17.13.0:
+    resolution: {integrity: sha512-RwMTC61u7hrG3ZJMkZQOK4JLJrKS8QtoTii63EmWvFXHqycY9FObBJQCbsLxSO8kjKhWE5kV1GC+Vb1g3RI0Zg==}
     engines: {node: '>=18'}
 
   globalthis@1.0.4:
@@ -4961,7 +4961,7 @@ snapshots:
     dependencies:
       esutils: 2.0.3
 
-  dotenv@17.2.4: {}
+  dotenv@17.4.2: {}
 
   dunder-proto@1.0.1:
     dependencies:
@@ -5110,7 +5110,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/70eb9a0613c0a5c8d62fc8d1edf87278f9ef8e7f(2e4586731d2c76caec82a689b17cded1):
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/a3aa315f504cb61b1f7a88b018a9047e0c975410(df55946093844060151af94f4695c6f1):
     dependencies:
       '@stylistic/eslint-plugin-js': 4.2.0(eslint@9.39.5(jiti@1.21.7))
       '@stylistic/eslint-plugin-jsx': 4.2.0(eslint@9.39.5(jiti@1.21.7))
@@ -5123,7 +5123,7 @@ snapshots:
       eslint-plugin-perfectionist: 4.12.3(eslint@9.39.5(jiti@1.21.7))(typescript@5.9.3)
       eslint-plugin-react: 7.37.5(eslint@9.39.5(jiti@1.21.7))
       eslint-plugin-tailwindcss: 3.18.0(tailwindcss@3.4.19)
-      globals: 17.12.0
+      globals: 17.13.0
 
   eslint-import-resolver-node@0.3.10:
     dependencies:
@@ -5554,7 +5554,7 @@ snapshots:
 
   globals@14.0.0: {}
 
-  globals@17.12.0: {}
+  globals@17.13.0: {}
 
   globalthis@1.0.4:
     dependencies:
