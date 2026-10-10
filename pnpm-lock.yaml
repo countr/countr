@@ -79,8 +79,8 @@ importers:
         specifier: 2.0.8
         version: 2.0.8
       '@types/dedent':
-        specifier: 0.7.2
-        version: 0.7.2
+        specifier: 1.7.2
+        version: 1.7.2
       '@types/express':
         specifier: 5.0.5
         version: 5.0.5
@@ -104,7 +104,7 @@ importers:
         version: 9.39.5(jiti@1.21.7)
       eslint-config-promise:
         specifier: github:promise/eslint-config
-        version: https://codeload.github.com/promise/eslint-config/tar.gz/70eb9a0613c0a5c8d62fc8d1edf87278f9ef8e7f(2e4586731d2c76caec82a689b17cded1)
+        version: https://codeload.github.com/promise/eslint-config/tar.gz/9c97be01645c7fcb24c73f213366bca8e9fbc388(df55946093844060151af94f4695c6f1)
       jest:
         specifier: 30.5.2
         version: 30.5.2(@types/node@22.20.5)
@@ -721,8 +721,9 @@ packages:
   '@types/connect@3.4.38':
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
 
-  '@types/dedent@0.7.2':
-    resolution: {integrity: sha512-kRiitIeUg1mPV9yH4VUJ/1uk2XjyANfeL8/7rH1tsjvHeO9PJLBHJIYsFWmAvmGj5u8rj+1TZx7PZzW2qLw3Lw==}
+  '@types/dedent@1.7.2':
+    resolution: {integrity: sha512-iSPTrLlAygLy7ivCyumME9eHkXb/yFZh4BN8nnOQrhixed8aUGgwNESEwe+zTg9wwBS1AMoOrk17YSy5kIN0hw==}
+    deprecated: This is a stub types definition. dedent provides its own type definitions, so you do not need this installed.
 
   '@types/estree@1.0.9':
     resolution: {integrity: sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==}
@@ -1535,8 +1536,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/70eb9a0613c0a5c8d62fc8d1edf87278f9ef8e7f:
-    resolution: {gitHosted: true, integrity: sha512-0DqCesyLkLRon3OAm5iwEdXoquvbM3+s0cGYwcHaS9sU8MqltwA3QErDyhfKrSg9Z5QsegCbdNvFc8lZBqT5dg==, tarball: https://codeload.github.com/promise/eslint-config/tar.gz/70eb9a0613c0a5c8d62fc8d1edf87278f9ef8e7f}
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/9c97be01645c7fcb24c73f213366bca8e9fbc388:
+    resolution: {gitHosted: true, integrity: sha512-gkoq8N5R8vL2g1byQwCz2LpJW23TbP8uKoSJCaxM709xSRrcX0y1cnfBUIbmqrPQFPCjgBbihjGD8jm3caYuyA==, tarball: https://codeload.github.com/promise/eslint-config/tar.gz/9c97be01645c7fcb24c73f213366bca8e9fbc388}
     version: 0.0.0
     peerDependencies:
       '@stylistic/eslint-plugin-js': 4.2.0
@@ -1550,7 +1551,7 @@ packages:
       eslint-plugin-perfectionist: 4.12.3
       eslint-plugin-react: 7.37.5
       eslint-plugin-tailwindcss: 3.18.0
-      globals: 17.12.0
+      globals: 17.13.0
 
   eslint-import-resolver-node@0.3.10:
     resolution: {integrity: sha512-tRrKqFyCaKict5hOd244sL6EQFNycnMQnBe+j8uqGNXYzsImGbGUU4ibtoaBmv5FLwJwcFJNeg1GeVjQfbMrDQ==}
@@ -1866,8 +1867,8 @@ packages:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
     engines: {node: '>=18'}
 
-  globals@17.12.0:
-    resolution: {integrity: sha512-cezEd/DTyyht9cvSSURyygXPfy04GtWO/5e6ZPvH7fCtjKz9PYOmuawphw1Ctd1f6C+5JypXfGD7ahNMXvevBA==}
+  globals@17.13.0:
+    resolution: {integrity: sha512-RwMTC61u7hrG3ZJMkZQOK4JLJrKS8QtoTii63EmWvFXHqycY9FObBJQCbsLxSO8kjKhWE5kV1GC+Vb1g3RI0Zg==}
     engines: {node: '>=18'}
 
   globalthis@1.0.4:
@@ -4209,7 +4210,11 @@ snapshots:
     dependencies:
       '@types/node': 22.20.5
 
-  '@types/dedent@0.7.2': {}
+  '@types/dedent@1.7.2':
+    dependencies:
+      dedent: 1.7.2
+    transitivePeerDependencies:
+      - babel-plugin-macros
 
   '@types/estree@1.0.9': {}
 
@@ -5110,7 +5115,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/70eb9a0613c0a5c8d62fc8d1edf87278f9ef8e7f(2e4586731d2c76caec82a689b17cded1):
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/9c97be01645c7fcb24c73f213366bca8e9fbc388(df55946093844060151af94f4695c6f1):
     dependencies:
       '@stylistic/eslint-plugin-js': 4.2.0(eslint@9.39.5(jiti@1.21.7))
       '@stylistic/eslint-plugin-jsx': 4.2.0(eslint@9.39.5(jiti@1.21.7))
@@ -5123,7 +5128,7 @@ snapshots:
       eslint-plugin-perfectionist: 4.12.3(eslint@9.39.5(jiti@1.21.7))(typescript@5.9.3)
       eslint-plugin-react: 7.37.5(eslint@9.39.5(jiti@1.21.7))
       eslint-plugin-tailwindcss: 3.18.0(tailwindcss@3.4.19)
-      globals: 17.12.0
+      globals: 17.13.0
 
   eslint-import-resolver-node@0.3.10:
     dependencies:
@@ -5554,7 +5559,7 @@ snapshots:
 
   globals@14.0.0: {}
 
-  globals@17.12.0: {}
+  globals@17.13.0: {}
 
   globalthis@1.0.4:
     dependencies:
