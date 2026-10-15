@@ -62,13 +62,13 @@
     "@types/express": "5.0.5",
     "@types/jest": "30.0.0",
     "@types/morgan": "1.9.10",
-    "@types/node": "22.19.17",
+    "@types/node": "22.20.5",
     "@types/time-limited-regular-expressions": "1.0.2",
     "@types/ws": "8.18.1",
-    "eslint": "9.39.4",
+    "eslint": "9.39.5",
     "eslint-config-promise": "github:promise/eslint-config",
-    "jest": "30.3.0",
-    "ts-jest": "29.4.9",
+    "jest": "30.5.2",
+    "ts-jest": "29.4.15",
     "typescript": "5.9.3"
   },
   "jest": {
@@ -79,5 +79,5 @@
       "<rootDir>/node_modules/"
     ]
   },
-  "packageManager": "pnpm@10.33.0"
+  "packageManager": "pnpm@10.34.7"
 }
