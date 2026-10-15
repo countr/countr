@@ -1,4 +1,4 @@
-import { ButtonStyle, ComponentType } from "discord.js";
+import { ButtonStyle, ComponentType, MessageFlags } from "discord.js";
 import type { Step } from ".";
 import limits from "../../../limits";
 import { shortInput } from "../../../properties/inputs";
@@ -73,7 +73,7 @@ const step: Step = {
           if (disabled && Array.from(countingChannel.flows.values()).filter(_flow => !_flow.disabled).length >= limits.flows.amount) {
             return void button.reply({
               content: `❌ You can only have **${limits.flows.amount}** flows enabled at a time.`,
-              ephemeral: true,
+              flags: MessageFlags.Ephemeral,
             });
           }
 

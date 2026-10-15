@@ -1,5 +1,5 @@
 import type { ActionRowComponentOptions, AnyThreadChannel, APIEmbed, ButtonInteraction, CommandInteraction, InteractionReplyOptions, InteractionUpdateOptions, Snowflake } from "discord.js";
-import { ButtonStyle, ComponentType, escapeMarkdown, PermissionsBitField } from "discord.js";
+import { ButtonStyle, ComponentType, escapeMarkdown, MessageFlags, PermissionsBitField } from "discord.js";
 import type { CountingChannelSchema, FlowSchema, GuildDocument } from "../../../database/models/Guild";
 import type { Step } from "./steps";
 import config from "../../../config";
@@ -22,7 +22,7 @@ export function flowEditor(interaction: ButtonInteraction<"cached"> | CommandInt
           .map(bigint => Object.entries(PermissionsBitField.Flags).find(([, permission]) => permission === bigint && !currentPermissions?.has(permission))?.[0])
           .filter(Boolean)
           .join(", ")}`,
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
