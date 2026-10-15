@@ -79,8 +79,8 @@ importers:
         specifier: 2.0.8
         version: 2.0.8
       '@types/dedent':
-        specifier: 0.7.2
-        version: 0.7.2
+        specifier: 1.7.2
+        version: 1.7.2
       '@types/express':
         specifier: 5.0.5
         version: 5.0.5
@@ -721,8 +721,9 @@ packages:
   '@types/connect@3.4.38':
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
 
-  '@types/dedent@0.7.2':
-    resolution: {integrity: sha512-kRiitIeUg1mPV9yH4VUJ/1uk2XjyANfeL8/7rH1tsjvHeO9PJLBHJIYsFWmAvmGj5u8rj+1TZx7PZzW2qLw3Lw==}
+  '@types/dedent@1.7.2':
+    resolution: {integrity: sha512-iSPTrLlAygLy7ivCyumME9eHkXb/yFZh4BN8nnOQrhixed8aUGgwNESEwe+zTg9wwBS1AMoOrk17YSy5kIN0hw==}
+    deprecated: This is a stub types definition. dedent provides its own type definitions, so you do not need this installed.
 
   '@types/estree@1.0.9':
     resolution: {integrity: sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==}
@@ -1536,7 +1537,7 @@ packages:
     engines: {node: '>=10'}
 
   eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/12a90b3cc07678c2df3969ee418683d8cec9674b:
-    resolution: {gitHosted: true, integrity: sha512-w9FZmChIGuHZ1cgFd3hRuE6qz39zAD9GGuDNelPKxmiS197uRMJrkvyBs3ugek57B3/1Mhd7fN9qCs4zkYZB+Q==, tarball: https://codeload.github.com/promise/eslint-config/tar.gz/12a90b3cc07678c2df3969ee418683d8cec9674b}
+    resolution: {gitHosted: true, tarball: https://codeload.github.com/promise/eslint-config/tar.gz/12a90b3cc07678c2df3969ee418683d8cec9674b}
     version: 0.0.0
     peerDependencies:
       '@stylistic/eslint-plugin-js': 4.2.0
@@ -4209,7 +4210,11 @@ snapshots:
     dependencies:
       '@types/node': 22.20.5
 
-  '@types/dedent@0.7.2': {}
+  '@types/dedent@1.7.2':
+    dependencies:
+      dedent: 1.7.2
+    transitivePeerDependencies:
+      - babel-plugin-macros
 
   '@types/estree@1.0.9': {}
 
