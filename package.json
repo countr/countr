@@ -79,5 +79,5 @@
       "<rootDir>/node_modules/"
     ]
   },
-  "packageManager": "pnpm@10.34.7"
+  "packageManager": "pnpm@12.14.0"
 }
