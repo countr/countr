@@ -72,9 +72,9 @@ importers:
       '@total-typescript/ts-reset':
         specifier: 0.6.1
         version: 0.6.1
-      '@tsconfig/node22':
-        specifier: 22.0.5
-        version: 22.0.5
+      '@tsconfig/node24':
+        specifier: 24.0.0
+        version: 24.0.0
       '@tsconfig/strictest':
         specifier: 2.0.8
         version: 2.0.8
@@ -104,7 +104,7 @@ importers:
         version: 9.39.5(jiti@1.21.7)
       eslint-config-promise:
         specifier: github:promise/eslint-config
-        version: https://codeload.github.com/promise/eslint-config/tar.gz/12a90b3cc07678c2df3969ee418683d8cec9674b(df55946093844060151af94f4695c6f1)
+        version: https://codeload.github.com/promise/eslint-config/tar.gz/9fd20d8f42ea5c31b482a8e5fca787ff0884c041(df55946093844060151af94f4695c6f1)
       jest:
         specifier: 30.5.2
         version: 30.5.2(@types/node@22.20.5)
@@ -688,8 +688,8 @@ packages:
   '@total-typescript/ts-reset@0.6.1':
     resolution: {integrity: sha512-cka47fVSo6lfQDIATYqb/vO1nvFfbPw7uWLayIXIhGETj0wcOOlrlkobOMDNQOFr9QOafegUPq13V2+6vtD7yg==}
 
-  '@tsconfig/node22@22.0.5':
-    resolution: {integrity: sha512-hLf2ld+sYN/BtOJjHUWOk568dvjFQkHnLNa6zce25GIH+vxKfvTgm3qpaH6ToF5tu/NN0IH66s+Bb5wElHrLcw==}
+  '@tsconfig/node24@24.0.0':
+    resolution: {integrity: sha512-3/6Cr4dELEAucgPIr6ufY7yBYMi4ttZFOewABADNZ+bm4DUZl4dup2VBcBeP1ejj3QblrWVWux/1XcRv/ZVikA==}
 
   '@tsconfig/strictest@2.0.8':
     resolution: {integrity: sha512-XnQ7vNz5HRN0r88GYf1J9JJjqtZPiHt2woGJOo2dYqyHGGcd6OLGqSlBB6p1j9mpzja6Oe5BoPqWmeDx6X9rLw==}
@@ -1535,8 +1535,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/12a90b3cc07678c2df3969ee418683d8cec9674b:
-    resolution: {gitHosted: true, integrity: sha512-w9FZmChIGuHZ1cgFd3hRuE6qz39zAD9GGuDNelPKxmiS197uRMJrkvyBs3ugek57B3/1Mhd7fN9qCs4zkYZB+Q==, tarball: https://codeload.github.com/promise/eslint-config/tar.gz/12a90b3cc07678c2df3969ee418683d8cec9674b}
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/9fd20d8f42ea5c31b482a8e5fca787ff0884c041:
+    resolution: {gitHosted: true, integrity: sha512-geXkydDvI+bmPDBuu0tJjeW/Kl7rWxCa3gSEK3P0HhurZYU0YVOGGdGciVz3eLdOam7VK/hCQ9L2ml1J05oPpw==, tarball: https://codeload.github.com/promise/eslint-config/tar.gz/9fd20d8f42ea5c31b482a8e5fca787ff0884c041}
     version: 0.0.0
     peerDependencies:
       '@stylistic/eslint-plugin-js': 4.2.0
@@ -4161,7 +4161,7 @@ snapshots:
 
   '@total-typescript/ts-reset@0.6.1': {}
 
-  '@tsconfig/node22@22.0.5': {}
+  '@tsconfig/node24@24.0.0': {}
 
   '@tsconfig/strictest@2.0.8': {}
 
@@ -5110,7 +5110,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/12a90b3cc07678c2df3969ee418683d8cec9674b(df55946093844060151af94f4695c6f1):
+  eslint-config-promise@https://codeload.github.com/promise/eslint-config/tar.gz/9fd20d8f42ea5c31b482a8e5fca787ff0884c041(df55946093844060151af94f4695c6f1):
     dependencies:
       '@stylistic/eslint-plugin-js': 4.2.0(eslint@9.39.5(jiti@1.21.7))
       '@stylistic/eslint-plugin-jsx': 4.2.0(eslint@9.39.5(jiti@1.21.7))
