@@ -28,14 +28,14 @@ const command: ChatInputCommand = {
     if (!countingChannel.filters.includes(input)) {
       return void interaction.reply({
         content: `❌ Filter ${await regex.format(input, interaction.guild)} doesn't exist.`,
-        ephemeral,
+        ...ephemeral && { flags: ephemeral },
       });
     }
 
     countingChannel.filters.splice(countingChannel.filters.indexOf(input), 1);
     document.safeSave();
 
-    return void interaction.reply({ content: `✅ Removed filter ${await regex.format(input, interaction.guild)}.`, ephemeral });
+    return void interaction.reply({ content: `✅ Removed filter ${await regex.format(input, interaction.guild)}.`, ...ephemeral && { flags: ephemeral } });
   },
 };
 
